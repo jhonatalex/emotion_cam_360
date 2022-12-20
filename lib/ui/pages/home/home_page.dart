@@ -43,67 +43,78 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'EMOTION CAM 360',
-          style: TextStyle(fontSize: 30),
+    return Stack(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          decoration: BoxDecoration(
+              color: Colors.amber, borderRadius: BorderRadius.circular(25)),
         ),
-        elevation: 0.0,
-        toolbarHeight: 100,
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
-      ),
-      extendBodyBehindAppBar: true,
-      body: content,
-      /*Obx(() {
-        //if (userController.isLoading.value) {
-         // return const Center(child: CircularProgressIndicator());
-        //}
-        //return content;
-      }),*/
-      drawer: Drawer(
-        backgroundColor: Color.fromARGB(0, 20, 18, 32),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 150, bottom: 50),
-              child: Text(
-                'EMOTION \n CAM 360',
-                style: TextStyle(fontSize: 40, color: Colors.white),
-              ),
+        Scaffold(
+          /* 
+          appBar: AppBar(
+            title: Text(
+              'EMOTION CAM 360',
+              style: TextStyle(fontSize: 30),
             ),
-            ListTile(
-              iconColor: Colors.white,
-              textColor: Colors.white,
-              tileColor: Colors.black38,
-              leading: Icon(
-                Icons.home,
-              ),
-              title: Text('Home'),
+            elevation: 0.0,
+            toolbarHeight: 100,
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+          ), */
+          extendBodyBehindAppBar: true,
+          body: content,
+          /*Obx(() {
+            //if (userController.isLoading.value) {
+             // return const Center(child: CircularProgressIndicator());
+            //}
+            //return content;
+          }),*/
+          drawer: Drawer(
+            backgroundColor: Color.fromARGB(0, 20, 18, 32),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 150, bottom: 50),
+                  child: Text(
+                    'EMOTION \n CAM 360',
+                    style: TextStyle(fontSize: 40, color: Colors.white),
+                  ),
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  tileColor: Colors.black38,
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: Text('Home'),
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  tileColor: Colors.black38,
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: Text('Home'),
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  tileColor: Colors.black38,
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: Text('Home'),
+                ),
+              ],
             ),
-            ListTile(
-              iconColor: Colors.white,
-              textColor: Colors.white,
-              tileColor: Colors.black38,
-              leading: Icon(
-                Icons.home,
-              ),
-              title: Text('Home'),
-            ),
-            ListTile(
-              iconColor: Colors.white,
-              textColor: Colors.white,
-              tileColor: Colors.black38,
-              leading: Icon(
-                Icons.home,
-              ),
-              title: Text('Home'),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
