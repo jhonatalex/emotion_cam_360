@@ -5,6 +5,8 @@ import '../pages/home/home_binding.dart';
 import '../pages/home/home_page.dart';
 import '../pages/splash/splash_binding.dart';
 import '../pages/splash/splash_page.dart';
+import '../pages/menu/menu_binding.dart';
+import '../pages/menu/menu_page.dart';
 
 class RoutePages {
   const RoutePages._();
@@ -21,6 +23,12 @@ class RoutePages {
         page: () => const HomePage(),
         transition: Transition.circularReveal,
         binding: const HomeBinding(),
+      ),
+      GetPage(
+        name: RouteNames.menu,
+        page: () => MenuPage(),
+        transition: Transition.circularReveal,
+        binding: const MenuBinding(),
       ),
     ];
   }

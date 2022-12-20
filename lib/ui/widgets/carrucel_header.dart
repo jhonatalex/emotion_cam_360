@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import 'my_appbar.dart';
+
 class CarrucelHeader extends StatefulWidget {
   const CarrucelHeader({super.key});
 
@@ -29,19 +31,40 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: AlignmentDirectional.topCenter,
       children: [
         Container(
           width: double.infinity,
-          height: 300,
+          height: 350,
           child: ClipRRect(
             child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
               child: Image.asset(
                 imgList[_current],
                 fit: BoxFit.cover,
               ),
             ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                  Color(0xff141220).withOpacity(1),
+                  Color(0xff141220).withOpacity(1),
+                  Color(0xff141220).withOpacity(0),
+                  Color(0xff141220).withOpacity(0),
+                  Color(0xff141220).withOpacity(0.0),
+                  Color(0xff141220).withOpacity(0),
+                  Color(0xff141220).withOpacity(0.0),
+                ])),
           ),
         ),
         Container(
@@ -84,17 +107,7 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
             }).toList(),
           ),
         ),
-        AppBar(
-          title: Text(
-            'EMOTION CAM 365',
-            style: TextStyle(fontSize: 30),
-          ),
-          elevation: 0.0,
-          toolbarHeight: 100,
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
-        ),
+        MyAppBar('EMOTION CAM 365'),
       ],
     );
   }
