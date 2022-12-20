@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MyAppBar extends StatelessWidget {
   String title;
   MyAppBar(this.title, {super.key});
@@ -9,13 +10,13 @@ class MyAppBar extends StatelessWidget {
     return AppBar(
       title: Text(
         title,
-        style: TextStyle(fontSize: 30),
+        style: const TextStyle(fontSize: 30),
       ),
       elevation: 0.0,
       toolbarHeight: 100,
       centerTitle: true,
       backgroundColor: Colors.transparent,
-      actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+      actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
     );
   }
 }

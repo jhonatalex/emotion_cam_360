@@ -13,7 +13,7 @@ class CarrucelHeader extends StatefulWidget {
 }
 
 class _CarrucelHeaderState extends State<CarrucelHeader> {
-  final CarouselController _carouselController = CarouselController();
+  // final CarouselController _carouselController = CarouselController();
   final imgList = [
     'assets/img/sld_0.png',
     'assets/img/sld_1.png',
@@ -32,7 +32,7 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 350,
           child: ClipRRect(
@@ -57,18 +57,18 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                  Color(0xff141220).withOpacity(1),
-                  Color(0xff141220).withOpacity(1),
-                  Color(0xff141220).withOpacity(0),
-                  Color(0xff141220).withOpacity(0),
-                  Color(0xff141220).withOpacity(0.0),
-                  Color(0xff141220).withOpacity(0),
-                  Color(0xff141220).withOpacity(0.0),
+                  const Color(0xff141220).withOpacity(1),
+                  const Color(0xff141220).withOpacity(1),
+                  const Color(0xff141220).withOpacity(0),
+                  const Color(0xff141220).withOpacity(0),
+                  const Color(0xff141220).withOpacity(0.0),
+                  const Color(0xff141220).withOpacity(0),
+                  const Color(0xff141220).withOpacity(0.0),
                 ])),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 100),
+          margin: const EdgeInsets.only(top: 100),
           child: CarouselSlider(
             options: CarouselOptions(
               height: 300,
@@ -78,8 +78,8 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
               enableInfiniteScroll: true,
               reverse: false,
               autoPlay: true,
-              autoPlayInterval: Duration(seconds: 5),
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              autoPlayInterval: const Duration(seconds: 5),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
               autoPlayCurve: Curves.fastOutSlowIn,
               enlargeCenterPage: true,
               enlargeFactor: 0.3,
@@ -95,7 +95,7 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
                 builder: (BuildContext context) {
                   return Container(
                     width: 250,
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(i), fit: BoxFit.cover),

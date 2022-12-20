@@ -43,7 +43,7 @@ class MyUserController extends GetxController {
 
   Future<void> saveMyUser() async {
     isSaving.value = true;
-    final uid = "0001";
+    const uid = "0001";
     final name = nameController.text;
     final telefono = phoneController.text;
     final ciudad = cityController.text;

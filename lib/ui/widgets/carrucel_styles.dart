@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +9,7 @@ class CarrucelStyles extends StatefulWidget {
 }
 
 class _CarrucelStylesState extends State<CarrucelStyles> {
-  final CarouselController _carouselController = CarouselController();
+  // final CarouselController _carouselController = CarouselController();
   final imgList = [
     'assets/img/sld_0.png',
     'assets/img/sld_1.png',
@@ -19,7 +17,6 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
     'assets/img/sld_3.png',
     'assets/img/sld_4.png'
   ];
-  int _current = 0;
 
   @override
   void initState() {
@@ -32,7 +29,7 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
       length: 3,
       child: Column(
         children: [
-          TabBar(
+          const TabBar(
             tabs: [
               Tab(
                 icon: Icon(Icons.star),
@@ -48,7 +45,7 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
               ),
             ],
           ),
-          Container(
+          SizedBox(
             width: double.infinity,
             height: 170,
             child: TabBarView(
@@ -101,7 +98,7 @@ class PopularesSlider extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               width: 250,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              margin: const EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(
                   image:
                       DecorationImage(image: AssetImage(i), fit: BoxFit.cover),

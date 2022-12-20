@@ -1,38 +1,30 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_styles.dart';
 import 'package:emotion_cam_360/ui/widgets/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../routes/route_names.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class FinishPage extends StatefulWidget {
+  const FinishPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<FinishPage> createState() => _FinishPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FinishPageState extends State<FinishPage> {
   @override
   Widget build(BuildContext context) {
     final content = Container(
-      color: AppColors.vulcan,
+      color: const Color(0xff141220),
       child: ListView(
         children: [
-          CarrucelHeader(),
+          const CarrucelHeader(),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 // foregroundColor: Colors.white,
                 backgroundColor: Colors.transparent,
                 elevation: 0 // foreground
                 ),
-            onPressed: () {
-              Get.offNamed(RouteNames.menu);
-            },
+            onPressed: () {},
             child: Column(
               children: [
                 Center(
@@ -40,10 +32,10 @@ class _HomePageState extends State<HomePage> {
                   "assets/img/logo-emotion.png",
                   height: 200,
                 )),
-                Text(
+                const Text(
                   "INICIAR EXPERIENCIA 360°",
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
@@ -51,13 +43,19 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          CarrucelStyles(),
+          const CarrucelStyles(),
         ],
       ),
     );
 
     return Stack(
       children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+          decoration: BoxDecoration(
+              color: Colors.amber, borderRadius: BorderRadius.circular(25)),
+        ),
         Scaffold(
           extendBodyBehindAppBar: true,
           body: content,
@@ -67,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             //}
             //return content;
           }),*/
-          drawer: MyDrawer(),
+          drawer: const MyDrawer(),
           // bottomNavigationBar: MyBottomNavigationBar(),
         ),
       ],

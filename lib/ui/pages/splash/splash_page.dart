@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/splash/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final SplashController controller = Get.find<SplashController>();
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.vulcan,
       body: Center(
           child: Image.asset(
         "assets/img/logo-emotion.png",

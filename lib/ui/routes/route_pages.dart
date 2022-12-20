@@ -1,6 +1,10 @@
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:get/get.dart';
 
+import '../pages/camera/camera_binding.dart';
+import '../pages/camera/camera_page.dart';
+import '../pages/finish/finish_binding.dart';
+import '../pages/finish/finish_page.dart';
 import '../pages/home/home_binding.dart';
 import '../pages/home/home_page.dart';
 import '../pages/splash/splash_binding.dart';
@@ -26,9 +30,21 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.menu,
-        page: () => MenuPage(),
+        page: () => const MenuPage(),
         transition: Transition.circularReveal,
         binding: const MenuBinding(),
+      ),
+      GetPage(
+        name: RouteNames.camera,
+        page: () => const CameraPage(),
+        transition: Transition.circularReveal,
+        binding: const CameraBinding(),
+      ),
+      GetPage(
+        name: RouteNames.finish,
+        page: () => const FinishPage(),
+        transition: Transition.circularReveal,
+        binding: const FinishBinding(),
       ),
     ];
   }

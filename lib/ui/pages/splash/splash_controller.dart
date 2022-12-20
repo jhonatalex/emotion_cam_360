@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../routes/route_names.dart';
 
 class SplashController extends GetxController {
-  final RxBool _loading = RxBool(true);
+  //final RxBool _loading = RxBool(true);
 
   @override
   void onInit() {

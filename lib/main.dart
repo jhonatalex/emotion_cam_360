@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/routes/route_pages.dart';
 import 'package:flutter/material.dart';
@@ -17,23 +18,31 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-        // fontFamily: "Lato", // el tipo de fuente elegida
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
-        /*textTheme: TextTheme(
-             titleMedium: TextStyle(
-              fontFamily: "raleway",
-              fontSize: 16,
-              // fontWeight: FontWeight.bold
-            ), 
-            titleLarge: TextStyle(
-                fontFamily: "raleway",
-                fontSize: 18,
-                fontWeight: FontWeight.bold),
-            bodyMedium: TextStyle(
-              fontFamily: "sans",
-              fontSize: 13,
-            ),
-          )*/
+        // Define el Brightness y Colores por defecto
+        brightness: Brightness.dark,
+        primaryColor: AppColors.violet,
+        elevatedButtonTheme: const ElevatedButtonThemeData(
+            style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll<Color>(AppColors.royalBlue),
+        )),
+        outlinedButtonTheme: const OutlinedButtonThemeData(
+            style: ButtonStyle(
+          //backgroundColor: MaterialStatePropertyAll<Color>(AppColors.violet),
+          foregroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+        )),
+
+        secondaryHeaderColor: Colors.cyan[600],
+
+        // Define la Familia de fuente por defecto
+        fontFamily: 'Montserrat',
+
+        // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
+        // para cabeceras, títulos, cuerpos de texto, y más.
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          subtitle1: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
       ),
 
       debugShowCheckedModeBanner: false, //Quitar el banner demo

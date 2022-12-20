@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../repositories/abstractas/appcolors.dart';
+
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
     Key? key,
@@ -8,49 +10,57 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color.fromARGB(0, 20, 18, 32),
+      backgroundColor: AppColors.vulcan.withOpacity(0.7),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 100,
           ),
           Image.asset(
             "assets/img/logo-emotion.png",
             height: 100,
           ),
-          Text(
+          const Text(
             'EMOTION \n CAM 360',
             style: TextStyle(fontSize: 40, color: Colors.white),
           ),
-          SizedBox(
-            height: 50,
+          const SizedBox(
+            height: 20,
           ),
-          ListTile(
-            iconColor: Colors.white,
-            textColor: Colors.white,
-            tileColor: Colors.black38,
-            leading: Icon(
-              Icons.home,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: const [
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  //  tileColor: Colors.black38,
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: Text('Home'),
+                  // onTap: () {},
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: Text('Home'),
+                  // onTap: () {},
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.home,
+                  ),
+                  title: Text('Home'),
+                  // onTap: () {},
+                ),
+              ],
             ),
-            title: Text('Home'),
-          ),
-          ListTile(
-            iconColor: Colors.white,
-            textColor: Colors.white,
-            tileColor: Colors.black38,
-            leading: Icon(
-              Icons.home,
-            ),
-            title: Text('Home'),
-          ),
-          ListTile(
-            iconColor: Colors.white,
-            textColor: Colors.white,
-            tileColor: Colors.black38,
-            leading: Icon(
-              Icons.home,
-            ),
-            title: Text('Home'),
           ),
         ],
       ),
