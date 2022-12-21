@@ -1,7 +1,11 @@
-import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
-import 'package:emotion_cam_360/ui/widgets/carrucel_styles.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+
+TextEditingController controller = TextEditingController();
 
 class FinishPage extends StatefulWidget {
   const FinishPage({Key? key}) : super(key: key);
@@ -13,62 +17,52 @@ class FinishPage extends StatefulWidget {
 class _FinishPageState extends State<FinishPage> {
   @override
   Widget build(BuildContext context) {
-    final content = Container(
-      color: const Color(0xff141220),
-      child: ListView(
-        children: [
-          const CarrucelHeader(),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                // foregroundColor: Colors.white,
-                backgroundColor: Colors.transparent,
-                elevation: 0 // foreground
-                ),
-            onPressed: () {},
-            child: Column(
-              children: [
-                Center(
-                    child: Image.asset(
-                  "assets/img/logo-emotion.png",
-                  height: 200,
-                )),
-                const Text(
-                  "INICIAR EXPERIENCIA 360°",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+          toolbarHeight: 100,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Get.offNamed(RouteNames.camera),
           ),
-          const CarrucelStyles(),
-        ],
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.close,
+                color: Colors.red,
+                size: 40,
+              ),
+              onPressed: () => Get.offNamed(RouteNames.home),
+            ),
+            SizedBox(
+              width: 10,
+            )
+          ]),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        width: double.infinity,
+        color: AppColors.vulcan,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Escanea el QR \n para descargar tu video",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            QrImage(
+              data: "Codigo de Usuario",
+              backgroundColor: Colors.white,
+              version: QrVersions.auto,
+              size: 200,
+            ),
+          ],
+        ),
       ),
-    );
-
-    return Stack(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-              color: Colors.amber, borderRadius: BorderRadius.circular(25)),
-        ),
-        Scaffold(
-          extendBodyBehindAppBar: true,
-          body: content,
-          /*Obx(() {
-            //if (userController.isLoading.value) {
-             // return const Center(child: CircularProgressIndicator());
-            //}
-            //return content;
-          }),*/
-          drawer: const MyDrawer(),
-          // bottomNavigationBar: MyBottomNavigationBar(),
-        ),
-      ],
     );
   }
 }

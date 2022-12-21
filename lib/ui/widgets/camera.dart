@@ -1,6 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:get/get.dart';
+
+import '../routes/route_names.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -76,6 +79,8 @@ class CameraApp2 extends StatefulWidget {
 }
 
 class _CameraApp2State extends State<CameraApp2> {
+  bool _isFirst = true;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -85,12 +90,15 @@ class _CameraApp2State extends State<CameraApp2> {
         CountdownTimer(
           textStyle: const TextStyle(fontSize: 30),
           endTime: endTime,
+          onEnd: () {
+            if (_isFirst == false) {
+              Get.offNamed(RouteNames.finish);
+            }
+          },
           widgetBuilder: (_, time) {
             if (time == null) {
-              return const Text(
-                '',
-                style: TextStyle(fontSize: 30),
-              );
+              _isFirst = false;
+              return Container();
             }
             return Column(
               children: [
