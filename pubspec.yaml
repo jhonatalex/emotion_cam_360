@@ -45,7 +45,8 @@ dependencies:
   camera: ^0.10.0+5
   qr_flutter: ^4.0.0
   flutter_countdown_timer: ^4.1.0
-  video_player:
+  auto_size_text: ^3.0.0
+  device_preview: ^1.1.0
 
 
 

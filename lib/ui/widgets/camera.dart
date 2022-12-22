@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
+import '../../repositories/abstractas/responsive.dart';
+import '../routes/route_names.dart';
+import 'package:get/get.dart';
+
 import '../pages/camera/camera_controller.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -84,6 +88,8 @@ class CameraApp2 extends StatefulWidget {
 }
 
 class _CameraApp2State extends State<CameraApp2> {
+  bool _isFirst = true;
+
   @override
   Widget build(BuildContext context) {
     //DEPENDENCIAS y VARIALBLES
@@ -97,36 +103,39 @@ class _CameraApp2State extends State<CameraApp2> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CountdownTimer(
-          textStyle: const TextStyle(fontSize: 30),
+          textStyle: TextStyle(fontSize: sclH(context) * 3),
           endTime: endTime,
+          onEnd: () {
+            if (_isFirst == false) {
+              Get.offNamed(RouteNames.finish);
+            }
+          },
           widgetBuilder: (_, time) {
             if (time == null) {
-              return const Text(
-                '',
-                style: TextStyle(fontSize: 30),
-              );
+              _isFirst = false;
+              return Container();
             }
             return Column(
               children: [
-                const Text(
+                Text(
                   'Preparate...',
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: sclH(context) * 4),
                 ),
                 Text(
                   '${time.sec}',
-                  style: const TextStyle(fontSize: 200),
+                  style: TextStyle(fontSize: sclH(context) * 20),
                 ),
-                const Text(
+                Text(
                   'La aventura está por comenzar...',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: sclH(context) * 4),
                 ),
               ],
             );
           },
         ),
-        const SizedBox(
-          height: 30,
+        SizedBox(
+          height: sclH(context) * 3,
         ),
         ElevatedButton.icon(
           onPressed: () async {
@@ -151,13 +160,13 @@ class _CameraApp2State extends State<CameraApp2> {
 
             isSaving ? null : () => CamaraVideoController.openCamaraVideo();
           },
-          icon: const Icon(
-            Icons.play_circle,
-            size: 40,
+          icon: Icon(
+            Icons.play_arrow_outlined,
+            size: sclH(context) * 4,
           ),
-          label: const Text(
+          label: Text(
             "Iniciar",
-            style: TextStyle(fontSize: 50),
+            style: TextStyle(fontSize: sclH(context) * 5),
           ),
         ),
       ],

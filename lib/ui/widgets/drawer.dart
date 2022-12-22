@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../repositories/abstractas/appcolors.dart';
+import '../../repositories/abstractas/responsive.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({
@@ -10,35 +11,40 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: sclW(context) * 80,
       backgroundColor: AppColors.vulcan.withOpacity(0.7),
       child: Column(
         children: [
-          const SizedBox(
-            height: 100,
+          SizedBox(
+            height: sclH(context) * 10,
           ),
           Image.asset(
             "assets/img/logo-emotion.png",
-            height: 100,
+            height: sclH(context) * 10,
           ),
-          const Text(
+          Text(
             'EMOTION \n CAM 360',
-            style: TextStyle(fontSize: 40, color: Colors.white),
+            style: TextStyle(fontSize: sclH(context) * 4, color: Colors.white),
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: sclH(context) * 3,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(sclH(context) * 2),
             child: Column(
-              children: const [
+              children: [
                 ListTile(
                   iconColor: Colors.white,
                   textColor: Colors.white,
                   //  tileColor: Colors.black38,
                   leading: Icon(
                     Icons.home,
+                    size: sclH(context) * 3,
                   ),
-                  title: Text('Home'),
+                  title: Text(
+                    'Home',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
                   // onTap: () {},
                 ),
                 ListTile(
@@ -46,8 +52,12 @@ class MyDrawer extends StatelessWidget {
                   textColor: Colors.white,
                   leading: Icon(
                     Icons.home,
+                    size: sclH(context) * 3,
                   ),
-                  title: Text('Home'),
+                  title: Text(
+                    'Home',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
                   // onTap: () {},
                 ),
                 ListTile(
@@ -55,8 +65,12 @@ class MyDrawer extends StatelessWidget {
                   textColor: Colors.white,
                   leading: Icon(
                     Icons.home,
+                    size: sclH(context) * 3,
                   ),
-                  title: Text('Home'),
+                  title: Text(
+                    'Home',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
                   // onTap: () {},
                 ),
               ],

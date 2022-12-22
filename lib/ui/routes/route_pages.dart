@@ -25,25 +25,25 @@ class RoutePages {
       GetPage(
         name: RouteNames.home,
         page: () => const HomePage(),
-        transition: Transition.circularReveal,
+        //transition: Transition.circularReveal,
         binding: const HomeBinding(),
       ),
       GetPage(
         name: RouteNames.menu,
         page: () => const MenuPage(),
-        transition: Transition.circularReveal,
+        // transition: Transition.circularReveal,
         binding: const MenuBinding(),
       ),
       GetPage(
         name: RouteNames.camera,
         page: () => const CameraPage(),
-        transition: Transition.circularReveal,
+        //transition: Transition.circularReveal,
         binding: const CameraBinding(),
       ),
       GetPage(
         name: RouteNames.finish,
         page: () => const FinishPage(),
-        transition: Transition.circularReveal,
+        // transition: Transition.circularReveal,
         binding: const FinishBinding(),
       ),
     ];
