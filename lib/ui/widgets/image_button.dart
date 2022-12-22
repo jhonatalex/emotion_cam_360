@@ -2,34 +2,51 @@
 
 import 'package:flutter/material.dart';
 
-class ImageButton extends StatelessWidget {
+import '../../repositories/abstractas/responsive.dart';
+
+class ImageButton extends StatefulWidget {
   String pathImg;
   String text;
-  ImageButton(this.pathImg, this.text, {super.key});
 
+  int current;
+  ImageButton({
+    Key? key,
+    required this.pathImg,
+    required this.text,
+    required this.current,
+  })  : _current = current,
+        super(key: key);
+
+  final int _current;
+
+  @override
+  State<ImageButton> createState() => _ImageButtonState();
+}
+
+class _ImageButtonState extends State<ImageButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(40.0),
+      padding: EdgeInsets.all(sclH(context) * 3),
       child: OutlinedButton(
         onPressed: () {},
         child: Column(
           children: [
             Image.asset(
-              pathImg,
-              height: 200,
-              width: 150,
+              widget.pathImg,
+              height: sclH(context) * 25,
+              width: sclH(context) * 17.5,
               fit: BoxFit.cover,
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: sclH(context) * 2,
             ),
             Text(
-              text,
-              //style: TextStyle(color: Colors.white),
+              widget.text,
+              style: TextStyle(color: Colors.red, fontSize: sclH(context) * 2),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: sclH(context) * 2,
             )
           ],
         ),

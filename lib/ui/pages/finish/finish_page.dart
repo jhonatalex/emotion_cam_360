@@ -19,24 +19,25 @@ class _FinishPageState extends State<FinishPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: 100,
+          toolbarHeight: sclH(context) * 7,
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
+            iconSize: sclH(context) * 3,
             onPressed: () => Get.offNamed(RouteNames.camera),
           ),
           actions: [
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.home,
                 color: AppColors.royalBlue,
-                size: 40,
+                size: sclH(context) * 3,
               ),
               onPressed: () => Get.offNamed(RouteNames.home),
             ),
-            const SizedBox(
-              width: 10,
+            SizedBox(
+              width: sclH(context) * 1,
             )
           ]),
       extendBodyBehindAppBar: true,
@@ -46,19 +47,19 @@ class _FinishPageState extends State<FinishPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Escanea el QR \n para descargar tu video",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(fontSize: sclH(context) * 3),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: sclH(context) * 3,
             ),
             QrImage(
               data: "Codigo de Usuario",
               backgroundColor: Colors.white,
               version: QrVersions.auto,
-              size: sclW(context) * 40,
+              size: sclH(context) * 40,
             ),
           ],
         ),

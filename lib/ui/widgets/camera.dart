@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
+import '../../repositories/abstractas/responsive.dart';
 import '../routes/route_names.dart';
 
 late List<CameraDescription> _cameras;
@@ -88,7 +89,7 @@ class _CameraApp2State extends State<CameraApp2> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CountdownTimer(
-          textStyle: const TextStyle(fontSize: 30),
+          textStyle: TextStyle(fontSize: sclH(context) * 3),
           endTime: endTime,
           onEnd: () {
             if (_isFirst == false) {
@@ -102,38 +103,38 @@ class _CameraApp2State extends State<CameraApp2> {
             }
             return Column(
               children: [
-                const Text(
+                Text(
                   'Preparate...',
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: sclH(context) * 4),
                 ),
                 Text(
                   '${time.sec}',
-                  style: const TextStyle(fontSize: 200),
+                  style: TextStyle(fontSize: sclH(context) * 20),
                 ),
-                const Text(
+                Text(
                   'La aventura está por comenzar...',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: sclH(context) * 4),
                 ),
               ],
             );
           },
         ),
-        const SizedBox(
-          height: 30,
+        SizedBox(
+          height: sclH(context) * 3,
         ),
         ElevatedButton.icon(
           onPressed: () {
             endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 10;
             setState(() {});
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.play_arrow_outlined,
-            size: 40,
+            size: sclH(context) * 4,
           ),
-          label: const Text(
+          label: Text(
             "Iniciar",
-            style: TextStyle(fontSize: 50),
+            style: TextStyle(fontSize: sclH(context) * 5),
           ),
         ),
       ],

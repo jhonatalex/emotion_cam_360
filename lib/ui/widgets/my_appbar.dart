@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -7,16 +8,34 @@ class MyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey =
+        new GlobalKey<ScaffoldState>();
     return AppBar(
+      key: _scaffoldKey,
+      leading: Builder(
+        builder: (context) => IconButton(
+          icon: Icon(
+            Icons.menu,
+            size: sclH(context) * 3,
+          ),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
+      ),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 30),
+        style: TextStyle(fontSize: sclH(context) * 4),
       ),
       elevation: 0.0,
-      toolbarHeight: 100,
+      toolbarHeight: sclH(context) * 7,
       centerTitle: true,
       backgroundColor: Colors.transparent,
-      actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.search),
+          iconSize: sclH(context) * 3,
+        )
+      ],
     );
   }
 }

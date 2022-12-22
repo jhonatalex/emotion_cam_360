@@ -1,115 +1,68 @@
-// ignore: file_names
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-class Background extends StatelessWidget {
-  const Background({Key? key}) : super(key: key);
+import '../../repositories/abstractas/responsive.dart';
+
+class BackgroundBlur extends StatelessWidget {
+  const BackgroundBlur({
+    Key? key,
+    required this.imgList,
+    required int current,
+    required this.bgHeight,
+  })  : _current = current,
+        super(key: key);
+
+  final List<String> imgList;
+  final int _current;
+  final bgHeight;
 
   @override
   Widget build(BuildContext context) {
-    var stackBackground = Stack(children: [
-      Container(
-          height: double.infinity,
+    return Stack(
+      children: [
+        SizedBox(
           width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF2196f3),
-          )),
-      ClipPath(
-          clipper: WaveClipper(), //Puedes usar WaveClipper oWaveClipper1
+          height: bgHeight,
+          child: ClipRRect(
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              child: Image.asset(
+                imgList[_current],
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           child: Container(
-              height: 520,
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 231, 231, 233))))
-    ]);
-    return stackBackground;
-  }
-}
-
-// ignore: must_be_immutable
-class BackgroundImagen extends StatelessWidget {
-  String pathImage = "assets/img/fondo-home.jpg";
-  BackgroundImagen(this.pathImage, {Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    var stackBackgroundImagen = Stack(children: [
-      Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFF2196f3),
-          )),
-      ClipPath(
-          clipper: WaveClipper(), //Puedes usar WaveClipper oWaveClipper1
-          child: Container(
-              height: 300,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 231, 231, 233),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(pathImage),
-                    /*colorFilter: ColorFilter.mode(
-                          Color.fromRGBO(255, 255, 255, 0.70),
-                          BlendMode.srcATop)*/
-                  ))))
-    ]);
-    return stackBackgroundImagen;
-  }
-}
-
-class WaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-
-    path.lineTo(0.0, size.height - 100);
-    var firstStart = Offset(size.width / 4, size.height - 20);
-    var firstEnd = Offset(size.width / 2, size.height - 60);
-
-    path.quadraticBezierTo(
-        firstStart.dx, firstStart.dy, firstEnd.dx, firstEnd.dy);
-    var secondStart = Offset(size.width / 2 + size.width / 4, size.height - 80);
-    var secondEnd = Offset(size.width, size.height - 20);
-
-    path.quadraticBezierTo(
-        secondStart.dx, secondStart.dy, secondEnd.dx, secondEnd.dy);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}
-
-class WaveClipper1 extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-
-    path.lineTo(0.0, size.height - 100);
-    var firstStart = Offset(size.width / 6, size.height - 40);
-    var firstEnd = Offset(size.width / 2 - size.width / 6, size.height - 60);
-
-    path.quadraticBezierTo(
-        firstStart.dx, firstStart.dy, firstEnd.dx, firstEnd.dy);
-    var secondStart = Offset(size.width / 2, size.height - 80);
-    var secondEnd = Offset(size.width / 2 + size.width / 6, size.height - 40);
-
-    path.quadraticBezierTo(
-        secondStart.dx, secondStart.dy, secondEnd.dx, secondEnd.dy);
-    var thirdStart = Offset(size.width - (size.width / 6), size.height - 0);
-    var thirdEnd = Offset(size.width, size.height - 20);
-
-    path.quadraticBezierTo(
-        thirdStart.dx, thirdStart.dy, thirdEnd.dx, thirdEnd.dy);
-    path.lineTo(size.width, 0.0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false;
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                  const Color(0xff141220).withOpacity(1),
+                  const Color(0xff141220).withOpacity(1),
+                  const Color(0xff141220).withOpacity(1),
+                  const Color(0xff141220).withOpacity(0.9),
+                  const Color(0xff141220).withOpacity(0.8),
+                  const Color(0xff141220).withOpacity(0.7),
+                  const Color(0xff141220).withOpacity(0.6),
+                  const Color(0xff141220).withOpacity(0.5),
+                  const Color(0xff141220).withOpacity(0.4),
+                  const Color(0xff141220).withOpacity(0.3),
+                  const Color(0xff141220).withOpacity(0.2),
+                  const Color(0xff141220).withOpacity(0),
+                  const Color(0xff141220).withOpacity(0),
+                  const Color(0xff141220).withOpacity(0),
+                ])),
+          ),
+        ),
+      ],
+    );
   }
 }
