@@ -16,7 +16,7 @@ class ImgTextButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             // foregroundColor: Colors.white,
-            backgroundColor: Colors.transparent,
+            primary: Colors.transparent,
             elevation: 0 // foreground
             ),
         onPressed: () {

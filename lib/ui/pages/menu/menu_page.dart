@@ -17,7 +17,7 @@ class MenuPage extends StatefulWidget {
 }
 
 var bgColorActive =
-    MaterialStatePropertyAll<Color>(AppColors.royalBlue.withOpacity(0.5));
+    MaterialStateProperty.all(AppColors.royalBlue.withOpacity(0.5));
 
 class _MenuPageState extends State<MenuPage> {
   @override

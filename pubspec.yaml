@@ -47,6 +47,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   auto_size_text: ^3.0.0
   device_preview: ^1.1.0
+  video_player:
 
 
 
