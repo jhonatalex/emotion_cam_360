@@ -18,20 +18,20 @@ class _CameraPageState extends State<CameraPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Fondo',
-      style: TextStyle(fontSize: 100),
+      style: TextStyle(fontSize: 50),
     ),
     Text(
       'Filtro',
-      style: TextStyle(fontSize: 100),
+      style: TextStyle(fontSize: 50),
     ),
     CameraApp2(),
     Text(
       'Efecto',
-      style: TextStyle(fontSize: 100),
+      style: TextStyle(fontSize: 50),
     ),
     Text(
       'Ajustes',
-      style: TextStyle(fontSize: 100),
+      style: TextStyle(fontSize: 50),
     ),
   ];
 
@@ -45,7 +45,7 @@ class _CameraPageState extends State<CameraPage> {
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               iconSize: sclH(context) * 3,
               onPressed: (() => Get.offNamed(RouteNames.menu)),
             ),

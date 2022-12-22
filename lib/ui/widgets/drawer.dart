@@ -1,4 +1,3 @@
-import 'package:emotion_cam_360/main.dart';
 import 'package:flutter/material.dart';
 
 import '../../repositories/abstractas/appcolors.dart';

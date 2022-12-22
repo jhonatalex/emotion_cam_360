@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../repositories/abstractas/responsive.dart';
-
 class BackgroundBlur extends StatelessWidget {
   const BackgroundBlur({
     Key? key,
