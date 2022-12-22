@@ -1,6 +1,14 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:get/get.dart';
+
+import '../pages/camera/camera_controller.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -78,6 +86,12 @@ class CameraApp2 extends StatefulWidget {
 class _CameraApp2State extends State<CameraApp2> {
   @override
   Widget build(BuildContext context) {
+    //DEPENDENCIAS y VARIALBLES
+    final cameraController = Get.find<CamaraVideoController>();
+    final isSaving = cameraController.isSaving.value;
+
+    String videoPath;
+
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -115,12 +129,30 @@ class _CameraApp2State extends State<CameraApp2> {
           height: 30,
         ),
         ElevatedButton.icon(
-          onPressed: () {
+          onPressed: () async {
             endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 10;
             setState(() {});
+
+            Timer(Duration(seconds: 8), () async {
+              final ImagePicker _picker = ImagePicker();
+              PickedFile? _pickedFile = await _picker.getVideo(
+                  source: ImageSource.camera,
+                  maxDuration: Duration(seconds: 5));
+              videoPath = _pickedFile!.path;
+
+              //_pickedFile.readAsBytes().then((value) => null);
+
+              //if (_pickedFile != null) {
+              // cameraController.setVideo(File(_pickedFile.path));
+              // }
+
+              //cameraController.saveVideo(videoPath, _pickedFile.readAsBytes());
+            });
+
+            isSaving ? null : () => CamaraVideoController.openCamaraVideo();
           },
           icon: const Icon(
-            Icons.play_arrow_outlined,
+            Icons.play_circle,
             size: 40,
           ),
           label: const Text(

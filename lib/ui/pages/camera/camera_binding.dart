@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/repositories/abstractas/video_repository.dart';
 import 'package:get/get.dart';
 
 import 'camera_controller.dart';
@@ -7,6 +8,7 @@ class CameraBinding implements Bindings {
 
   @override
   void dependencies() {
-    Get.lazyPut<CameraController>(() => CameraController());
+    Get.lazyPut<CamaraVideoController>(() => CamaraVideoController());
+    Get.lazyPut<VideoRepository>(() => Get.find<VideoRepository>());
   }
 }

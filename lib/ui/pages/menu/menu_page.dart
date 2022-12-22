@@ -40,7 +40,7 @@ class MenuPage extends StatelessWidget {
                 },
                 child: const Text(
                   'PAGAR',
-                  style: TextStyle(fontSize: 50),
+                  style: TextStyle(fontSize: 20),
                 )),
           ],
         ),

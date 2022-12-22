@@ -15,7 +15,7 @@ class MyAppBar extends StatelessWidget {
       elevation: 0.0,
       toolbarHeight: 100,
       centerTitle: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(76, 0, 0, 0),
       actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
     );
   }

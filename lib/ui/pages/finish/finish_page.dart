@@ -21,7 +21,7 @@ class _FinishPageState extends State<FinishPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 // foregroundColor: Colors.white,
-                backgroundColor: Colors.transparent,
+                primary: Colors.transparent,
                 elevation: 0 // foreground
                 ),
             onPressed: () {},

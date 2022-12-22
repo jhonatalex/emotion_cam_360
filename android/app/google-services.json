@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869955665095",
+    "project_id": "emotion360-72a62",
+    "storage_bucket": "emotion360-72a62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869955665095:android:559179f2b6ffa5aaced2e2",
+        "android_client_info": {
+          "package_name": "com.example.emotion_cam_360"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869955665095-bb7e6rsiqnrn93or2kudh38o3vg1pibp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm7Qa_oYIMBTrrOBA7i9Qr7qqloPlGnPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869955665095-bb7e6rsiqnrn93or2kudh38o3vg1pibp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

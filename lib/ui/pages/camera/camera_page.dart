@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../repositories/abstractas/appcolors.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/camera.dart';
+import 'camera_controller.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});

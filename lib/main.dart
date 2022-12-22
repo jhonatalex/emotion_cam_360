@@ -21,14 +21,14 @@ class MyApp extends StatelessWidget {
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
         primaryColor: AppColors.violet,
-        elevatedButtonTheme: const ElevatedButtonThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll<Color>(AppColors.royalBlue),
+          backgroundColor: MaterialStateProperty.all(AppColors.royalBlue),
         )),
-        outlinedButtonTheme: const OutlinedButtonThemeData(
+        outlinedButtonTheme: OutlinedButtonThemeData(
             style: ButtonStyle(
           //backgroundColor: MaterialStatePropertyAll<Color>(AppColors.violet),
-          foregroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
         )),
 
         secondaryHeaderColor: Colors.cyan[600],

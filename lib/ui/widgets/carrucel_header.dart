@@ -94,12 +94,12 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                    width: 250,
+                    width: 300,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(i), fit: BoxFit.cover),
-                        color: Colors.amber,
+                        color: Color.fromARGB(183, 0, 0, 0),
                         borderRadius: BorderRadius.circular(25)),
                   );
                 },

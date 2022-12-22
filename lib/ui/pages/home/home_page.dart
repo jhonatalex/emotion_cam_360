@@ -21,56 +21,48 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final content = Container(
       color: AppColors.vulcan,
-      child: ListView(
+      child: Column(
         children: [
           CarrucelHeader(),
+          SizedBox(height: 10),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                // foregroundColor: Colors.white,
-                backgroundColor: Colors.transparent,
-                elevation: 0 // foreground
+                //foregroundColor: Colors.white,
+                //primary: Colors.transparent,
+                padding: EdgeInsets.all(20),
+                shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                elevation: 2 // foreground
                 ),
             onPressed: () {
               Get.offNamed(RouteNames.menu);
             },
-            child: Column(
-              children: [
-                Center(
-                    child: Image.asset(
-                  "assets/img/logo-emotion.png",
-                  height: 200,
-                )),
-                Text(
-                  "INICIAR EXPERIENCIA 360°",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ],
+            child: Text(
+              "INICIAR EXPERIENCIA 360°",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
           ),
+          SizedBox(height: 50),
           CarrucelStyles(),
         ],
       ),
     );
 
-    return Stack(
-      children: [
-        Scaffold(
-          extendBodyBehindAppBar: true,
-          body: content,
-          /*Obx(() {
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: content,
+      /*Obx(() {
             //if (userController.isLoading.value) {
              // return const Center(child: CircularProgressIndicator());
             //}
             //return content;
           }),*/
-          drawer: MyDrawer(),
-          // bottomNavigationBar: MyBottomNavigationBar(),
-        ),
-      ],
+      drawer: MyDrawer(),
+      // bottomNavigationBar: MyBottomNavigationBar(),
     );
   }
 }
