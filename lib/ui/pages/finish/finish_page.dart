@@ -1,6 +1,6 @@
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
-import 'package:emotion_cam_360/ui/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -23,19 +23,19 @@ class _FinishPageState extends State<FinishPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () => Get.offNamed(RouteNames.camera),
           ),
           actions: [
             IconButton(
-              icon: Icon(
-                Icons.close,
-                color: Colors.red,
+              icon: const Icon(
+                Icons.home,
+                color: AppColors.royalBlue,
                 size: 40,
               ),
               onPressed: () => Get.offNamed(RouteNames.home),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             )
           ]),
@@ -46,19 +46,19 @@ class _FinishPageState extends State<FinishPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Escanea el QR \n para descargar tu video",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 30),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             QrImage(
               data: "Codigo de Usuario",
               backgroundColor: Colors.white,
               version: QrVersions.auto,
-              size: 200,
+              size: sclW(context) * 40,
             ),
           ],
         ),
