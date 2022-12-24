@@ -1,4 +1,5 @@
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:flutter/material.dart';
 
 bool _throwShotAway = true;
@@ -17,12 +18,14 @@ class _SettingsVideoState extends State<SettingsVideo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      width: sclW(context) * 100,
+      padding: EdgeInsets.symmetric(
+        horizontal: sclW(context) * 5,
+      ),
       child: ListView(
         children: [
           const Text(
-            "Settings Video",
+            "Ajustes de Video",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 50),
           ),
@@ -31,17 +34,14 @@ class _SettingsVideoState extends State<SettingsVideo> {
           ),
           Row(
             children: [
-              const Text(
-                "Seleccionar Evento Guardado:",
-                style: TextStyle(fontSize: 30),
-              ),
               Container(
-                width: 100,
-                child: TextField(
-                  keyboardType: TextInputType.number,
+                width: sclW(context) * 40,
+                child: const Text(
+                  "Configuración rápida:",
+                  style: TextStyle(fontSize: 30),
                 ),
               ),
-              ElevatedButton(onPressed: () {}, child: Text("Guardar"))
+              Container(width: sclW(context) * 50, child: MenuEvento()),
             ],
           ),
           SwitchListTile(
@@ -284,6 +284,7 @@ class _SettingsVideoState extends State<SettingsVideo> {
               });
             },
           ),
+          ElevatedButton(onPressed: () {}, child: Text("Guardar"))
         ],
       ),
     );
@@ -300,3 +301,47 @@ Licencia
 10 tramos de 10seg con velocidades
 boomeran
 */
+
+class MenuEvento extends StatelessWidget {
+  const MenuEvento({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var _simpleValue = 0;
+    return PopupMenuButton(
+      padding: EdgeInsets.zero,
+      initialValue: _simpleValue,
+      color: AppColors.vulcan,
+      onSelected: (value) => showAndSetMenuSelection(context, value),
+      itemBuilder: (context) => <PopupMenuItem>[
+        PopupMenuItem(
+          value: 1,
+          child: Text(
+            "Predeterminado",
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Text(
+            "Alegría ritmica",
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+        PopupMenuItem(
+          value: 3,
+          child: Text(
+            "Enamorados",
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+      ],
+      child: ListTile(
+        title: Text("Predeterminado"),
+        subtitle: Text("Selecciona otra configuración"),
+      ),
+    );
+  }
+}
+
+showAndSetMenuSelection(BuildContext context, value) {}

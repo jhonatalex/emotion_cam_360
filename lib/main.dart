@@ -20,6 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
+
+        buttonColor: Colors.red,
         colorScheme: ColorScheme.dark(primary: AppColors.violet),
         primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
 
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
 
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(Colors.white),
           backgroundColor: MaterialStateProperty.all(AppColors.royalBlue),
         )),
         outlinedButtonTheme: OutlinedButtonThemeData(

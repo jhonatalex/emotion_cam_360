@@ -12,13 +12,28 @@ class SplashPage extends StatelessWidget {
     final SplashController controller = Get.find<SplashController>();
     return Scaffold(
       backgroundColor: AppColors.vulcan,
-      body: Center(
-          child: Padding(
-        padding: EdgeInsets.all(sclW(context) * 25),
-        child: Image.asset(
-          "assets/img/logo-emotion.png",
-        ),
-      )),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                tileMode: TileMode.clamp,
+                stops: [
+              0.0,
+              1
+            ],
+                colors: [
+              AppColors.violet,
+              AppColors.royalBlue,
+            ])),
+        child: Center(
+            child: Padding(
+          padding: EdgeInsets.all(sclW(context) * 25),
+          child: Image.asset(
+            "assets/img/logo-emotion.png",
+          ),
+        )),
+      ),
     );
   }
 }
