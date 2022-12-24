@@ -284,7 +284,15 @@ class _SettingsVideoState extends State<SettingsVideo> {
               });
             },
           ),
-          ElevatedButton(onPressed: () {}, child: Text("Guardar"))
+          /* ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                "Guardar",
+                style: TextStyle(fontSize: sclH(context) * 5),
+              )) */
+          const SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
