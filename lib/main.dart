@@ -20,7 +20,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
-        primaryColor: AppColors.violet,
+        colorScheme: ColorScheme.dark(primary: AppColors.violet),
+        primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
+
+        checkboxTheme: CheckboxThemeData(
+            fillColor: MaterialStateProperty.all(AppColors.violet)),
+
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(AppColors.royalBlue),
@@ -31,7 +36,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: MaterialStateProperty.all(Colors.white),
         )),
 
-        secondaryHeaderColor: Colors.cyan[600],
+        //secondaryHeaderColor: Colors.cyan[600],
 
         // Define la Familia de fuente por defecto
         fontFamily: 'Montserrat',

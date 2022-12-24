@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,10 +31,7 @@ class _CameraPageState extends State<CameraPage> {
       'Efecto',
       style: TextStyle(fontSize: 50),
     ),
-    Text(
-      'Ajustes',
-      style: TextStyle(fontSize: 50),
-    ),
+    SettingsVideo(),
   ];
 
   @override
@@ -61,7 +59,7 @@ class _CameraPageState extends State<CameraPage> {
             currentIndex: _selectedIndex,
             type: BottomNavigationBarType.fixed,
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppColors.vulcan,
             //  Color.fromARGB(250, 20, 18, 32),
 
             selectedFontSize: sclH(context) * 3,

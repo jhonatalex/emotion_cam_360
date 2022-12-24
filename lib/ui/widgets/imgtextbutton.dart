@@ -26,7 +26,7 @@ class ImgTextButton extends StatelessWidget {
           children: [
             Center(
                 child: Image.asset(
-              "assets/img/logo-emotion.png",
+              "assets/img/buttonplay.png",
               height: sclH(context) * 16,
             )),
             Text(
