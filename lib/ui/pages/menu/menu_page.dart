@@ -22,7 +22,7 @@ var bgColorActive =
 class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
-    final imgList = ["assets/img/sld_1.png", "assets/img/sld_2.png"];
+    final imgList = ["assets/img/stylo1.jpg", "assets/img/stylo2.jpg"];
 
     return Scaffold(
       backgroundColor: AppColors.vulcan,
@@ -70,7 +70,7 @@ class _MenuPageState extends State<MenuPage> {
                           height: sclH(context) * 2,
                         ),
                         Text(
-                          "Estilo 1",
+                          "Transicion B",
                           style: TextStyle(fontSize: sclH(context) * 2),
                         ),
                         SizedBox(
@@ -100,7 +100,7 @@ class _MenuPageState extends State<MenuPage> {
                           height: sclH(context) * 2,
                         ),
                         Text(
-                          "Estilo 2",
+                          "Transicion B",
                           style: TextStyle(
                               color: Colors.white, fontSize: sclH(context) * 2),
                         ),
@@ -118,7 +118,9 @@ class _MenuPageState extends State<MenuPage> {
                   },
                   child: Text(
                     'PAGAR',
-                    style: TextStyle(fontSize: sclH(context) * 5),
+                    style: TextStyle(
+                      fontSize: sclH(context) * 3,
+                    ),
                   )),
             ],
           ),

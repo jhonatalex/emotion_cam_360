@@ -11,6 +11,7 @@ import '../pages/splash/splash_binding.dart';
 import '../pages/splash/splash_page.dart';
 import '../pages/menu/menu_binding.dart';
 import '../pages/menu/menu_page.dart';
+import '../widgets/camera_screen.dart';
 
 class RoutePages {
   const RoutePages._();
@@ -25,26 +26,32 @@ class RoutePages {
       GetPage(
         name: RouteNames.home,
         page: () => const HomePage(),
-        //transition: Transition.circularReveal,
+        transition: Transition.cupertino,
         binding: const HomeBinding(),
       ),
       GetPage(
         name: RouteNames.menu,
         page: () => const MenuPage(),
-        // transition: Transition.circularReveal,
+        transition: Transition.cupertino,
         binding: const MenuBinding(),
       ),
       GetPage(
         name: RouteNames.camera,
         page: () => const CameraPage(),
-        //transition: Transition.circularReveal,
+        transition: Transition.cupertino,
         binding: const CameraBinding(),
       ),
       GetPage(
         name: RouteNames.finish,
         page: () => const FinishPage(),
-        // transition: Transition.circularReveal,
+        transition: Transition.fadeIn,
         binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.camera_screen,
+        page: () => CameraScreen(),
+        transition: Transition.fadeIn,
+        //binding: const FinishBinding(),
       ),
     ];
   }

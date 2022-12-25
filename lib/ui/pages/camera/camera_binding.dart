@@ -9,6 +9,5 @@ class CameraBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<CamaraVideoController>(() => CamaraVideoController());
-    Get.lazyPut<VideoRepository>(() => Get.find<VideoRepository>());
   }
 }

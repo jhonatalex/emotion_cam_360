@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:emotion_cam_360/entities/video.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../data/firebase_provider-db.dart';
 import '../../entities/user.dart';
@@ -14,7 +16,9 @@ class VideoRepositoryImp extends VideoRepository {
 
   @override
   Future<void> saveMyVideoRepository(
-      VideoEntity videoentity, File? video) async {
+      // ignore: avoid_renaming_method_parameters
+      VideoEntity videoentity,
+      Uint8List? video) async {
     provider.saveMyVideoProvider(videoentity, video);
   }
 }

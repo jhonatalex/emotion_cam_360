@@ -4,13 +4,12 @@ import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../repositories/abstractas/video_repository.dart';
 
 class CamaraVideoController extends GetxController {
-  final _videoRepository = Get.find<VideoRepository>();
-
-  Rx<File?> pickedVideo = Rx(null);
+  Rx<Uint8List?> pickedVideo = Rx(null);
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
   Rx<VideoEntity?> video = Rx(null);
@@ -21,22 +20,26 @@ class CamaraVideoController extends GetxController {
     super.onInit();
   }
 
-  void setVideo(File? videoFile) async {
+  void setVideo(Uint8List videoFile) async {
     pickedVideo.value = videoFile;
   }
 
   Future<void> saveVideo(
-      String videoPath, Future<Uint8List> readAsBytes) async {
+    String nombre,
+    String videoPath,
+    Uint8List? fileVideo,
+  ) async {
     isSaving.value = true;
 
-    final newVideo = VideoEntity('1', videoPath, video: video.value?.video);
+    final newVideo = VideoEntity(nombre, videoPath, video: video.value?.video);
     video.value = newVideo;
 
     // For testing add delay
     //await Future.delayed(const Duration(seconds: 3));
     //VOY AL REPOSITORIO LUEGO AL PROVIDER
 
-    await _videoRepository.saveMyVideoRepository(newVideo, pickedVideo.value);
+    await Get.find<VideoRepository>()
+        .saveMyVideoRepository(newVideo, fileVideo);
     isSaving.value = false;
   }
 
