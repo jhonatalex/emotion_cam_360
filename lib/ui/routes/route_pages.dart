@@ -9,8 +9,8 @@ import '../pages/home/home_binding.dart';
 import '../pages/home/home_page.dart';
 import '../pages/splash/splash_binding.dart';
 import '../pages/splash/splash_page.dart';
-import '../pages/menu/menu_binding.dart';
-import '../pages/menu/menu_page.dart';
+import '../pages/efecto/efecto_binding.dart';
+import '../pages/efecto/efecto_page.dart';
 import '../widgets/camera_screen.dart';
 
 class RoutePages {
@@ -31,7 +31,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.menu,
-        page: () => const MenuPage(),
+        page: () => const EfectoPage(),
         transition: Transition.cupertino,
         binding: const MenuBinding(),
       ),
@@ -48,7 +48,7 @@ class RoutePages {
         binding: const FinishQrBinding(),
       ),
       GetPage(
-        name: RouteNames.camera_screen,
+        name: RouteNames.cameraScreen,
         page: () => CameraScreen(),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),

@@ -7,6 +7,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 TextEditingController controller = TextEditingController();
 
+double _sise = 40;
+
 class FinishQrPage extends StatefulWidget {
   const FinishQrPage({Key? key}) : super(key: key);
 
@@ -23,23 +25,10 @@ class _FinishQrPageState extends State<FinishQrPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.home),
             iconSize: sclH(context) * 3,
-            onPressed: () => Get.offNamed(RouteNames.camera),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.home,
-                color: AppColors.royalBlue,
-                size: sclH(context) * 3,
-              ),
-              onPressed: () => Get.offNamed(RouteNames.home),
-            ),
-            SizedBox(
-              width: sclH(context) * 1,
-            )
-          ]),
+            onPressed: () => Get.offNamed(RouteNames.home),
+          )),
       extendBodyBehindAppBar: true,
       body: Container(
         width: double.infinity,
@@ -55,15 +44,23 @@ class _FinishQrPageState extends State<FinishQrPage> {
             SizedBox(
               height: sclH(context) * 3,
             ),
-            QrImage(
-              data: "Codigo de Usuario",
-              backgroundColor: Colors.white,
-              version: QrVersions.auto,
-              size: sclH(context) * 40,
+            AnimatedContainer(
+              duration: Duration(milliseconds: 5000),
+              curve: Curves.easeInToLinear,
+              child: QrImage(
+                data: "Codigo de Usuario",
+                backgroundColor: Colors.white,
+                version: QrVersions.auto,
+                size: sclH(context) * _sise,
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+void _changeValue() {
+  _sise = 40;
 }

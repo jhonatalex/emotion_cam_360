@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'menu_controller.dart';
+import 'efecto_controller.dart';
 
 class MenuBinding implements Bindings {
   const MenuBinding();

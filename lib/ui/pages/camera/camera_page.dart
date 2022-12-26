@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,10 +28,7 @@ class _CameraPageState extends State<CameraPage> {
       style: TextStyle(fontSize: 50),
     ),
     CameraApp2(),
-    Text(
-      'Efecto',
-      style: TextStyle(fontSize: 50),
-    ),
+    EfectoPage(),
     SettingsVideo(),
   ];
 
@@ -46,7 +44,7 @@ class _CameraPageState extends State<CameraPage> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               iconSize: sclH(context) * 3,
-              onPressed: (() => Get.offNamed(RouteNames.menu)),
+              onPressed: (() => Get.offNamed(RouteNames.home)),
             ),
           ),
           backgroundColor: AppColors.vulcan,
