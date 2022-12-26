@@ -7,14 +7,14 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 TextEditingController controller = TextEditingController();
 
-class FinishPage extends StatefulWidget {
-  const FinishPage({Key? key}) : super(key: key);
+class FinishQrPage extends StatefulWidget {
+  const FinishQrPage({Key? key}) : super(key: key);
 
   @override
-  State<FinishPage> createState() => _FinishPageState();
+  State<FinishQrPage> createState() => _FinishQrPageState();
 }
 
-class _FinishPageState extends State<FinishPage> {
+class _FinishQrPageState extends State<FinishQrPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

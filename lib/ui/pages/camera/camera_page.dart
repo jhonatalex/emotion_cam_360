@@ -65,10 +65,10 @@ class _CameraPageState extends State<CameraPage> {
               backgroundColor: Colors.transparent,
               //  Color.fromARGB(250, 20, 18, 32),
 
-              selectedFontSize: sclH(context) * 3,
+              selectedFontSize: sclH(context) * 2.5,
               selectedItemColor: AppColors.royalBlue,
-              selectedIconTheme: IconThemeData(size: sclH(context) * 6),
-              unselectedFontSize: sclH(context) * 2,
+              selectedIconTheme: IconThemeData(size: sclH(context) * 5),
+              unselectedFontSize: sclH(context) * 1.8,
               unselectedItemColor: Colors.white,
               unselectedIconTheme: IconThemeData(size: sclH(context) * 3),
               items: const [

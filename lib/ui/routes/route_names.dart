@@ -4,6 +4,6 @@ class RouteNames {
   static const String home = '/home';
   static const String menu = '/menu';
   static const String camera = '/camera';
-  static const String finish = '/finish';
+  static const String finishqr = '/finishqr';
   static const String camera_screen = '/camera-screen';
 }

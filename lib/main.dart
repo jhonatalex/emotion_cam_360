@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         //secondaryHeaderColor: Colors.cyan[600],
 
         // Define la Familia de fuente por defecto
-        fontFamily: 'Montserrat',
+        fontFamily: 'Raleway',
 
         // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
         // para cabeceras, títulos, cuerpos de texto, y más.

@@ -24,10 +24,12 @@ class _SettingsVideoState extends State<SettingsVideo> {
       ),
       child: ListView(
         children: [
-          const Text(
+          Text(
             "Ajustes de Video",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 50),
+            style: TextStyle(
+              fontSize: sclH(context) * 4,
+            ),
           ),
           SizedBox(
             height: 30,
@@ -36,9 +38,9 @@ class _SettingsVideoState extends State<SettingsVideo> {
             children: [
               Container(
                 width: sclW(context) * 40,
-                child: const Text(
+                child: Text(
                   "Configuración rápida:",
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: sclH(context) * 2.5),
                 ),
               ),
               Container(width: sclW(context) * 50, child: MenuEvento()),
@@ -47,12 +49,10 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
-              'Logo Predeterminado',
-            ),
-            subtitle: const Text(
-              "Deside si Usar el logo Emotion cam 360",
-            ),
+            title: Text('Logo Predeterminado',
+                style: TextStyle(fontSize: sclH(context) * 2.5)),
+            subtitle: Text("Deside si Usar el logo Emotion cam 360",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -63,12 +63,12 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
+            title: Text(
               'Música',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
-            subtitle: const Text(
-              "Deside que música usar de fondo para el video",
-            ),
+            subtitle: Text("Deside que música usar de fondo para el video",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -79,12 +79,12 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
+            title: Text(
               'Tiempo de grabación:',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
-            subtitle: const Text(
-              "Duración del video en segundos",
-            ),
+            subtitle: Text("Duración del video en segundos",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -95,12 +95,13 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
+            title: Text(
               'Auto fade in/out ',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
-            subtitle: const Text(
-              "Aplica un efecto aclarando al inicio y oscureciendo al final",
-            ),
+            subtitle: Text(
+                "Aplica un efecto aclarando al inicio y oscureciendo al final",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -111,12 +112,13 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
+            title: Text(
               'No guardar en el dispositivo',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
-            subtitle: const Text(
-              "Borrar video despues de renderizarlo y subirlo a la nube",
-            ),
+            subtitle: Text(
+                "Borrar video despues de renderizarlo y subirlo a la nube",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -127,12 +129,13 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
+            title: Text(
               'Reproducir Video al finalizar',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
-            subtitle: const Text(
-              "En la pantalla final carga una vista previa del video capturado",
-            ),
+            subtitle: Text(
+                "En la pantalla final carga una vista previa del video capturado",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -147,90 +150,86 @@ class _SettingsVideoState extends State<SettingsVideo> {
             endIndent: 20,
             thickness: 2,
           ),
-          const Text(
-            "Recorte de video:",
-            style: TextStyle(fontSize: 30),
-          ),
-          Table(
-            children: [
-              TableRow(children: [
-                const Text(
-                  "1x1 :",
-                  style: TextStyle(fontSize: 30),
+          Text("Recorte de video:",
+              style: TextStyle(
+                fontSize: sclH(context) * 2.5,
+              )),
+          Row(children: [
+            Text(
+              "1x1 :",
+              style: TextStyle(fontSize: sclH(context) * 2),
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _throwShotAway,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      _throwShotAway = newValue!;
+                    });
+                  },
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _throwShotAway,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _throwShotAway = newValue!;
-                        });
-                      },
-                    ),
-                    const Text(
-                      "1080*1080",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ],
+                Text(
+                  "1080*1080",
+                  style: TextStyle(fontSize: sclH(context) * 2),
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _throwShotAway,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _throwShotAway = newValue!;
-                        });
-                      },
-                    ),
-                    const Text(
-                      "720*720",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ],
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _throwShotAway,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      _throwShotAway = newValue!;
+                    });
+                  },
                 ),
-              ]),
-              TableRow(children: [
-                const Text(
-                  "16x9 :",
-                  style: TextStyle(fontSize: 30),
+                Text(
+                  "720*720",
+                  style: TextStyle(fontSize: sclH(context) * 2),
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _throwShotAway,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _throwShotAway = newValue!;
-                        });
-                      },
-                    ),
-                    const Text(
-                      "1920*1080",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ],
+              ],
+            ),
+          ]),
+          Row(children: [
+            Text(
+              "16x9 :",
+              style: TextStyle(fontSize: sclH(context) * 2),
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _throwShotAway,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      _throwShotAway = newValue!;
+                    });
+                  },
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _throwShotAway,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _throwShotAway = newValue!;
-                        });
-                      },
-                    ),
-                    const Text(
-                      "1280 * 720",
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ],
+                Text(
+                  "1920*1080",
+                  style: TextStyle(fontSize: sclH(context) * 2),
                 ),
-              ]),
-            ],
-          ),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _throwShotAway,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      _throwShotAway = newValue!;
+                    });
+                  },
+                ),
+                Text(
+                  "1280 * 720",
+                  style: TextStyle(fontSize: sclH(context) * 2),
+                ),
+              ],
+            ),
+          ]),
           Divider(
             height: 30,
             color: AppColors.violet,
@@ -240,11 +239,11 @@ class _SettingsVideoState extends State<SettingsVideo> {
           ),
           Text(
             "Linea de tiempo ",
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
           Container(
             width: double.infinity,
-            height: 300,
+            height: sclH(context) * 35,
             child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 itemExtent: 60,
@@ -271,12 +270,13 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
             activeColor: AppColors.violet,
-            title: const Text(
+            title: Text(
               'Boomerang',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
-            subtitle: const Text(
-              "Al terminar la linea de tiempo continúa en sentido inverso",
-            ),
+            subtitle: Text(
+                "Al terminar la linea de tiempo continúa en sentido inverso",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
             value: _throwShotAway,
             onChanged: (bool? newValue) {
               setState(() {
@@ -326,26 +326,29 @@ class MenuEvento extends StatelessWidget {
           value: 1,
           child: Text(
             "Predeterminado",
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
         ),
         PopupMenuItem(
           value: 2,
           child: Text(
             "Alegría ritmica",
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
         ),
         PopupMenuItem(
           value: 3,
           child: Text(
             "Enamorados",
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
         ),
       ],
       child: ListTile(
-        title: Text("Predeterminado"),
+        title: Text(
+          "Predeterminado",
+          style: TextStyle(fontSize: sclH(context) * 2.5),
+        ),
         subtitle: Text("Selecciona otra configuración"),
       ),
     );
