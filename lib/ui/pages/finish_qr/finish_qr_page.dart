@@ -7,14 +7,14 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 TextEditingController controller = TextEditingController();
 
-class FinishPage extends StatefulWidget {
-  const FinishPage({Key? key}) : super(key: key);
+class FinishQrPage extends StatefulWidget {
+  const FinishQrPage({Key? key}) : super(key: key);
 
   @override
-  State<FinishPage> createState() => _FinishPageState();
+  State<FinishQrPage> createState() => _FinishQrPageState();
 }
 
-class _FinishPageState extends State<FinishPage> {
+class _FinishQrPageState extends State<FinishQrPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +56,8 @@ class _FinishPageState extends State<FinishPage> {
               height: sclH(context) * 3,
             ),
             QrImage(
-              data: "Codigo de Usuario",
+              data:
+                  "https://firebasestorage.googleapis.com/v0/b/payparking-fcfcb.appspot.com/o/jY0183PRRifwqtio6G6qgUOtiwg1%2Fprofile%2Fimage_picker7996821835195979970.jpg?alt=media&token=436f11d9-a8f3-46fb-a50e-318253663ef2",
               backgroundColor: Colors.white,
               version: QrVersions.auto,
               size: sclH(context) * 40,

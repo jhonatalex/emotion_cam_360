@@ -13,7 +13,7 @@ class ImgTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(sclH(context) * 6),
-      child: ElevatedButton(
+      child: TextButton(
         style: ElevatedButton.styleFrom(
             // foregroundColor: Colors.white,
             primary: Colors.transparent,
@@ -22,22 +22,13 @@ class ImgTextButton extends StatelessWidget {
         onPressed: () {
           Get.offNamed(RouteNames.menu);
         },
-        child: Column(
-          children: [
-            Center(
-                child: Image.asset(
-              "assets/img/buttonplay.png",
-              height: sclH(context) * 16,
-            )),
-            Text(
-              "INICIAR EXPERIENCIA 360°",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: sclH(context) * 2.5,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-          ],
+        child: Text(
+          "INICIAR EXPERIENCIA 360°",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: sclH(context) * 5,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ),
       ),
     );

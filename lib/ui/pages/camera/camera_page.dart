@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/ui/pages/menu/menu_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,10 +28,7 @@ class _CameraPageState extends State<CameraPage> {
       style: TextStyle(fontSize: 50),
     ),
     CameraApp2(),
-    Text(
-      'Efecto',
-      style: TextStyle(fontSize: 50),
-    ),
+    MenuPage(),
     SettingsVideo(),
   ];
 
@@ -65,10 +63,10 @@ class _CameraPageState extends State<CameraPage> {
               backgroundColor: Colors.transparent,
               //  Color.fromARGB(250, 20, 18, 32),
 
-              selectedFontSize: sclH(context) * 3,
+              selectedFontSize: sclH(context) * 2.5,
               selectedItemColor: AppColors.royalBlue,
-              selectedIconTheme: IconThemeData(size: sclH(context) * 6),
-              unselectedFontSize: sclH(context) * 2,
+              selectedIconTheme: IconThemeData(size: sclH(context) * 5),
+              unselectedFontSize: sclH(context) * 1.8,
               unselectedItemColor: Colors.white,
               unselectedIconTheme: IconThemeData(size: sclH(context) * 3),
               items: const [

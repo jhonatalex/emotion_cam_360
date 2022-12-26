@@ -147,18 +147,15 @@ class _CameraApp2State extends State<CameraApp2> {
         SizedBox(
           height: sclH(context) * 3,
         ),
-        ElevatedButton.icon(
+        TextButton(
           onPressed: () async {
             endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 10;
             setState(() {});
           },
-          icon: Icon(
-            Icons.play_arrow_outlined,
-            size: sclH(context) * 4,
-          ),
-          label: Text(
-            "Iniciar",
-            style: TextStyle(fontSize: sclH(context) * 5),
+          child: Image.asset(
+            "assets/img/buttonplay.png",
+            width: sclH(context) * 25,
+            height: sclH(context) * 15,
           ),
         ),
       ],

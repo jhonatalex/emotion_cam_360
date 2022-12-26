@@ -70,7 +70,7 @@ class _MenuPageState extends State<MenuPage> {
                           height: sclH(context) * 2,
                         ),
                         Text(
-                          "Transicion B",
+                          "Transicion A",
                           style: TextStyle(fontSize: sclH(context) * 2),
                         ),
                         SizedBox(
