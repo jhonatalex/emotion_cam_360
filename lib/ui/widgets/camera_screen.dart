@@ -142,7 +142,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Emotion CAM 360')),
       body: Column(children: [
-        Container(height: 800, child: Center(child: _buildCamera())),
+        Container(height: 550, child: Center(child: _buildCamera())),
         _buildControls(),
       ]),
     );

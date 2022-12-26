@@ -84,7 +84,7 @@ class _CameraApp2State extends State<CameraApp2> {
           endTime: endTime,
           onEnd: () async {
             if (_isFirst == false) {
-              Get.offNamed(RouteNames.camera_screen);
+              Get.offNamed(RouteNames.videoScreen);
 
               /*
 
