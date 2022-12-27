@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../repositories/abstractas/video_repository.dart';
 
-class CamaraVideoController extends GetxController {
+class VideoController extends GetxController {
   Rx<Uint8List?> pickedVideo = Rx(null);
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);

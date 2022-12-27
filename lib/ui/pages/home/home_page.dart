@@ -17,10 +17,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final content = ListView(
-      children: const [
+    final content = Column(
+      children: [
         CarrucelHeader(),
-        ImgTextButton(),
+        Expanded(child: Center(child: ImgTextButton())),
         CarrucelStyles(),
       ],
     );

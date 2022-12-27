@@ -39,7 +39,7 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
             labelStyle: TextStyle(fontSize: sclH(context) * 2),
             tabs: [
               Tab(
-                height: sclH(context) * 7,
+                height: sclH(context) * 8,
                 icon: Icon(
                   Icons.star,
                   size: sclH(context) * 3,
@@ -47,7 +47,7 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
                 text: 'Populares',
               ),
               Tab(
-                height: sclH(context) * 7,
+                height: sclH(context) * 8,
                 icon: Icon(
                   Icons.recent_actors,
                   size: sclH(context) * 3,
@@ -55,7 +55,7 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
                 text: 'Nuevos',
               ),
               Tab(
-                height: sclH(context) * 7,
+                height: sclH(context) * 8,
                 icon: Icon(
                   Icons.six_mp_outlined,
                   size: sclH(context) * 3,
@@ -66,7 +66,7 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
           ),
           SizedBox(
             width: double.infinity,
-            height: sclH(context) * 18,
+            height: sclH(context) * 27,
             child: TabBarView(
               children: [
                 PopularesSlider(imgList: imgList),
@@ -93,7 +93,7 @@ class PopularesSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: sclH(context) * 16,
+        height: sclH(context) * 25,
         aspectRatio: 16 / 9,
         viewportFraction: 0.3,
         initialPage: 0,
@@ -102,11 +102,12 @@ class PopularesSlider extends StatelessWidget {
         scrollDirection: Axis.horizontal,
       ),
       items: imgList.map((i) {
+        print(sclH(context));
         return Builder(
           builder: (BuildContext context) {
             return Container(
-              width: sclH(context) * 16,
-              margin: EdgeInsets.symmetric(horizontal: sclH(context)),
+              width: sclH(context) * 20,
+              margin: EdgeInsets.symmetric(horizontal: sclH(context) / 2),
               decoration: BoxDecoration(
                   image:
                       DecorationImage(image: AssetImage(i), fit: BoxFit.cover),

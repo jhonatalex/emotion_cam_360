@@ -37,21 +37,21 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
         BackgroundBlur(
           imgList: imgList,
           current: _current,
-          bgHeight: sclH(context) * 35,
+          bgHeight: sclH(context) * 45,
         ),
         Container(
-          margin: EdgeInsets.only(top: sclH(context) * 7),
+          margin: EdgeInsets.only(top: sclH(context) * 10),
           child: CarouselSlider(
             options: CarouselOptions(
-              height: sclH(context) * 30,
+              height: sclH(context) * 35,
+              viewportFraction: 0.45, //width
               aspectRatio: 16 / 9,
-              viewportFraction: 0.5,
               initialPage: 0,
               enableInfiniteScroll: true,
               reverse: false,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 5),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayAnimationDuration: const Duration(milliseconds: 1000),
               autoPlayCurve: Curves.fastOutSlowIn,
               enlargeCenterPage: true,
               enlargeFactor: 0.3,
@@ -66,8 +66,6 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                    width: sclH(context) * 23,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(i), fit: BoxFit.cover),

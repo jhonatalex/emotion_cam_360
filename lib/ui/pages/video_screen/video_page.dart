@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -9,8 +10,6 @@ import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/countdow.dart';
 import '../../widgets/show_video_page.dart';
-import '../menu/menu_page.dart';
-import 'video_controller.dart';
 
 class VideoPage extends StatefulWidget {
   const VideoPage({super.key});
@@ -127,7 +126,7 @@ class _VideoPageState extends State<VideoPage> {
         return Stack(children: [_buildCamera(), const CountDown()]);
 
       case 3:
-        return const MenuPage();
+        return const EfectoPage();
 
       case 4:
         return const SettingsVideo();
@@ -152,7 +151,7 @@ class _VideoPageState extends State<VideoPage> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               iconSize: sclH(context) * 3,
-              onPressed: (() => Get.offNamed(RouteNames.menu)),
+              onPressed: (() => Get.offNamed(RouteNames.home)),
             ),
           ),
           backgroundColor: AppColors.vulcan,

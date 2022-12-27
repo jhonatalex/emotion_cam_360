@@ -11,14 +11,21 @@ class ImgTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(sclH(context) * 6),
-      child: TextButton(
+    return Container(
+      decoration: BoxDecoration(
+        image: const DecorationImage(
+            image: AssetImage("assets/img/background.png"), fit: BoxFit.fill),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          width: 0.5,
+          color: Colors.white,
+        ),
+      ),
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            // foregroundColor: Colors.white,
+            padding: EdgeInsets.all(sclH(context) * 3),
             primary: Colors.transparent,
-            elevation: 0 // foreground
-            ),
+            elevation: 0),
         onPressed: () {
           Get.offNamed(RouteNames.videoPage);
         },
@@ -26,7 +33,7 @@ class ImgTextButton extends StatelessWidget {
           "INICIAR EXPERIENCIA 360°",
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: sclH(context) * 5,
+              fontSize: sclH(context) * 3,
               fontWeight: FontWeight.bold,
               color: Colors.white),
         ),
