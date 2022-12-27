@@ -46,8 +46,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         _initCamera(_cameras[_cameraIndex]);
       }
     });
-
-    //Inicia la grabacion
   }
 
   _initCamera(CameraDescription camera) async {
@@ -60,6 +58,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     _controller!.addListener(() => this.setState(() {}));
     // Inicializar el controlador
     _controller!.initialize();
+
+    //Inicia la grabacion
   }
 
   Widget _buildCamera() {
@@ -97,13 +97,19 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       print("ENTRO GRABAR");
       await _controller?.prepareForVideoRecording();
       await _controller?.startVideoRecording();
-
       setState(() => _isRecording = true);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Timer(Duration(seconds: 2), () {
+      _recordVideo();
+    });
+
+    Timer(Duration(seconds: 5), () {
+      _recordVideo();
+    });
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -123,9 +129,10 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         body: Expanded(
           child: Stack(children: [
             Center(child: _buildCamera()),
-            Center(
-                child: FloatingActionButton(
-                    onPressed: () async => {_recordVideo()}))
+            Center(child: FloatingActionButton(onPressed: () async {
+              _recordVideo();
+              setState(() {});
+            }))
           ]),
         ),
       ),
