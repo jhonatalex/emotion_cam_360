@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -7,7 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 TextEditingController controller = TextEditingController();
 
-double _sise = 40;
+double _sise = 1;
 
 class FinishQrPage extends StatefulWidget {
   const FinishQrPage({Key? key}) : super(key: key);
@@ -15,6 +17,8 @@ class FinishQrPage extends StatefulWidget {
   @override
   State<FinishQrPage> createState() => _FinishQrPageState();
 }
+
+bool isDelay = false;
 
 class _FinishQrPageState extends State<FinishQrPage> {
   @override
@@ -45,13 +49,13 @@ class _FinishQrPageState extends State<FinishQrPage> {
               height: sclH(context) * 3,
             ),
             AnimatedContainer(
-              duration: Duration(milliseconds: 5000),
+              duration: Duration(milliseconds: 2000),
               curve: Curves.easeInToLinear,
               child: QrImage(
                 data: "Codigo de Usuario",
                 backgroundColor: Colors.white,
                 version: QrVersions.auto,
-                size: sclH(context) * _sise,
+                size: sclH(context) * 40,
               ),
             ),
           ],

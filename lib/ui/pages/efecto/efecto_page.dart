@@ -25,8 +25,8 @@ class _EfectoPageState extends State<EfectoPage> {
     final imgList = [
       "assets/img/stylo1.jpg",
       "assets/img/stylo2.jpg",
-      "assets/img/stylo2.jpg",
-      "assets/img/stylo2.jpg",
+      "assets/img/stylo3.jpg",
+      "assets/img/stylo4.jpg",
     ];
 
     return Scaffold(
@@ -41,6 +41,8 @@ class _EfectoPageState extends State<EfectoPage> {
           ),
           Center(
             child: Wrap(
+              spacing: 20,
+              runSpacing: 20,
               runAlignment: WrapAlignment.spaceAround,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
