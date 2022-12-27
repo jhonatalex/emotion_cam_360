@@ -1,13 +1,15 @@
 import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
-import '../../widgets/camera.dart';
+import '../../widgets/countdow.dart';
 import '../../widgets/show_video_page.dart';
+import '../menu/menu_page.dart';
 import 'video_controller.dart';
 
 class VideoPage extends StatefulWidget {
@@ -18,11 +20,14 @@ class VideoPage extends StatefulWidget {
 }
 
 class _VideoPageState extends State<VideoPage> {
+  //Variables
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
-  late int _cameraIndex; // Índice de cámara actual
-
+  int _cameraIndex = 1; // Índice de cámara actual
   bool _isRecording = false; // Bandera indicadora de grabación en proceso
+  int endTime = 0;
+  bool _isFirst = true;
+  int _selectedIndex = 2;
 
   @override
   void initState() {
@@ -35,7 +40,7 @@ class _VideoPageState extends State<VideoPage> {
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
       if (_cameras.length != 0) {
         // Inicializar el índice de cámara actual en 0 para obtener la primera
-        _cameraIndex = 0;
+        _cameraIndex = 1;
         // Inicializar la cámara pasando el CameraDescription de la cámara seleccionada
         _initCamera(_cameras[_cameraIndex]);
       }
@@ -54,20 +59,18 @@ class _VideoPageState extends State<VideoPage> {
     _controller!.initialize();
   }
 
-  // Crear el Widget con la visualización del cámara
   Widget _buildCamera() {
-    // Si el controlador es nulo o no está inicializado aún,
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
     if (_controller == null || !_controller!.value.isInitialized) {
       return Center(child: Text('Loading...'));
     }
-
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
-    return AspectRatio(
-      // Solicitar la relación alto/ancho al controlador
-      aspectRatio: 16 / 22,
-      // Mostrar el contenido del controlador mediante el Widget CameraPreview
-      child: CameraPreview(_controller!),
+    return Container(
+      margin: const EdgeInsets.only(top: 50.0),
+      child: AspectRatio(
+        aspectRatio: 16 / 22,
+        child: CameraPreview(_controller!),
+      ),
     );
   }
 
@@ -110,7 +113,32 @@ class _VideoPageState extends State<VideoPage> {
     }
   }
 
-  int _selectedIndex = 1;
+  Widget SelectActionShow(int selectedIndex) {
+    switch (selectedIndex) {
+      case 0:
+        return _buildCamera();
+
+      case 1:
+        return const Text(
+          'Filtro',
+          style: TextStyle(fontSize: 50),
+        );
+      case 2:
+        return Stack(children: [_buildCamera(), const CountDown()]);
+
+      case 3:
+        return const MenuPage();
+
+      case 4:
+        return const SettingsVideo();
+
+      default:
+        return Center(
+            child: Text('Cargando...',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: sclH(context) * 4)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,17 +158,23 @@ class _VideoPageState extends State<VideoPage> {
           backgroundColor: AppColors.vulcan,
           extendBodyBehindAppBar: true,
           extendBody: true,
-          body: Column(
+          body: /*Expanded(
+            child: Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            ),
+          ),*/
+
+              Column(
             children: [
               Expanded(
                 child: Container(
-                    margin: const EdgeInsets.only(top: 10.0),
-                    child: Center(child: _buildCamera())),
+                    margin: const EdgeInsets.only(top: 50.0),
+                    child: Center(child: SelectActionShow(_selectedIndex))),
               )
             ],
           ),
           bottomNavigationBar: Container(
-            height: 161,
+            height: 120,
             color: AppColors.vulcan,
             child: BottomNavigationBar(
               currentIndex: _selectedIndex,
@@ -161,16 +195,25 @@ class _VideoPageState extends State<VideoPage> {
                       _getCameraIcon(_cameras[_cameraIndex].lensDirection)),
                   label: 'Camara',
                 ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.filter_b_and_w),
+                  label: 'Filtro',
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(
                       _isRecording ? Icons.stop : Icons.radio_button_checked),
                   label: _isRecording ? "Parar" : "Grabar",
                 ),
                 const BottomNavigationBarItem(
-                  icon: Icon(Icons.playlist_play_rounded),
-                  label: 'Ver',
+                  icon: Icon(Icons.camera_enhance_sharp),
+                  label: 'Efecto',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Ajustes',
                 ),
               ],
+
               onTap: (value) {
                 switch (value) {
                   case 0:
@@ -178,7 +221,7 @@ class _VideoPageState extends State<VideoPage> {
                     break;
 
                   case 1:
-                    _recordVideo();
+                    //_recordVideo();
 
                     break;
                   case 2:

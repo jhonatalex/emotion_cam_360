@@ -6,6 +6,6 @@ class RouteNames {
   static const String camera = '/camera';
   static const String finishQr = '/finish-qr';
   static const String cameraScreen = '/camera-screen';
-  static const String videoScreen = '/video-screen';
+  static const String videoPage = '/video-screen';
   static const String uploadVideo = '/upload-video';
 }

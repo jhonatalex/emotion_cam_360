@@ -57,7 +57,7 @@ class RoutePages {
         //binding: const FinishBinding(),
       ),
       GetPage(
-        name: RouteNames.videoScreen,
+        name: RouteNames.videoPage,
         page: () => const VideoPage(),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),

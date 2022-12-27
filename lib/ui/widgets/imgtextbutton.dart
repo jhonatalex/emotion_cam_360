@@ -20,7 +20,7 @@ class ImgTextButton extends StatelessWidget {
             elevation: 0 // foreground
             ),
         onPressed: () {
-          Get.offNamed(RouteNames.menu);
+          Get.offNamed(RouteNames.videoPage);
         },
         child: Text(
           "INICIAR EXPERIENCIA 360°",

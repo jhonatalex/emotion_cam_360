@@ -20,14 +20,14 @@ import 'package:image_picker/image_picker.dart';
 //dice que no funciona en emuladores
 int endTime = 0;
 
-class CameraApp2 extends StatefulWidget {
-  const CameraApp2({super.key});
+class CountDown extends StatefulWidget {
+  const CountDown({super.key});
 
   @override
-  State<CameraApp2> createState() => _CameraApp2State();
+  State<CountDown> createState() => _CountDownState();
 }
 
-class _CameraApp2State extends State<CameraApp2> {
+class _CountDownState extends State<CountDown> {
   bool _isFirst = true;
   get scanner => null;
 
@@ -84,10 +84,9 @@ class _CameraApp2State extends State<CameraApp2> {
           endTime: endTime,
           onEnd: () async {
             if (_isFirst == false) {
-              Get.offNamed(RouteNames.videoScreen);
+              //Get.offNamed(RouteNames.videoScreen);
 
               /*
-
 
               final ImagePicker _picker = ImagePicker();
               final pickedFile = await ImagePicker().getVideo(

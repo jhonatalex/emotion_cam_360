@@ -27,7 +27,7 @@ class _CameraPageState extends State<CameraPage> {
       'Filtro',
       style: TextStyle(fontSize: 50),
     ),
-    CameraApp2(),
+    CountDown(),
     MenuPage(),
     SettingsVideo(),
   ];
