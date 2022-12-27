@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
@@ -64,12 +63,12 @@ class _VideoPageState extends State<VideoPage> {
       return Center(child: Text('Loading...'));
     }
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
-    return Container(
-      margin: const EdgeInsets.only(top: 50.0),
-      child: AspectRatio(
-        aspectRatio: 16 / 22,
-        child: CameraPreview(_controller!),
-      ),
+    return Center(
+      //  margin: const EdgeInsets.only(top: 50.0),
+      //child: AspectRatio(
+      //   aspectRatio: 16 / 22,
+      child: CameraPreview(_controller!),
+      // ),
     );
   }
 
@@ -89,27 +88,22 @@ class _VideoPageState extends State<VideoPage> {
 
   // Detener la grabación de video
   Future<void> _onStop() async {
-    await _controller?.stopVideoRecording();
+    print("PARO DE GRABAR");
+    final file = await _controller?.stopVideoRecording();
     setState(() => _isRecording = false);
+    final route = MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (_) => ShowVideoPage(filePath: file!.path),
+    );
+    Navigator.push(context, route);
   }
 
   _recordVideo() async {
-    if (_isRecording) {
-      print("PARO DE GRABAR");
-      final file = await _controller?.stopVideoRecording();
-      setState(() => _isRecording = false);
-      final route = MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (_) => ShowVideoPage(filePath: file!.path),
-      );
-      Navigator.push(context, route);
-    } else {
-      print("ENTRO GRABAR");
-      await _controller?.prepareForVideoRecording();
-      await _controller?.startVideoRecording();
+    print("ENTRO GRABAR");
+    await _controller?.prepareForVideoRecording();
+    await _controller?.startVideoRecording();
 
-      setState(() => _isRecording = true);
-    }
+    setState(() => _isRecording = true);
   }
 
   Widget SelectActionShow(int selectedIndex) {
@@ -123,7 +117,13 @@ class _VideoPageState extends State<VideoPage> {
           style: TextStyle(fontSize: 50),
         );
       case 2:
-        return Stack(children: [_buildCamera(), const CountDown()]);
+        return Stack(children: [
+          _buildCamera(),
+          Container(
+            color: AppColors.vulcan.withOpacity(0.5),
+          ),
+          const CountDown(),
+        ]);
 
       case 3:
         return const EfectoPage();
@@ -163,17 +163,9 @@ class _VideoPageState extends State<VideoPage> {
             ),
           ),*/
 
-              Column(
-            children: [
-              Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(top: 50.0),
-                    child: Center(child: SelectActionShow(_selectedIndex))),
-              )
-            ],
-          ),
+              Center(child: SelectActionShow(_selectedIndex)),
           bottomNavigationBar: Container(
-            height: 120,
+            //height: 120,
             color: AppColors.vulcan,
             child: BottomNavigationBar(
               currentIndex: _selectedIndex,
