@@ -84,12 +84,7 @@ class _VideoPageState extends State<VideoPage> {
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.medium);
     // Agregar un Listener para refrescar la pantalla en cada cambio
-    _controller!.addListener(() {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    });
+    _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
     _controller!.initialize().then((_) {
       if (!mounted) {
