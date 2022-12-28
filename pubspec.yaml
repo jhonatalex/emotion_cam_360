@@ -23,11 +23,14 @@ dependencies:
   cached_network_image: ^3.1.0
   carousel_slider: ^4.2.1
   camera: ^0.10.0+5
-  flutter_countdown_timer: ^4.1.0
   simple_circular_progress_bar: ^1.0.2
-  auto_size_text: ^3.0.0
-  device_preview: ^1.1.0
-  video_player: ^2.2.6
+  video_player: ^2.2.6 #^2.4.7
+
+#Video
+  ffmpeg_kit_flutter_video: 5.1.0-LTS
+  path: ^1.8.2
+  fluttertoast: ^8.0.9
+
 
 #Model
   uuid: ^3.0.6
