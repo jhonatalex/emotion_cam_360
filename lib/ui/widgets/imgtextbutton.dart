@@ -14,12 +14,8 @@ class ImgTextButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: const DecorationImage(
-            image: AssetImage("assets/img/background.png"), fit: BoxFit.fill),
+            image: AssetImage("assets/img/background.jpg"), fit: BoxFit.fill),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          width: 0.5,
-          color: Colors.white,
-        ),
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

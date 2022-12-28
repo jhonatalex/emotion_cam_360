@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/routes/route_pages.dart';
@@ -8,8 +9,11 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'dependency_injection/app_binding.dart';
 
+late List<CameraDescription> _cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  _cameras = await availableCameras();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }

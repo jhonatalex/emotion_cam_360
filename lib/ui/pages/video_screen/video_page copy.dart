@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
@@ -28,17 +25,14 @@ class _VideoPageState extends State<VideoPage> {
   bool _isRecording = false; // Bandera indicadora de grabación en proceso
   int endTime = 0;
   bool _isFirst = true;
-  int _selectedIndex = 2;
-  IconData currentIcon = Icons.camera_front;
-  String currentLabel = "Frontal";
-  bool isCamSelected = true;
+  int _selectedIndex = 1;
 
   @override
   void initState() {
     super.initState();
 
     // Verificar la lista de cámaras disponibles al iniciar el Widget
-    availableCameras().then((cameras) {
+    availableCameras().then((cameras) async {
       // Guardar la lista de cámaras
       _cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
@@ -54,87 +48,35 @@ class _VideoPageState extends State<VideoPage> {
   _initCamera(CameraDescription camera) async {
     // Si el controlador está en uso,
     // realizar un dispose para detenerlo antes de continuar
-
-    Future<void> _disposeCameraController() async {
-      if (_controller == null) {
-        return Future.value();
-      }
-
-      final cameraController = _controller;
-
-      _controller = null;
-      if (mounted) {
-        setState(() {});
-
-        // Wait for the post frame callback.
-        final completerPostFrameCallback = Completer<Duration>();
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          completerPostFrameCallback.complete(timeStamp);
-        });
-        await completerPostFrameCallback.future;
-      }
-
-      return cameraController!.dispose();
-    }
-    //hacer dispose con el codigo anterior
-    //me costo resolver ese problema
-
-    //if (_controller != null) await _controller!.dispose();
-
+    if (_controller != null) await _controller!.dispose();
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.medium);
     // Agregar un Listener para refrescar la pantalla en cada cambio
-    _controller!.addListener(() {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    });
+    _controller!.addListener(() => this.setState(() {}));
     // Inicializar el controlador
-    _controller!.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {});
-    }).catchError((Object e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            // Handle access errors here.
-            break;
-          default:
-            // Handle other errors here.
-            break;
-        }
-      }
-    });
+    _controller!.initialize();
   }
 
   Widget _buildCamera() {
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
     if (_controller == null || !_controller!.value.isInitialized) {
-      return const Center(child: Text('Loading...'));
+      return Center(child: Text('Loading...'));
     }
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
     return Center(
-      child: AspectRatio(
-        aspectRatio: 16 / 22,
-        child: CameraPreview(_controller!),
-      ),
+      //  margin: const EdgeInsets.only(top: 50.0),
+      //child: AspectRatio(
+      //   aspectRatio: 16 / 22,
+      child: CameraPreview(_controller!),
+      // ),
     );
   }
 
   // Retornar el ícono de la cámara
   IconData _getCameraIcon(CameraLensDirection lensDirection) {
-    if (lensDirection == CameraLensDirection.back) {
-      currentIcon = Icons.camera_rear;
-      currentLabel = "Poterior";
-    } else {
-      currentIcon = Icons.camera_front;
-      currentLabel = "Frontal";
-    }
-    return currentIcon;
+    return lensDirection == CameraLensDirection.back
+        ? Icons.camera_rear
+        : Icons.camera_front;
   }
 
   // Cambia la cámara actual
@@ -142,20 +84,34 @@ class _VideoPageState extends State<VideoPage> {
     if (_cameras.length < 2) return;
     _cameraIndex = (_cameraIndex + 1) % 2;
     _initCamera(_cameras[_cameraIndex]);
-    _getCameraIcon(_cameras[_cameraIndex].lensDirection);
+  }
+
+  // Detener la grabación de video
+  Future<void> _onStop() async {
+    print("PARO DE GRABAR");
+    final file = await _controller?.stopVideoRecording();
+    setState(() => _isRecording = false);
+    final route = MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (_) => ShowVideoPage(filePath: file!.path),
+    );
+    Navigator.push(context, route);
+  }
+
+  _recordVideo() async {
+    print("ENTRO GRABAR");
+    await _controller?.prepareForVideoRecording();
+    await _controller?.startVideoRecording();
+
+    setState(() => _isRecording = true);
   }
 
   Widget SelectActionShow(int selectedIndex) {
     switch (selectedIndex) {
       case 0:
-        return _buildCamera();
+        return const EfectoPage();
 
       case 1:
-        return const Text(
-          'Filtro',
-          style: TextStyle(fontSize: 50),
-        );
-      case 2:
         return Stack(children: [
           _buildCamera(),
           Container(
@@ -163,10 +119,15 @@ class _VideoPageState extends State<VideoPage> {
           ),
           const CountDown(),
         ]);
-      case 3:
-        return const EfectoPage();
-      case 4:
+      case 2:
         return const SettingsVideo();
+      case 3:
+        return _buildCamera();
+      case 4:
+        return const Text(
+          'Filtro',
+          style: TextStyle(fontSize: 50),
+        );
 
       default:
         return Center(
@@ -211,59 +172,54 @@ class _VideoPageState extends State<VideoPage> {
               backgroundColor: Colors.transparent,
               //  Color.fromARGB(250, 20, 18, 32),
 
-              selectedFontSize: sclH(context) * 2,
+              selectedFontSize: sclH(context) * 3,
               selectedItemColor: AppColors.royalBlue,
               selectedIconTheme: IconThemeData(size: sclH(context) * 6),
-              unselectedFontSize: sclH(context) * 1.5,
+              unselectedFontSize: sclH(context) * 2,
               unselectedItemColor: Colors.white,
               unselectedIconTheme: IconThemeData(size: sclH(context) * 3),
               items: [
-                BottomNavigationBarItem(
-                  icon: Icon(currentIcon),
-                  label: currentLabel,
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.camera_enhance_sharp),
+                  label: 'Efecto',
                 ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                      _getCameraIcon(_cameras[_cameraIndex].lensDirection)),
+                  label: 'Camara',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Ajustes',
+                ), /* 
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.filter_b_and_w),
                   label: 'Filtro',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.camera,
-                    // _getCameraIcon(_cameras[_cameraIndex].lensDirection),
-                  ),
-                  label: 'Camara',
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.camera_enhance_sharp),
-                  label: 'Efecto',
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Ajustes',
-                ),
+                      _isRecording ? Icons.stop : Icons.radio_button_checked),
+                  label: _isRecording ? "Parar" : "Grabar",
+                ), */
               ],
 
               onTap: (value) {
                 switch (value) {
                   case 0:
-                    _onSwitchCamera();
                     break;
 
                   case 1:
                     //_recordVideo();
+
+                    _onSwitchCamera();
                     break;
                   case 2:
-                    //s
                     // _isRecording ? null : _onPlay,
                     break;
                   default:
                 }
 
                 _selectedIndex = value;
-                //tomar valores
-                _selectedIndex == 0
-                    ? isCamSelected = true
-                    : isCamSelected = false;
 
                 setState(() {});
               },
