@@ -114,7 +114,7 @@ class _CountDownState extends State<CountDown> {
                     onTap: () {
                       if (_opacity == 1) {
                         endTime =
-                            DateTime.now().millisecondsSinceEpoch + 1000 * 11;
+                            DateTime.now().millisecondsSinceEpoch + 1000 * 3;
 
                         setState(() {
                           _changeValue();

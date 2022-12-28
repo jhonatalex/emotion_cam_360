@@ -1,10 +1,9 @@
 import 'dart:io';
-
+import 'package:chalkdart/chalk.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:video_player/video_player.dart';
-
+import '../pages/Upload_screen/upload_video_page.dart';
 import '../routes/route_names.dart';
 
 class ShowVideoPage extends StatefulWidget {
@@ -34,6 +33,9 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    var file = Get.arguments;
+    print(chalk.brightGreen(file));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Vista Previa'),
@@ -44,7 +46,10 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
             icon: const Icon(Icons.check),
             onPressed: () {
               //print('do something with the file');
-              Get.offNamed(RouteNames.uploadVideo);
+              //Get.offNamed(RouteNames.uploadVideo);
+              Get.to(() => const UploadVideoPage(),
+                  transition: Transition.circularReveal,
+                  arguments: [file, widget.filePath]);
             },
           )
         ],

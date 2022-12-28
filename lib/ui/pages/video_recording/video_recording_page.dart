@@ -1,6 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:camera/camera.dart';
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
@@ -86,13 +90,28 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   _recordVideo() async {
     if (_isRecording) {
       print("PARO DE GRABAR");
+
       final file = await _controller?.stopVideoRecording();
       setState(() => _isRecording = false);
+
+      print(chalk.brightGreen(file!.path));
+
+      //PASAR DATA CON GETX
+      Get.to(
+        () => ShowVideoPage(filePath: file.path),
+        transition: Transition.circularReveal,
+        arguments: file,
+      );
+
+      /* 
       final route = MaterialPageRoute(
         fullscreenDialog: true,
         builder: (_) => ShowVideoPage(filePath: file!.path),
-      );
-      Navigator.push(context, route);
+   
+        Navigator.push(context, route);
+      );   
+      */
+
     } else {
       print("ENTRO GRABAR");
       await _controller?.prepareForVideoRecording();
@@ -103,13 +122,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 2), () {
-      _recordVideo();
-    });
-
-    Timer(Duration(seconds: 5), () {
-      _recordVideo();
-    });
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -126,15 +138,13 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         backgroundColor: AppColors.vulcan,
         extendBodyBehindAppBar: true,
         extendBody: true,
-        body: Expanded(
-          child: Stack(children: [
-            Center(child: _buildCamera()),
-            Center(child: FloatingActionButton(onPressed: () async {
-              _recordVideo();
-              setState(() {});
-            }))
-          ]),
-        ),
+        body: Stack(children: [
+          Center(child: _buildCamera()),
+          Center(child: FloatingActionButton(onPressed: () async {
+            _recordVideo();
+            setState(() {});
+          }))
+        ]),
       ),
     );
   }
