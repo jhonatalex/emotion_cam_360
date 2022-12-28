@@ -13,6 +13,7 @@ import '../pages/splash/splash_page.dart';
 import '../pages/efecto/efecto_binding.dart';
 import '../pages/efecto/efecto_page.dart';
 import '../pages/video_screen/video_page.dart';
+import '../widgets/show_video_page.dart';
 
 class RoutePages {
   const RoutePages._();
@@ -57,6 +58,14 @@ class RoutePages {
       GetPage(
         name: RouteNames.videoRecording,
         page: () => const VideoRecordingPage(),
+        transition: Transition.fadeIn,
+        //binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.showVideo,
+        page: () => const ShowVideoPage(
+          filePath: '',
+        ),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),
       ),

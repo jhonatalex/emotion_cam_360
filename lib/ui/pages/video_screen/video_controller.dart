@@ -17,6 +17,7 @@ class VideoController extends GetxController {
   @override
   void onInit() {
     //getMyUser();
+
     super.onInit();
   }
 

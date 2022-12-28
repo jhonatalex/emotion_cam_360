@@ -102,7 +102,6 @@ class PopularesSlider extends StatelessWidget {
         scrollDirection: Axis.horizontal,
       ),
       items: imgList.map((i) {
-        print(sclH(context));
         return Builder(
           builder: (BuildContext context) {
             return Container(

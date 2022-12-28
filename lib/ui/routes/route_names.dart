@@ -8,4 +8,5 @@ class RouteNames {
   static const String videoPage = '/video-screen';
   static const String videoRecording = '/video-recording';
   static const String uploadVideo = '/upload-video';
+  static const String showVideo = '/show-video';
 }

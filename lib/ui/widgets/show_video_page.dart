@@ -24,8 +24,8 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
     super.dispose();
   }
 
-  Future _initVideoPlayer() async {
-    _videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+  Future _initVideoPlayer(file) async {
+    _videoPlayerController = VideoPlayerController.file(File(file));
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     await _videoPlayerController.play();
@@ -33,8 +33,10 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    //filePath: file!.path
     var file = Get.arguments;
-    print(chalk.brightGreen(file));
+
+    print(chalk.brightGreen(file[1]));
 
     return Scaffold(
       appBar: AppBar(
@@ -47,8 +49,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
             onPressed: () {
               //print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
-              Get.to(() => const UploadVideoPage(),
-                  transition: Transition.circularReveal,
+              Get.offNamed(RouteNames.uploadVideo,
                   arguments: [file, widget.filePath]);
             },
           )
@@ -56,7 +57,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
       ),
       extendBodyBehindAppBar: true,
       body: FutureBuilder(
-        future: _initVideoPlayer(),
+        future: _initVideoPlayer(file[1]),
         builder: (context, state) {
           if (state.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
