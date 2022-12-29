@@ -204,7 +204,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       top: sclH(context) * 5,
       right: sclW(context) * 1.5,
       child: AnimatedOpacity(
-        opacity: _opacityRec,
+        opacity: 1 - _opacityRec,
         duration: Duration(seconds: 1),
         onEnd: () {
           _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;
