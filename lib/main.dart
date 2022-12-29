@@ -1,13 +1,17 @@
+import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/routes/route_pages.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'dependency_injection/app_binding.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -20,21 +24,29 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
-        primaryColor: AppColors.violet,
-        elevatedButtonTheme: const ElevatedButtonThemeData(
+
+        buttonColor: Colors.red,
+        colorScheme: ColorScheme.dark(primary: AppColors.violet),
+        primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
+
+        checkboxTheme: CheckboxThemeData(
+            fillColor: MaterialStateProperty.all(AppColors.violet)),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll<Color>(AppColors.royalBlue),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+          backgroundColor: MaterialStateProperty.all(AppColors.royalBlue),
         )),
-        outlinedButtonTheme: const OutlinedButtonThemeData(
+        outlinedButtonTheme: OutlinedButtonThemeData(
             style: ButtonStyle(
           //backgroundColor: MaterialStatePropertyAll<Color>(AppColors.violet),
-          foregroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
         )),
 
-        secondaryHeaderColor: Colors.cyan[600],
+        //secondaryHeaderColor: Colors.cyan[600],
 
         // Define la Familia de fuente por defecto
-        fontFamily: 'Montserrat',
+        fontFamily: 'Raleway',
 
         // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
         // para cabeceras, títulos, cuerpos de texto, y más.

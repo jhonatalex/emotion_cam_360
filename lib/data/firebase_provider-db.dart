@@ -1,6 +1,8 @@
-import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emotion_cam_360/entities/video.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -17,7 +19,6 @@ class FirebaseProvider {
   }
 
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
-
   FirebaseStorage get storage => FirebaseStorage.instance;
 
 //LEER BD
@@ -27,18 +28,48 @@ class FirebaseProvider {
     return null;
   }
 
-  //GUARDAR EN BD
-  Future<void> saveMyUser(MyUser user, File? image) async {
+  //GUARDAR EN BD DE FIRESTORE
+  Future<String> saveMyVideoProvider(
+      VideoEntity videoEntity, Uint8List? video) async {
+    // if (kDebugMode) {
+    print(chalk.brightGreen('ENTRO PROVIDER'));
+    print(chalk.brightGreen('LOG AQUI $videoEntity'));
+    // }
+/* 
     final ref = firestore.doc('user/${currentUser.uid}');
-    if (image != null) {
+
+    if (video != null) {
       final imagePath =
-          '${currentUser.uid}/profile/${path.basename(image.path)}';
+          '${videoEntity.name}/videos360/${path.basename(videoEntity.ruta)}';
+
       final storageRef = storage.ref(imagePath);
-      await storageRef.putFile(image);
+      await storageRef.putData(video);
       final url = await storageRef.getDownloadURL();
-      await ref.set(user.toFirebaseMap(newImage: url), SetOptions(merge: true));
+
+      print(chalk.brightGreen('LOG AQUI $url'));
+
+      await ref.set(
+          videoEntity.toFirebaseMap(newVideo: url), SetOptions(merge: true));
     } else {
-      await ref.set(user.toFirebaseMap(), SetOptions(merge: true));
+      await ref.set(videoEntity.toFirebaseMap(), SetOptions(merge: true));
     }
+  */
+
+    final DateTime now = DateTime.now();
+    final int millSeconds = now.millisecondsSinceEpoch;
+    final String month = now.month.toString();
+    final String date = now.day.toString();
+    final String storageId = ("VID_360_" + millSeconds.toString());
+    final String today = ('$month-$date');
+
+    var ref = storage.ref().child("videos").child(today).child(storageId);
+    await ref.putData(video!);
+    var url = await ref.getDownloadURL();
+
+    print(chalk.brightGreen('LOG AQUI $url'));
+
+    return url;
+
+    //final String url = downloadUrl.toString();
   }
 }

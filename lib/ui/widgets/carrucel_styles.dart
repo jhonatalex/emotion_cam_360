@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:flutter/material.dart';
+
+import '../../repositories/abstractas/responsive.dart';
 
 class CarrucelStyles extends StatefulWidget {
   const CarrucelStyles({super.key});
@@ -29,25 +32,41 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
       length: 3,
       child: Column(
         children: [
-          const TabBar(
+          TabBar(
+            padding: EdgeInsets.only(bottom: sclH(context) * 2),
+            indicatorColor: AppColors.violet,
+            // labelColor: AppColors.violet,
+            labelStyle: TextStyle(fontSize: sclH(context) * 2),
             tabs: [
               Tab(
-                icon: Icon(Icons.star),
+                height: sclH(context) * 8,
+                icon: Icon(
+                  Icons.star,
+                  size: sclH(context) * 3,
+                ),
                 text: 'Populares',
               ),
               Tab(
-                icon: Icon(Icons.recent_actors),
+                height: sclH(context) * 8,
+                icon: Icon(
+                  Icons.recent_actors,
+                  size: sclH(context) * 3,
+                ),
                 text: 'Nuevos',
               ),
               Tab(
-                icon: Icon(Icons.six_mp_outlined),
+                height: sclH(context) * 8,
+                icon: Icon(
+                  Icons.six_mp_outlined,
+                  size: sclH(context) * 3,
+                ),
                 text: 'Minimalista',
               ),
             ],
           ),
           SizedBox(
             width: double.infinity,
-            height: 170,
+            height: sclH(context) * 27,
             child: TabBarView(
               children: [
                 PopularesSlider(imgList: imgList),
@@ -74,35 +93,23 @@ class PopularesSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 150,
+        height: sclH(context) * 25,
         aspectRatio: 16 / 9,
         viewportFraction: 0.3,
         initialPage: 0,
         enableInfiniteScroll: true,
         reverse: false,
-        //autoPlay: true,
-        // autoPlayInterval: Duration(seconds: 5),
-        // autoPlayAnimationDuration: Duration(milliseconds: 800),
-        //autoPlayCurve: Curves.fastOutSlowIn,
-        // enlargeCenterPage: true,
-        // enlargeFactor: 0.3,
         scrollDirection: Axis.horizontal,
-        /*  onPageChanged: ((index, reason) {
-          setState(() {
-            _current = index;
-          });
-        }), */
       ),
       items: imgList.map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-              width: 250,
-              margin: const EdgeInsets.symmetric(horizontal: 5.0),
+              width: sclH(context) * 20,
+              margin: EdgeInsets.symmetric(horizontal: sclH(context) / 2),
               decoration: BoxDecoration(
                   image:
                       DecorationImage(image: AssetImage(i), fit: BoxFit.cover),
-                  color: Colors.amber,
                   borderRadius: BorderRadius.circular(25)),
             );
           },
