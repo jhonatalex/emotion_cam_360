@@ -7,5 +7,6 @@ import 'package:image_picker/image_picker.dart';
 abstract class VideoRepository {
   //Future<MyUser?> getMyUser();
 
-  Future<void> saveMyVideoRepository(VideoEntity videoEntity, Uint8List? video);
+  Future<String> saveMyVideoRepository(
+      VideoEntity videoEntity, Uint8List? video);
 }

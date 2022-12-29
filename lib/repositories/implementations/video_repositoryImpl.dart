@@ -15,10 +15,8 @@ class VideoRepositoryImp extends VideoRepository {
   //Future<MyUser?> getMyUser() => provider.getMyUser();
 
   @override
-  Future<void> saveMyVideoRepository(
-      // ignore: avoid_renaming_method_parameters
-      VideoEntity videoentity,
-      Uint8List? video) async {
-    provider.saveMyVideoProvider(videoentity, video);
+  Future<String> saveMyVideoRepository(
+      VideoEntity videoentity, Uint8List? videoBytes) async {
+    return provider.saveMyVideoProvider(videoentity, videoBytes);
   }
 }

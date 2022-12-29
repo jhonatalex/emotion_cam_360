@@ -2,6 +2,7 @@ import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.da
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:get/get.dart';
 
+import '../pages/Upload_screen/upload_video_binding.dart';
 import '../pages/Upload_screen/upload_video_page.dart';
 
 import '../pages/finish_qr/finish_binding.dart';
@@ -12,6 +13,7 @@ import '../pages/splash/splash_binding.dart';
 import '../pages/splash/splash_page.dart';
 import '../pages/efecto/efecto_binding.dart';
 import '../pages/efecto/efecto_page.dart';
+import '../pages/video_recording/video_recording_binding.dart';
 import '../pages/video_screen/video_page.dart';
 import '../widgets/show_video_page.dart';
 
@@ -47,19 +49,19 @@ class RoutePages {
         name: RouteNames.videoPage,
         page: () => const VideoPage(),
         transition: Transition.fadeIn,
-        //binding: const FinishBinding(),
+        binding: const VideoBinding(),
       ),
       GetPage(
         name: RouteNames.uploadVideo,
-        page: () => const UploadVideoPage(),
+        page: () => UploadVideoPage(),
         transition: Transition.fadeIn,
-        //binding: const FinishBinding(),
+        binding: const UploadVideoBinding(),
       ),
       GetPage(
         name: RouteNames.videoRecording,
         page: () => const VideoRecordingPage(),
         transition: Transition.fadeIn,
-        //binding: const FinishBinding(),
+        binding: const VideoBinding(),
       ),
       GetPage(
         name: RouteNames.showVideo,

@@ -21,6 +21,8 @@ class FinishQrPage extends StatefulWidget {
 bool isDelay = false;
 
 class _FinishQrPageState extends State<FinishQrPage> {
+  String urlVideo = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,7 @@ class _FinishQrPageState extends State<FinishQrPage> {
               duration: Duration(milliseconds: 2000),
               curve: Curves.easeInToLinear,
               child: QrImage(
-                data: "Codigo de Usuario",
+                data: urlVideo,
                 backgroundColor: Colors.white,
                 version: QrVersions.auto,
                 size: sclH(context) * 40,

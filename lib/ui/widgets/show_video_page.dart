@@ -36,7 +36,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
     //filePath: file!.path
     var file = Get.arguments;
 
-    print(chalk.brightGreen(file[1]));
+    print(chalk.brightGreen(file[0]));
 
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +50,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
               //print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
               Get.offNamed(RouteNames.uploadVideo,
-                  arguments: [file, widget.filePath]);
+                  arguments: [file[0], widget.filePath]);
             },
           )
         ],

@@ -108,12 +108,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   // Detener la grabación de video
   Future<void> _onStop() async {
-    print("PARO DE GRABAR");
     final file = await _controller?.stopVideoRecording();
     setState(() => _isRecording = false);
 
-    //PASAR DATA CON GETX
-    Get.offNamed(RouteNames.showVideo, arguments: [file, file!.path]);
+    //READ BYTES AND SEND DATA WITH GETX
+    file!.readAsBytes().then((valueBytes) =>
+        Get.offNamed(RouteNames.showVideo, arguments: [valueBytes, file.path]));
 
     //filePath: file!.path
 
@@ -126,7 +126,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   _recordVideo() async {
-    print("ENTRO GRABAR");
     await _controller?.prepareForVideoRecording();
     await _controller?.startVideoRecording();
 
@@ -134,7 +133,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   late Timer _timer;
-  int _start = 10;
+  int _start = 5;
   //el tiempo que se configuró más los 10seg para empezar
 
   void startTimer() {

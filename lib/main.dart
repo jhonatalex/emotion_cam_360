@@ -9,11 +9,8 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'dependency_injection/app_binding.dart';
 
-late List<CameraDescription> _cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  _cameras = await availableCameras();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
