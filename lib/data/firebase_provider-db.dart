@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:chalkdart/chalk.dart';
@@ -6,8 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;

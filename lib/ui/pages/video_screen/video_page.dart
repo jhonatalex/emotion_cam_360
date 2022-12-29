@@ -4,7 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
@@ -153,9 +152,16 @@ class _VideoPageState extends State<VideoPage> {
       case 2:
         return Stack(children: [
           _buildCamera(),
-          Container(
-            color: Color.fromARGB(206, 20, 18, 33).withOpacity(0.9),
-          ),
+          /*  Center(
+            child: Container(
+              height: sclH(context) * 60,
+              width: sclW(context) * 80,
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  border: Border.all(width: 5, color: Colors.white),
+                  borderRadius: BorderRadius.circular(5)),
+            ),
+          ), */
           const CountDown(),
         ]);
       case 3:

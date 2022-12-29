@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import '../../repositories/abstractas/responsive.dart';
 import '../routes/route_names.dart';

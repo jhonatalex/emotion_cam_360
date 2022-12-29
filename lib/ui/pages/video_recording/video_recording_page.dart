@@ -1,20 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:camera/camera.dart';
-import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
-import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
-import '../../widgets/show_video_page.dart';
 
 class VideoRecordingPage extends StatefulWidget {
   const VideoRecordingPage({super.key});
@@ -209,7 +203,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       top: sclH(context) * 5,
       right: sclW(context) * 1.5,
       child: AnimatedOpacity(
-        opacity: _opacityRec,
+        opacity: 1 - _opacityRec,
         duration: Duration(seconds: 1),
         onEnd: () {
           _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;

@@ -1,4 +1,6 @@
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../repositories/abstractas/appcolors.dart';
 import '../../repositories/abstractas/responsive.dart';
@@ -20,7 +22,7 @@ class MyDrawer extends StatelessWidget {
           ),
           Image.asset(
             "assets/img/logo-emotion.png",
-            height: sclH(context) * 10,
+            height: sclH(context) * 15,
           ),
           Text(
             'EMOTION \n CAM 360',
@@ -51,11 +53,49 @@ class MyDrawer extends StatelessWidget {
                   iconColor: Colors.white,
                   textColor: Colors.white,
                   leading: Icon(
-                    Icons.home,
+                    Icons.video_camera_back,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Home',
+                    'Finish Qr',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  onTap: () {
+                    Get.offNamed(RouteNames.finishQr);
+                  },
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.video_camera_back,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Video Recording',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  onTap: () {
+                    Get.offNamed(RouteNames.videoProcessing);
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Redes Sociales",
+                  style: TextStyle(fontSize: sclH(context) * 2),
+                ),
+                const Divider(),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.facebook,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Facebook',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   // onTap: () {},
@@ -64,14 +104,35 @@ class MyDrawer extends StatelessWidget {
                   iconColor: Colors.white,
                   textColor: Colors.white,
                   leading: Icon(
-                    Icons.home,
+                    Icons.rss_feed,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Home',
+                    'RSS',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   // onTap: () {},
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.play_arrow_rounded,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Youtube',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  // onTap: () {},
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Divider(),
+                Text(
+                  "Versión 1.0.0",
+                  style: TextStyle(fontSize: sclH(context) * 2),
                 ),
               ],
             ),

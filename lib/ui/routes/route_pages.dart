@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/ui/pages/video_processing/video_processing_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:get/get.dart';
@@ -68,6 +69,14 @@ class RoutePages {
         page: () => const ShowVideoPage(
           filePath: '',
         ),
+        transition: Transition.fadeIn,
+        //binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.videoProcessing,
+        page: () => const VideoProcessingPage(
+            // filePath: '',
+            ),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),
       ),
