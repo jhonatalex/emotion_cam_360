@@ -29,7 +29,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   double _width = 15;
   bool _isFirst = true;
   int _selectedIndex = 2;
-  int _timeSelected = 5; // tiempo seleccionado por el usuario
+  int _timeSelected = 8; // tiempo seleccionado por el usuario
 
   @override
   void initState() {
@@ -149,6 +149,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           });
         }
         if (_start == -_timeSelected) {
+          //los 10 segundos de espera son +
+          //y de ahi en adelante son los de grabación
           print("es -timeselected");
           _onStop();
           timer.cancel();

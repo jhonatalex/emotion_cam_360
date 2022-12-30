@@ -1,13 +1,19 @@
 import 'dart:io';
 
-//import 'package:emotion_cam_360/ui/pages/video_processing/player.dart';
-//import 'package:emotion_cam_360/ui/pages/video_processing/util.dart';
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
+import 'package:ffmpeg_kit_flutter_video/statistics.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
+import '../../../repositories/abstractas/responsive.dart';
+import '../../routes/route_names.dart';
+import '../../widgets/background_gradient.dart';
 
 class VideoProcessingPage extends StatefulWidget {
   const VideoProcessingPage({super.key});
@@ -17,119 +23,186 @@ class VideoProcessingPage extends StatefulWidget {
 }
 
 class _VideoProcessingPageState extends State<VideoProcessingPage> {
-  VideoPlayerController? _videoPlayerController;
-  late var _refreshablePlayerDialogFactory;
+  late VideoPlayerController _videoPlayerController;
 
-  late String _selectedCodec;
+  String notNull(String? string, [String valuePrefix = ""]) {
+    return (string == null) ? "" : valuePrefix + string;
+  }
 
+  final String _selectedCodec = "mpeg4";
   late String extension;
-  String ffmpegCommand = "";
+  late Statistics? _statistics;
+  int completePercentage = 0;
+  late File fileEncoded;
+  double _opacity = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    FFmpegKitConfig.init().then((_) {
+      VideoUtil.prepareAssets();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void encodeVideo() {
-      FFmpegKit.executeAsync(
-              ffmpegCommand,
-              (session) async {
-                final state = FFmpegKitConfig.sessionStateToString(
-                    await session.getState());
-                final returnCode = await session.getReturnCode();
-                final failStackTrace = await session.getFailStackTrace();
-                final duration = await session.getDuration();
+    void consultar() {
+      // para consultas de comandos
+      const String asset1 = "logo-emotion.png";
+      const String asset2 = "sld_0.png";
+      const String videoCreated = "1.mp4";
+      const String ffmpegCommand =
+          "-i data/user/0/com.example.emotion_cam_360/cache/$videoCreated";
 
-                if (ReturnCode.isSuccess(returnCode)) {
-                  print(
-                      "Encode completed successfully in ${duration} milliseconds; playing video.");
-                  playVideo();
-                } else {
-                  print("Encode failed. Please check log for the details.");
-                  /*   print(
-                      "Encode failed with state ${state} and rc ${returnCode}.${notNull(failStackTrace, "\\n")}");
-                */
-                }
-              },
-              (log) => print(log.getMessage()),
-              (statistics) {
-                //this._statistics = statistics;
-                // this.updateProgressDialog();
-              })
-          .then((session) => print(
-              "Async FFmpeg process started with sessionId ${session.getSessionId()}."));
+      FFmpegKit.execute(ffmpegCommand).then((session) async {
+        final state =
+            FFmpegKitConfig.sessionStateToString(await session.getState());
+        final returnCode = await session.getReturnCode();
+        final failStackTrace = await session.getFailStackTrace();
+        final output = await session.getOutput();
+        print(chalk.white.bold(
+            "FFmpeg process exited with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+
+        print(chalk.white.bold(output));
+
+        appendOutput(output);
+        print(failStackTrace);
+        /* 
+        if (state == SessionState.failed || !ReturnCode.isSuccess(returnCode)) {
+          print(chalk.white.bold(
+              "$state Command failed. Please check output for the details."));
+        } */
+      });
+    }
+
+    void encodeVideo() {
+      VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
+        VideoUtil.assetPath(VideoUtil.INTRO).then((introPath) {
+          VideoUtil.assetPath(VideoUtil.ENDING).then((endingPath) {
+            VideoUtil.assetPath(VideoUtil.VIDEO360).then((video360Path) {
+              VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
+                getVideoFile().then((videoFile) {
+                  // IF VIDEO IS PLAYING STOP PLAYBACK
+
+                  deleteFile(videoFile);
+
+                  final ffmpegCommand = VideoUtil.styleVideoTwo(
+                    logoPath,
+                    introPath,
+                    endingPath,
+                    video360Path,
+                    music1Path,
+                    videoFile.path,
+                    // videoCodec,
+                    //this.getPixelFormat(),
+                    //this.getCustomOptions()
+                  );
+
+                  print(chalk.white.bold(
+                      "FFmpeg proceso iniciado con los argumentos: *** $ffmpegCommand'."));
+
+                  FFmpegKit.executeAsync(
+                          ffmpegCommand,
+                          (session) async {
+                            final state = FFmpegKitConfig.sessionStateToString(
+                                await session.getState());
+                            final returnCode = await session.getReturnCode();
+                            final failStackTrace =
+                                await session.getFailStackTrace();
+                            final duration = await session.getDuration();
+
+                            if (ReturnCode.isSuccess(returnCode)) {
+                              print(chalk.yellow.bold(
+                                  "Encode completed successfully in $duration milliseconds; playing video."));
+                              setState(() {
+                                fileEncoded.readAsBytes().then((valueBytes) =>
+                                    Get.offNamed(RouteNames.showVideo,
+                                        arguments: [
+                                          valueBytes,
+                                          fileEncoded.path
+                                        ]));
+                              });
+                            } else {
+                              print(chalk.white.bold(
+                                  "Encode failed. Please check log for the details."));
+                              print(chalk.white.bold(
+                                  "Encode failed with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                            }
+                          },
+                          (log) => print(log.getMessage()),
+                          (statistics) {
+                            this._statistics = statistics;
+                            this.updateProgressDialog();
+                          })
+                      .then((session) => print(chalk.white.bold(
+                          "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
+                });
+              });
+            });
+          });
+        });
+      });
     }
 
     return Scaffold(
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-            child: Container(
-                width: 200,
-                alignment: Alignment.center,
-                child: Text(_selectedCodec))),
-        Container(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: new InkWell(
-            onTap: () => encodeVideo(),
-            child: new Container(
-              width: 100,
-              height: 38,
-              child: new Center(
-                child: new Text(
-                  'ENCODE',
+      backgroundColor: AppColors.vulcan,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          AnimatedOpacity(
+              duration: Duration(seconds: 1),
+              opacity: _opacity,
+              child: BackgroundGradient(context)),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              dinamicText(),
+              ElevatedButton(
+                onPressed: () => encodeVideo(),
+                child: const Text(
+                  'Generar Video',
                 ),
               ),
+              FutureBuilder(
+                  future: getVideoFile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      fileEncoded = snapshot.data as File;
+                      // print(chalk.white.bold(file));
+                      return ElevatedButton(
+                          child: const Text("Ver Video"),
+                          onPressed: () {
+                            fileEncoded.readAsBytes().then((valueBytes) =>
+                                Get.offNamed(RouteNames.showVideo,
+                                    arguments: [valueBytes, fileEncoded.path]));
+                          });
+                    } else {
+                      return Container();
+                    }
+                  }),
+              // NECESARIO PARA LAS PRUEBAS**********************
+              //necesarioParaPruebas(consultar),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  necesarioParaPruebas(void consultar()) {
+    return Expanded(
+      child: ListView(
+        children: [
+          ElevatedButton(
+            onPressed: () => consultar(),
+            child: const Text(
+              'Consultar comando',
             ),
           ),
-        ),
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.all(20.0),
-            padding: EdgeInsets.all(4.0),
-            child: FutureBuilder(
-              future: getVideoFile(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  File file = snapshot.data as File;
-                  return Container();
-                  /*  alignment: Alignment(0.0, 0.0),
-                      child:
-                          EmbeddedPlayer("${file.path.toString()}", videoTab)); */
-                } else {
-                  return Container(
-                    alignment: Alignment(0.0, 0.0),
-                  );
-                }
-              },
-            ),
-          ),
-        ),
-      ],
-    ));
-  }
-
-  Future<void> playVideo() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (_videoPlayerController != null) {
-        await _videoPlayerController!.initialize();
-        await _videoPlayerController!.play();
-      }
-      _refreshablePlayerDialogFactory.refresh();
-    }
-  }
-
-  Future<void> pause() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (_videoPlayerController != null) {
-        await _videoPlayerController!.pause();
-      }
-      _refreshablePlayerDialogFactory.refresh();
-    }
-  }
-
-  void init(refreshablePlayerDialogFactory) {
-    _refreshablePlayerDialogFactory = refreshablePlayerDialogFactory;
-
-    _selectedCodec = "mpeg4";
+          SingleChildScrollView(reverse: true, child: Text(getOutputText())),
+        ],
+      ),
+    );
   }
 
   Future<File> getVideoFile() async {
@@ -156,8 +229,65 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
         break;
     }
 
-    final String video = "video." + extension;
+    final String video = "video.$extension";
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    return new File("${documentsDirectory.path}/$video");
+    return File("${documentsDirectory.path}/$video");
+  }
+
+  void appendOutput(String? logMessage) {
+    if (logMessage != null) {
+      _outputText += logMessage;
+    }
+    setState(() {});
+  }
+
+  void updateProgressDialog() {
+    var statistics = this._statistics;
+    if (statistics == null || statistics.getTime() < 0) {
+      return;
+    }
+
+    int timeInMilliseconds = statistics.getTime();
+    int totalVideoDuration = 9000;
+
+    completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
+
+    if (completePercentage == 100) {
+      print(chalk.white.bold("COMPLETADO, VER VIDEO"));
+    } else {
+      setState(() {
+        completePercentage <= 100
+            ? _opacity = completePercentage / 100
+            : _opacity = 1;
+        print(chalk.green.bold(("Encoding video % $completePercentage")));
+      });
+    }
+  }
+
+  String _outputText = "";
+  String getOutputText() => _outputText;
+
+  dinamicText() {
+    if (completePercentage <= 100) {
+      return Column(
+        children: [
+          Text(
+            " Encoding video % $completePercentage",
+            style: TextStyle(fontSize: sclW(context) * 3),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          CircularProgressIndicator(),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text("Completando codificación de video...\n\n" +
+              " ...aplicando los ultimos detalles"),
+        ],
+      );
+    }
   }
 }
