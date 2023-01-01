@@ -76,6 +76,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
           }
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _videoPlayerController.value.isPlaying

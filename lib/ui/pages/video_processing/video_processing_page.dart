@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
@@ -10,7 +9,6 @@ import 'package:ffmpeg_kit_flutter_video/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/background_gradient.dart';
@@ -23,8 +21,6 @@ class VideoProcessingPage extends StatefulWidget {
 }
 
 class _VideoProcessingPageState extends State<VideoProcessingPage> {
-  late VideoPlayerController _videoPlayerController;
-
   String notNull(String? string, [String valuePrefix = ""]) {
     return (string == null) ? "" : valuePrefix + string;
   }
@@ -35,6 +31,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   int completePercentage = 0;
   late File fileEncoded;
   double _opacity = 0;
+  bool isfirst = true;
 
   @override
   void initState() {
@@ -84,9 +81,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 getVideoFile().then((videoFile) {
                   // IF VIDEO IS PLAYING STOP PLAYBACK
 
-                  deleteFile(videoFile);
-
-                  final ffmpegCommand = VideoUtil.styleVideoTwo(
+                  final ffmpegCommand = VideoUtil.styleVideoOne(
                     logoPath,
                     introPath,
                     endingPath,
@@ -97,12 +92,22 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                     //this.getPixelFormat(),
                     //this.getCustomOptions()
                   );
+                  final musica = VideoUtil.musica(
+                    logoPath,
+                    music1Path,
+                    videoFile.path,
+                  );
+
+                  final watermark = VideoUtil.watermark(
+                    logoPath,
+                    videoFile.path,
+                  );
 
                   print(chalk.white.bold(
                       "FFmpeg proceso iniciado con los argumentos: *** $ffmpegCommand'."));
 
                   FFmpegKit.executeAsync(
-                          ffmpegCommand,
+                          musica,
                           (session) async {
                             final state = FFmpegKitConfig.sessionStateToString(
                                 await session.getState());
@@ -113,26 +118,96 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
                             if (ReturnCode.isSuccess(returnCode)) {
                               print(chalk.yellow.bold(
-                                  "Encode completed successfully in $duration milliseconds; playing video."));
-                              setState(() {
-                                fileEncoded.readAsBytes().then((valueBytes) =>
-                                    Get.offNamed(RouteNames.showVideo,
-                                        arguments: [
-                                          valueBytes,
-                                          fileEncoded.path
-                                        ]));
-                              });
+                                  "Aplicación de efectos Completa $duration milliseconds. ahora agregar Música"));
+                              isfirst = true;
+                              FFmpegKit.executeAsync(
+                                      musica,
+                                      (session) async {
+                                        final state = FFmpegKitConfig
+                                            .sessionStateToString(
+                                                await session.getState());
+                                        final returnCode =
+                                            await session.getReturnCode();
+                                        final failStackTrace =
+                                            await session.getFailStackTrace();
+                                        final duration =
+                                            await session.getDuration();
+
+                                        if (ReturnCode.isSuccess(returnCode)) {
+                                          print(chalk.yellow.bold(
+                                              "musica Completo $duration milliseconds; agregar watermark."));
+                                          FFmpegKit.executeAsync(
+                                                  watermark,
+                                                  (session) async {
+                                                    final state = FFmpegKitConfig
+                                                        .sessionStateToString(
+                                                            await session
+                                                                .getState());
+                                                    final returnCode =
+                                                        await session
+                                                            .getReturnCode();
+                                                    final failStackTrace =
+                                                        await session
+                                                            .getFailStackTrace();
+                                                    final duration =
+                                                        await session
+                                                            .getDuration();
+                                                    isfirst = false;
+                                                    if (ReturnCode.isSuccess(
+                                                        returnCode)) {
+                                                      print(chalk.yellow.bold(
+                                                          "Marca de agua Completo $duration milliseconds; show video."));
+                                                      fileEncoded
+                                                          .readAsBytes()
+                                                          .then((valueBytes) =>
+                                                              Get.offNamed(
+                                                                  RouteNames
+                                                                      .showVideo,
+                                                                  arguments: [
+                                                                    valueBytes,
+                                                                    fileEncoded
+                                                                        .path
+                                                                  ]));
+                                                    } else {
+                                                      print(chalk.white.bold(
+                                                          "musica fallida. Please check log for the details."));
+                                                      print(chalk.white.bold(
+                                                          "musica with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                                                    }
+                                                  },
+                                                  (log) => print(log.getMessage()),
+                                                  (statistics) {
+                                                    _statistics = statistics;
+                                                    updateProgressDialog();
+                                                  })
+                                              .then((session) => print(
+                                                  chalk.white.bold(
+                                                      "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
+                                        } else {
+                                          print(chalk.white.bold(
+                                              "musica fallida. Please check log for the details."));
+                                          print(chalk.white.bold(
+                                              "musica with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                                        }
+                                      },
+                                      (log) => print(log.getMessage()),
+                                      (statistics) {
+                                        _statistics = statistics;
+                                        updateProgressDialog();
+                                      })
+                                  .then((session) => print(chalk.white.bold(
+                                      "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
                             } else {
                               print(chalk.white.bold(
-                                  "Encode failed. Please check log for the details."));
+                                  "aplicación de efectos fallida. Please check log for the details."));
                               print(chalk.white.bold(
-                                  "Encode failed with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                                  "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
                             }
                           },
                           (log) => print(log.getMessage()),
                           (statistics) {
-                            this._statistics = statistics;
-                            this.updateProgressDialog();
+                            _statistics = statistics;
+                            updateProgressDialog();
                           })
                       .then((session) => print(chalk.white.bold(
                           "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
@@ -242,25 +317,22 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   void updateProgressDialog() {
-    var statistics = this._statistics;
+    var statistics = _statistics;
     if (statistics == null || statistics.getTime() < 0) {
       return;
     }
 
     int timeInMilliseconds = statistics.getTime();
-    int totalVideoDuration = 9000;
+    int totalVideoDuration = 25000;
 
     completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
 
-    if (completePercentage == 100) {
-      print(chalk.white.bold("COMPLETADO, VER VIDEO"));
-    } else {
-      setState(() {
-        completePercentage <= 100
-            ? _opacity = completePercentage / 100
-            : _opacity = 1;
-        print(chalk.green.bold(("Encoding video % $completePercentage")));
-      });
+    if (completePercentage <= 100) {
+      if (isfirst = true) {
+        setState(() {
+          _opacity = completePercentage / 100;
+        });
+      }
     }
   }
 
@@ -272,7 +344,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
       return Column(
         children: [
           Text(
-            " Encoding video % $completePercentage",
+            " Procesando video $completePercentage % ",
             style: TextStyle(fontSize: sclW(context) * 3),
           ),
           SizedBox(
@@ -284,8 +356,11 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     } else {
       return Column(
         children: [
-          Text("Completando codificación de video...\n\n" +
-              " ...aplicando los ultimos detalles"),
+          Text(
+              "Estamos trabajando en ello...\n\n" +
+                  "aplicando los ultimos detalles,\n\n danos un minuto.",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: sclW(context) * 3)),
         ],
       );
     }
