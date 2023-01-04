@@ -106,8 +106,9 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     setState(() => _isRecording = false);
 
     //READ BYTES AND SEND DATA WITH GETX
-    file!.readAsBytes().then((valueBytes) =>
-        Get.offNamed(RouteNames.showVideo, arguments: [valueBytes, file.path]));
+    file!.readAsBytes().then((valueBytes) => Get.offNamed(
+        RouteNames.videoProcessing,
+        arguments: [valueBytes, file.path]));
 
     //filePath: file!.path
 

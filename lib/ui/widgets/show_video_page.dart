@@ -55,7 +55,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
               //print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
               Get.offNamed(RouteNames.uploadVideo,
-                  arguments: [file[0], widget.filePath]);
+                  arguments: [file[0], file[1]]);
             },
           )
         ],

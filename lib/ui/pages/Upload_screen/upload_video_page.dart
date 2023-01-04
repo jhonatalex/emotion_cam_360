@@ -51,6 +51,9 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     var videoByte = file[0];
     var videoPath = file[1];
 
+    print(chalk.redBright('UPLOAD $videoByte '));
+    print(chalk.redBright('UPLOAD $videoPath'));
+
     final isSaving = controller.isSaving.value;
 
     //_txt = " Su video ha sido cargado completamente.\n\n Redirigiendo...";

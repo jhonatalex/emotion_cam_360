@@ -93,11 +93,11 @@ class VideoUtil {
 
   static watermark(
     String logoPath,
-    String videoExitFilePath,
+    String videoFilePath,
   ) {
     return "-y -i $video2  " +
         "-i $logoPath -filter_complex overlay=610:1170 " +
-        "$videoExitFilePath";
+        videoFilePath;
   }
 
   static musica(
@@ -105,11 +105,11 @@ class VideoUtil {
     String music1Path,
     String videoFilePath,
   ) {
-    return "-y -i $video1" +
+    return "-y -i $video1 " +
         "-ss 0 -t 26 -i $music1Path " +
         "-vf fade=t=in:st=0:d=2,fade=t=out:st=25:d=1 " +
-        "-vf fade=t=in:st=0:d=2,fade=t=out:st=25:d=1 " +
-        "$video2";
+        "-af afade=t=in:st=0:d=2,afade=t=out:st=25:d=1 " +
+        video2;
   }
 
   static styleVideoOne(
@@ -153,7 +153,7 @@ class VideoUtil {
         "-c:v " +
         "mpeg4" + // videoCodec +
         " -r 30 " +
-        videoFilePath; //video1;
+        video1;
   }
 }
 

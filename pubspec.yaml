@@ -28,7 +28,7 @@ dependencies:
 
 #Video
   ffmpeg_kit_flutter_video: 5.1.0-LTS
-  path: ^1.8.2
+  path: ^1.8.1
   fluttertoast: ^8.0.9
 
 

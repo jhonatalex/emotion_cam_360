@@ -43,6 +43,11 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
   @override
   Widget build(BuildContext context) {
+    var file = Get.arguments;
+
+    print(chalk.brightGreen(file[1]));
+    print(chalk.brightGreen(file[0]));
+
     void consultar() {
       // para consultas de comandos
       const String asset1 = "logo-emotion.png";
@@ -85,7 +90,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                     logoPath,
                     introPath,
                     endingPath,
-                    video360Path,
+                    file[1],
                     music1Path,
                     videoFile.path,
                     // videoCodec,
@@ -121,7 +126,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                                   "Aplicación de efectos Completa $duration milliseconds. ahora agregar Música"));
                               isfirst = true;
                               FFmpegKit.executeAsync(
-                                      ffmpegCommand,
+                                      musica,
                                       (session) async {
                                         final state = FFmpegKitConfig
                                             .sessionStateToString(
@@ -159,15 +164,21 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                                                           "Marca de agua Completo $duration milliseconds; show video."));
                                                       fileEncoded
                                                           .readAsBytes()
-                                                          .then((valueBytes) =>
-                                                              Get.offNamed(
-                                                                  RouteNames
-                                                                      .showVideo,
-                                                                  arguments: [
-                                                                    valueBytes,
-                                                                    fileEncoded
-                                                                        .path
-                                                                  ]));
+                                                          .then((valueBytes) {
+                                                        print(
+                                                            chalk.yellowBright(
+                                                                valueBytes));
+                                                        print(chalk.yellow(
+                                                            fileEncoded));
+
+                                                        Get.offNamed(
+                                                            RouteNames
+                                                                .showVideo,
+                                                            arguments: [
+                                                              valueBytes,
+                                                              fileEncoded.path
+                                                            ]);
+                                                      });
                                                     } else {
                                                       print(chalk.white.bold(
                                                           "musica fallida. Please check log for the details."));
