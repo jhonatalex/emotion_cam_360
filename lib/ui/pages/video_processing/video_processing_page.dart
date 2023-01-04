@@ -121,7 +121,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                                   "Aplicación de efectos Completa $duration milliseconds. ahora agregar Música"));
                               isfirst = true;
                               FFmpegKit.executeAsync(
-                                      musica,
+                                      ffmpegCommand,
                                       (session) async {
                                         final state = FFmpegKitConfig
                                             .sessionStateToString(

@@ -128,15 +128,18 @@ class VideoUtil {
     return "-y -i $video360Path " +
         "-ss 2 -t 5 -i $video360Path " +
         "-i $endingPath " +
+        // "-i $logoPath " +
         "-filter_complex " +
         "\"[0:v]setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1,split=2[videocompleto1][videocompleto2];" +
         "[1:v]setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1[videorecorte1];" +
         "[2:v]setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1,split=2[creditos1][creditos2];" +
+        // "[3:v]setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1[watermark];" +
         "[videocompleto1]$pad,trim=start=0:end=6,setpts=PTS-STARTPTS[part1];" +
         "[videocompleto2]$pad,trim=start=2:end=6,setpts=PTS-STARTPTS,reverse[part2];" +
         "[videorecorte1]$pad,setpts=2*PTS[part3];" +
         "[creditos1]$pad,trim=duration=3,select=lte(n\\,90)[part4];" +
         "[creditos2]$pad,trim=duration=3,select=lte(n\\,90),reverse[part5];" +
+        //"[watermark]$pad,trim=duration=3,select=lte(n\\,90),overlay=610:1170[part5];" +
         //"[stream3out2]pad=width=720:height=1280:x=(720-iw)/2:y=(1280-ih)/2:color=#00000000,trim=duration=2,select=lte(n\\,90),reverse[part6];" +
         //"[stream2starting][stream1ending]blend=all_expr='if(gte(X,(W/2)*T/1)*lte(X,W-(W/2)*T/1),B,A)':shortest=1[stream2blended];" +
         //"[stream3starting][stream2ending]blend=all_expr='if(gte(X,(W/2)*T/1)*lte(X,W-(W/2)*T/1),B,A)':shortest=1[stream3blended];" +
@@ -146,11 +149,11 @@ class VideoUtil {
         "[video]\"" +
         " -map [video] -vsync 2 -async 1 " +
         // customOptions +
-
+//-c:v libx264 -crf 19 -strict experimental
         "-c:v " +
         "mpeg4" + // videoCodec +
         " -r 30 " +
-        video1;
+        videoFilePath; //video1;
   }
 }
 
