@@ -19,6 +19,7 @@ import 'package:uuid/uuid.dart';
 import '../../../data/firebase_provider-db.dart';
 import '../../../entities/video.dart';
 import '../../routes/route_names.dart';
+import '../../widgets/background_gradient.dart';
 
 class UploadVideoPage extends StatefulWidget {
   @override
@@ -175,21 +176,10 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
 
     return Scaffold(
         backgroundColor: AppColors.vulcan,
-        body: Container(
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    tileMode: TileMode.clamp,
-                    stops: [
-                  0.0,
-                  1
-                ],
-                    colors: [
-                  AppColors.violet,
-                  AppColors.royalBlue,
-                ])),
-            child: Column(
+        body: Stack(
+          children: [
+            BackgroundGradient(context),
+            ListView(
               children: [
                 Center(
                     child: Padding(
@@ -200,8 +190,8 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                   child: Text(
                     _txt,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
+                    style: TextStyle(
+                      fontSize: sclH(context) * 3,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -210,6 +200,8 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                 FloatingActionButton(
                     child: Icon(Icons.upload_file), onPressed: () {})
               ],
-            )));
+            ),
+          ],
+        ));
   }
 }

@@ -72,7 +72,7 @@ class MyDrawer extends StatelessWidget {
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Video Recording',
+                    'Video Processing',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   onTap: () {

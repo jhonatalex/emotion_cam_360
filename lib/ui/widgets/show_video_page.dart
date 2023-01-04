@@ -27,7 +27,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
   Future _initVideoPlayer(file) async {
     _videoPlayerController = VideoPlayerController.file(File(file));
     await _videoPlayerController.initialize();
-    await _videoPlayerController.setLooping(true);
+    await _videoPlayerController.setLooping(false);
     await _videoPlayerController.play();
   }
 
@@ -43,6 +43,11 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
         title: const Text('Vista Previa'),
         elevation: 0,
         backgroundColor: Colors.black26,
+        leading: IconButton(
+            onPressed: () {
+              Get.offNamed(RouteNames.videoProcessing);
+            },
+            icon: Icon(Icons.arrow_back)),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
@@ -62,9 +67,27 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
           if (state.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return VideoPlayer(_videoPlayerController);
+            return Center(
+              child: AspectRatio(
+                aspectRatio: _videoPlayerController.value.aspectRatio,
+                child: VideoPlayer(_videoPlayerController),
+              ),
+            );
           }
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _videoPlayerController.value.isPlaying
+              ? _videoPlayerController.pause()
+              : _videoPlayerController.play();
+        },
+        child: Icon(
+          _videoPlayerController.value.isPlaying
+              ? Icons.pause
+              : Icons.play_arrow,
+        ),
       ),
     );
   }
