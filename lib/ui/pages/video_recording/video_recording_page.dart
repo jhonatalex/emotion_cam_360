@@ -202,7 +202,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   Positioned buttonRec() {
     return Positioned(
-      top: sclH(context) * 5,
+      top: sclH(context) * 8,
       right: sclW(context) * 1.5,
       child: AnimatedOpacity(
         opacity: 1 - _opacityRec,

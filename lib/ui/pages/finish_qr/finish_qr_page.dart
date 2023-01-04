@@ -58,6 +58,9 @@ class _FinishQrPageState extends State<FinishQrPage> {
                 AnimatedContainer(
                   duration: Duration(milliseconds: 2000),
                   curve: Curves.easeInToLinear,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
                   child: QrImage(
                     data: urlVideo,
                     backgroundColor: Colors.white,
