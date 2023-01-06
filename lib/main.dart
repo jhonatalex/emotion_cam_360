@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
 
         buttonColor: Colors.red,
-        colorScheme: ColorScheme.dark(primary: AppColors.violet),
+        colorScheme: const ColorScheme.dark(primary: AppColors.violet),
         primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
 
         checkboxTheme: CheckboxThemeData(

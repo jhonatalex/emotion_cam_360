@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:chalkdart/chalk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emotion_cam_360/controllers/auth_controller.dart';
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -17,11 +20,31 @@ class ShowVideoPage extends StatefulWidget {
 
 class _ShowVideoPageState extends State<ShowVideoPage> {
   late VideoPlayerController _videoPlayerController;
+  late final eventoActual;
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMyEventClass();
+  }
+
+  Future<EventEntity?> getMyEvent() async {
+    final snapshot = await firestore
+        .doc('user_${Get.find<AuthController>().authUser.value!.uid}/Barinas')
+        .get();
+    if (snapshot.exists) return EventEntity.fromFirebaseMap(snapshot.data()!);
+    return null;
+  }
+
+  Future<void> getMyEventClass() async {
+    eventoActual = await getMyEvent();
   }
 
   Future _initVideoPlayer(file) async {
@@ -55,7 +78,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
               //print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
               Get.offNamed(RouteNames.uploadVideo,
-                  arguments: [file[0], file[1]]);
+                  arguments: [file[0], file[1], eventoActual]);
             },
           )
         ],

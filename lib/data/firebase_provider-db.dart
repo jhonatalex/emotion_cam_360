@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../entities/user.dart';
+import 'package:path/path.dart' as path;
 
 class FirebaseProvider extends GetxController {
   Rx<UploadTask?> uploadTask = Rx(null);
@@ -81,5 +84,47 @@ class FirebaseProvider extends GetxController {
     uploadTask.value = null;
     return urlDownload;
     //final String url = downloadUrl.toString();
+  }
+
+  /* Future<void> saveMyEventProvider(
+      EventEntity newEvent, File? imageLogo) async {
+    final ref = firestore.doc('evento/${currentUser.uid}');
+
+    if (imageLogo != null) {
+      final imagePath =
+          '${currentUser.uid}/videos360/${path.basename(imageLogo.path)}';
+
+      final storageRef = storage.ref(imagePath);
+      await storageRef.putFile(imageLogo);
+      final url = await storageRef.getDownloadURL();
+
+      print(chalk.brightGreen('LOG AQUI $url'));
+
+      await ref.set(
+          newEvent.toFirebaseMap(overlay: url), SetOptions(merge: true));
+    } else {
+      await ref.set(newEvent.toFirebaseMap(), SetOptions(merge: true));
+    }
+  } */
+
+  Future<void> saveMyEventProvider(
+      EventEntity newEvent, File? imageLogo) async {
+    final ref = firestore.doc('user_${currentUser.uid}/${newEvent.id}');
+
+    if (imageLogo != null) {
+      final imagePath =
+          '${currentUser.uid}/videos360/${path.basename(imageLogo.path)}';
+
+      final storageRef = storage.ref(imagePath);
+      await storageRef.putFile(imageLogo);
+      final url = await storageRef.getDownloadURL();
+
+      print(chalk.brightGreen('LOG AQUI $url'));
+
+      await ref.set(
+          newEvent.toFirebaseMap(overlay: url), SetOptions(merge: true));
+    } else {
+      await ref.set(newEvent.toFirebaseMap(), SetOptions(merge: true));
+    }
   }
 }
