@@ -38,41 +38,12 @@ class MyDrawer extends StatelessWidget {
                 ListTile(
                   iconColor: Colors.white,
                   textColor: Colors.white,
-                  //  tileColor: Colors.black38,
                   leading: Icon(
-                    Icons.home,
+                    Icons.person,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Home',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-                  // onTap: () {},
-                ),
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  leading: Icon(
-                    Icons.video_camera_back,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    'Finish Qr',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-                  onTap: () {
-                    Get.offNamed(RouteNames.finishQr);
-                  },
-                ),
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  leading: Icon(
-                    Icons.video_camera_back,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    'Video Recording',
+                    'Iniciar sesión',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   onTap: () {

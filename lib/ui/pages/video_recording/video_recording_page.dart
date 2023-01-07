@@ -29,7 +29,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   double _width = 15;
   bool _isFirst = true;
   int _selectedIndex = 2;
-  int _timeSelected = 5; // tiempo seleccionado por el usuario
+  int _timeSelected = 10; // tiempo seleccionado por el usuario
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     //hacer dispose con el codigo anterior
     //me costo resolver ese problema
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.medium);
+    _controller = CameraController(camera, ResolutionPreset.high);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
@@ -94,7 +94,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
     return Center(
       child: AspectRatio(
-        aspectRatio: 16 / 22,
+        aspectRatio: 9 / 16, // 16 / 22,
         child: CameraPreview(_controller!),
       ),
     );
@@ -106,8 +106,9 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     setState(() => _isRecording = false);
 
     //READ BYTES AND SEND DATA WITH GETX
-    file!.readAsBytes().then((valueBytes) =>
-        Get.offNamed(RouteNames.showVideo, arguments: [valueBytes, file.path]));
+    file!.readAsBytes().then((valueBytes) => Get.offNamed(
+        RouteNames.videoProcessing,
+        arguments: [valueBytes, file.path]));
 
     //filePath: file!.path
 
@@ -149,6 +150,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           });
         }
         if (_start == -_timeSelected) {
+          //los 10 segundos de espera son +
+          //y de ahi en adelante son los de grabación
           print("es -timeselected");
           _onStop();
           timer.cancel();

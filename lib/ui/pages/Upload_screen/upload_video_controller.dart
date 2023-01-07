@@ -9,17 +9,18 @@ import '../../routes/route_names.dart';
 class UploadVideoController extends GetxController {
   final _videoRepository = Get.find<VideoRepository>();
 
+  //OBSERVABLES
   //final RxBool _loading = RxBool(true);
   Rx<bool> isSaving = Rx(false);
   Rx<VideoEntity?> video = Rx(null);
-  Rx<String> urlVideo = Rx('');
+  Rx<String> urlVideoObserver = Rx('');
 
   @override
   void onInit() {
     super.onInit();
   }
 
-  saveMyVideoController(videoByte, videoPath) async {
+  Future<String> saveMyVideoController(videoByte, videoPath) async {
     isSaving.value = true;
 
     print(chalk.brightGreen('ENTRO AL CONTROLLER'));
@@ -43,17 +44,19 @@ class UploadVideoController extends GetxController {
     var urlOfVideo =
         await _videoRepository.saveMyVideoRepository(newVideo, videoByte);
 
-    urlVideo.value = urlOfVideo;
+    print(chalk.brightGreen('LOG AQUI $urlOfVideo'));
+
+    //urlVideoObserver.value = urlOfVideo;
 
     isSaving.value = false;
+
+    return urlOfVideo;
   }
 
 /*
     saveEventController(videoByte, videoPath) {
-
     isSaving.value = true;
-    
-      
+  
       const uid = '0001'; //Get.find<AuthController>().authUser.value!.uid;
       final name = "Boda Mesi"; //TOMAR DEL CONTROLER O SHARED PREFERENCES
       final intro = "ruta intro/video.pm4";
@@ -69,10 +72,8 @@ class UploadVideoController extends GetxController {
       //await Future.delayed(const Duration(seconds: 3));
       await _userRepository.saveMyUser(newUser, pickedImage.value);
       
-    
+
     isSaving.value = false;
-
-
 
   }
 */

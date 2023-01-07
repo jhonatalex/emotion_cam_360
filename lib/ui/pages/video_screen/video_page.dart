@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
-import '../../widgets/countdow.dart';
+import '../../widgets/button_play.dart';
 import '../../widgets/show_video_page.dart';
 
 class VideoPage extends StatefulWidget {
@@ -152,17 +152,7 @@ class _VideoPageState extends State<VideoPage> {
       case 2:
         return Stack(children: [
           _buildCamera(),
-          /*  Center(
-            child: Container(
-              height: sclH(context) * 60,
-              width: sclW(context) * 80,
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  border: Border.all(width: 5, color: Colors.white),
-                  borderRadius: BorderRadius.circular(5)),
-            ),
-          ), */
-          const CountDown(),
+          const ButtonPlay(),
         ]);
       case 3:
         return const EfectoPage();

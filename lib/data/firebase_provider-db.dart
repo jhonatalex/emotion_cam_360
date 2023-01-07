@@ -5,13 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-// ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as path;
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../entities/user.dart';
 
-class FirebaseProvider {
+class FirebaseProvider extends GetxController {
+  Rx<UploadTask?> uploadTask = Rx(null);
+
   User get currentUser {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) throw Exception('Not authenticated exception');
@@ -31,10 +32,9 @@ class FirebaseProvider {
   //GUARDAR EN BD DE FIRESTORE
   Future<String> saveMyVideoProvider(
       VideoEntity videoEntity, Uint8List? video) async {
-    // if (kDebugMode) {
     print(chalk.brightGreen('ENTRO PROVIDER'));
     print(chalk.brightGreen('LOG AQUI $videoEntity'));
-    // }
+
 /* 
     final ref = firestore.doc('user/${currentUser.uid}');
 
@@ -62,14 +62,24 @@ class FirebaseProvider {
     final String storageId = ("VID_360_" + millSeconds.toString());
     final String today = ('$month-$date');
 
+    //var ref = storage.ref().child("videos").child(today).child(storageId);
+    //await ref.putData(video!);
+    //var url = await ref.getDownloadURL();
+
+    //UploadTask? uploadTask;
+    //String url;
     var ref = storage.ref().child("videos").child(today).child(storageId);
-    await ref.putData(video!);
-    var url = await ref.getDownloadURL();
+    uploadTask.value = ref.putData(video!);
 
-    print(chalk.brightGreen('LOG AQUI $url'));
+    final snapshot =
+        await uploadTask.value!.whenComplete(() {}).catchError((onError) {
+      print(onError);
+    });
 
-    return url;
+    final urlDownload = await snapshot.ref.getDownloadURL();
 
+    uploadTask.value = null;
+    return urlDownload;
     //final String url = downloadUrl.toString();
   }
 }

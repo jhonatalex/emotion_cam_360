@@ -1,13 +1,17 @@
 import 'dart:io';
-
-//import 'package:emotion_cam_360/ui/pages/video_processing/player.dart';
-//import 'package:emotion_cam_360/ui/pages/video_processing/util.dart';
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
+import 'package:ffmpeg_kit_flutter_video/statistics.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
+import '../../../repositories/abstractas/responsive.dart';
+import '../../routes/route_names.dart';
+import '../../widgets/background_gradient.dart';
 
 class VideoProcessingPage extends StatefulWidget {
   const VideoProcessingPage({super.key});
@@ -17,147 +21,237 @@ class VideoProcessingPage extends StatefulWidget {
 }
 
 class _VideoProcessingPageState extends State<VideoProcessingPage> {
-  VideoPlayerController? _videoPlayerController;
-  late var _refreshablePlayerDialogFactory;
+  String notNull(String? string, [String valuePrefix = ""]) {
+    return (string == null) ? "" : valuePrefix + string;
+  }
 
-  late String _selectedCodec;
-
+  final String _selectedCodec = "mpeg4";
   late String extension;
-  String ffmpegCommand = "";
+  late Statistics? _statistics;
+  int completePercentage = 0;
+  late File fileEncoded;
+  double _opacity = 0;
+  bool isfirst = true;
+
+  @override
+  void initState() {
+    super.initState();
+    FFmpegKitConfig.init().then((_) {
+      VideoUtil.prepareAssets();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void encodeVideo() {
-      FFmpegKit.executeAsync(
-              ffmpegCommand,
-              (session) async {
-                final state = FFmpegKitConfig.sessionStateToString(
-                    await session.getState());
-                final returnCode = await session.getReturnCode();
-                final failStackTrace = await session.getFailStackTrace();
-                final duration = await session.getDuration();
+    var file = Get.arguments;
 
-                if (ReturnCode.isSuccess(returnCode)) {
-                  print(
-                      "Encode completed successfully in ${duration} milliseconds; playing video.");
-                  playVideo();
-                } else {
-                  print("Encode failed. Please check log for the details.");
-                  /*   print(
-                      "Encode failed with state ${state} and rc ${returnCode}.${notNull(failStackTrace, "\\n")}");
-                */
-                }
-              },
-              (log) => print(log.getMessage()),
-              (statistics) {
-                //this._statistics = statistics;
-                // this.updateProgressDialog();
-              })
-          .then((session) => print(
-              "Async FFmpeg process started with sessionId ${session.getSessionId()}."));
+    // print(chalk.brightGreen(file[1]));
+    // print(chalk.brightGreen(file[0]));
+
+    void encodeVideo() {
+      VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
+        VideoUtil.assetPath(VideoUtil.ENDING).then((endingPath) {
+          VideoUtil.assetPath(VideoUtil.VIDEO360).then((video360Path) {
+            VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
+              getVideoFile().then((videoFile) {
+                // IF VIDEO IS PLAYING STOP PLAYBACK
+
+                final styleVideoOne = VideoUtil.styleVideoOne(
+                  logoPath,
+                  endingPath,
+                  video360Path, //file[1],
+                  music1Path,
+                  videoFile.path,
+                  // videoCodec,
+                  //this.getPixelFormat(),
+                  //this.getCustomOptions()
+                );
+                //crear video creditos esta funcion deberia estar
+                // despues que el cliente cargue el logo para
+                //que el video de los creditos ya esté preparado
+
+                final creditos = VideoUtil.creditosvideo(
+                  logoPath,
+                  endingPath,
+                  videoFile.path,
+                );
+                FFmpegKit.executeAsync(
+                  creditos,
+                  (session) async {
+                    final state = FFmpegKitConfig.sessionStateToString(
+                        await session.getState());
+                    final returnCode = await session.getReturnCode();
+                    final failStackTrace = await session.getFailStackTrace();
+                    final duration = await session.getDuration();
+
+                    if (ReturnCode.isSuccess(returnCode)) {
+                      print(chalk.yellow.bold(
+                          "Creación de video creditos Completa $duration milliseconds."));
+
+                      //Esta produce el video con slowmotion
+                      //reverse y el video de creditos al final
+                      FFmpegKit.executeAsync(
+                              styleVideoOne,
+                              (session) async {
+                                final state =
+                                    FFmpegKitConfig.sessionStateToString(
+                                        await session.getState());
+                                final returnCode =
+                                    await session.getReturnCode();
+                                final failStackTrace =
+                                    await session.getFailStackTrace();
+                                final duration = await session.getDuration();
+
+                                if (ReturnCode.isSuccess(returnCode)) {
+                                  print(chalk.yellow.bold(
+                                      "Aplicación de efectos Completa $duration milliseconds. now Show video"));
+                                  //isfirst = true;
+                                  fileEncoded.readAsBytes().then((valueBytes) {
+                                    print(chalk.yellowBright(valueBytes));
+                                    print(chalk.yellow(fileEncoded));
+
+                                    Get.offNamed(RouteNames.showVideo,
+                                        arguments: [
+                                          valueBytes,
+                                          fileEncoded.path
+                                        ]);
+                                  });
+                                } else {
+                                  print(chalk.white.bold(
+                                      "aplicación de efectos fallida. Please check log for the details."));
+                                  print(chalk.white.bold(
+                                      "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                                }
+                              },
+                              (log) => print(log.getMessage()),
+                              (statistics) {
+                                _statistics = statistics;
+                                updateProgressDialog();
+                              })
+                          .then((session) => print(chalk.white.bold(
+                              "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
+                    } else {
+                      print(chalk.white.bold(
+                          "creación de video de creditos. Please check log for the details."));
+                      print(chalk.white.bold(
+                          "creación de video de creditos. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                    }
+                  },
+                  (log) => print(log.getMessage()),
+                ).then((session) => print(chalk.white.bold(
+                    "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
+              });
+            });
+          });
+        });
+      });
     }
 
     return Scaffold(
-        body: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-            child: Container(
-                width: 200,
-                alignment: Alignment.center,
-                child: Text(_selectedCodec))),
-        Container(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: new InkWell(
-            onTap: () => encodeVideo(),
-            child: new Container(
-              width: 100,
-              height: 38,
-              child: new Center(
-                child: new Text(
-                  'ENCODE',
+      backgroundColor: AppColors.vulcan,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          AnimatedOpacity(
+              duration: Duration(seconds: 1),
+              opacity: _opacity,
+              child: BackgroundGradient(context)),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              dinamicText(),
+              ElevatedButton(
+                onPressed: () => encodeVideo(),
+                child: const Text(
+                  'Generar Video',
                 ),
               ),
-            ),
+              FutureBuilder(
+                  future: getVideoFile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      fileEncoded = snapshot.data as File;
+                      // print(chalk.white.bold(file));
+                      return ElevatedButton(
+                          child: const Text("Ver Video"),
+                          onPressed: () {
+                            fileEncoded.readAsBytes().then((valueBytes) =>
+                                Get.offNamed(RouteNames.showVideo,
+                                    arguments: [valueBytes, fileEncoded.path]));
+                          });
+                    } else {
+                      return Container();
+                    }
+                  }),
+              // NECESARIO PARA LAS PRUEBAS**********************
+              //necesarioParaPruebas(consultar),
+            ],
           ),
-        ),
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.all(20.0),
-            padding: EdgeInsets.all(4.0),
-            child: FutureBuilder(
-              future: getVideoFile(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  File file = snapshot.data as File;
-                  return Container();
-                  /*  alignment: Alignment(0.0, 0.0),
-                      child:
-                          EmbeddedPlayer("${file.path.toString()}", videoTab)); */
-                } else {
-                  return Container(
-                    alignment: Alignment(0.0, 0.0),
-                  );
-                }
-              },
-            ),
-          ),
-        ),
-      ],
-    ));
-  }
-
-  Future<void> playVideo() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (_videoPlayerController != null) {
-        await _videoPlayerController!.initialize();
-        await _videoPlayerController!.play();
-      }
-      _refreshablePlayerDialogFactory.refresh();
-    }
-  }
-
-  Future<void> pause() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (_videoPlayerController != null) {
-        await _videoPlayerController!.pause();
-      }
-      _refreshablePlayerDialogFactory.refresh();
-    }
-  }
-
-  void init(refreshablePlayerDialogFactory) {
-    _refreshablePlayerDialogFactory = refreshablePlayerDialogFactory;
-
-    _selectedCodec = "mpeg4";
+        ],
+      ),
+    );
   }
 
   Future<File> getVideoFile() async {
-    String videoCodec = _selectedCodec; //"mpeg4";
+    const String video = "video.mp4"; //$extension";
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    return File("${documentsDirectory.path}/$video");
+  }
 
-    String extension;
-    switch (videoCodec) {
-      case "vp8":
-      case "vp9":
-        extension = "webm";
-        break;
-      case "aom":
-        extension = "mkv";
-        break;
-      case "theora":
-        extension = "ogv";
-        break;
-      case "hap":
-        extension = "mov";
-        break;
-      default:
-        // mpeg4, x264, x265, xvid, kvazaar
-        extension = "mp4";
-        break;
+  void updateProgressDialog() {
+    var statistics = _statistics;
+    if (statistics == null || statistics.getTime() < 0) {
+      return;
     }
 
-    final String video = "video." + extension;
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    return new File("${documentsDirectory.path}/$video");
+    int timeInMilliseconds = statistics.getTime();
+    int totalVideoDuration = 24000;
+
+    completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
+
+    if (completePercentage <= 100) {
+      if (isfirst = true) {
+        setState(() {
+          _opacity = completePercentage / 100;
+        });
+      }
+    }
+  }
+
+  dinamicText() {
+    if (completePercentage != 0) {
+      return Column(
+        children: [
+          Text(
+            " Procesando video $completePercentage % ",
+            style: TextStyle(fontSize: sclW(context) * 3),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const CircularProgressIndicator(
+            backgroundColor: AppColors.violet,
+            color: AppColors.royalBlue,
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text(
+              "Estamos trabajando en ello...\n\n" +
+                  "preparando detalles,\n\n danos un minuto.",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: sclW(context) * 3)),
+          const SizedBox(
+            height: 20,
+          ),
+          const CircularProgressIndicator(
+            backgroundColor: AppColors.violet,
+            color: AppColors.royalBlue,
+          ),
+        ],
+      );
+    }
   }
 }
