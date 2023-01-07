@@ -42,8 +42,13 @@ class EventController extends GetxController {
   Future<void> saveMyEvent() async {
     isSaving.value = true;
     final DateTime now = DateTime.now();
-    final int millSeconds = now.millisecondsSinceEpoch;
-    final uid = nameController.text; // + millSeconds.toString();
+
+    final String month = now.month.toString();
+    final String day = now.day.toString();
+    final String year = now.year.toString();
+
+    final String today = ('$day-$month-$year');
+    final uid = "${nameController.text.trim()}_fecha_$today";
     final name = nameController.text;
     final musica = musicController.text;
 
@@ -52,8 +57,7 @@ class EventController extends GetxController {
 
     evento.value = newEvent;
 
-    // For testing add delay
-    //await Future.delayed(const Duration(seconds: 3));
+    //TO REPOSITORY
     await _eventRepository.saveMyEvento(newEvent, pickedImageLogo.value);
 
     isSaving.value = false;

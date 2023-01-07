@@ -37,7 +37,8 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
 
   Future<EventEntity?> getMyEvent() async {
     final snapshot = await firestore
-        .doc('user_${Get.find<AuthController>().authUser.value!.uid}/Barinas')
+        .doc(
+            'user_${Get.find<AuthController>().authUser.value!.uid}/barinas_fecha_6-1-2023')
         .get();
     if (snapshot.exists) return EventEntity.fromFirebaseMap(snapshot.data()!);
     return null;
@@ -67,10 +68,10 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
         elevation: 0,
         backgroundColor: Colors.black26,
         leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Get.offNamed(RouteNames.videoProcessing);
-            },
-            icon: Icon(Icons.arrow_back)),
+              Get.offNamed(RouteNames.videoPage);
+            }),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),

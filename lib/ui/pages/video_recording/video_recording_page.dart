@@ -29,7 +29,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   double _width = 15;
   bool _isFirst = true;
   int _selectedIndex = 2;
-  int _timeSelected = 8; // tiempo seleccionado por el usuario
+  int _timeSelected = 4; // tiempo seleccionado por el usuario
 
   @override
   void initState() {

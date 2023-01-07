@@ -17,12 +17,6 @@ class EventRepositoryImple extends EventRepository {
   //Future<MyUser?> getMyUser() => provider.getMyUser();
 
   @override
-  Future<String> saveMyVideoRepository(
-      VideoEntity videoentity, Uint8List? videoBytes) async {
-    return provider.saveMyVideoProvider(videoentity, videoBytes);
-  }
-
-  @override
   Future<void> saveMyEvento(EventEntity newEvent, File? imageLogo) async {
     provider.saveMyEventProvider(newEvent, imageLogo);
   }

@@ -42,9 +42,10 @@ dependencies:
   qr_flutter: ^4.0.0
   path_provider: ^2.0.11
 
-#Util 
+#Util bd and State Managment
   http: ^0.13.5
   get: ^4.6.5
+  sqflite: ^2.2.2
 
 
 #Debug
