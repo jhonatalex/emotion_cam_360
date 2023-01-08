@@ -105,6 +105,8 @@ class VideoUtil {
         "overlay=235:465:enable='between(t, 0,8)'," +
         "fade=t=in:st=0:d=1\" " +
         "-pix_fmt yuv420p -c:a copy " +
+        "-b:v 10M " +
+        "-r 30 " +
         //   videoFilePath;
         creditos;
   }
@@ -152,8 +154,9 @@ class VideoUtil {
 
         // customOptions +
         "-c:v " +
-        "mpeg4" + // videoCodec +
-        " -r 30 " +
+        "mpeg4 " + // videoCodec +
+        "-b:v 10M " +
+        "-r 30 " +
         videoFilePath; //video1; //videoFilePath;
   }
 }
