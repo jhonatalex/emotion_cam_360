@@ -35,10 +35,11 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
     getMyEventClass();
   }
 
+  ///CAMBIAR VARIABLE DEL COMBOBOX O SELECT DROPDOWN
   Future<EventEntity?> getMyEvent() async {
     final snapshot = await firestore
         .doc(
-            'user_${Get.find<AuthController>().authUser.value!.uid}/barinas_fecha_6-1-2023')
+            'user_${Get.find<AuthController>().authUser.value!.uid}/Santiago_fecha_8-1-2023')
         .get();
     if (snapshot.exists) return EventEntity.fromFirebaseMap(snapshot.data()!);
     return null;

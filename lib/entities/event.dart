@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 
@@ -35,4 +36,21 @@ class EventEntity extends Equatable {
         overlay = data['overlay'] as String,
         music = data['music'] as String,
         videos = data['videos'] as List?;
+
+  EventEntity.fromMap(Map<String, dynamic> map)
+      : id = map['id'] as String,
+        name = map['name'] as String,
+        overlay = map['overlay'] as String,
+        music = map['music'] as String,
+        videos = map['videos'] as List?;
+
+  Map<String, dynamic> toMapForDb() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'overlay': overlay,
+      'music': music,
+      'videos': videos,
+    };
+  }
 }

@@ -55,6 +55,11 @@ class UploadVideoPage extends StatelessWidget {
                           final isloading = controller.loading.value;
                           final urlQR = controller.urlVideoObserver.value;
 
+                          if (urlQR != '') {
+                            Get.offNamed(RouteNames.finishQr,
+                                arguments: controller.urlVideoObserver.value);
+                          }
+
                           return Center(
                             child: Column(children: [
                               SizedBox(
@@ -66,13 +71,7 @@ class UploadVideoPage extends StatelessWidget {
                                       ],
                                       mergeMode: true,
                                       onGetText: (progressValue) {
-                                        if (progressValue == 100) {
-                                          if (urlQR != '') {
-                                            Get.offNamed(RouteNames.finishQr,
-                                                arguments: controller
-                                                    .urlVideoObserver.value);
-                                          }
-                                        }
+                                        if (progressValue == 100) {}
                                         return Text(
                                           '${progressValue.toInt()} %',
                                           style: const TextStyle(

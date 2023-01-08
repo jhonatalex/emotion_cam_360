@@ -7,4 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 abstract class EventRepository {
   Future<void> saveMyEvento(EventEntity newEvent, File? value);
+  // Future<List<EventEntity>> getAllEvents();
+  //Future<bool> deleteEvent(EventEntity toDelete);
+  //Future<EventEntity> getNewEvent();
 }

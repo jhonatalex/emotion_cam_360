@@ -22,10 +22,12 @@ class EventController extends GetxController {
   Rx<bool> isSaving = Rx(false);
   Rx<EventEntity?> evento = Rx(null);
   Rx<MyUser?> user = Rx(null);
+  final eventos = <EventEntity>[].obs;
 
   @override
   void onInit() {
     getMyUser();
+    // loadInitialData();
     super.onInit();
   }
 
@@ -62,4 +64,21 @@ class EventController extends GetxController {
 
     isSaving.value = false;
   }
+
+/*   Future<void> loadInitialData() async {
+    eventos.value = await _eventRepository.getAllEvents();
+  }
+
+  Future<void> getUser() async {
+    if (isLoading.isTrue) return;
+    isLoading.value = true;
+    final newEvent = await _eventRepository.getNewEvent();
+    eventos.insert(0, newEvent);
+    isLoading.value = false;
+  }
+
+  Future<void> deleteUser(EventEntity toDelete) async {
+    eventos.remove(toDelete);
+    _eventRepository.deleteEvent(toDelete);
+  } */
 }

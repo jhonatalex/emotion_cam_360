@@ -61,8 +61,8 @@ class AuthRepositoryImp implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    final googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut();
+    //final googleSignIn = GoogleSignIn();
+    //await googleSignIn.signOut();
     await _firebaseAuthUniqueInstance.signOut();
   }
 

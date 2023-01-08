@@ -33,7 +33,8 @@ class AuthController extends GetxController {
     //VERIFICA EL USUARIO PARA MANDARLO A LA PANTALLA CORRECTA Y SET THE STATE
     if (user == null) {
       authState.value = AuthState.signedOUT;
-      Get.offAllNamed(RouteNames.home);
+      Get.offAllNamed(RouteNames.signIn);
+      //Get.offAllNamed(RouteNames.home);
     } else {
       authState.value = AuthState.signedIN;
       //Get.offAllNamed(RouteNames.signIn);
