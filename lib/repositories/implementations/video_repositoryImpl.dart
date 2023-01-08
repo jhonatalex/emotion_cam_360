@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,7 +17,7 @@ class VideoRepositoryImp extends VideoRepository {
 
   @override
   Future<String> saveMyVideoRepository(
-      VideoEntity videoentity, Uint8List? videoBytes) async {
-    return provider.saveMyVideoProvider(videoentity, videoBytes);
+      Uint8List? videoBytes, String videoPath, EventEntity eventCurrent) async {
+    return provider.saveMyVideoProvider(videoBytes, videoPath, eventCurrent);
   }
 }

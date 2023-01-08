@@ -63,6 +63,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.example.emotion_cam_360'
 }
 
 flutter {

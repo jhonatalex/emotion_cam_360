@@ -19,7 +19,7 @@ class FinishQrPage extends StatefulWidget {
 bool isDelay = false;
 
 class _FinishQrPageState extends State<FinishQrPage> {
-  //String urlVideo = Get.arguments;
+  String urlVideo = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class _FinishQrPageState extends State<FinishQrPage> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
                   child: QrImage(
-                    data: "ejemplo", //urlVideo,
+                    data: urlVideo,
                     backgroundColor: Colors.white,
                     version: QrVersions.auto,
                     size: sclH(context) * 40,

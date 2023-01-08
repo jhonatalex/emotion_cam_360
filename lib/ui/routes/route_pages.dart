@@ -1,3 +1,7 @@
+import 'package:emotion_cam_360/ui/pages/evento/event_binding.dart';
+import 'package:emotion_cam_360/ui/pages/evento/event_page.dart';
+import 'package:emotion_cam_360/ui/pages/login/profile_page.dart';
+import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_processing_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -10,6 +14,7 @@ import '../pages/finish_qr/finish_binding.dart';
 import '../pages/finish_qr/finish_qr_page.dart';
 import '../pages/home/home_binding.dart';
 import '../pages/home/home_page.dart';
+import '../pages/login/signUp_page.dart';
 import '../pages/splash/splash_binding.dart';
 import '../pages/splash/splash_page.dart';
 import '../pages/efecto/efecto_binding.dart';
@@ -79,6 +84,30 @@ class RoutePages {
             ),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.signUp,
+        page: () => const SignUpPage(),
+        transition: Transition.fadeIn,
+        //binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.signIn,
+        page: () => SignInPage(),
+        transition: Transition.fadeIn,
+        //binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.profile,
+        page: () => const ProfilePage(),
+        transition: Transition.fadeIn,
+        //binding: const FinishBinding(),
+      ),
+      GetPage(
+        name: RouteNames.eventPage,
+        page: () => const EventPage(),
+        transition: Transition.fadeIn,
+        binding: const EventBinding(),
       ),
     ];
   }

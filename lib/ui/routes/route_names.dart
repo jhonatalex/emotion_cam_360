@@ -10,4 +10,9 @@ class RouteNames {
   static const String videoProcessing = '/video-processing';
   static const String videoRecording = '/video-recording';
   static const String videoPage = '/video-screen';
+  static const String signUp = '/signUp';
+  static const String signIn = '/signIn';
+  static const String profile = '/profile';
+  static const String phonePage = '/phone-page';
+  static const String eventPage = '/event';
 }

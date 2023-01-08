@@ -2,6 +2,7 @@ import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/auth_controller.dart';
 import '../../repositories/abstractas/appcolors.dart';
 import '../../repositories/abstractas/responsive.dart';
 
@@ -39,23 +40,61 @@ class MyDrawer extends StatelessWidget {
                   iconColor: Colors.white,
                   textColor: Colors.white,
                   leading: Icon(
-                    Icons.person,
+                    Icons.party_mode_outlined,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Iniciar sesión',
+                    'Crear Evento',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  onTap: () {
+                    Get.offNamed(RouteNames.eventPage);
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.video_camera_back,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Video Processing',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   onTap: () {
                     Get.offNamed(RouteNames.videoProcessing);
                   },
                 ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  //  tileColor: Colors.black38,
+                  leading: Icon(
+                    Icons.logout_outlined,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Cerrar Sesion',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+
+                  onTap: () {
+                    Get.find<AuthController>().signOut();
+                    Get.offNamed(RouteNames.signIn);
+                  },
+                ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 Text(
                   "Redes Sociales",
-                  style: TextStyle(fontSize: sclH(context) * 2),
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 123, 54, 214),
+                      fontSize: sclH(context) * 2),
                 ),
                 const Divider(),
                 ListTile(
@@ -102,7 +141,7 @@ class MyDrawer extends StatelessWidget {
                 ),
                 const Divider(),
                 Text(
-                  "Versión 1.0.0",
+                  "Versión 1.0",
                   style: TextStyle(fontSize: sclH(context) * 2),
                 ),
               ],
