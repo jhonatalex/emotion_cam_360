@@ -5,20 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-TextEditingController controller = TextEditingController();
+class FinishQrPage extends StatelessWidget {
+  double _size = 1;
+  bool isDelay = false;
 
-double _size = 1;
+  FinishQrPage({super.key});
 
-class FinishQrPage extends StatefulWidget {
-  const FinishQrPage({Key? key}) : super(key: key);
-
-  @override
-  State<FinishQrPage> createState() => _FinishQrPageState();
-}
-
-bool isDelay = false;
-
-class _FinishQrPageState extends State<FinishQrPage> {
   String urlVideo = Get.arguments;
 
   @override

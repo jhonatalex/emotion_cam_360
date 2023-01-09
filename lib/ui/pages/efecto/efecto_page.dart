@@ -147,7 +147,7 @@ class _EfectoPageState extends State<EfectoPage> {
           ),
         ],
       ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer("ggg"),
     );
   }
 }

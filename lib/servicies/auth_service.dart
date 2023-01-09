@@ -34,7 +34,8 @@ class AuthClass {
           storeTokenAndData(userCredential);
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => const HomePage()),
+              MaterialPageRoute(
+                  builder: (builder) => HomePage(userCredential.user!.email)),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
@@ -113,7 +114,8 @@ class AuthClass {
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (builder) => const HomePage()),
+          MaterialPageRoute(
+              builder: (builder) => HomePage(userCredential.user!.phoneNumber)),
           (route) => false);
       showSnackBar(context, "logged Ind");
     } catch (e) {

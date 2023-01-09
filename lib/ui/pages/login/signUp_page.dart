@@ -27,7 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = const HomePage();
+        currentPage = HomePage("");
       });
     }
   }
@@ -205,7 +205,8 @@ class _SignUpPageState extends State<SignUpPage> {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => const HomePage()),
+              MaterialPageRoute(
+                  builder: (builder) => HomePage(userCredential.user!.email)),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));

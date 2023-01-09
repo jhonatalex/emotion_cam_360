@@ -32,7 +32,7 @@ class _EventPageState extends State<EventPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = const HomePage();
+        currentPage = HomePage("");
       });
     }
   }

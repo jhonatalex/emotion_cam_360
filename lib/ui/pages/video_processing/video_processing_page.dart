@@ -59,7 +59,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 final styleVideoOne = VideoUtil.styleVideoOne(
                   logoPath,
                   endingPath,
-                  video360Path, //file[1],
+                  file[1], //video360Path
                   music1Path,
                   videoFile.path,
                   // videoCodec,

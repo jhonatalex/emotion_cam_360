@@ -100,13 +100,13 @@ class VideoUtil {
     return "-y -i $endingPath -i $logoPath " +
         " -filter_complex \" " +
         "[0:v]$resize[fondo];" +
-        "[1:v]scale=250x250[logo];" +
+        "[1:v]scale=350x350[logo];" +
         "[fondo][logo]" +
         "overlay=235:465:enable='between(t, 0,8)'," +
         "fade=t=in:st=0:d=1\" " +
-        "-pix_fmt yuv420p -c:a copy " +
         "-b:v 10M " +
         "-r 30 " +
+        // videoCodec +
         //   videoFilePath;
         creditos;
   }

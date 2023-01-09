@@ -1,22 +1,27 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_styles.dart';
 import 'package:emotion_cam_360/ui/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../../../controllers/event_controller.dart';
 import '../../widgets/imgtextbutton.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  String? emailUser;
+  HomePage(this.emailUser, {Key? key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    //final _evenController = Get.find<EventController>();
+    //final emailUser = getEmailUser(_evenController);
+    //print(chalk.brightGreen('LOG AQUI $emailUser'));
+
     final content = Column(
       children: [
         CarrucelHeader(),
@@ -35,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         //}
         //return content;
       }),*/
-      drawer: MyDrawer(),
+      drawer: MyDrawer(emailUser),
     );
   }
 }

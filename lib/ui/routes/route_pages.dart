@@ -35,7 +35,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.home,
-        page: () => const HomePage(),
+        page: () => HomePage(""),
         transition: Transition.cupertino,
         binding: const HomeBinding(),
       ),
@@ -47,7 +47,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.finishQr,
-        page: () => const FinishQrPage(),
+        page: () => FinishQrPage(),
         transition: Transition.fadeIn,
         binding: const FinishQrBinding(),
       ),

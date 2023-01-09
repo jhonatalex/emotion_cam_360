@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,9 +8,9 @@ import '../../repositories/abstractas/appcolors.dart';
 import '../../repositories/abstractas/responsive.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({
-    Key? key,
-  }) : super(key: key);
+  String? emailUser;
+
+  MyDrawer(this.emailUser, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +54,21 @@ class MyDrawer extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 10,
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
+                    Icons.account_circle_rounded,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Bienvenido: $emailUser',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  onTap: () {
+                    Get.offNamed(RouteNames.eventPage);
+                  },
                 ),
                 ListTile(
                   iconColor: Colors.white,

@@ -213,9 +213,11 @@ class _SignInPageState extends State<SignInPage> {
           setState(() {
             circular = false;
           });
+          // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => const HomePage()),
+              MaterialPageRoute(
+                  builder: (builder) => HomePage(userCredential.user!.email)),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));

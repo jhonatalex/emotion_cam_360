@@ -23,7 +23,7 @@ class AuthController extends GetxController {
   @override
   void onInit() async {
     // Just for testing. Allows the splash screen to be shown a few seconds
-    await Future.delayed(const Duration(seconds: 3));
+    //await Future.delayed(const Duration(seconds: 3));
     _authSubscription =
         _authRepository.onAuthStateChanged.listen(_authStateChanged);
     super.onInit();
