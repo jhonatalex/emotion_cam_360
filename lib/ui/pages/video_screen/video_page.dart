@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
+import 'package:emotion_cam_360/ui/widgets/dropdownevento.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -113,7 +114,7 @@ class _VideoPageState extends State<VideoPage> {
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
     return Center(
       child: AspectRatio(
-        aspectRatio: 16 / 22,
+        aspectRatio: 9 / 16, // 16 / 22,
         child: CameraPreview(_controller!),
       ),
     );
@@ -180,6 +181,23 @@ class _VideoPageState extends State<VideoPage> {
               icon: const Icon(Icons.arrow_back),
               iconSize: sclH(context) * 3,
               onPressed: (() => Get.offNamed(RouteNames.home)),
+            ),
+            centerTitle: true,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Evento: ",
+                  style: TextStyle(fontSize: sclH(context) * 3),
+                ),
+                DropdownEventos(), /* 
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.add_reaction_outlined,
+                  ),
+                ) */
+              ],
             ),
           ),
           backgroundColor: AppColors.vulcan,

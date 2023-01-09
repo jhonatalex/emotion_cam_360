@@ -59,13 +59,17 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 final styleVideoOne = VideoUtil.styleVideoOne(
                   logoPath,
                   endingPath,
-                  video360Path, //file[1],
+                  file[1], //video360Path,
                   music1Path,
                   videoFile.path,
+                  //↑↑ para que el video dde salida tenga
+                  //// el mismo nombre que el de entrada
+
                   // videoCodec,
                   //this.getPixelFormat(),
                   //this.getCustomOptions()
                 );
+                print(chalk.white.bold(file[1]));
                 //crear video creditos esta funcion deberia estar
                 // despues que el cliente cargue el logo para
                 //que el video de los creditos ya esté preparado
@@ -106,14 +110,14 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                                   print(chalk.yellow.bold(
                                       "Aplicación de efectos Completa $duration milliseconds. now Show video"));
                                   //isfirst = true;
-                                  fileEncoded.readAsBytes().then((valueBytes) {
+                                  videoFile.readAsBytes().then((valueBytes) {
                                     print(chalk.yellowBright(valueBytes));
-                                    print(chalk.yellow(fileEncoded));
+                                    print(chalk.yellow(videoFile.path));
 
                                     Get.offNamed(RouteNames.showVideo,
                                         arguments: [
                                           valueBytes,
-                                          fileEncoded.path
+                                          videoFile.path
                                         ]);
                                   });
                                 } else {
@@ -178,6 +182,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                             fileEncoded.readAsBytes().then((valueBytes) =>
                                 Get.offNamed(RouteNames.showVideo,
                                     arguments: [valueBytes, fileEncoded.path]));
+                            print(chalk.white.bold(fileEncoded.path));
                           });
                     } else {
                       return Container();
@@ -205,7 +210,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     }
 
     int timeInMilliseconds = statistics.getTime();
-    int totalVideoDuration = 24000;
+    int totalVideoDuration = 28760;
 
     completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
 
