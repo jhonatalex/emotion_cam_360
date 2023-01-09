@@ -141,7 +141,7 @@ class VideoUtil {
         "[videocompleto2][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=7:end=10,setpts=PTS-STARTPTS[part3];" +
         "[videocompleto3][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=2:end=10,setpts=PTS-STARTPTS,reverse[part4];" +
         //"[creditos1]$pad,trim=duration=4,select=lte(n\\,120)[part4];" +
-        "[creditos1]$pad,trim=duration=6,select=lte(n\\,180),fade=t=out:st=4:d=2[part5];" +
+        "[creditos1]$pad,trim=duration=8,select=lte(n\\,240),fade=t=out:st=6:d=2[part5];" +
         //"[watermark]$pad,trim=duration=3,select=lte(n\\,90),overlay=610:1170[part5];" +
         //"[stream3out2]pad=width=720:height=1280:x=(720-iw)/2:y=(1280-ih)/2:color=#00000000,trim=duration=2,select=lte(n\\,90),reverse[part6];" +
         //"[stream2starting][stream1ending]blend=all_expr='if(gte(X,(W/2)*T/1)*lte(X,W-(W/2)*T/1),B,A)':shortest=1[stream2blended];" +
@@ -157,7 +157,7 @@ class VideoUtil {
         "mpeg4 " + // videoCodec +
         "-b:v 10M " +
         "-r 30 " +
-        videoFilePath; //video1; //videoFilePath;
+        videoFilePath; //video1; //
   }
 }
 

@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
+import 'package:chalkdart/chalk.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -109,6 +110,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     file!.readAsBytes().then((valueBytes) => Get.offNamed(
         RouteNames.videoProcessing,
         arguments: [valueBytes, file.path]));
+    print(chalk.white.bold(file.path));
 
     //filePath: file!.path
 
@@ -186,6 +188,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           iconSize: sclH(context) * 3,
           onPressed: (() => Get.offNamed(RouteNames.videoPage)),
         ),
+        actions: [buttonRec()],
       ),
       backgroundColor: AppColors.vulcan,
       extendBodyBehindAppBar: true,
@@ -195,27 +198,22 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         children: [
           _buildCamera(),
           CountDown(context),
-          buttonRec(),
         ],
       ),
     );
   }
 
-  Positioned buttonRec() {
-    return Positioned(
-      top: sclH(context) * 8,
-      right: sclW(context) * 1.5,
-      child: AnimatedOpacity(
-        opacity: 1 - _opacityRec,
-        duration: Duration(seconds: 1),
-        onEnd: () {
-          _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;
-        },
-        child: Icon(
-          Icons.radio_button_checked,
-          color: Colors.red,
-          size: sclH(context) * 3,
-        ),
+  buttonRec() {
+    return AnimatedOpacity(
+      opacity: 1 - _opacityRec,
+      duration: Duration(seconds: 1),
+      onEnd: () {
+        _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;
+      },
+      child: Icon(
+        Icons.radio_button_checked,
+        color: Colors.red,
+        size: sclH(context) * 3,
       ),
     );
   }
