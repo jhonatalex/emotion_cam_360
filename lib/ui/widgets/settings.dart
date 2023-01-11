@@ -1,11 +1,12 @@
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:flutter/material.dart';
 
 bool _throwShotAway = true;
 var isSelected = [true, true, true];
 var _giveVerse = true;
-var _duelCommandment = 5;
+var _duelCommandment = 3;
 
 class SettingsVideo extends StatefulWidget {
   const SettingsVideo({super.key});
@@ -15,6 +16,25 @@ class SettingsVideo extends StatefulWidget {
 }
 
 class _SettingsVideoState extends State<SettingsVideo> {
+  String configvalue = 'Predeterminado';
+  List<String> configitems = [
+    "Predeterminado",
+    "Alegría ritmica",
+    "Enamorados",
+  ];
+  String musicvalue = 'Hallman E.D.';
+  List<String> musicitems = [
+    "Hallman E.D.",
+    "Titulo Abr1. Autor.",
+    "Titulo Abr2. Autor.",
+    "Titulo Abr3. Autor.",
+  ];
+  String timevalue = '10';
+  List<String> timeitems = [
+    "10",
+    "15",
+    "20",
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,63 +54,37 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SizedBox(
             height: 30,
           ),
-          Row(
-            children: [
-              Container(
-                width: sclW(context) * 40,
-                child: Text(
-                  "Configuración rápida:",
+          Container(
+            width: sclW(context) * 90,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  "Configuración rápida: ",
                   style: TextStyle(fontSize: sclH(context) * 2.5),
                 ),
-              ),
-              Container(width: sclW(context) * 50, child: MenuEvento()),
-            ],
+                DropdownCustom(configvalue, configitems),
+              ],
+            ),
           ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text('Logo Predeterminado',
-                style: TextStyle(fontSize: sclH(context) * 2.5)),
-            subtitle: Text("Deside si Usar el logo Emotion cam 360",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
-          ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
+          ListTile(
             title: Text(
               'Música',
               style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
             subtitle: Text("Deside que música usar de fondo para el video",
                 style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
+            trailing: DropdownCustom(musicvalue, musicitems),
           ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
+          ListTile(
             title: Text(
               'Tiempo de grabación:',
               style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
             subtitle: Text("Duración del video en segundos",
                 style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
+            trailing: DropdownCustom(timevalue, timeitems),
           ),
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
@@ -238,34 +232,116 @@ class _SettingsVideoState extends State<SettingsVideo> {
             thickness: 2,
           ),
           Text(
-            "Linea de tiempo ",
+            "Linea de tiempo: ",
             style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
-          Container(
-            width: double.infinity,
-            height: sclH(context) * 35,
-            child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                itemExtent: 60,
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return RotatedBox(
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Text("Normal"),
+                  RotatedBox(
                     quarterTurns: 3,
                     child: Slider(
                       value: _duelCommandment.toDouble(),
-                      min: 1.0,
-                      max: 10.0,
-                      divisions: 10,
-                      label: '$_duelCommandment',
+                      min: 0.0,
+                      max: 4.0,
+                      divisions: 4,
+                      label: '$_duelCommandment seg',
                       onChanged: (double newValue) {
                         setState(() {
                           _duelCommandment = newValue.round();
                         });
                       },
                     ),
-                  );
-                }),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text("Slow Motion"),
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Slider(
+                      value: _duelCommandment.toDouble(),
+                      min: 0.0,
+                      max: 4.0,
+                      divisions: 4,
+                      label: '$_duelCommandment seg',
+                      onChanged: (double newValue) {
+                        setState(() {
+                          _duelCommandment = newValue.round();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text("Normal"),
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Slider(
+                      value: _duelCommandment.toDouble(),
+                      min: 0.0,
+                      max: 4.0,
+                      divisions: 4,
+                      label: '$_duelCommandment seg',
+                      onChanged: (double newValue) {
+                        setState(() {
+                          _duelCommandment = newValue.round();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text("Reverse"),
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Slider(
+                      value: _duelCommandment.toDouble(),
+                      min: 0.0,
+                      max: 4.0,
+                      divisions: 4,
+                      label: '$_duelCommandment seg',
+                      onChanged: (double newValue) {
+                        setState(() {
+                          _duelCommandment = newValue.round();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text("Créditos"),
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Slider(
+                      value: _duelCommandment.toDouble(),
+                      min: 0.0,
+                      max: 4.0,
+                      divisions: 4,
+                      label: '$_duelCommandment seg',
+                      onChanged: (double newValue) {
+                        setState(() {
+                          _duelCommandment = newValue.round();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           SwitchListTile(
             activeTrackColor: AppColors.royalBlue,
@@ -310,9 +386,14 @@ Licencia
 boomeran
 */
 
-class MenuEvento extends StatelessWidget {
+class MenuEvento extends StatefulWidget {
   const MenuEvento({super.key});
 
+  @override
+  State<MenuEvento> createState() => _MenuEventoState();
+}
+
+class _MenuEventoState extends State<MenuEvento> {
   @override
   Widget build(BuildContext context) {
     var _simpleValue = 0;
@@ -320,7 +401,7 @@ class MenuEvento extends StatelessWidget {
       padding: EdgeInsets.zero,
       initialValue: _simpleValue,
       color: AppColors.vulcan,
-      onSelected: (value) => showAndSetMenuSelection(context, value),
+      onSelected: (value) => _simpleValue == value,
       itemBuilder: (context) => <PopupMenuItem>[
         PopupMenuItem(
           value: 1,
@@ -354,5 +435,3 @@ class MenuEvento extends StatelessWidget {
     );
   }
 }
-
-showAndSetMenuSelection(BuildContext context, value) {}

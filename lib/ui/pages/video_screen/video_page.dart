@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
-import 'package:emotion_cam_360/ui/widgets/dropdownevento.dart';
+import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -170,13 +170,24 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Initial Selected Value
+    String dropdownvalue = 'Sin evento';
+
+    // List of items in our dropdown menu
+    var items = [
+      'Sin evento',
+      'Item 1',
+      'Item 2',
+      'Item 3',
+      'Item 4',
+    ];
     return DefaultTabController(
         length: 5,
         child: Scaffold(
           appBar: AppBar(
             toolbarHeight: sclH(context) * 7,
             backgroundColor: Colors.transparent,
-            elevation: 0,
+            // elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               iconSize: sclH(context) * 3,
@@ -190,7 +201,8 @@ class _VideoPageState extends State<VideoPage> {
                   "Evento: ",
                   style: TextStyle(fontSize: sclH(context) * 3),
                 ),
-                DropdownEventos(), /* 
+                DropdownCustom(dropdownvalue,
+                    items), /* 
                 IconButton(
                   onPressed: () {},
                   icon: Icon(

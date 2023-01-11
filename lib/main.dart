@@ -4,6 +4,7 @@ import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/routes/route_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
@@ -20,6 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //forzar portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return GetMaterialApp(
       theme: ThemeData(
         // Define el Brightness y Colores por defecto
@@ -59,7 +65,7 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false, //Quitar el banner demo
       initialBinding: const AppBinding(),
-      initialRoute: RouteNames.splash,
+      initialRoute: RouteNames.home,
       getPages: RoutePages.all,
     );
   }

@@ -130,7 +130,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   late Timer _timer;
-  int _start = 5;
+  int _start = 10;
   //el tiempo que se configuró más los 10seg para empezar
 
   void startTimer() {
@@ -188,7 +188,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           iconSize: sclH(context) * 3,
           onPressed: (() => Get.offNamed(RouteNames.videoPage)),
         ),
-        actions: [buttonRec()],
+        actions: [
+          buttonRec(),
+          const SizedBox(
+            width: 20,
+          )
+        ],
       ),
       backgroundColor: AppColors.vulcan,
       extendBodyBehindAppBar: true,

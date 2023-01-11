@@ -2,25 +2,26 @@ import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:flutter/material.dart';
 
-class DropdownEventos extends StatefulWidget {
-  const DropdownEventos({super.key});
-
-  @override
-  State<DropdownEventos> createState() => _DropdownEventosState();
-}
-
-class _DropdownEventosState extends State<DropdownEventos> {
+class DropdownCustom extends StatefulWidget {
   // Initial Selected Value
-  String dropdownvalue = 'Item 1';
+  String dropdownvalue;
 
   // List of items in our dropdown menu
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
+  List<String> items;
+  DropdownCustom(this.dropdownvalue, this.items);
+
+  @override
+  State<DropdownCustom> createState() =>
+      _DropdownCustomState(dropdownvalue, items);
+}
+
+class _DropdownCustomState extends State<DropdownCustom> {
+  // Initial Selected Value
+  String dropdownvalue;
+
+  // List of items in our dropdown menu
+  List<String> items;
+  _DropdownCustomState(this.dropdownvalue, this.items);
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
@@ -36,7 +37,7 @@ class _DropdownEventosState extends State<DropdownEventos> {
           value: items,
           child: Text(
             items,
-            style: TextStyle(fontSize: sclH(context) * 3),
+            style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
         );
       }).toList(),
