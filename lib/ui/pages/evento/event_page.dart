@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -32,7 +33,7 @@ class _EventPageState extends State<EventPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage("");
+        currentPage = HomePage();
       });
     }
   }
@@ -243,6 +244,8 @@ class _EventPageState extends State<EventPage> {
                   context,
                   MaterialPageRoute(builder: (builder) => const HomePage()),
                   (route) => false); */
+
+              Get.offNamed(RouteNames.home);
             } catch (e) {
               final snackbar = SnackBar(content: Text(e.toString()));
               ScaffoldMessenger.of(context).showSnackBar(snackbar);

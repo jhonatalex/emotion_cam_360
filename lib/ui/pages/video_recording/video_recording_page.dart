@@ -31,6 +31,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   bool _isFirst = true;
   int _selectedIndex = 2;
   int _timeSelected = 10; // tiempo seleccionado por el usuario
+  var eventCurrent;
 
   @override
   void initState() {
@@ -106,6 +107,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     final file = await _controller?.stopVideoRecording();
     setState(() => _isRecording = false);
 
+    //CAMBIAR ACA SALTAR VIDEO
     //READ BYTES AND SEND DATA WITH GETX
     file!.readAsBytes().then((valueBytes) => Get.offNamed(
         RouteNames.videoProcessing,

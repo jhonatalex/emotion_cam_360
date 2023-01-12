@@ -1,7 +1,11 @@
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 import '../ui/pages/home/home_page.dart';
 
@@ -32,11 +36,10 @@ class AuthClass {
               await auth.signInWithCredential(credential);
 
           storeTokenAndData(userCredential);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (builder) => HomePage(userCredential.user!.email)),
-              (route) => false);
+          final userSession = Provider.of<SesionPreferencerProvider>(context);
+
+          userSession.saveUser(userCredential.user!.email);
+          Get.offNamed(RouteNames.home);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -111,12 +114,11 @@ class AuthClass {
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
       storeTokenAndData(userCredential);
-      // ignore: use_build_context_synchronously
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (builder) => HomePage(userCredential.user!.phoneNumber)),
-          (route) => false);
+
+      final userSession = Provider.of<SesionPreferencerProvider>(context);
+      userSession.saveUser(userCredential.user!.phoneNumber);
+      Get.offNamed(RouteNames.home);
+
       showSnackBar(context, "logged Ind");
     } catch (e) {
       showSnackBar(context, e.toString());

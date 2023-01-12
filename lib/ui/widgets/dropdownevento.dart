@@ -1,50 +1,70 @@
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DropdownEventos extends StatefulWidget {
-  const DropdownEventos({super.key});
+  List listEvents = [];
+
+  DropdownEventos(this.listEvents, {super.key});
 
   @override
-  State<DropdownEventos> createState() => _DropdownEventosState();
+  State<DropdownEventos> createState() => _DropdownEventosState(listEvents);
 }
 
 class _DropdownEventosState extends State<DropdownEventos> {
   // Initial Selected Value
-  String dropdownvalue = 'Item 1';
+  List listEvents = [];
 
-  // List of items in our dropdown menu
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
+  EventEntity dropdownvalue = const EventEntity(
+      "Seleccione", "Seleccione", "music",
+      overlay: "overlay");
+
+  _DropdownEventosState(this.listEvents);
+
   @override
   Widget build(BuildContext context) {
+    final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
+
+    var listEventEntity = [];
+
+    listEventEntity.add(const EventEntity("Seleccione", "Seleccione", "music",
+        overlay: "overlay"));
+
+    //CONVERTIR RESPUESTA EN ENTITIES
+    for (var doc in listEvents) {
+      EventEntity eventNew = EventEntity(doc["id"], doc["name"], doc["music"],
+          overlay: doc["overlay"], videos: doc["videos"]);
+
+      listEventEntity.add(eventNew);
+    }
+
     return DropdownButton(
       // Initial Value
       value: dropdownvalue,
-      dropdownColor: AppColors.royalBlue,
+      dropdownColor: AppColors.vulcan,
       // Down Arrow Icon
       icon: const Icon(Icons.keyboard_arrow_down),
 
       // Array list of items
-      items: items.map((String items) {
-        return DropdownMenuItem(
-          value: items,
+      items: listEventEntity.map<DropdownMenuItem<EventEntity>>((value) {
+        return DropdownMenuItem<EventEntity>(
+          value: value,
           child: Text(
-            items,
+            value.name,
             style: TextStyle(fontSize: sclH(context) * 3),
           ),
         );
       }).toList(),
       // After selecting the desired option,it will
       // change button value to selected value
-      onChanged: (String? newValue) {
+      onChanged: (EventEntity? newValue) {
         setState(() {
           dropdownvalue = newValue!;
+          eventProvider.saveEventPrefrerence(newValue);
         });
       },
     );

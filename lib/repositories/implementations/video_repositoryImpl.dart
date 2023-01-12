@@ -17,7 +17,7 @@ class VideoRepositoryImp extends VideoRepository {
 
   @override
   Future<String> saveMyVideoRepository(
-      Uint8List? videoBytes, String videoPath, EventEntity eventCurrent) async {
-    return provider.saveMyVideoProvider(videoBytes, videoPath, eventCurrent);
+      Uint8List? video, String videoPath, EventEntity eventoActual) async {
+    return provider.saveMyVideoProvider(video, videoPath, eventoActual);
   }
 }

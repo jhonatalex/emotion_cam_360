@@ -50,6 +50,7 @@ dependencies:
 
 #Debug
   chalkdart: ^2.0.8
+  provider: ^6.0.5
 
 
 

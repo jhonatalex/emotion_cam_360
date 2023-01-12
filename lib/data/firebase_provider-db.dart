@@ -31,6 +31,7 @@ class FirebaseProvider {
     return null;
   }
 
+//____________VIDEOS_____________________________________________//
   //GUARDAR EN BD DE FIRESTORE
   Future<String> saveMyVideoProvider(
       Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
@@ -66,8 +67,11 @@ class FirebaseProvider {
       await ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
     }
 
+    print(chalk.brightGreen(urlDownload));
     return urlDownload;
   }
+
+//_____________EVENTOS_____________________________________________//
 
   Future<void> saveMyEventProvider(
       EventEntity newEvent, File? imageLogo) async {
@@ -88,5 +92,42 @@ class FirebaseProvider {
     } else {
       await ref.set(newEvent.toFirebaseMap(), SetOptions(merge: true));
     }
+  }
+
+  Future<EventEntity?> getMyEventProvider(idEvent) async {
+    print(chalk.brightGreen('entro PROVIDER'));
+    final snapshot =
+        await firestore.doc('user_${currentUser.uid}/$idEvent').get();
+
+    if (snapshot.exists) return EventEntity.fromFirebaseMap(snapshot.data()!);
+    return null;
+  }
+
+  Future<List> getAllMyEventProvider() async {
+    var listaEventos = [];
+/* 
+    await firestore.collection('user_${currentUser.uid}').get().then(
+      (res) {
+        print(chalk.brightGreen("Successfully completed ${res}"));
+        listaEventos.add(res);
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+
+    print(chalk.brightGreen('LOG AQUI ${listaEventos.elementAt(0)}'));
+
+ */
+
+    await firestore
+        .collection('user_${currentUser.uid}')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      listaEventos = querySnapshot.docs;
+      querySnapshot.docs.forEach((doc) {
+        print(doc["id"]);
+      });
+    });
+
+    return listaEventos;
   }
 }

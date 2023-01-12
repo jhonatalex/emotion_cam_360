@@ -41,6 +41,24 @@ class MyDrawer extends StatelessWidget {
                   iconColor: Colors.white,
                   textColor: Colors.white,
                   leading: Icon(
+                    Icons.account_circle_rounded,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    '   Bienvenido \n $emailUser',
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
+                  ),
+                  onTap: () {
+                    Get.offNamed(RouteNames.eventPage);
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  leading: Icon(
                     Icons.party_mode_outlined,
                     size: sclH(context) * 3,
                   ),
@@ -54,36 +72,6 @@ class MyDrawer extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  leading: Icon(
-                    Icons.account_circle_rounded,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    'Bienvenido: $emailUser',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-                  onTap: () {
-                    Get.offNamed(RouteNames.eventPage);
-                  },
-                ),
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  leading: Icon(
-                    Icons.video_camera_back,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    'Video Processing',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-                  onTap: () {
-                    Get.offNamed(RouteNames.videoProcessing);
-                  },
                 ),
                 ListTile(
                   iconColor: Colors.white,

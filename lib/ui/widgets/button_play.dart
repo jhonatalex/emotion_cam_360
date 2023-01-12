@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../repositories/abstractas/responsive.dart';
@@ -9,16 +10,20 @@ import '../routes/route_names.dart';
 int endTime = 5;
 
 class ButtonPlay extends StatefulWidget {
-  const ButtonPlay({super.key});
+  EventEntity eventoActual;
+  ButtonPlay(this.eventoActual, {super.key});
 
   @override
-  State<ButtonPlay> createState() => _ButtonPlayState();
+  State<ButtonPlay> createState() => _ButtonPlayState(eventoActual);
 }
 
 class _ButtonPlayState extends State<ButtonPlay> {
   bool _isFirst = true;
   double _opacity = 1.0;
   double _width = 15;
+  EventEntity eventoActual;
+
+  _ButtonPlayState(this.eventoActual);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,8 @@ class _ButtonPlayState extends State<ButtonPlay> {
                 opacity: _opacity,
                 curve: Curves.easeInToLinear,
                 duration: Duration(milliseconds: 700),
-                onEnd: () => Get.offNamed(RouteNames.videoRecording),
+                onEnd: () => Get.offNamed(RouteNames.videoRecording,
+                    arguments: eventoActual),
                 child: Column(
                   children: [
                     GestureDetector(

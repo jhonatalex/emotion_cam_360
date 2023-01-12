@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,7 @@ import 'auth_controller.dart';
 
 class EventController extends GetxController {
   final _eventRepository = Get.find<EventRepository>();
-
   final provider = FirebaseProvider();
-
   final nameController = TextEditingController();
   final musicController = TextEditingController();
   Rx<File?> pickedImageLogo = Rx(null);
@@ -22,23 +21,19 @@ class EventController extends GetxController {
   Rx<bool> isSaving = Rx(false);
   Rx<EventEntity?> evento = Rx(null);
   Rx<MyUser?> user = Rx(null);
-  final eventos = <EventEntity>[].obs;
+
+  final eventos = [].obs;
+
+  Rx<EventEntity?> eventoSelected = Rx(null);
 
   @override
   void onInit() {
-    getMyUser();
-    // loadInitialData();
+    loadInitialData();
     super.onInit();
   }
 
   void setImage(File? imageFileLogo) async {
     pickedImageLogo.value = imageFileLogo;
-  }
-
-  Future<void> getMyUser() async {
-    isLoading.value = true;
-    user.value = await provider.getMyUser();
-    isLoading.value = false;
   }
 
   Future<void> saveMyEvent() async {
@@ -56,17 +51,30 @@ class EventController extends GetxController {
 
     final newEvent =
         EventEntity(uid, name, musica, overlay: pickedImageLogo.value!.path);
-
-    evento.value = newEvent;
-
+    //evento.value = newEvent;
     //TO REPOSITORY
     await _eventRepository.saveMyEvento(newEvent, pickedImageLogo.value);
 
     isSaving.value = false;
   }
 
-/*   Future<void> loadInitialData() async {
-    eventos.value = await _eventRepository.getAllEvents();
+  Future<void> getMyEventController(String idEvent) async {
+    isLoading.value = true;
+    //TO REPOSITORY
+    print(chalk.brightGreen('entro eventController event ${idEvent}'));
+    final newEvent = await _eventRepository.getMyEventFirebase(idEvent);
+    evento.value = newEvent;
+    print(chalk.redBright(newEvent));
+    isLoading.value = false;
+  }
+
+  //BASE DATOS
+  Future<void> loadInitialData() async {
+    isLoading.value = true;
+    //eventos.value = await _eventRepository.getAllEvents();
+    eventos.value = await _eventRepository.getAllMyEventFirebase();
+    print(chalk.yellowBright('LISTA DE VENTOS DE FIREBASE ${eventos.value}'));
+    isLoading.value = false;
   }
 
   Future<void> getUser() async {
@@ -80,5 +88,5 @@ class EventController extends GetxController {
   Future<void> deleteUser(EventEntity toDelete) async {
     eventos.remove(toDelete);
     _eventRepository.deleteEvent(toDelete);
-  } */
+  }
 }
