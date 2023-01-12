@@ -34,21 +34,6 @@ class MyDrawer extends StatelessWidget {
             padding: EdgeInsets.all(sclH(context) * 2),
             child: Column(
               children: [
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  leading: Icon(
-                    Icons.account_circle_rounded,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    '   Bienvenido \n $emailUser',
-                    style: TextStyle(fontSize: sclH(context) * 2.5),
-                  ),
-                  onTap: () {
-                    Get.offNamed(RouteNames.eventPage);
-                  },
-                ),
                 const SizedBox(
                   height: 10,
                 ),

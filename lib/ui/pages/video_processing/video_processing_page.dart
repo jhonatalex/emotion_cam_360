@@ -3,6 +3,7 @@ import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
+
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
@@ -28,6 +29,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   var file = Get.arguments;
+
   //final String _selectedCodec = "mpeg4";
   late String extension;
   late Statistics? _statistics;
@@ -92,15 +94,6 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                             "Aplicación de efectos Completa $duration milliseconds. now Show video"));
                         setState(() {
                           isEncoded == true;
-                        });
-                        videoFile.readAsBytes().then((valueBytes) {
-                          print(chalk.yellowBright(valueBytes));
-                          print(chalk.yellow(videoFile.path));
-
-/* 
-
-                              Get.offNamed(RouteNames.showVideo,
-                                  arguments: [valueBytes, videoFile.path]); */
                         });
                       } else {
                         print(chalk.white.bold(

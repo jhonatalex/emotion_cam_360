@@ -25,7 +25,7 @@ class AppBinding implements Bindings {
 }
 
 class SesionPreferencerProvider with ChangeNotifier {
-  String _user = 'no login';
+  String _user = '';
 
   get users {
     return _user;

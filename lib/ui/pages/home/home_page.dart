@@ -36,8 +36,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.vulcan,
-      body:
-          Container(height: MediaQuery.of(context).size.height, child: content),
+      body: content,
       /*Obx(() {
         //if (userController.isLoading.value) {
          // return const Center(child: CircularProgressIndicator());

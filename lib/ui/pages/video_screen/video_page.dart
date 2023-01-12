@@ -251,15 +251,15 @@ class _VideoPageState extends State<VideoPage> {
             appBar: AppBar(
               toolbarHeight: sclH(context) * 7,
               backgroundColor: Colors.transparent,
-              elevation: 0,
+              //elevation: 0,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 iconSize: sclH(context) * 3,
                 onPressed: (() => Get.offNamed(RouteNames.home)),
               ),
-              centerTitle: true,
+              //centerTitle: true,
               title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "Evento:  ",
@@ -281,7 +281,7 @@ class _VideoPageState extends State<VideoPage> {
               ),
             ),
             backgroundColor: AppColors.vulcan,
-            extendBodyBehindAppBar: true,
+            //extendBodyBehindAppBar: true,
             extendBody: true,
             body: Center(child: SelectActionShow(_selectedIndex)),
             bottomNavigationBar: Container(
