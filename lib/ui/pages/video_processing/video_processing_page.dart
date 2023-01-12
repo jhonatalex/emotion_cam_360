@@ -51,7 +51,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
   void encodeVideo() {
     VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
-      VideoUtil.assetPath(VideoUtil.BGESPIRAL).then((endingPath) {
+      VideoUtil.assetPath(VideoUtil.BGCREDITOS).then((endingPath) {
         VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
           getVideoFile().then((videoFile) {
             // IF VIDEO IS PLAYING STOP PLAYBACK
@@ -152,7 +152,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     }
 
     int timeInMilliseconds = statistics.getTime();
-    int totalVideoDuration = 29000;
+    int totalVideoDuration = VideoUtil.timeTotal * 1000;
 
     completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
     print(chalk.red.bold(completePercentage));
@@ -187,7 +187,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Procesamiento completo...\n\n" + "Disfruta tu experiencia.",
+          Text("Procesamiento completo...\n\nDisfruta tu experiencia.",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: sclW(context) * 3)),
           const SizedBox(
