@@ -18,9 +18,7 @@ class VideoUtil {
   // lista stilos de video
 
   static const String LOGO = "watermark.png";
-  static const String INTRO = "intro.mp4";
-  static const String ENDING = "fondo.mov";
-  static const String VIDEO360 = "video360.mp4";
+  static const String BGESPIRAL = "espiral.mov";
   static const String MUSIC1 = "hallman-ed.mp3";
   static const String video1 =
       "/data/user/0/com.example.emotion_cam_360/cache/video1.mp4";
@@ -34,9 +32,7 @@ class VideoUtil {
 
   static void prepareAssets() async {
     await assetToFile(LOGO);
-    await assetToFile(INTRO);
-    await assetToFile(ENDING);
-    await assetToFile(VIDEO360);
+    await assetToFile(BGESPIRAL);
     await assetToFile(MUSIC1);
     // await assetToFile(ASSET_5);
     // await assetToFile(VIDEO_CREATED);
@@ -48,7 +44,7 @@ class VideoUtil {
 
   static Future<File> assetToFile(String assetName) async {
     final ByteData assetByteData =
-        await rootBundle.load('assets/img/$assetName');
+        await rootBundle.load('assets/themes/$assetName');
 
     final List<int> byteList = assetByteData.buffer
         .asUint8List(assetByteData.offsetInBytes, assetByteData.lengthInBytes);

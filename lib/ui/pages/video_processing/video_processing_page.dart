@@ -51,71 +51,68 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
   void encodeVideo() {
     VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
-      VideoUtil.assetPath(VideoUtil.ENDING).then((endingPath) {
-        VideoUtil.assetPath(VideoUtil.VIDEO360).then((video360Path) {
-          VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
-            getVideoFile().then((videoFile) {
-              // IF VIDEO IS PLAYING STOP PLAYBACK
+      VideoUtil.assetPath(VideoUtil.BGESPIRAL).then((endingPath) {
+        VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
+          getVideoFile().then((videoFile) {
+            // IF VIDEO IS PLAYING STOP PLAYBACK
 
-              final styleVideoOne = VideoUtil.styleVideoOne(
-                logoPath,
-                endingPath,
-                file[1], //video360Path
-                music1Path,
-                videoFile.path,
-                //↑↑ para que el video dde salida tenga
-                //// el mismo nombre que el de entrada
+            final styleVideoOne = VideoUtil.styleVideoOne(
+              logoPath,
+              endingPath,
+              file[1], //video360Path
+              music1Path,
+              videoFile.path,
+              //↑↑ para que el video dde salida tenga
+              //// el mismo nombre que el de entrada
 
-                // videoCodec,
-                //this.getPixelFormat(),
-                //this.getCustomOptions()
-              );
-              print(chalk.white.bold(file[1]));
-              //crear video creditos esta funcion deberia estar
-              // despues que el cliente cargue el logo para
-              //que el video de los creditos ya esté preparado
+              // videoCodec,
+              //this.getPixelFormat(),
+              //this.getCustomOptions()
+            );
+            print(chalk.white.bold(file[1]));
+            //crear video creditos esta funcion deberia estar
+            // despues que el cliente cargue el logo para
+            //que el video de los creditos ya esté preparado
 
-              //Esta produce el video con slowmotion
-              //reverse y el video de creditos al final
-              FFmpegKit.executeAsync(
-                      styleVideoOne,
-                      (session) async {
-                        final state = FFmpegKitConfig.sessionStateToString(
-                            await session.getState());
-                        final returnCode = await session.getReturnCode();
-                        final failStackTrace =
-                            await session.getFailStackTrace();
-                        final duration = await session.getDuration();
+            //Esta produce el video con slowmotion
+            //reverse y el video de creditos al final
+            FFmpegKit.executeAsync(
+                    styleVideoOne,
+                    (session) async {
+                      final state = FFmpegKitConfig.sessionStateToString(
+                          await session.getState());
+                      final returnCode = await session.getReturnCode();
+                      final failStackTrace = await session.getFailStackTrace();
+                      final duration = await session.getDuration();
 
-                        if (ReturnCode.isSuccess(returnCode)) {
-                          print(chalk.yellow.bold(
-                              "Aplicación de efectos Completa $duration milliseconds. now Show video"));
-                          setState(() {
-                            isEncoded == true;
-                          });
-                          videoFile.readAsBytes().then((valueBytes) {
-                            print(chalk.yellowBright(valueBytes));
-                            print(chalk.yellow(videoFile.path));
+                      if (ReturnCode.isSuccess(returnCode)) {
+                        print(chalk.yellow.bold(
+                            "Aplicación de efectos Completa $duration milliseconds. now Show video"));
+                        setState(() {
+                          isEncoded == true;
+                        });
+                        videoFile.readAsBytes().then((valueBytes) {
+                          print(chalk.yellowBright(valueBytes));
+                          print(chalk.yellow(videoFile.path));
 
 /* 
                               Get.offNamed(RouteNames.showVideo,
                                   arguments: [valueBytes, videoFile.path]); */
-                          });
-                        } else {
-                          print(chalk.white.bold(
-                              "aplicación de efectos fallida. Please check log for the details."));
-                          print(chalk.white.bold(
-                              "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
-                        }
-                      },
-                      (log) => print(log.getMessage()),
-                      (statistics) {
-                        _statistics = statistics;
-                        updateProgressDialog();
-                      })
-                  .then((session) => print(chalk.white.bold(
-                      "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
-            });
+                        });
+                      } else {
+                        print(chalk.white.bold(
+                            "aplicación de efectos fallida. Please check log for the details."));
+                        print(chalk.white.bold(
+                            "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
+                      }
+                    },
+                    (log) => print(log.getMessage()),
+                    (statistics) {
+                      _statistics = statistics;
+                      updateProgressDialog();
+                    })
+                .then((session) => print(chalk.white.bold(
+                    "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
           });
         });
       });
