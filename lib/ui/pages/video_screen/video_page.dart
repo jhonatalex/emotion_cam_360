@@ -5,7 +5,6 @@ import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
-import 'package:emotion_cam_360/ui/widgets/dropdownevento.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/button_play.dart';
+import '../../widgets/dropdown_events.dart';
 import '../../widgets/show_video_page.dart';
 
 class VideoPage extends StatefulWidget {

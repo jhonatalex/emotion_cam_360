@@ -1,22 +1,49 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
+import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 bool _throwShotAway = true;
 var isSelected = [true, true, true];
 var _giveVerse = true;
-var _duelCommandment = 5;
 
-class SettingsVideo extends StatefulWidget {
+class SettingsVideo extends StatelessWidget {
   const SettingsVideo({super.key});
 
   @override
-  State<SettingsVideo> createState() => _SettingsVideoState();
+  Widget build(BuildContext context) {
+    return Settings();
+  }
 }
 
-class _SettingsVideoState extends State<SettingsVideo> {
+class Settings extends StatelessWidget {
+  final SettingsController settingsController = Get.put(SettingsController());
+  String configvalue = 'Predeterminado';
+  List<String> configitems = [
+    "Predeterminado",
+    "Alegría ritmica",
+    "Enamorados",
+  ];
+  String musicvalue = 'Hallman E.D.';
+  List<String> musicitems = [
+    "Hallman E.D.",
+    "Titulo1 A.A.", //Titulo Abreviación. Autor.
+    "Titulo2 A.A.", //Titulo Abreviación. Autor.
+    "Titulo3 A.A.", //Titulo Abreviación. Autor.
+  ];
+  String timevalue = '10';
+  List<String> timeitems = [
+    "10",
+    "15",
+    "20",
+  ];
+
   @override
   Widget build(BuildContext context) {
+    print(chalk.white.bold("info"));
     return Container(
       width: sclW(context) * 100,
       padding: EdgeInsets.symmetric(
@@ -34,115 +61,63 @@ class _SettingsVideoState extends State<SettingsVideo> {
           SizedBox(
             height: 30,
           ),
-          Row(
-            children: [
-              Container(
-                width: sclW(context) * 40,
-                child: Text(
-                  "Configuración rápida:",
+          Container(
+            width: sclW(context) * 90,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  "Configuración rápida: ",
                   style: TextStyle(fontSize: sclH(context) * 2.5),
                 ),
-              ),
-              Container(width: sclW(context) * 50, child: MenuEvento()),
-            ],
+                DropdownCustom(configvalue, configitems),
+              ],
+            ),
           ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text('Logo Predeterminado',
-                style: TextStyle(fontSize: sclH(context) * 2.5)),
-            subtitle: Text("Deside si Usar el logo Emotion cam 360",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
-          ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
+          ListTile(
             title: Text(
               'Música',
               style: TextStyle(fontSize: sclH(context) * 2.5),
             ),
             subtitle: Text("Deside que música usar de fondo para el video",
                 style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
+            trailing: DropdownCustom(musicvalue, musicitems),
           ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text(
-              'Tiempo de grabación:',
-              style: TextStyle(fontSize: sclH(context) * 2.5),
-            ),
-            subtitle: Text("Duración del video en segundos",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
-          ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text(
-              'Auto fade in/out ',
-              style: TextStyle(fontSize: sclH(context) * 2.5),
-            ),
-            subtitle: Text(
-                "Aplica un efecto aclarando al inicio y oscureciendo al final",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
-          ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text(
-              'No guardar en el dispositivo',
-              style: TextStyle(fontSize: sclH(context) * 2.5),
-            ),
-            subtitle: Text(
-                "Borrar video despues de renderizarlo y subirlo a la nube",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
-          ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text(
-              'Reproducir Video al finalizar',
-              style: TextStyle(fontSize: sclH(context) * 2.5),
-            ),
-            subtitle: Text(
-                "En la pantalla final carga una vista previa del video capturado",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
-          ),
+          Obx(() {
+            return SwitchListTile(
+              activeTrackColor: AppColors.royalBlue,
+              activeColor: AppColors.violet,
+              title: Text(
+                'Auto fade in/out ',
+                style: TextStyle(fontSize: sclH(context) * 2.5),
+              ),
+              subtitle: Text(
+                  "Aplica un efecto aclarando al inicio y oscureciendo al final",
+                  style: TextStyle(fontSize: sclH(context) * 1.7)),
+              value: settingsController.fadeInOut.value,
+              onChanged: (bool? newValue) {
+                settingsController.fadeInOut.value = newValue!;
+              },
+            );
+          }),
+          Obx(() {
+            return SwitchListTile(
+              activeTrackColor: AppColors.royalBlue,
+              activeColor: AppColors.violet,
+              title: Text(
+                'No guardar en el dispositivo',
+                style: TextStyle(fontSize: sclH(context) * 2.5),
+              ),
+              subtitle: Text(
+                  "Borrar video despues de renderizarlo y subirlo a la nube",
+                  style: TextStyle(fontSize: sclH(context) * 1.7)),
+              value: settingsController.noSave.value,
+              onChanged: (bool? newValue) {
+                settingsController.noSave.value = newValue!;
+              },
+            );
+          }),
           Divider(
             height: 30,
             color: AppColors.violet,
@@ -164,9 +139,7 @@ class _SettingsVideoState extends State<SettingsVideo> {
                 Checkbox(
                   value: _throwShotAway,
                   onChanged: (bool? newValue) {
-                    setState(() {
-                      _throwShotAway = newValue!;
-                    });
+                    _throwShotAway = newValue!;
                   },
                 ),
                 Text(
@@ -180,9 +153,7 @@ class _SettingsVideoState extends State<SettingsVideo> {
                 Checkbox(
                   value: _throwShotAway,
                   onChanged: (bool? newValue) {
-                    setState(() {
-                      _throwShotAway = newValue!;
-                    });
+                    _throwShotAway = newValue!;
                   },
                 ),
                 Text(
@@ -202,9 +173,7 @@ class _SettingsVideoState extends State<SettingsVideo> {
                 Checkbox(
                   value: _throwShotAway,
                   onChanged: (bool? newValue) {
-                    setState(() {
-                      _throwShotAway = newValue!;
-                    });
+                    _throwShotAway = newValue!;
                   },
                 ),
                 Text(
@@ -218,9 +187,7 @@ class _SettingsVideoState extends State<SettingsVideo> {
                 Checkbox(
                   value: _throwShotAway,
                   onChanged: (bool? newValue) {
-                    setState(() {
-                      _throwShotAway = newValue!;
-                    });
+                    _throwShotAway = newValue!;
                   },
                 ),
                 Text(
@@ -238,58 +205,145 @@ class _SettingsVideoState extends State<SettingsVideo> {
             thickness: 2,
           ),
           Text(
-            "Linea de tiempo ",
+            "Linea de tiempo:",
             style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
+          SizedBox(
+            height: 15,
+          ),
           Container(
-            width: double.infinity,
-            height: sclH(context) * 35,
-            child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                itemExtent: 60,
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return RotatedBox(
-                    quarterTurns: 3,
-                    child: Slider(
-                      value: _duelCommandment.toDouble(),
-                      min: 1.0,
-                      max: 10.0,
-                      divisions: 10,
-                      label: '$_duelCommandment',
-                      onChanged: (double newValue) {
-                        setState(() {
-                          _duelCommandment = newValue.round();
-                        });
-                      },
-                    ),
+            width: sclW(context) * 100,
+            height: 215,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              itemExtent: 100,
+              children: [
+                Obx(() {
+                  return Column(
+                    children: [
+                      Text("Normal"),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Slider(
+                          value: settingsController.normal1.value.toDouble(),
+                          min: 0.0,
+                          max: 4.0,
+                          divisions: 4,
+                          label: '${settingsController.normal1.value} seg',
+                          onChanged: (double newValue) {
+                            settingsController.normal1.value = newValue.round();
+                            timeRecord();
+                          },
+                        ),
+                      ),
+                    ],
                   );
                 }),
-          ),
-          SwitchListTile(
-            activeTrackColor: AppColors.royalBlue,
-            activeColor: AppColors.violet,
-            title: Text(
-              'Boomerang',
-              style: TextStyle(fontSize: sclH(context) * 2.5),
+                Obx(() {
+                  return Column(
+                    children: [
+                      Text("Slow Motion"),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Slider(
+                          value: settingsController.slowMotion.value.toDouble(),
+                          min: 0.0,
+                          max: 4.0,
+                          divisions: 4,
+                          label: '${settingsController.slowMotion.value} seg',
+                          onChanged: (double newValue) {
+                            settingsController.slowMotion.value =
+                                newValue.round();
+                            timeRecord();
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+                Obx(() {
+                  return Column(
+                    children: [
+                      Text("Normal"),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Slider(
+                          value: settingsController.normal2.value.toDouble(),
+                          min: 0.0,
+                          max: 4.0,
+                          divisions: 4,
+                          label: '${settingsController.normal2.value} seg',
+                          onChanged: (double newValue) {
+                            settingsController.normal2.value = newValue.round();
+                            timeRecord();
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+                Obx(() {
+                  return Column(
+                    children: [
+                      Text("Reverse"),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Slider(
+                          value: settingsController.reverse.value.toDouble(),
+                          min: 0.0,
+                          max: reverseMax(),
+                          divisions: settingsController.reverseMax.value,
+                          label: '${settingsController.reverse.value} seg',
+                          onChanged: (double newValue) {
+                            settingsController.reverseMax.value =
+                                settingsController.timeRecord.value;
+                            settingsController.reverse.value = newValue.round();
+                            timeRecord();
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+                Obx(() {
+                  return Column(
+                    children: [
+                      Text("Créditos"),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Slider(
+                          value: settingsController.creditos.value.toDouble(),
+                          min: 0.0,
+                          max: 8.0,
+                          divisions: 4,
+                          label: '${settingsController.creditos.value} seg',
+                          onChanged: (double newValue) {
+                            settingsController.creditos.value =
+                                newValue.round();
+                            timeRecord();
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ],
             ),
-            subtitle: Text(
-                "Al terminar la linea de tiempo continúa en sentido inverso",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            value: _throwShotAway,
-            onChanged: (bool? newValue) {
-              setState(() {
-                _throwShotAway = newValue!;
-              });
-            },
           ),
-          /* ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                "Guardar",
-                style: TextStyle(fontSize: sclH(context) * 5),
-              )) */
+          Obx(() {
+            return Text(
+              'Tiempo de grabación: ${settingsController.timeRecord.value.toString()} seg\n' +
+                  'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
+            );
+          }),
+          /* 
+          Obx(() {
+            return Text(
+              timeTotal(),
+              style: TextStyle(fontSize: sclH(context) * 2.5),
+            );
+          }), */
           const SizedBox(
             height: 20,
           )
@@ -297,7 +351,40 @@ class _SettingsVideoState extends State<SettingsVideo> {
       ),
     );
   }
+
+  reverseMax() {
+    if (settingsController.reverse.value >=
+        settingsController.timeRecord.value) {
+      Future.delayed(Duration(seconds: 1));
+
+      settingsController.reverse.value = 0;
+    }
+    settingsController.reverseMax.value = settingsController.timeRecord.value;
+    return settingsController.reverseMax.value.toDouble();
+  }
+
+  timeRecord() {
+    settingsController.timeRecord.value = settingsController.normal1.value +
+        settingsController.slowMotion.value +
+        settingsController.normal2.value;
+
+    settingsController.timeTotal.value = settingsController.normal1.value +
+        settingsController.slowMotion.value * 2 +
+        settingsController.normal2.value +
+        settingsController.reverse.value +
+        settingsController.creditos.value;
+  }
+/* 
+  timeTotal() {
+    settingsController.timeTotal.value = settingsController.normal1.value +
+        settingsController.slowMotion.value * 2 +
+        settingsController.normal2.value +
+        settingsController.reverse.value +
+        settingsController.creditos.value;
+    return 'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg';
+  } */
 }
+
 /* conexión wifi con gopro
 GoPro 7
 
@@ -309,50 +396,3 @@ Licencia
 10 tramos de 10seg con velocidades
 boomeran
 */
-
-class MenuEvento extends StatelessWidget {
-  const MenuEvento({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var _simpleValue = 0;
-    return PopupMenuButton(
-      padding: EdgeInsets.zero,
-      initialValue: _simpleValue,
-      color: AppColors.vulcan,
-      onSelected: (value) => showAndSetMenuSelection(context, value),
-      itemBuilder: (context) => <PopupMenuItem>[
-        PopupMenuItem(
-          value: 1,
-          child: Text(
-            "Predeterminado",
-            style: TextStyle(fontSize: sclH(context) * 2.5),
-          ),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: Text(
-            "Alegría ritmica",
-            style: TextStyle(fontSize: sclH(context) * 2.5),
-          ),
-        ),
-        PopupMenuItem(
-          value: 3,
-          child: Text(
-            "Enamorados",
-            style: TextStyle(fontSize: sclH(context) * 2.5),
-          ),
-        ),
-      ],
-      child: ListTile(
-        title: Text(
-          "Predeterminado",
-          style: TextStyle(fontSize: sclH(context) * 2.5),
-        ),
-        subtitle: Text("Selecciona otra configuración"),
-      ),
-    );
-  }
-}
-
-showAndSetMenuSelection(BuildContext context, value) {}

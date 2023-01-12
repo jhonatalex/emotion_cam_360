@@ -23,13 +23,13 @@ class ImgTextButton extends StatelessWidget {
             primary: Colors.transparent,
             elevation: 0),
         onPressed: () {
-          Get.offNamed(RouteNames.videoPage);
+          Get.toNamed(RouteNames.videoPage);
         },
         child: Text(
           "INICIAR EXPERIENCIA 360°",
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: sclH(context) * 3,
+              fontSize: sclH(context) * 2.5,
               fontWeight: FontWeight.bold,
               color: Colors.white),
         ),

@@ -33,7 +33,7 @@ class _MyAppBarState extends State<MyAppBar> {
       ),
       title: Text(
         widget.title,
-        style: TextStyle(fontSize: sclH(context) * 4),
+        style: TextStyle(fontSize: sclW(context) * 5),
       ),
       elevation: 0.0,
       toolbarHeight: sclH(context) * 7,

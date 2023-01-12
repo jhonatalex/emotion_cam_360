@@ -9,7 +9,6 @@ import '../../repositories/abstractas/responsive.dart';
 
 class MyDrawer extends StatelessWidget {
   String? emailUser;
-
   MyDrawer(this.emailUser, {super.key});
 
   @override
@@ -27,11 +26,9 @@ class MyDrawer extends StatelessWidget {
             height: sclH(context) * 15,
           ),
           Text(
-            'EMOTION \n CAM 360',
-            style: TextStyle(fontSize: sclH(context) * 4, color: Colors.white),
-          ),
-          SizedBox(
-            height: sclH(context) * 3,
+            emailUser == "" ? 'EMOTION \n CAM 360' : 'Bienvenido \n $emailUser',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: sclH(context) * 3),
           ),
           Padding(
             padding: EdgeInsets.all(sclH(context) * 2),
@@ -78,11 +75,13 @@ class MyDrawer extends StatelessWidget {
                   textColor: Colors.white,
                   //  tileColor: Colors.black38,
                   leading: Icon(
-                    Icons.logout_outlined,
+                    emailUser == ""
+                        ? Icons.login_outlined
+                        : Icons.logout_outlined,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Cerrar Sesion',
+                    emailUser == "" ? 'Iniciar sesión' : 'Cerrar Sesión',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
 
@@ -118,11 +117,11 @@ class MyDrawer extends StatelessWidget {
                   iconColor: Colors.white,
                   textColor: Colors.white,
                   leading: Icon(
-                    Icons.rss_feed,
+                    Icons.camera_alt_outlined,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'RSS',
+                    'Instagram',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   // onTap: () {},

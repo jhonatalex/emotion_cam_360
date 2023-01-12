@@ -1,4 +1,5 @@
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signUp_page.dart';
@@ -83,11 +84,11 @@ class _SignInPageState extends State<SignInPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Si no tienes una cuenta ? ",
+                  Text(
+                    "¿No tienes una cuenta? ",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: sclH(context) * 2,
                     ),
                   ),
                   InkWell(
@@ -98,12 +99,12 @@ class _SignInPageState extends State<SignInPage> {
                               builder: (builder) => const SignUpPage()),
                           (route) => false);
                     },
-                    child: const Text(
+                    child: Text(
                       "  Registrate",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 123, 54, 214),
-                        fontSize: 18,
+                        color: const Color.fromARGB(255, 123, 54, 214),
+                        fontSize: sclH(context) * 2,
                       ),
                     ),
                   ),
@@ -112,12 +113,12 @@ class _SignInPageState extends State<SignInPage> {
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "Olvido su contraseña ?",
+              Text(
+                "¿Olvidó su contraseña?",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontSize: 17,
+                  fontSize: sclH(context) * 2,
                 ),
               ),
             ],
