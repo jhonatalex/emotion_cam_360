@@ -41,8 +41,7 @@ class _EventPageState extends State<EventPage> {
   final picker = ImagePicker();
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _musicaController = TextEditingController();
+
   bool circular = false;
   AuthClass authClass = AuthClass();
 
@@ -50,6 +49,9 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _nameController = TextEditingController();
+    final TextEditingController _musicaController = TextEditingController();
+
     final imageObx = Obx(() {
       Widget image = Image.asset(
         'assets/img/blank-profile.png',
@@ -117,25 +119,29 @@ class _EventPageState extends State<EventPage> {
                   const SizedBox(
                     width: 50,
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      final pickedImage =
-                          await picker.pickImage(source: ImageSource.gallery);
-                      if (pickedImage != null) {
-                        Get.find<EventController>()
-                            .setImage(File(pickedImage.path));
-                      }
-                    },
-                    child: Center(
-                      child: ClipOval(
-                        child: SizedBox(
-                          width: 200,
-                          height: 200,
-                          child: imageObx,
-                        ),
-                      ),
-                    ),
-                  ),
+                  Row(children: [
+                    InkWell(
+                        onTap: () async {
+                          final pickedImage = await picker.pickImage(
+                              source: ImageSource.gallery);
+                          if (pickedImage != null) {
+                            Get.find<EventController>()
+                                .setImage(File(pickedImage.path));
+                          }
+                        },
+                        child: Container(
+                            width: MediaQuery.of(context).size.width - 90,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: const LinearGradient(colors: [
+                                Color(0xff604fef),
+                                Color.fromARGB(255, 153, 120, 230),
+                                Color(0xff604fef)
+                              ]),
+                            ))),
+                    const Text("merermermrerer.mp3"),
+                  ]),
                 ],
               ),
               const SizedBox(
@@ -239,11 +245,11 @@ class _EventPageState extends State<EventPage> {
           onTap: () {
             try {
               isSaving ? null : _evenController.saveMyEvent();
-              /*   // ignore: use_build_context_synchronously
+
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (builder) => const HomePage()),
-                  (route) => false); */
+                  MaterialPageRoute(builder: (builder) => HomePage()),
+                  (route) => false);
 
               Get.offNamed(RouteNames.home);
             } catch (e) {
@@ -276,7 +282,6 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ),
-        if (isSaving) const CircularProgressIndicator()
       ]);
     });
   }

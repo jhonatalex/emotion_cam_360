@@ -105,19 +105,6 @@ class FirebaseProvider {
 
   Future<List> getAllMyEventProvider() async {
     var listaEventos = [];
-/* 
-    await firestore.collection('user_${currentUser.uid}').get().then(
-      (res) {
-        print(chalk.brightGreen("Successfully completed ${res}"));
-        listaEventos.add(res);
-      },
-      onError: (e) => print("Error completing: $e"),
-    );
-
-    print(chalk.brightGreen('LOG AQUI ${listaEventos.elementAt(0)}'));
-
- */
-
     await firestore
         .collection('user_${currentUser.uid}')
         .get()
