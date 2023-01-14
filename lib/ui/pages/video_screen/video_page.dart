@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
@@ -10,6 +11,7 @@ import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
@@ -149,7 +151,8 @@ class _VideoPageState extends State<VideoPage> {
 
   // ignore: non_constant_identifier_names
 
-  Widget SelectActionShow(int selectedIndex) {
+  Widget SelectActionShow(
+      int selectedIndex, EventoActualPreferencesProvider eventProvider) {
     switch (selectedIndex) {
       case 0:
         return _buildCamera();
@@ -162,7 +165,7 @@ class _VideoPageState extends State<VideoPage> {
       case 2:
         return Stack(children: [
           _buildCamera(),
-          _butomPlayBuilding(),
+          _butomPlayBuilding(eventProvider),
         ]);
       case 3:
         return const EfectoPage();
@@ -182,7 +185,7 @@ class _VideoPageState extends State<VideoPage> {
     _width = 100;
   }
 
-  Widget _butomPlayBuilding() {
+  Widget _butomPlayBuilding(EventoActualPreferencesProvider eventProvider) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -198,12 +201,13 @@ class _VideoPageState extends State<VideoPage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        if (_opacity == 1) {
-                          setState(() {
-                            _changeValue();
-                          });
+                        if (eventProvider.seleccionarPrefrerences) {
+                          if (_opacity == 1) {
+                            setState(() {
+                              _changeValue();
+                            });
+                          }
                         }
-                        ;
                       },
                       child: AnimatedContainer(
                           duration: Duration(milliseconds: 1000),
@@ -242,9 +246,8 @@ class _VideoPageState extends State<VideoPage> {
       var isLoading = _evenController.isLoading.value;
       var listEvents = _evenController.eventos;
 
-      if (!isLoading) {
-        print(chalk.yellow('eventos building view video $listEvents'));
-      }
+      final eventProvider =
+          Provider.of<EventoActualPreferencesProvider>(context);
 
       return DefaultTabController(
           length: 5,
@@ -266,25 +269,14 @@ class _VideoPageState extends State<VideoPage> {
                     if (!isLoading) DropdownEventos(listEvents),
                     if (isLoading) const CircularProgressIndicator()
                   ]),
-                  /* 
-                  DropdownCustom("Barinas", ["Barinas"]),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.add_circle_outline_outlined))
-
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add_reaction_outlined,
-                    ),
-                  ) */
                 ],
               ),
             ),
             backgroundColor: AppColors.vulcan,
             //extendBodyBehindAppBar: true,
             extendBody: true,
-            body: Center(child: SelectActionShow(_selectedIndex)),
+            body:
+                Center(child: SelectActionShow(_selectedIndex, eventProvider)),
             bottomNavigationBar: Container(
               //height: 120,
               color: AppColors.vulcan,

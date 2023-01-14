@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
@@ -44,6 +45,7 @@ class SesionPreferencerProvider with ChangeNotifier {
 
 class EventoActualPreferencesProvider with ChangeNotifier {
   EventEntity? _eventEntity = null;
+  bool _seleccionar = false;
 
   get eventPrefrerences {
     return _eventEntity;
@@ -56,6 +58,15 @@ class EventoActualPreferencesProvider with ChangeNotifier {
 
   void saveEventPrefrerence(EventEntity? entity) {
     this._eventEntity = entity;
+    notifyListeners();
+  }
+
+  get seleccionarPrefrerences {
+    return _seleccionar;
+  }
+
+  void saveSleccionarPrefrerence(bool value) {
+    this._seleccionar = value;
     notifyListeners();
   }
 }
