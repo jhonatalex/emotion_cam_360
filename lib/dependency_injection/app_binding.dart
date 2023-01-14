@@ -54,7 +54,7 @@ class EventoActualPreferencesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void saveEventPrefrerence(EventEntity entity) {
+  void saveEventPrefrerence(EventEntity? entity) {
     this._eventEntity = entity;
     notifyListeners();
   }

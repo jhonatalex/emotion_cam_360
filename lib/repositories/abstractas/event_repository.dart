@@ -7,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 
 abstract class EventRepository {
   //API FIREBASE
-  Future<void> saveMyEvento(EventEntity newEvent, File? value);
+  Future<void> saveMyEvento(
+      EventEntity newEvent, File? imageFile, File? mp3File);
   Future<EventEntity?> getMyEventFirebase(String idEvent);
   Future<List> getAllMyEventFirebase();
 

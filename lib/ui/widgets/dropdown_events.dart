@@ -3,7 +3,9 @@ import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class DropdownEventos extends StatefulWidget {
@@ -34,13 +36,21 @@ class _DropdownEventosState extends State<DropdownEventos> {
     listEventEntity.add(const EventEntity("Seleccione", "Seleccione", "music",
         overlay: "overlay"));
 
+    listEventEntity.add(const EventEntity(
+        "Crear Evento", "Crear Evento", "music",
+        overlay: "overlay"));
+
+    if (eventProvider.eventPrefrerences != null) {
+      listEventEntity.add(eventProvider.eventPrefrerences);
+    }
+
     //CONVERTIR RESPUESTA EN ENTITIES
-    for (var doc in listEvents) {
+    /*  for (var doc in listEvents) {
       EventEntity eventNew = EventEntity(doc["id"], doc["name"], doc["music"],
           overlay: doc["overlay"], videos: doc["videos"]);
 
       listEventEntity.add(eventNew);
-    }
+    } */
 
     return DropdownButton(
       // Initial Value
@@ -64,7 +74,12 @@ class _DropdownEventosState extends State<DropdownEventos> {
       onChanged: (EventEntity? newValue) {
         setState(() {
           dropdownvalue = newValue!;
-          eventProvider.saveEventPrefrerence(newValue);
+
+          if (newValue.name == "Crear Evento") {
+            Get.offNamed(RouteNames.eventPage);
+          }
+
+          //eventProvider.saveEventPrefrerence(newValue);
         });
       },
     );

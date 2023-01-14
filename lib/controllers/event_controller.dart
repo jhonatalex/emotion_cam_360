@@ -18,6 +18,7 @@ class EventController extends GetxController {
   final logoController = TextEditingController().obs;
 
   Rx<File?> pickedImageLogo = Rx(null);
+  Rx<File?> pickedMp3File = Rx(null);
 
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
@@ -30,7 +31,8 @@ class EventController extends GetxController {
 
   @override
   void onInit() {
-    loadInitialData();
+    //TRER LISTA DE EVENTOS
+    //loadInitialData();
     super.onInit();
   }
 
@@ -38,8 +40,13 @@ class EventController extends GetxController {
     pickedImageLogo.value = imageFileLogo;
   }
 
+  void setMp3(File? mp3File) {
+    pickedMp3File.value = mp3File;
+  }
+
   Future<void> saveMyEvent() async {
     isSaving.value = true;
+    isLoading.value = true;
     final DateTime now = DateTime.now();
 
     final String month = now.month.toString();
@@ -51,13 +58,17 @@ class EventController extends GetxController {
     final name = nameController.text;
     final musica = musicController.text;
 
-    final newEvent =
-        EventEntity(uid, name, musica, overlay: pickedImageLogo.value!.path);
+    final newEvent = EventEntity(uid, name, pickedMp3File.value!.path,
+        overlay: pickedImageLogo.value!.path);
     //evento.value = newEvent;
     //TO REPOSITORY
-    await _eventRepository.saveMyEvento(newEvent, pickedImageLogo.value);
+    await _eventRepository.saveMyEvento(
+        newEvent, pickedImageLogo.value, pickedMp3File.value);
+
+    evento.value = newEvent;
 
     isSaving.value = false;
+    isLoading.value = false;
   }
 
   Future<void> getMyEventController(String idEvent) async {

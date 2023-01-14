@@ -24,9 +24,10 @@ class EventRepositoryImple extends EventRepository {
   //EventRepositoryImple(this._dbDataSource);
 
   @override
-  Future<void> saveMyEvento(EventEntity newEvent, File? imageLogo) async {
-    provider.saveMyEventProvider(newEvent, imageLogo);
-    await _dbDataSource.save(newEvent);
+  Future<void> saveMyEvento(
+      EventEntity newEvent, File? imageFile, File? mp3File) async {
+    provider.saveMyEventProvider(newEvent, imageFile, mp3File);
+    //await _dbDataSource.save(newEvent);
   }
 
   @override
@@ -43,7 +44,7 @@ class EventRepositoryImple extends EventRepository {
   Future<EventEntity> getNewEvent() async {
     final event =
         EventEntity("name.first", "last", "location", overlay: "Jues");
-    await _dbDataSource.save(event);
+    //await _dbDataSource.save(event);
     return event;
   }
 

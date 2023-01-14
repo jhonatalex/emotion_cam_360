@@ -74,7 +74,7 @@ class FirebaseProvider {
 //_____________EVENTOS_____________________________________________//
 
   Future<void> saveMyEventProvider(
-      EventEntity newEvent, File? imageLogo) async {
+      EventEntity newEvent, File? imageLogo, File? mp3file) async {
     final ref = firestore.doc('user_${currentUser.uid}/${newEvent.id}');
 
     if (imageLogo != null) {
