@@ -4,6 +4,7 @@ import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 bool _throwShotAway = true;
@@ -81,6 +82,27 @@ class Settings extends StatelessWidget {
                 DropdownCustom(configvalue, configitems),
               ],
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Seleccione Imagen",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                ),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              CircleAvatar(
+                radius: 60,
+                child: FlutterLogo(
+                  size: 90,
+                ),
+              ),
+            ],
           ),
           ListTile(
             title: Text(

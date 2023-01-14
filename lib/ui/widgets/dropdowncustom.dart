@@ -1,6 +1,10 @@
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DropdownCustom extends StatefulWidget {
   // Initial Selected Value
@@ -27,16 +31,16 @@ class _DropdownCustomState extends State<DropdownCustom> {
     return DropdownButton(
       // Initial Value
       value: dropdownvalue,
-      dropdownColor: AppColors.royalBlue,
+      dropdownColor: AppColors.vulcan,
       // Down Arrow Icon
       icon: const Icon(Icons.keyboard_arrow_down),
 
       // Array list of items
-      items: items.map((String items) {
-        return DropdownMenuItem(
-          value: items,
+      items: items.map<DropdownMenuItem<String>>((value) {
+        return DropdownMenuItem<String>(
+          value: value,
           child: Text(
-            items,
+            value,
             style: TextStyle(fontSize: sclH(context) * 2.5),
           ),
         );

@@ -1,10 +1,15 @@
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
+import '../../routes/route_names.dart';
 import '../home/home_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -27,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage("");
+        currentPage = HomePage();
       });
     }
   }
@@ -39,6 +44,8 @@ class _SignUpPageState extends State<SignUpPage> {
   AuthClass authClass = AuthClass();
   @override
   Widget build(BuildContext context) {
+    final userSession = Provider.of<SesionPreferencerProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -70,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(
                 height: 15,
               ),
-              colorButton("Registrarme"),
+              colorButton("Registrarme", userSession),
               const SizedBox(
                 height: 15,
               ),
@@ -187,7 +194,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget colorButton(String name) {
+  Widget colorButton(String name, SesionPreferencerProvider userSession) {
     return InkWell(
       onTap: () async {
         setState(() {
@@ -202,12 +209,9 @@ class _SignUpPageState extends State<SignUpPage> {
           setState(() {
             circular = false;
           });
-          // ignore: use_build_context_synchronously
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (builder) => HomePage(userCredential.user!.email)),
-              (route) => false);
+
+          userSession.saveUser(userCredential.user!.email);
+          Get.offNamed(RouteNames.home);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);

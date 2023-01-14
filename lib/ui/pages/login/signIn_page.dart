@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
 import '../../routes/route_names.dart';
@@ -27,6 +29,8 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userSession = Provider.of<SesionPreferencerProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -73,7 +77,7 @@ class _SignInPageState extends State<SignInPage> {
               const SizedBox(
                 height: 15,
               ),
-              colorButton("Ingresar"),
+              colorButton("Ingresar", userSession),
               const SizedBox(
                 height: 15,
               ),
@@ -202,7 +206,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget colorButton(String name) {
+  Widget colorButton(String name, SesionPreferencerProvider userSession) {
     return InkWell(
       onTap: () async {
         try {
@@ -214,11 +218,11 @@ class _SignInPageState extends State<SignInPage> {
           setState(() {
             circular = false;
           });
+          userSession.saveUser(userCredential.user!.email);
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                  builder: (builder) => HomePage(userCredential.user!.email)),
+              MaterialPageRoute(builder: (builder) => HomePage()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));

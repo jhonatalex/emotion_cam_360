@@ -12,7 +12,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 const String pad =
-    "pad=width=720:height=1280:x=(720-iw)/2:y=(1280-ih)/2:color=#00000000";
+    "pad=width=720:height=1280:x=(720-iw)/2:y=(1280-ih)/2:color=#604fef";
 const String resize =
     "setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1";
 

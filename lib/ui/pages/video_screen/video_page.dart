@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
+import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +15,7 @@ import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/button_play.dart';
+import '../../widgets/dropdown_events.dart';
 import '../../widgets/show_video_page.dart';
 
 class VideoPage extends StatefulWidget {
@@ -26,12 +31,20 @@ class _VideoPageState extends State<VideoPage> {
   CameraController? _controller; // Controlador de la cámara
   int _cameraIndex = 1; // Índice de cámara actual
   bool _isRecording = false; // Bandera indicadora de grabación en proceso
-  int endTime = 0;
+
   bool _isFirst = true;
   int _selectedIndex = 2;
   IconData currentIcon = Icons.camera_front;
   String currentLabel = "Frontal";
   bool isCamSelected = true;
+
+  double _opacity = 1.0;
+  double _width = 15;
+  int endTime = 5;
+
+  //late var listEvents;
+
+  final _evenController = Get.find<EventController>();
 
   @override
   void initState() {
@@ -49,23 +62,21 @@ class _VideoPageState extends State<VideoPage> {
         _initCamera(_cameras[_cameraIndex]);
       }
     });
+
+    ///quitar manera vieja de trasladar los datos
+    //getMyEventClass('Santiago_fecha_8-1-2023');
+    //_evenController.getMyEventController('Santiago_fecha_8-1-2023');
   }
 
   _initCamera(CameraDescription camera) async {
-    // Si el controlador está en uso,
-    // realizar un dispose para detenerlo antes de continuar
-
     Future<void> _disposeCameraController() async {
       if (_controller == null) {
         return Future.value();
       }
-
       final cameraController = _controller;
-
       _controller = null;
       if (mounted) {
         setState(() {});
-
         // Wait for the post frame callback.
         final completerPostFrameCallback = Completer<Duration>();
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -76,10 +87,6 @@ class _VideoPageState extends State<VideoPage> {
 
       return cameraController!.dispose();
     }
-    //hacer dispose con el codigo anterior
-    //me costo resolver ese problema
-
-    //if (_controller != null) await _controller!.dispose();
 
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.medium);
@@ -140,6 +147,8 @@ class _VideoPageState extends State<VideoPage> {
     _getCameraIcon(_cameras[_cameraIndex].lensDirection);
   }
 
+  // ignore: non_constant_identifier_names
+
   Widget SelectActionShow(int selectedIndex) {
     switch (selectedIndex) {
       case 0:
@@ -153,7 +162,7 @@ class _VideoPageState extends State<VideoPage> {
       case 2:
         return Stack(children: [
           _buildCamera(),
-          const ButtonPlay(),
+          _butomPlayBuilding(),
         ]);
       case 3:
         return const EfectoPage();
@@ -168,128 +177,183 @@ class _VideoPageState extends State<VideoPage> {
     }
   }
 
+  void _changeValue() {
+    _opacity = _opacity == 0 ? 1.0 : 0.0;
+    _width = 100;
+  }
+
+  Widget _butomPlayBuilding() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            children: [
+              AnimatedOpacity(
+                opacity: _opacity,
+                curve: Curves.easeInToLinear,
+                duration: const Duration(milliseconds: 700),
+                onEnd: () => Get.offNamed(RouteNames.videoRecording),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        if (_opacity == 1) {
+                          setState(() {
+                            _changeValue();
+                          });
+                        }
+                        ;
+                      },
+                      child: AnimatedContainer(
+                          duration: Duration(milliseconds: 1000),
+                          curve: Curves.easeInSine,
+                          width: sclH(context) * _width,
+                          height: sclH(context) * _width * 2 / 3,
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: const DecorationImage(
+                                image: AssetImage(
+                                  "assets/img/buttonplay.png",
+                                ),
+                                fit: BoxFit.cover),
+                          )),
+                    ),
+                    Text(
+                      "INICIAR",
+                      style: TextStyle(
+                        fontSize: sclH(context) * 3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Initial Selected Value
-    String dropdownvalue = 'Sin evento';
+    return Obx(() {
+      var isLoading = _evenController.isLoading.value;
+      var listEvents = _evenController.eventos;
 
-    // List of items in our dropdown menu
-    var items = [
-      'Sin evento',
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ];
-    return DefaultTabController(
-        length: 5,
-        child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: sclH(context) * 7,
-            backgroundColor: Colors.transparent,
-            // elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              iconSize: sclH(context) * 3,
-              onPressed: (() => Get.offNamed(RouteNames.home)),
-            ),
-            centerTitle: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Evento: ",
-                  style: TextStyle(fontSize: sclH(context) * 3),
-                ),
-                DropdownCustom(dropdownvalue,
-                    items), /* 
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add_reaction_outlined,
-                  ),
-                ) */
-              ],
-            ),
-          ),
-          backgroundColor: AppColors.vulcan,
-          extendBodyBehindAppBar: true,
-          extendBody: true,
-          body: /*Expanded(
-            child: Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            ),
-          ),*/
+      if (!isLoading) {
+        print(chalk.yellow('eventos building view video $listEvents'));
+      }
 
-              Center(child: SelectActionShow(_selectedIndex)),
-          bottomNavigationBar: Container(
-            //height: 120,
-            color: AppColors.vulcan,
-            child: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              type: BottomNavigationBarType.fixed,
-              elevation: 0,
+      return DefaultTabController(
+          length: 5,
+          child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: sclH(context) * 7,
               backgroundColor: Colors.transparent,
-              //  Color.fromARGB(250, 20, 18, 32),
+              //elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                iconSize: sclH(context) * 3,
+                onPressed: (() => Get.offNamed(RouteNames.home)),
+              ),
+              //centerTitle: true,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(children: [
+                    if (!isLoading) DropdownEventos(listEvents),
+                    if (isLoading) const CircularProgressIndicator()
+                  ]),
+                  DropdownCustom("Barinas", ["Barinas"]),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.add_circle_outline_outlined))
 
-              selectedFontSize: sclH(context) * 2,
-              selectedItemColor: AppColors.royalBlue,
-              selectedIconTheme: IconThemeData(size: sclH(context) * 6),
-              unselectedFontSize: sclH(context) * 1.5,
-              unselectedItemColor: Colors.white,
-              unselectedIconTheme: IconThemeData(size: sclH(context) * 3),
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(currentIcon),
-                  label: currentLabel,
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.filter_b_and_w),
-                  label: 'Filtro',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.camera,
-                    // _getCameraIcon(_cameras[_cameraIndex].lensDirection),
-                  ),
-                  label: 'Camara',
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.camera_enhance_sharp),
-                  label: 'Efecto',
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Ajustes',
-                ),
-              ],
-
-              onTap: (value) {
-                switch (value) {
-                  case 0:
-                    _onSwitchCamera();
-                    break;
-
-                  case 1:
-                    //_recordVideo();
-                    break;
-                  case 2:
-                    //s
-                    // _isRecording ? null : _onPlay,
-                    break;
-                  default:
-                }
-
-                _selectedIndex = value;
-                //tomar valores
-                _selectedIndex == 0
-                    ? isCamSelected = true
-                    : isCamSelected = false;
-
-                setState(() {});
-              },
+                  /* 
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.add_reaction_outlined,
+                    ),
+                  ) */
+                ],
+              ),
             ),
-          ),
-        ));
+            backgroundColor: AppColors.vulcan,
+            //extendBodyBehindAppBar: true,
+            extendBody: true,
+            body: Center(child: SelectActionShow(_selectedIndex)),
+            bottomNavigationBar: Container(
+              //height: 120,
+              color: AppColors.vulcan,
+              child: BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                type: BottomNavigationBarType.fixed,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                //  Color.fromARGB(250, 20, 18, 32),
+
+                selectedFontSize: sclH(context) * 2,
+                selectedItemColor: AppColors.royalBlue,
+                selectedIconTheme: IconThemeData(size: sclH(context) * 6),
+                unselectedFontSize: sclH(context) * 1.5,
+                unselectedItemColor: Colors.white,
+                unselectedIconTheme: IconThemeData(size: sclH(context) * 3),
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(currentIcon),
+                    label: currentLabel,
+                  ),
+                  const BottomNavigationBarItem(
+                    icon: Icon(Icons.filter_b_and_w),
+                    label: 'Filtro',
+                  ),
+                  const BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.camera,
+                      // _getCameraIcon(_cameras[_cameraIndex].lensDirection),
+                    ),
+                    label: 'Camara',
+                  ),
+                  const BottomNavigationBarItem(
+                    icon: Icon(Icons.camera_enhance_sharp),
+                    label: 'Efecto',
+                  ),
+                  const BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: 'Ajustes',
+                  ),
+                ],
+
+                onTap: (value) {
+                  switch (value) {
+                    case 0:
+                      _onSwitchCamera();
+                      break;
+
+                    case 1:
+                      //_recordVideo();
+                      break;
+                    case 2:
+                      //s
+                      // _isRecording ? null : _onPlay,
+                      break;
+                    default:
+                  }
+
+                  _selectedIndex = value;
+                  //tomar valores
+                  _selectedIndex == 0
+                      ? isCamSelected = true
+                      : isCamSelected = false;
+
+                  setState(() {});
+                },
+              ),
+            ),
+          ));
+    });
   }
 }

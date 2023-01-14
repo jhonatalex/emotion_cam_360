@@ -28,12 +28,15 @@ class MyDrawer extends StatelessWidget {
           Text(
             emailUser == "" ? 'EMOTION \n CAM 360' : 'Bienvenido \n $emailUser',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: sclH(context) * 3),
+            style: TextStyle(fontSize: sclH(context) * 2),
           ),
           Padding(
             padding: EdgeInsets.all(sclH(context) * 2),
             child: Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 ListTile(
                   iconColor: Colors.white,
                   textColor: Colors.white,

@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
+
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
@@ -9,6 +11,7 @@ import 'package:ffmpeg_kit_flutter_video/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../repositories/abstractas/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/background_gradient.dart';
@@ -26,6 +29,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   var file = Get.arguments;
+
   //final String _selectedCodec = "mpeg4";
   late String extension;
   late Statistics? _statistics;
@@ -91,14 +95,6 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                         setState(() {
                           isEncoded == true;
                         });
-                        videoFile.readAsBytes().then((valueBytes) {
-                          print(chalk.yellowBright(valueBytes));
-                          print(chalk.yellow(videoFile.path));
-
-/* 
-                              Get.offNamed(RouteNames.showVideo,
-                                  arguments: [valueBytes, videoFile.path]); */
-                        });
                       } else {
                         print(chalk.white.bold(
                             "aplicación de efectos fallida. Please check log for the details."));
@@ -121,8 +117,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
   @override
   Widget build(BuildContext context) {
-    // print(chalk.brightGreen(file[1]));
-    // print(chalk.brightGreen(file[0]));
+    final videoProvider = Provider.of<VideoPreferencesProvider>(context);
 
     return Scaffold(
       backgroundColor: AppColors.vulcan,
@@ -133,7 +128,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               duration: Duration(seconds: 1),
               opacity: _opacity,
               child: BackgroundGradient(context)),
-          dinamicText(),
+          dinamicText(videoProvider),
         ],
       ),
     );
@@ -165,7 +160,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     }
   }
 
-  dinamicText() {
+  dinamicText(videoProvider) {
     if (isEncoded == false && completePercentage < 100) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -201,9 +196,15 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                   return ElevatedButton(
                       child: const Text("Ver Video"),
                       onPressed: () {
-                        fileEncoded.readAsBytes().then((valueBytes) =>
-                            Get.offNamed(RouteNames.showVideo,
-                                arguments: [valueBytes, fileEncoded.path]));
+                        fileEncoded.readAsBytes().then((valueBytes) {
+                          videoProvider.saveVideoPrefrerence(valueBytes);
+                          videoProvider.savePathPrefrerence(fileEncoded.path);
+
+                          Get.offNamed(
+                            RouteNames.showVideo,
+                          );
+                          // arguments: [valueBytes, fileEncoded.path]);
+                        });
                         print(chalk.white.bold(fileEncoded.path));
                       });
                 } else {

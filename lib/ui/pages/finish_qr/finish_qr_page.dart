@@ -6,10 +6,8 @@ import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class FinishQrPage extends StatelessWidget {
-  double _size = 1;
-  bool isDelay = false;
-
   FinishQrPage({super.key});
+  bool isDelay = false;
 
   String urlVideo = Get.arguments;
 
@@ -21,10 +19,11 @@ class FinishQrPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.home),
-            iconSize: sclH(context) * 3,
-            onPressed: () => Get.offNamed(RouteNames.home),
-          )),
+              icon: const Icon(Icons.home),
+              iconSize: sclH(context) * 3,
+              onPressed: () {
+                Get.offNamed(RouteNames.home);
+              })),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -67,12 +66,12 @@ class FinishQrPage extends StatelessWidget {
                   children: [
                     ElevatedButton.icon(
                       onPressed: () {},
-                      icon: Icon(Icons.facebook),
+                      icon: const Icon(Icons.facebook),
                       label: Text("Facebook"),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.camera_alt_outlined,
                         color: Colors.pink,
                       ),
@@ -80,8 +79,8 @@ class FinishQrPage extends StatelessWidget {
                     ),
                     ElevatedButton.icon(
                       onPressed: () {},
-                      icon: Icon(
-                        Icons.call_outlined,
+                      icon: const Icon(
+                        Icons.whatsapp_rounded,
                         color: Colors.green,
                       ),
                       label: Text("Whatsapp"),
@@ -94,9 +93,5 @@ class FinishQrPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  _changeValue() {
-    _size = 40;
   }
 }

@@ -13,8 +13,9 @@ import '../abstractas/video_repository.dart';
 
 class EventRepositoryImple extends EventRepository {
   final provider = FirebaseProvider();
-  //final RestDataSource _restDataSource;
-  //final DbDataSource _dbDataSource;
+
+  //late final RestDataSource _restDataSource;
+  late final DbDataSource _dbDataSource;
 
   //@override
   //Future<MyUser?> getMyUser() => provider.getMyUser();
@@ -25,9 +26,20 @@ class EventRepositoryImple extends EventRepository {
   @override
   Future<void> saveMyEvento(EventEntity newEvent, File? imageLogo) async {
     provider.saveMyEventProvider(newEvent, imageLogo);
+    await _dbDataSource.save(newEvent);
   }
 
-/*   @override
+  @override
+  Future<EventEntity?> getMyEventFirebase(String idEvent) async {
+    return provider.getMyEventProvider(idEvent);
+  }
+
+  @override
+  Future<List> getAllMyEventFirebase() async {
+    return provider.getAllMyEventProvider();
+  }
+
+  @override
   Future<EventEntity> getNewEvent() async {
     final event =
         EventEntity("name.first", "last", "location", overlay: "Jues");
@@ -44,5 +56,5 @@ class EventRepositoryImple extends EventRepository {
   Future<bool> deleteEvent(EventEntity toDelete) async {
     final result = await _dbDataSource.delete(toDelete);
     return result == 1;
-  } */
+  }
 }
