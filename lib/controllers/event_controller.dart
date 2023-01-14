@@ -15,6 +15,8 @@ class EventController extends GetxController {
   final provider = FirebaseProvider();
   final nameController = TextEditingController();
   final musicController = TextEditingController();
+  final logoController = TextEditingController().obs;
+
   Rx<File?> pickedImageLogo = Rx(null);
 
   Rx<bool> isLoading = Rx(false);

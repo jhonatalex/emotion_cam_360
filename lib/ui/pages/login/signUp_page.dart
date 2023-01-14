@@ -1,3 +1,4 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
@@ -209,8 +210,14 @@ class _SignUpPageState extends State<SignUpPage> {
           setState(() {
             circular = false;
           });
-
+          //VOLATIL DATA
           userSession.saveUser(userCredential.user!.email);
+
+          //PERSITENCIA DATA
+          authClass.storeTokenAndData(userCredential);
+
+          print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
+
           Get.offNamed(RouteNames.home);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));

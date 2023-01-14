@@ -6,7 +6,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-
 import '../ui/pages/home/home_page.dart';
 
 class AuthClass {
@@ -21,14 +20,19 @@ class AuthClass {
 
   Future<void> googleSignIn(BuildContext context) async {
     try {
-      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+      //GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+
+      final googleSignInAccount = await GoogleSignIn().signIn();
+      final googleSignInAuthentication =
+          await googleSignInAccount?.authentication;
+
       if (googleSignInAccount != null) {
-        GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+        // GoogleSignInAuthentication googleSignInAuthentication =
+        //  await googleSignInAccount.authentication;
 
         AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication?.idToken,
+          accessToken: googleSignInAuthentication?.accessToken,
         );
 
         try {
@@ -36,9 +40,9 @@ class AuthClass {
               await auth.signInWithCredential(credential);
 
           storeTokenAndData(userCredential);
-          final userSession = Provider.of<SesionPreferencerProvider>(context);
 
-          userSession.saveUser(userCredential.user!.email);
+          //final userSession = Provider.of<SesionPreferencerProvider>(context);
+          //userSession.saveUser(userCredential.user!.email);
           Get.offNamed(RouteNames.home);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
@@ -55,14 +59,21 @@ class AuthClass {
   }
 
   Future<void> storeTokenAndData(UserCredential userCredential) async {
+    //CUANDO ES CON USUARIO E IMEL NO TIENE TOKEN
+    if (userCredential.credential != null) {
+      await storage.write(
+          key: "token", value: userCredential.credential!.token.toString());
+    }
     await storage.write(
-        key: "token", value: userCredential.credential!.token.toString());
-    await storage.write(
-        key: "token", value: userCredential.credential!.token.toString());
+        key: "email", value: userCredential.user!.email.toString());
   }
 
   Future<String?> getToken() async {
     return await storage.read(key: "token");
+  }
+
+  Future<String?> getEmailToken() async {
+    return await storage.read(key: "email");
   }
 
   Future<void> verifyPhoneNumber(
@@ -103,6 +114,7 @@ class AuthClass {
       await auth.signOut();
     } catch (e) {
       await storage.delete(key: "token");
+      await storage.delete(key: "user");
     }
   }
 

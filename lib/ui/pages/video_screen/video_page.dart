@@ -266,12 +266,12 @@ class _VideoPageState extends State<VideoPage> {
                     if (!isLoading) DropdownEventos(listEvents),
                     if (isLoading) const CircularProgressIndicator()
                   ]),
+                  /* 
                   DropdownCustom("Barinas", ["Barinas"]),
                   IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.add_circle_outline_outlined))
 
-                  /* 
                   IconButton(
                     onPressed: () {},
                     icon: Icon(

@@ -41,8 +41,7 @@ class _EventPageState extends State<EventPage> {
   final picker = ImagePicker();
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _musicaController = TextEditingController();
+
   bool circular = false;
   AuthClass authClass = AuthClass();
 
@@ -50,6 +49,9 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _nameController = TextEditingController();
+    final TextEditingController _musicaController = TextEditingController();
+
     final imageObx = Obx(() {
       Widget image = Image.asset(
         'assets/img/blank-profile.png',
@@ -101,43 +103,13 @@ class _EventPageState extends State<EventPage> {
               const SizedBox(
                 height: 15,
               ),
-              textItem("Seleccione Musica del Evento",
-                  _evenController.musicController, false),
+              filePikerCustom("Musica", "../.../musica.mp3", 185),
+              /* textItem("Seleccione Musica del Evento",
+                  _evenController.musicController, false), */
               const SizedBox(
                 height: 30,
               ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  const Text("Logo",
-                      style: TextStyle(fontSize: 17, color: Colors.white)),
-                  //IMAGEN PIKER
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final pickedImage =
-                          await picker.pickImage(source: ImageSource.gallery);
-                      if (pickedImage != null) {
-                        Get.find<EventController>()
-                            .setImage(File(pickedImage.path));
-                      }
-                    },
-                    child: Center(
-                      child: ClipOval(
-                        child: SizedBox(
-                          width: 200,
-                          height: 200,
-                          child: imageObx,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              filePikerCustom("Logo", "../.../logoPyme.png", 170),
               const SizedBox(
                 height: 25,
               ),
@@ -237,17 +209,25 @@ class _EventPageState extends State<EventPage> {
       return Stack(children: [
         InkWell(
           onTap: () {
-            try {
-              isSaving ? null : _evenController.saveMyEvent();
-              /*   // ignore: use_build_context_synchronously
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (builder) => const HomePage()),
-                  (route) => false); */
+            if (_evenController.nameController.value.text != '') {
+              try {
+                isSaving ? null : _evenController.saveMyEvent();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (builder) => HomePage()),
+                    (route) => false);
 
-              Get.offNamed(RouteNames.home);
-            } catch (e) {
-              final snackbar = SnackBar(content: Text(e.toString()));
+                Get.offNamed(RouteNames.home);
+              } catch (e) {
+                final snackbar = SnackBar(content: Text(e.toString()));
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                setState(() {
+                  circular = false;
+                });
+              }
+            } else {
+              final snackbar =
+                  SnackBar(content: Text("Favor debde Ingresar un Nombre"));
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
               setState(() {
                 circular = false;
@@ -276,8 +256,61 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ),
-        if (isSaving) const CircularProgressIndicator()
       ]);
+    });
+  }
+
+  filePikerCustom(String texto, textFile, ancho) {
+    return Obx(() {
+      var textFile = "";
+
+      if (_evenController.pickedImageLogo.value != null) {
+        textFile = _evenController.pickedImageLogo.value!.path;
+      }
+
+      return Row(
+        children: [
+          const SizedBox(
+            width: 40,
+          ),
+          Text(texto,
+              style: const TextStyle(fontSize: 17, color: Colors.white)),
+          const SizedBox(
+            width: 20,
+          ),
+          Row(children: [
+            Container(
+                padding: const EdgeInsets.all(10.0),
+                width: MediaQuery.of(context).size.width - ancho,
+                height: 55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(
+                      color: Color.fromARGB(255, 175, 180, 184), width: 1),
+                ),
+                child: Text(
+                    textFile.length == 0
+                        ? textFile
+                        : textFile.substring(30, textFile.length),
+                    style: TextStyle(fontSize: 12))),
+            IconButton(
+              icon: const Icon(Icons.upload_file),
+              onPressed: () async {
+                final pickedImage =
+                    await picker.pickImage(source: ImageSource.gallery);
+                if (pickedImage != null) {
+                  Get.find<EventController>().setImage(File(pickedImage.path));
+                }
+              },
+              style: IconButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 153, 120, 230),
+                backgroundColor: Color(0xff604fef),
+                hoverColor: Color(0xff604fef),
+              ),
+            ),
+          ]),
+        ],
+      );
     });
   }
 }

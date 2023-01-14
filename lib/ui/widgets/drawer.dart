@@ -1,4 +1,5 @@
 import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,12 +8,27 @@ import '../../controllers/auth_controller.dart';
 import '../../repositories/abstractas/appcolors.dart';
 import '../../repositories/abstractas/responsive.dart';
 
-class MyDrawer extends StatelessWidget {
-  String? emailUser;
-  MyDrawer(this.emailUser, {super.key});
+class MyDrawer extends StatefulWidget {
+  MyDrawer({super.key});
+
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  AuthClass authClass = AuthClass();
+
+  String? emailUser = '';
+
+  void getEmailCurrentUser() async {
+    emailUser = await authClass.getEmailToken();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    getEmailCurrentUser();
+
     return Drawer(
       width: sclW(context) * 80,
       backgroundColor: AppColors.vulcan.withOpacity(0.7),
@@ -25,11 +41,18 @@ class MyDrawer extends StatelessWidget {
             "assets/img/logo-emotion.png",
             height: sclH(context) * 15,
           ),
-          Text(
-            emailUser == "" ? 'EMOTION \n CAM 360' : 'Bienvenido \n $emailUser',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: sclH(context) * 2),
-          ),
+          if (emailUser != '')
+            Text(
+              emailUser == null ? 'EMOTION \n CAM 360' : 'Bienvenido',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: sclH(context) * 3),
+            ),
+          if (emailUser != '')
+            Text(
+              emailUser == null ? '' : '$emailUser',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: sclH(context) * 2),
+            ),
           Padding(
             padding: EdgeInsets.all(sclH(context) * 2),
             child: Column(
@@ -60,18 +83,19 @@ class MyDrawer extends StatelessWidget {
                   textColor: Colors.white,
                   //  tileColor: Colors.black38,
                   leading: Icon(
-                    emailUser == ""
+                    emailUser == null
                         ? Icons.login_outlined
                         : Icons.logout_outlined,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    emailUser == "" ? 'Iniciar sesión' : 'Cerrar Sesión',
+                    emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
 
-                  onTap: () {
-                    Get.find<AuthController>().signOut();
+                  onTap: () async {
+                    await authClass.logout();
+                    //Get.find<AuthController>().signOut();
                     Get.offNamed(RouteNames.signIn);
                   },
                 ),

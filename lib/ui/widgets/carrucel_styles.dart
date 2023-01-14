@@ -57,10 +57,10 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
               Tab(
                 height: sclH(context) * 8,
                 icon: Icon(
-                  Icons.six_mp_outlined,
+                  Icons.event_available_rounded,
                   size: sclH(context) * 3,
                 ),
-                text: 'Minimalista',
+                text: 'Eventos',
               ),
             ],
           ),

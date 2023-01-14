@@ -218,7 +218,13 @@ class _SignInPageState extends State<SignInPage> {
           setState(() {
             circular = false;
           });
+
+          //VOLATIL DATA
           userSession.saveUser(userCredential.user!.email);
+
+          //PERSITENCIA DATA
+          authClass.storeTokenAndData(userCredential);
+
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
