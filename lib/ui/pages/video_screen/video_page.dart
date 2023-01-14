@@ -5,6 +5,7 @@ import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
+import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _VideoPageState extends State<VideoPage> {
   double _width = 15;
   int endTime = 5;
 
-  late var listEvents;
+  //late var listEvents;
 
   final _evenController = Get.find<EventController>();
 
@@ -239,7 +240,7 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Obx(() {
       var isLoading = _evenController.isLoading.value;
-      listEvents = _evenController.eventos;
+      var listEvents = _evenController.eventos;
 
       if (!isLoading) {
         print(chalk.yellow('eventos building view video $listEvents'));
@@ -259,18 +260,18 @@ class _VideoPageState extends State<VideoPage> {
               ),
               //centerTitle: true,
               title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Evento:  ",
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
                   Stack(children: [
                     if (!isLoading) DropdownEventos(listEvents),
                     if (isLoading) const CircularProgressIndicator()
                   ]),
-
                   /* 
+                  DropdownCustom("Barinas", ["Barinas"]),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.add_circle_outline_outlined))
+
                   IconButton(
                     onPressed: () {},
                     icon: Icon(

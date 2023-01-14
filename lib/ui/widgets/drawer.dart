@@ -41,18 +41,15 @@ class _MyDrawerState extends State<MyDrawer> {
             "assets/img/logo-emotion.png",
             height: sclH(context) * 15,
           ),
-          SizedBox(
-            height: sclH(context) * 2,
-          ),
           if (emailUser != '')
             Text(
-              emailUser == "" ? 'EMOTION \n CAM 360' : 'Bienvenido',
+              emailUser == null ? 'EMOTION \n CAM 360' : 'Bienvenido',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: sclH(context) * 3),
             ),
           if (emailUser != '')
             Text(
-              emailUser == "" ? '' : '$emailUser',
+              emailUser == null ? '' : '$emailUser',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: sclH(context) * 2),
             ),
@@ -86,13 +83,13 @@ class _MyDrawerState extends State<MyDrawer> {
                   textColor: Colors.white,
                   //  tileColor: Colors.black38,
                   leading: Icon(
-                    emailUser == ""
+                    emailUser == null
                         ? Icons.login_outlined
                         : Icons.logout_outlined,
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    emailUser == "" ? 'Iniciar sesión' : 'Cerrar Sesión',
+                    emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
 

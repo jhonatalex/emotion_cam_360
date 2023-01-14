@@ -43,8 +43,7 @@ class _ButtonPlayState extends State<ButtonPlay> {
                 opacity: _opacity,
                 curve: Curves.easeInToLinear,
                 duration: Duration(milliseconds: 700),
-                onEnd: () => Get.offNamed(RouteNames.videoRecording,
-                    arguments: eventoActual),
+                onEnd: () => Get.toNamed(RouteNames.videoRecording),
                 child: Column(
                   children: [
                     GestureDetector(
@@ -54,7 +53,6 @@ class _ButtonPlayState extends State<ButtonPlay> {
                             _changeValue();
                           });
                         }
-                        ;
                       },
                       child: AnimatedContainer(
                           duration: Duration(milliseconds: 1000),

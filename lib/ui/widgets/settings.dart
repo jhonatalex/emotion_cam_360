@@ -4,6 +4,7 @@ import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 bool _throwShotAway = true;
@@ -31,6 +32,13 @@ class Settings extends StatelessWidget {
   List<String> musicitems = [
     "Hallman E.D.",
     "Titulo1 A.A.", //Titulo Abreviación. Autor.
+    "Titulo2 A.A.", //Titulo Abreviación. Autor.
+    "Titulo3 A.A.", //Titulo Abreviación. Autor.
+  ];
+  String fondovalue = 'Espiral';
+  List<String> fondoitems = [
+    "Espiral",
+    "Explosión", //Titulo Abreviación. Autor.
     "Titulo2 A.A.", //Titulo Abreviación. Autor.
     "Titulo3 A.A.", //Titulo Abreviación. Autor.
   ];
@@ -75,6 +83,27 @@ class Settings extends StatelessWidget {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Seleccione Imagen",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                ),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              CircleAvatar(
+                radius: 60,
+                child: FlutterLogo(
+                  size: 90,
+                ),
+              ),
+            ],
+          ),
           ListTile(
             title: Text(
               'Música',
@@ -83,6 +112,15 @@ class Settings extends StatelessWidget {
             subtitle: Text("Deside que música usar de fondo para el video",
                 style: TextStyle(fontSize: sclH(context) * 1.7)),
             trailing: DropdownCustom(musicvalue, musicitems),
+          ),
+          ListTile(
+            title: Text(
+              'Fondo para créditos',
+              style: TextStyle(fontSize: sclH(context) * 2.5),
+            ),
+            subtitle: Text("Deside que video de fondo usar para los créditos",
+                style: TextStyle(fontSize: sclH(context) * 1.7)),
+            trailing: DropdownCustom(fondovalue, fondoitems),
           ),
           Obx(() {
             return SwitchListTile(
@@ -204,9 +242,24 @@ class Settings extends StatelessWidget {
             endIndent: 20,
             thickness: 2,
           ),
-          Text(
-            "Linea de tiempo:",
-            style: TextStyle(fontSize: sclH(context) * 2.5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Linea de tiempo:",
+                style: TextStyle(fontSize: sclH(context) * 2.5),
+              ),
+              TextButton.icon(
+                  onPressed: () => settingsController.makeDefault(),
+                  icon: Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    "default",
+                    style: TextStyle(color: Colors.white),
+                  )),
+            ],
           ),
           SizedBox(
             height: 15,
@@ -226,9 +279,9 @@ class Settings extends StatelessWidget {
                         quarterTurns: 3,
                         child: Slider(
                           value: settingsController.normal1.value.toDouble(),
-                          min: 0.0,
+                          min: 1.0,
                           max: 4.0,
-                          divisions: 4,
+                          divisions: 3,
                           label: '${settingsController.normal1.value} seg',
                           onChanged: (double newValue) {
                             settingsController.normal1.value = newValue.round();
@@ -247,9 +300,9 @@ class Settings extends StatelessWidget {
                         quarterTurns: 3,
                         child: Slider(
                           value: settingsController.slowMotion.value.toDouble(),
-                          min: 0.0,
+                          min: 1.0,
                           max: 4.0,
-                          divisions: 4,
+                          divisions: 3,
                           label: '${settingsController.slowMotion.value} seg',
                           onChanged: (double newValue) {
                             settingsController.slowMotion.value =
@@ -269,9 +322,9 @@ class Settings extends StatelessWidget {
                         quarterTurns: 3,
                         child: Slider(
                           value: settingsController.normal2.value.toDouble(),
-                          min: 0.0,
+                          min: 1.0,
                           max: 4.0,
-                          divisions: 4,
+                          divisions: 3,
                           label: '${settingsController.normal2.value} seg',
                           onChanged: (double newValue) {
                             settingsController.normal2.value = newValue.round();
@@ -290,7 +343,7 @@ class Settings extends StatelessWidget {
                         quarterTurns: 3,
                         child: Slider(
                           value: settingsController.reverse.value.toDouble(),
-                          min: 0.0,
+                          min: 1.0,
                           max: reverseMax(),
                           divisions: settingsController.reverseMax.value,
                           label: '${settingsController.reverse.value} seg',
@@ -313,9 +366,9 @@ class Settings extends StatelessWidget {
                         quarterTurns: 3,
                         child: Slider(
                           value: settingsController.creditos.value.toDouble(),
-                          min: 0.0,
+                          min: 1.0,
                           max: 8.0,
-                          divisions: 4,
+                          divisions: 8,
                           label: '${settingsController.creditos.value} seg',
                           onChanged: (double newValue) {
                             settingsController.creditos.value =
@@ -355,9 +408,7 @@ class Settings extends StatelessWidget {
   reverseMax() {
     if (settingsController.reverse.value >=
         settingsController.timeRecord.value) {
-      Future.delayed(Duration(seconds: 1));
-
-      settingsController.reverse.value = 0;
+      settingsController.reverse.value = 1;
     }
     settingsController.reverseMax.value = settingsController.timeRecord.value;
     return settingsController.reverseMax.value.toDouble();
@@ -374,7 +425,7 @@ class Settings extends StatelessWidget {
         settingsController.reverse.value +
         settingsController.creditos.value;
   }
-/* 
+
   timeTotal() {
     settingsController.timeTotal.value = settingsController.normal1.value +
         settingsController.slowMotion.value * 2 +
@@ -382,7 +433,7 @@ class Settings extends StatelessWidget {
         settingsController.reverse.value +
         settingsController.creditos.value;
     return 'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg';
-  } */
+  }
 }
 
 /* conexión wifi con gopro

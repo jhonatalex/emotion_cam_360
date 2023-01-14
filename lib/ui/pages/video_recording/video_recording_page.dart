@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,25 +20,27 @@ class VideoRecordingPage extends StatefulWidget {
 }
 
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
-  //Variables
+  final VideoController videoController = Get.put(VideoController());
+  /* //Variables
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
-  CameraController? _controller; // Controlador de la cámara
-  int _cameraIndex = 1; // Índice de cámara actual
-  bool _isRecording = false; // Bandera indicadora de grabación en proceso
-
+  //CameraController? _controller; // Controlador de la cámara
+  int _cameraIndex = 1; // Índice de cámara actual */
+  //bool _isRecording = false; // Bandera indicadora de grabación en proceso
+/* 
   double _opacityText = 1.0;
-  double _opacityRec = 1;
+  double _opacityRec = 1; */
   double _width = 15;
   bool _isFirst = true;
-  int _selectedIndex = 2;
-  int _timeSelected = 10; // tiempo seleccionado por el usuario
+  int _selectedIndex =
+      2; /* 
+  int _timeSelected = 10;  */ // tiempo seleccionado por el usuario
   var eventCurrent;
 
   @override
   void initState() {
     super.initState();
 
-    // Verificar la lista de cámaras disponibles al iniciar el Widget
+    /*    // Verificar la lista de cámaras disponibles al iniciar el Widget
     availableCameras().then((cameras) {
       // Guardar la lista de cámaras
       _cameras = cameras;
@@ -48,12 +51,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         // Inicializar la cámara pasando el CameraDescription de la cámara seleccionada
         _initCamera(_cameras[_cameraIndex]);
       }
-    });
+    }); */ /* 
     //iniciar temporizador
-    startTimer();
+    startTimer(); */
   }
 
-  _initCamera(CameraDescription camera) async {
+  /*  _initCamera(CameraDescription camera) async {
     // Si el controlador está en uso,
     // realizar un dispose para detenerlo antes de continuar
     Future<void> _disposeCameraController() async {
@@ -86,8 +89,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
     _controller!.initialize();
-  }
-
+  } */
+/* 
   Widget _buildCamera() {
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
     if (_controller == null || !_controller!.value.isInitialized) {
@@ -101,8 +104,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       ),
     );
   }
-
-  // Detener la grabación de video
+ */
+/*   // Detener la grabación de video
   Future<void> _onStop() async {
     final file = await _controller?.stopVideoRecording();
     setState(() => _isRecording = false);
@@ -129,9 +132,9 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     await _controller?.startVideoRecording();
 
     setState(() => _isRecording = true);
-  }
+  } */
 
-  late Timer _timer;
+  /* late Timer _timer;
   int _start = 10;
   //el tiempo que se configuró más los 10seg para empezar
 
@@ -170,11 +173,11 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         }
       },
     );
-  }
-
+  } 
+*/
   @override
   void dispose() {
-    _timer.cancel();
+    // _timer.cancel();
     super.dispose();
   }
 
@@ -191,7 +194,9 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           onPressed: (() => Get.offNamed(RouteNames.videoPage)),
         ),
         actions: [
-          buttonRec(),
+          Obx(() {
+            return buttonRec();
+          }),
           const SizedBox(
             width: 20,
           )
@@ -203,7 +208,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          _buildCamera(),
+          Obx(() {
+            if (videoController.start.value == 8) {
+              print(chalk.yellow.bold("**********************object"));
+            }
+            return videoController.buildCamera();
+          }),
           CountDown(context),
         ],
       ),
@@ -211,11 +221,13 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   buttonRec() {
+    print(chalk.white.bold(videoController.isRecording));
     return AnimatedOpacity(
-      opacity: 1 - _opacityRec,
+      opacity: 1 - videoController.opacityRec,
       duration: Duration(seconds: 1),
       onEnd: () {
-        _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;
+        videoController.opacityRec =
+            videoController.opacityRec == 0 ? 1.0 : 0.0;
       },
       child: Icon(
         Icons.radio_button_checked,
@@ -230,28 +242,30 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
-          child: AnimatedOpacity(
-            opacity: _opacityText,
-            curve: Curves.easeInToLinear,
-            duration: Duration(milliseconds: 500),
-            child: Column(
-              children: [
-                Text(
-                  'Preparate...',
-                  style: TextStyle(fontSize: sclH(context) * 3),
-                ),
-                Text(
-                  "$_start",
-                  style: TextStyle(fontSize: sclH(context) * 20),
-                ),
-                Text(
-                  'La aventura está por comenzar...',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: sclH(context) * 4),
-                ),
-              ],
-            ),
-          ),
+          child: Obx(() {
+            return AnimatedOpacity(
+              opacity: videoController.opacityText,
+              curve: Curves.easeInToLinear,
+              duration: Duration(milliseconds: 500),
+              child: Column(
+                children: [
+                  Text(
+                    'Preparate...',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  Text(
+                    "${videoController.start}",
+                    style: TextStyle(fontSize: sclH(context) * 20),
+                  ),
+                  Text(
+                    'La aventura está por comenzar...',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: sclH(context) * 4),
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ],
     );

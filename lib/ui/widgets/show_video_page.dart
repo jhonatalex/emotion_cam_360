@@ -54,6 +54,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
     _videoPlayerController = VideoPlayerController.file(File(file));
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(false);
+    await Future.delayed(Duration(seconds: 1));
     await _videoPlayerController.play();
   }
 
