@@ -21,7 +21,7 @@ final SettingsController settingsController = Get.put(SettingsController());
 class VideoUtil {
   static int normal1 = settingsController.normal1.value.toInt();
   static int slowMotion = settingsController.slowMotion.value;
-  //static int normal2 = settingsController.normal2.value;
+  static int normal2 = settingsController.normal2.value;
   static int reverse = settingsController.reverse.value;
   static int creditos = settingsController.creditos.value;
   static int timeRecord = settingsController.timeRecord.value;
@@ -112,12 +112,13 @@ class VideoUtil {
     // String pixelFormat,
     // String customOptions
   ) {
-    print(chalk.white.bold(normal1));
-    print(chalk.white.bold(slowMotion));
-    print(chalk.white.bold(reverse));
-    print(chalk.white.bold(creditos));
-    print(chalk.white.bold(timeRecord));
-    print(chalk.white.bold(timeTotal));
+    print(chalk.white.bold("normal1 $normal1"));
+    print(chalk.white.bold("Slow motion $slowMotion"));
+    print(chalk.white.bold("normal2 $normal2"));
+    print(chalk.white.bold("reverse $reverse"));
+    print(chalk.white.bold("creditos $creditos"));
+    print(chalk.white.bold("timeRecord $timeRecord"));
+    print(chalk.white.bold("timeTotal $MUSIC1"));
     return "-y -hide_banner -i $video360Path " +
         "-ss $normal1 -t $slowMotion -i $video360Path " +
         "-i $video360Path " +

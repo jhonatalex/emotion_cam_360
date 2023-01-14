@@ -426,7 +426,6 @@ class Settings extends StatelessWidget {
         settingsController.creditos.value;
   }
 
-/* 
   timeTotal() {
     settingsController.timeTotal.value = settingsController.normal1.value +
         settingsController.slowMotion.value * 2 +
@@ -434,7 +433,7 @@ class Settings extends StatelessWidget {
         settingsController.reverse.value +
         settingsController.creditos.value;
     return 'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg';
-  } */
+  }
 }
 
 /* conexión wifi con gopro

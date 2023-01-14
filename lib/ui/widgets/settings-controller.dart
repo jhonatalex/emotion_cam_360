@@ -6,7 +6,7 @@ class SettingsController extends GetxController {
   RxInt normal1 = 3.obs;
   RxInt slowMotion = 4.obs;
   RxInt normal2 = 3.obs;
-  RxInt reverse = 7.obs;
+  RxInt reverse = 8.obs;
   RxInt creditos = 8.obs;
   RxInt timeRecord = 10.obs;
   RxInt timeTotal = 29.obs;
@@ -16,7 +16,7 @@ class SettingsController extends GetxController {
     normal1.value = 3;
     slowMotion.value = 4;
     normal2.value = 3;
-    reverse.value = 7;
+    reverse.value = 8;
     creditos.value = 8;
     timeRecord.value = 10;
     timeTotal.value = 29;
