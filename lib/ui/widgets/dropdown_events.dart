@@ -79,7 +79,8 @@ class _DropdownEventosState extends State<DropdownEventos> {
             Get.offNamed(RouteNames.eventPage);
           }
 
-          if (newValue.name == "Seleccione") {
+          if (newValue.name != "Seleccione" &&
+              newValue.name != "Crear Evento") {
             eventProvider.saveSleccionarPrefrerence(true);
             //eventProvider.saveEventPrefrerence(newValue);
           }

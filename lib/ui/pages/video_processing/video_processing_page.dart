@@ -54,32 +54,19 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   void encodeVideo() {
+    final eventProvider =
+        Provider.of<EventoActualPreferencesProvider>(context, listen: false);
     VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
       VideoUtil.assetPath(VideoUtil.BGCREDITOS).then((endingPath) {
         VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
           getVideoFile().then((videoFile) {
-            // IF VIDEO IS PLAYING STOP PLAYBACK
-
             final styleVideoOne = VideoUtil.styleVideoOne(
-              logoPath,
+              eventProvider.logoPrefrerences,
               endingPath,
-              file[1], //video360Path
-              music1Path,
+              file[1],
+              eventProvider.musicPrefrerences,
               videoFile.path,
-              //↑↑ para que el video dde salida tenga
-              //// el mismo nombre que el de entrada
-
-              // videoCodec,
-              //this.getPixelFormat(),
-              //this.getCustomOptions()
             );
-            print(chalk.white.bold(file[1]));
-            //crear video creditos esta funcion deberia estar
-            // despues que el cliente cargue el logo para
-            //que el video de los creditos ya esté preparado
-
-            //Esta produce el video con slowmotion
-            //reverse y el video de creditos al final
             FFmpegKit.executeAsync(
                     styleVideoOne,
                     (session) async {

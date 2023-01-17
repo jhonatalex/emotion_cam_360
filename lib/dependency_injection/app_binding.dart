@@ -45,6 +45,8 @@ class SesionPreferencerProvider with ChangeNotifier {
 
 class EventoActualPreferencesProvider with ChangeNotifier {
   EventEntity? _eventEntity = null;
+  var _musicEntity = null;
+  var _logoEntity = null;
   bool _seleccionar = false;
 
   get eventPrefrerences {
@@ -58,6 +60,26 @@ class EventoActualPreferencesProvider with ChangeNotifier {
 
   void saveEventPrefrerence(EventEntity? entity) {
     this._eventEntity = entity;
+    notifyListeners();
+  }
+
+  //MUSICA
+  get musicPrefrerences {
+    return _musicEntity;
+  }
+
+  void saveMusicPrefrerence(entity) {
+    this._musicEntity = entity;
+    notifyListeners();
+  }
+
+  //LOGO
+  get logoPrefrerences {
+    return _logoEntity;
+  }
+
+  void saveLogoPrefrerence(entity) {
+    this._logoEntity = entity;
     notifyListeners();
   }
 

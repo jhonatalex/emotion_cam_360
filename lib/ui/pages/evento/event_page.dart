@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,6 +52,11 @@ class _EventPageState extends State<EventPage> {
   AuthClass authClass = AuthClass();
 
   final _evenController = Get.find<EventController>();
+
+  late String textFile;
+
+  var textFileImage = "";
+  var textFileMp3 = "";
 
   @override
   Widget build(BuildContext context) {
@@ -98,10 +106,7 @@ class _EventPageState extends State<EventPage> {
                 ),
               ),
               const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 10,
+                height: 20,
               ),
               textItem("Introduzca Nombre del Evento",
                   _evenController.nameController, false),
@@ -216,6 +221,12 @@ class _EventPageState extends State<EventPage> {
       Future.delayed(const Duration(microseconds: 500), (() {
         if (_evenController.evento.value != null) {
           eventProvider.saveEventPrefrerence(_evenController.evento.value);
+          eventProvider.saveMusicPrefrerence(textFileMp3);
+          eventProvider.saveLogoPrefrerence(textFileImage);
+          print(chalk.greenBright.bgWhite
+              .bold("evento name: ${_evenController.evento.value}"));
+          print(chalk.greenBright.bold("Music Path: $textFileMp3"));
+          print(chalk.greenBright.bold("Logo Path: $textFileImage"));
           Get.offNamed(RouteNames.videoPage);
         }
       }));
@@ -237,9 +248,7 @@ class _EventPageState extends State<EventPage> {
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             } else {
-              final snackbar =
-                  SnackBar(content: Text("Favor debde Ingresar un Nombre"));
-              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+              MessengerSnackBar(context, "Favor, debe ingresar un nombre");
             }
           },
           child: Container(
@@ -247,10 +256,18 @@ class _EventPageState extends State<EventPage> {
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
+              //****** y si usamos el degradado para el boton?
+
+              /*  image: DecorationImage(
+                  image: AssetImage("assets/img/background.png"),
+                  fit: BoxFit.cover), */
               gradient: const LinearGradient(colors: [
-                Color(0xff604fef),
+                AppColors.royalBlue,
+                AppColors.violet,
+                AppColors.royalBlue,
+                /*  Color(0xff604fef),
                 Color.fromARGB(255, 153, 120, 230),
-                Color(0xff604fef)
+                Color(0xff604fef) */
               ]),
             ),
             child: Center(
@@ -271,9 +288,6 @@ class _EventPageState extends State<EventPage> {
 
   filePikerCustom(String texto, ancho, isMp3) {
     return Obx(() {
-      var textFileImage = "";
-      var textFileMp3 = "";
-
       if (_evenController.pickedImageLogo.value != null) {
         textFileImage = _evenController.pickedImageLogo.value!.path;
       }
@@ -302,15 +316,19 @@ class _EventPageState extends State<EventPage> {
                   border: Border.all(
                       color: Color.fromARGB(255, 175, 180, 184), width: 1),
                 ),
-                child: Text(_setTextPath(textFileImage, textFileMp3, isMp3),
-                    style: TextStyle(fontSize: 12))),
+                child: Center(
+                  child: Text(_setTextPath(textFileImage, textFileMp3, isMp3),
+                      maxLines: 2, style: TextStyle(fontSize: 12)),
+                )),
             IconButton(
-              icon: const Icon(Icons.upload_file),
+              icon: const Icon(Icons.note_add_outlined),
               onPressed: () async {
                 if (isMp3) {
                   //MUSICA
                   FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
+                      await FilePicker.platform.pickFiles(
+                    type: FileType.audio,
+                  );
                   if (result != null) {
                     Get.find<EventController>()
                         .setMp3(File(result.files.single.path!));
@@ -342,8 +360,6 @@ class _EventPageState extends State<EventPage> {
   }
 
   String _setTextPath(String textFileImage, String textFileMp3, isMp3) {
-    String textFile;
-
     if (isMp3) {
       textFile = textFileMp3;
     } else {
@@ -352,6 +368,6 @@ class _EventPageState extends State<EventPage> {
 
     return textFile.isEmpty
         ? textFile
-        : textFile.substring(textFile.length - 40, textFile.length);
+        : textFile.substring(textFile.length - 45, textFile.length);
   }
 }

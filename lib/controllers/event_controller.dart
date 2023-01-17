@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
+import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
+import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,8 +19,10 @@ class EventController extends GetxController {
   final musicController = TextEditingController();
   final logoController = TextEditingController().obs;
 
-  Rx<File?> pickedImageLogo = Rx(null);
-  Rx<File?> pickedMp3File = Rx(null);
+  Rx<File?> pickedImageLogo =
+      Rx(File("/data/user/0/com.example.emotion_cam_360/cache/watermark.png"));
+  Rx<File?> pickedMp3File =
+      Rx(File("/data/user/0/com.example.emotion_cam_360/cache/hallman-ed.mp3"));
 
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
@@ -34,6 +38,12 @@ class EventController extends GetxController {
     //TRER LISTA DE EVENTOS
     //loadInitialData();
     super.onInit();
+
+    //prepara las assets y los pasa al cache,
+    // esto para la musica y el logo default
+    FFmpegKitConfig.init().then((_) {
+      VideoUtil.prepareAssets();
+    });
   }
 
   void setImage(File? imageFileLogo) async {

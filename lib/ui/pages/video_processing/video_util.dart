@@ -4,12 +4,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 const String pad =
     "pad=width=720:height=1280:x=(720-iw)/2:y=(1280-ih)/2:color=#604fef";
@@ -119,6 +121,7 @@ class VideoUtil {
     print(chalk.white.bold("creditos $creditos"));
     print(chalk.white.bold("timeRecord $timeRecord"));
     print(chalk.white.bold("timeTotal $MUSIC1"));
+
     return "-y -hide_banner -i $video360Path " +
         "-ss $normal1 -t $slowMotion -i $video360Path " +
         "-i $video360Path " +

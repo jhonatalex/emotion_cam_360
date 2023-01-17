@@ -7,6 +7,7 @@ import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:emotion_cam_360/ui/widgets/settings.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:flutter/material.dart';
@@ -196,17 +197,21 @@ class _VideoPageState extends State<VideoPage> {
                 opacity: _opacity,
                 curve: Curves.easeInToLinear,
                 duration: const Duration(milliseconds: 700),
-                onEnd: () => Get.offNamed(RouteNames.videoRecording),
+                onEnd: () => Get.toNamed(RouteNames.videoRecording),
                 child: Column(
                   children: [
                     GestureDetector(
                       onTap: () {
+                        print(eventProvider.seleccionarPrefrerences);
                         if (eventProvider.seleccionarPrefrerences) {
                           if (_opacity == 1) {
                             setState(() {
                               _changeValue();
                             });
                           }
+                        } else {
+                          MessengerSnackBar(
+                              context, "Debe crear o seleccionar un evento");
                         }
                       },
                       child: AnimatedContainer(
