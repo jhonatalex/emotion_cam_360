@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
+import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/repositories/abstractas/event_repository.dart';
@@ -22,6 +23,7 @@ class AppBinding implements Bindings {
     Get.put<AuthRepository>(AuthRepositoryImp(), permanent: true);
     Get.put<EventRepository>(EventRepositoryImple(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
+    Get.put<EventController>(EventController(), permanent: true);
   }
 }
 
@@ -106,7 +108,7 @@ class VideoPreferencesProvider with ChangeNotifier {
     notifyListeners();
   }
  */
-  void saveVideoPrefrerence(Uint8List video) {
+  void saveVideoPrefrerence(Uint8List? video) {
     this._video = video;
     notifyListeners();
   }

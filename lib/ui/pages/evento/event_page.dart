@@ -221,12 +221,16 @@ class _EventPageState extends State<EventPage> {
       Future.delayed(const Duration(microseconds: 500), (() {
         if (_evenController.evento.value != null) {
           eventProvider.saveEventPrefrerence(_evenController.evento.value);
+
           eventProvider.saveMusicPrefrerence(textFileMp3);
           eventProvider.saveLogoPrefrerence(textFileImage);
           print(chalk.greenBright.bgWhite
               .bold("evento name: ${_evenController.evento.value}"));
           print(chalk.greenBright.bold("Music Path: $textFileMp3"));
           print(chalk.greenBright.bold("Logo Path: $textFileImage"));
+
+          //lIMPIAR VISTA
+          _evenController.evento.value = null;
           Get.offNamed(RouteNames.videoPage);
         }
       }));

@@ -4,9 +4,11 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../../../repositories/abstractas/appcolors.dart';
 import '../../../repositories/abstractas/responsive.dart';
@@ -183,41 +185,52 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: sclH(context) * 7,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          iconSize: sclH(context) * 3,
-          onPressed: (() => Get.offNamed(RouteNames.videoPage)),
+    final videoProvider = Provider.of<VideoPreferencesProvider>(context);
+
+    return Obx((() {
+      if (videoController.pickedVideo.value != null) {
+        //videoProvider.saveVideoPrefrerence(videoController.pickedVideo.value);
+        videoProvider.savePathPrefrerence(videoController.videoPath.value);
+        Get.offNamed(RouteNames.videoProcessing,
+            arguments: videoController.videoPath.value);
+      }
+
+      return Scaffold(
+        appBar: AppBar(
+          toolbarHeight: sclH(context) * 7,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            iconSize: sclH(context) * 3,
+            onPressed: (() => Get.offNamed(RouteNames.videoPage)),
+          ),
+          actions: [
+            Obx(() {
+              return buttonRec();
+            }),
+            const SizedBox(
+              width: 20,
+            )
+          ],
         ),
-        actions: [
-          Obx(() {
-            return buttonRec();
-          }),
-          const SizedBox(
-            width: 20,
-          )
-        ],
-      ),
-      backgroundColor: AppColors.vulcan,
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Obx(() {
-            if (videoController.start.value == 8) {
-              print(chalk.yellow.bold("**********************object"));
-            }
-            return videoController.buildCamera();
-          }),
-          CountDown(context),
-        ],
-      ),
-    );
+        backgroundColor: AppColors.vulcan,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            Obx(() {
+              if (videoController.start.value == 8) {
+                print(chalk.yellow.bold("**********************object"));
+              }
+              return videoController.buildCamera();
+            }),
+            CountDown(context),
+          ],
+        ),
+      );
+    }));
   }
 
   buttonRec() {

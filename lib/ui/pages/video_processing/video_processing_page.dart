@@ -45,17 +45,19 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     FFmpegKitConfig.init().then((_) {
       VideoUtil.prepareAssets();
     });
+
     _init();
   }
 
   Future<void> _init() async {
-    await Future.delayed(const Duration(seconds: 3));
+    //await Future.delayed(const Duration(seconds: 3));
     encodeVideo();
   }
 
   void encodeVideo() {
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
+
     VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
       VideoUtil.assetPath(VideoUtil.BGCREDITOS).then((endingPath) {
         VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
@@ -63,7 +65,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             final styleVideoOne = VideoUtil.styleVideoOne(
               eventProvider.logoPrefrerences,
               endingPath,
-              file[1],
+              file[1], //videoProvider.pathPreferences,
               eventProvider.musicPrefrerences,
               videoFile.path,
             );

@@ -14,6 +14,7 @@ import '../../../repositories/abstractas/video_repository.dart';
 class VideoController extends GetxController {
   //OBSERVABLES
   Rx<Uint8List?> pickedVideo = Rx(null);
+  Rx<String> videoPath = Rx('');
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
   Rx<VideoEntity?> video = Rx(null);
@@ -104,10 +105,10 @@ class VideoController extends GetxController {
 
     //CAMBIAR ACA SALTAR VIDEO
     //READ BYTES AND SEND DATA WITH GETX
-    file!.readAsBytes().then((valueBytes) => Get.offNamed(
-        RouteNames.videoProcessing,
-        arguments: [valueBytes, file.path]));
-    print(chalk.white.bold(file.path));
+    await file!
+        .readAsBytes()
+        .then((valueBytes) => pickedVideo.value = valueBytes);
+    videoPath.value = file.path;
   }
 
   recordVideo() async {
