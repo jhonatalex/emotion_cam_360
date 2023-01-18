@@ -190,9 +190,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     return Obx((() {
       if (videoController.pickedVideo.value != null) {
         //videoProvider.saveVideoPrefrerence(videoController.pickedVideo.value);
-        videoProvider.savePathPrefrerence(videoController.videoPath.value);
-        Get.offNamed(RouteNames.videoProcessing,
-            arguments: videoController.videoPath.value);
+
+        Future.delayed(const Duration(microseconds: 500), (() {
+          videoProvider.savePathPrefrerence(videoController.videoPath.value);
+          Get.offNamed(RouteNames.videoProcessing,
+              arguments: videoController.videoPath.value);
+        }));
       }
 
       return Scaffold(
