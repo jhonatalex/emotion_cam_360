@@ -19,8 +19,8 @@ class VideoController extends GetxController {
   Rx<bool> isSaving = Rx(false);
   Rx<VideoEntity?> video = Rx(null);
 
-  double opacityText = 1.0;
-  double opacityRec = 1;
+  RxDouble opacityText = 1.0.obs;
+  RxDouble opacityRec = 0.0.obs;
 
   RxBool isRecording = false.obs; // Bandera indicadora de grabación en proceso
   int timeSelected = 10; //Variables
@@ -125,11 +125,11 @@ class VideoController extends GetxController {
       (Timer timer) {
         if (start == 2) {
           print("es dos");
-          opacityText = 0;
-          opacityRec = 0;
+          opacityText.value = 0;
         }
         if (start == 0) {
           print("es cero");
+          opacityRec.value = 1;
           recordVideo();
         }
         if (start == -timeSelected) {

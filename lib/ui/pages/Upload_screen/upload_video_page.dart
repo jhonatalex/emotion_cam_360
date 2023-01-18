@@ -61,51 +61,60 @@ class UploadVideoPage extends StatelessWidget {
 
       return Scaffold(
           backgroundColor: AppColors.vulcan,
-          body: Stack(children: [
+          body: Stack(alignment: AlignmentDirectional.center, children: [
             BackgroundGradient(context),
-            ListView(
-              children: [
-                Center(
-                    child: Padding(
-                        padding: EdgeInsets.all(sclW(context) * 25),
-                        child: Center(
-                          child: Column(children: [
-                            const SizedBox(
-                                height: 300,
-                                child: SimpleCircularProgressBar(
-                                  progressColors: [
-                                    Colors.cyan,
-                                    Color.fromARGB(255, 64, 251, 104)
-                                  ],
-
-                                  /*
-                                    onGetText: (progressValue) {
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                height: 80,
+                width: 80,
+                child: const CircularProgressIndicator(
+                  backgroundColor: AppColors.violet,
+                  color: AppColors.royalBlue,
+                  strokeWidth: 8,
+                ),
+              ),
+              const SizedBox(height: 20),
+              /* const SizedBox(
+                  height: 300,
+                  child:
                   
-                                      if (progressValue == 100) {}
-                                      return Text(
-                                        '${progressValue.toInt()} %',
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      );
-                                    }*/
-                                )),
-                            if (isloading)
-                              Text(
-                                "Cargando Video..",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: sclH(context) * 3,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                          ]),
-                        ))),
-              ],
-            ),
+                  SimpleCircularProgressBar(
+                    progressColors: [
+                      Colors.cyan,
+                      Color.fromARGB(255, 64, 251, 104)
+                    ],
+
+                    
+                      onGetText: (progressValue) {
+              
+                        if (progressValue == 100) {}
+                        return Text(
+                          '${progressValue.toInt()} %',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        );
+                      }
+                  )),*/
+              if (isloading)
+                Text(
+                  "Subiendo video a la nube...",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: sclW(context) * 3,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ), /* 
+              ElevatedButton(
+                  onPressed: () {
+                    urlQR =
+                        "Este texto es solo para pasar de pagina \n sin modificar más nada";
+                  },
+                  child: Text("ir a ver QR")), */
+            ]),
           ]));
     });
   }

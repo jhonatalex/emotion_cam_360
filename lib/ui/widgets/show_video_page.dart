@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -101,15 +102,18 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.violet,
         onPressed: () {
           _videoPlayerController.value.isPlaying
               ? _videoPlayerController.pause()
               : _videoPlayerController.play();
         },
         child: Icon(
+          /* 
           _videoPlayerController.value.isPlaying
               ? Icons.pause
-              : Icons.play_arrow,
+              :  */
+          Icons.play_arrow,
         ),
       ),
     );

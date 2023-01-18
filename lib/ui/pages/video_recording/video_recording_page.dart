@@ -188,13 +188,14 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     final videoProvider = Provider.of<VideoPreferencesProvider>(context);
 
     return Obx((() {
-      if (videoController.pickedVideo.value != null) {
-        //videoProvider.saveVideoPrefrerence(videoController.pickedVideo.value);
-        videoProvider.savePathPrefrerence(videoController.videoPath.value);
-        Get.offNamed(RouteNames.videoProcessing,
-            arguments: videoController.videoPath.value);
-      }
-
+      Future.delayed(Duration(seconds: 1), () {
+        if (videoController.pickedVideo.value != null) {
+          //videoProvider.saveVideoPrefrerence(videoController.pickedVideo.value);
+          videoProvider.savePathPrefrerence(videoController.videoPath.value);
+          Get.offNamed(RouteNames.videoProcessing,
+              arguments: videoController.videoPath.value);
+        }
+      });
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: sclH(context) * 7,
@@ -206,9 +207,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
             onPressed: (() => Get.offNamed(RouteNames.videoPage)),
           ),
           actions: [
-            Obx(() {
-              return buttonRec();
-            }),
+            iconRec(),
             const SizedBox(
               width: 20,
             )
@@ -222,42 +221,46 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           children: [
             Obx(() {
               if (videoController.start.value == 8) {
-                print(chalk.yellow.bold("**********************object"));
+                print(chalk.yellow.bold("Forza reconstruir la camara"));
               }
               return videoController.buildCamera();
             }),
-            CountDown(context),
+            countDown(context),
           ],
         ),
       );
     }));
   }
 
-  buttonRec() {
-    print(chalk.white.bold(videoController.isRecording));
-    return AnimatedOpacity(
-      opacity: 1 - videoController.opacityRec,
-      duration: Duration(seconds: 1),
-      onEnd: () {
-        videoController.opacityRec =
-            videoController.opacityRec == 0 ? 1.0 : 0.0;
+  iconRec() {
+    print(chalk.white.bold("Empeiza a grabar: ${videoController.isRecording}"));
+    return Obx(
+      () {
+        return AnimatedOpacity(
+          opacity: videoController.opacityRec.value,
+          duration: Duration(seconds: 1),
+          onEnd: () {
+            videoController.opacityRec.value =
+                videoController.opacityRec.value == 1 ? 0.0 : 1.0;
+          },
+          child: Icon(
+            Icons.radio_button_checked,
+            color: Colors.red,
+            size: sclH(context) * 3,
+          ),
+        );
       },
-      child: Icon(
-        Icons.radio_button_checked,
-        color: Colors.red,
-        size: sclH(context) * 3,
-      ),
     );
   }
 
-  Column CountDown(BuildContext context) {
+  countDown(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Obx(() {
             return AnimatedOpacity(
-              opacity: videoController.opacityText,
+              opacity: videoController.opacityText.value,
               curve: Curves.easeInToLinear,
               duration: Duration(milliseconds: 500),
               child: Column(

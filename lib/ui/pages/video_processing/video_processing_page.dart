@@ -50,11 +50,13 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   Future<void> _init() async {
-    //await Future.delayed(const Duration(seconds: 3));
+    print(chalk.yellow.bold("_init iniciado"));
+    await Future.delayed(const Duration(seconds: 3));
     encodeVideo();
   }
 
   void encodeVideo() {
+    print(chalk.yellow.bold("encode video"));
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
 
@@ -154,17 +156,36 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(
-            backgroundColor: AppColors.violet,
-            color: AppColors.royalBlue,
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Container(
+                height: 80,
+                width: 80,
+                child: const CircularProgressIndicator(
+                  backgroundColor: AppColors.violet,
+                  color: AppColors.royalBlue,
+                  strokeWidth: 8,
+                ),
+              ),
+              Text(
+                "$completePercentage % ",
+                style: TextStyle(fontSize: sclW(context) * 3),
+              ),
+            ],
           ),
           const SizedBox(
             height: 20,
           ),
           Text(
-            " Procesando video $completePercentage % ",
+            " Procesando video...",
             style: TextStyle(fontSize: sclW(context) * 3),
-          ),
+          ), /* 
+          ElevatedButton(
+              onPressed: () {
+                Get.offNamed(RouteNames.showVideo);
+              },
+              child: Text("ir a show video")), */
         ],
       );
     } else {
@@ -182,20 +203,15 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   fileEncoded = snapshot.data as File;
-                  return ElevatedButton(
-                      child: const Text("Ver Video"),
-                      onPressed: () {
-                        fileEncoded.readAsBytes().then((valueBytes) {
-                          videoProvider.saveVideoPrefrerence(valueBytes);
-                          videoProvider.savePathPrefrerence(fileEncoded.path);
+                  fileEncoded.readAsBytes().then((valueBytes) {
+                    videoProvider.saveVideoPrefrerence(valueBytes);
+                    videoProvider.savePathPrefrerence(fileEncoded.path);
 
-                          Get.offNamed(
-                            RouteNames.showVideo,
-                          );
-                          // arguments: [valueBytes, fileEncoded.path]);
-                        });
-                        print(chalk.white.bold(fileEncoded.path));
-                      });
+                    Get.offNamed(RouteNames.showVideo);
+                    // arguments: [valueBytes, fileEncoded.path]);
+                  });
+                  print(chalk.white.bold(fileEncoded.path));
+                  return Container();
                 } else {
                   return Container();
                 }
