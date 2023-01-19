@@ -19,7 +19,7 @@ class DbDataSource {
       await newDb.execute('''
           CREATE TABLE evento
           (
-            id INTEGER PRIMARY KEY ,
+            id TEXT PRIMARY KEY ,
             name TEXT,
             overlay TEXT,
             music TEXT,
@@ -43,6 +43,21 @@ class DbDataSource {
       where: 'name = ? AND id = ?',
       whereArgs: [toDelete.name, toDelete.id],
     );
+  }
+
+  Future<int> getEventDb(EventEntity toDelete) {
+    return db.delete(
+      'evento',
+      where: 'name = ? AND id = ?',
+      whereArgs: [toDelete.name, toDelete.id],
+    );
+  }
+
+  Future<EventEntity> getLastEvent() async {
+    const query =
+        'SELECT evento.id, evento.name, evento.overlay, evento.music, evento.videos FROM evento';
+    final queryResult = await db.rawQuery(query);
+    return queryResult.map((e) => EventEntity.fromMap(e)).last;
   }
 
   Future<List<EventEntity>> getAllEvents() async {

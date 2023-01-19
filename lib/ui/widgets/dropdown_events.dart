@@ -9,23 +9,23 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class DropdownEventos extends StatefulWidget {
-  List listEvents = [];
+  EventEntity? eventBD;
 
-  DropdownEventos(this.listEvents, {super.key});
+  DropdownEventos(this.eventBD, {super.key});
 
   @override
-  State<DropdownEventos> createState() => _DropdownEventosState(listEvents);
+  State<DropdownEventos> createState() => _DropdownEventosState(eventBD);
 }
 
 class _DropdownEventosState extends State<DropdownEventos> {
   // Initial Selected Value
-  List listEvents = [];
+  EventEntity? eventBD;
 
   EventEntity dropdownvalue = const EventEntity(
       "Seleccione", "Seleccione", "music",
       overlay: "overlay");
 
-  _DropdownEventosState(this.listEvents);
+  _DropdownEventosState(this.eventBD);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class _DropdownEventosState extends State<DropdownEventos> {
         "Crear Evento", "Crear Evento", "music",
         overlay: "overlay"));
 
-    if (eventProvider.eventPrefrerences != null) {
-      listEventEntity.add(eventProvider.eventPrefrerences);
+    if (eventBD != null) {
+      listEventEntity.add(eventBD);
     }
 
     //CONVERTIR RESPUESTA EN ENTITIES
@@ -82,7 +82,7 @@ class _DropdownEventosState extends State<DropdownEventos> {
           if (newValue.name != "Seleccione" &&
               newValue.name != "Crear Evento") {
             eventProvider.saveSleccionarPrefrerence(true);
-            //eventProvider.saveEventPrefrerence(newValue);
+            eventProvider.saveEventPrefrerence(newValue);
           }
         });
       },

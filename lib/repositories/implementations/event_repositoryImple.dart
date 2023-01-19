@@ -20,14 +20,15 @@ class EventRepositoryImple extends EventRepository {
   //@override
   //Future<MyUser?> getMyUser() => provider.getMyUser();
 
-  //EventRepositoryImple(this._dbDataSource);
+  EventRepositoryImple(this._dbDataSource);
   //EventRepositoryImple(this._dbDataSource);
 
   @override
   Future<void> saveMyEvento(
       EventEntity newEvent, File? imageFile, File? mp3File) async {
     provider.saveMyEventProvider(newEvent, imageFile, mp3File);
-    //await _dbDataSource.save(newEvent);
+
+    await _dbDataSource.save(newEvent);
   }
 
   @override
@@ -40,17 +41,22 @@ class EventRepositoryImple extends EventRepository {
     return provider.getAllMyEventProvider();
   }
 
-  @override
+/*  @override
   Future<EventEntity> getNewEvent() async {
     final event =
         EventEntity("name.first", "last", "location", overlay: "Jues");
     //await _dbDataSource.save(event);
     return event;
-  }
+  }  */
 
   @override
   Future<List<EventEntity>> getAllEvents() async {
     return _dbDataSource.getAllEvents();
+  }
+
+  @override
+  Future<EventEntity> getLastEvent() async {
+    return _dbDataSource.getLastEvent();
   }
 
   @override

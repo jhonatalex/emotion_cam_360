@@ -224,13 +224,12 @@ class _EventPageState extends State<EventPage> {
 
           eventProvider.saveMusicPrefrerence(textFileMp3);
           eventProvider.saveLogoPrefrerence(textFileImage);
-          print(chalk.greenBright.bgWhite
-              .bold("evento name: ${_evenController.evento.value}"));
-          print(chalk.greenBright.bold("Music Path: $textFileMp3"));
-          print(chalk.greenBright.bold("Logo Path: $textFileImage"));
 
           //lIMPIAR VISTA
           _evenController.evento.value = null;
+          // TRAE EL ULTIMO EVENTO CREADO
+          _evenController.getEventBd();
+
           Get.offNamed(RouteNames.videoPage);
         }
       }));
@@ -241,12 +240,6 @@ class _EventPageState extends State<EventPage> {
             if (_evenController.nameController.value.text != '') {
               try {
                 _evenController.saveMyEvent();
-                /*      
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (builder) => HomePage()),
-                    (route) => false); */
-
               } catch (e) {
                 final snackbar = SnackBar(content: Text(e.toString()));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -260,7 +253,7 @@ class _EventPageState extends State<EventPage> {
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              //****** y si usamos el degradado para el boton?
+              //*** y si usamos el degradado para el boton?
 
               /*  image: DecorationImage(
                   image: AssetImage("assets/img/background.png"),

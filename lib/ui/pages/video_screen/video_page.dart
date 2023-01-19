@@ -249,7 +249,10 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Obx(() {
       var isLoading = _evenController.isLoading.value;
-      var listEvents = _evenController.eventos;
+      var eventBd = _evenController.eventoBd.value;
+
+      const eventSeleccione =
+          EventEntity("Seleccione", "Seleccione", "music", overlay: "overlay");
 
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
@@ -271,7 +274,7 @@ class _VideoPageState extends State<VideoPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Stack(children: [
-                    if (!isLoading) DropdownEventos(listEvents),
+                    if (!isLoading) DropdownEventos(eventBd),
                     if (isLoading) const CircularProgressIndicator()
                   ]),
                 ],
@@ -329,9 +332,7 @@ class _VideoPageState extends State<VideoPage> {
                     case 0:
                       _onSwitchCamera();
                       break;
-
                     case 1:
-                      //_recordVideo();
                       break;
                     case 2:
                       //s

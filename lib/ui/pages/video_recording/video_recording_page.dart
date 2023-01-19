@@ -188,14 +188,16 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     final videoProvider = Provider.of<VideoPreferencesProvider>(context);
 
     return Obx((() {
-      Future.delayed(Duration(seconds: 1), () {
-        if (videoController.pickedVideo.value != null) {
-          //videoProvider.saveVideoPrefrerence(videoController.pickedVideo.value);
+      if (videoController.pickedVideo.value != null) {
+        //videoProvider.saveVideoPrefrerence(videoController.pickedVideo.value);
+
+        Future.delayed(const Duration(microseconds: 500), (() {
           videoProvider.savePathPrefrerence(videoController.videoPath.value);
           Get.offNamed(RouteNames.videoProcessing,
               arguments: videoController.videoPath.value);
-        }
-      });
+        }));
+      }
+
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: sclH(context) * 7,
