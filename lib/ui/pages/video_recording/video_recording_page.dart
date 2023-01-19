@@ -224,9 +224,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           alignment: Alignment.center,
           children: [
             Obx(() {
-              if (videoController.start.value == 8) {
-                print(chalk.yellow.bold("**********************object"));
-              }
               return videoController.buildCamera();
             }),
             CountDown(context),
