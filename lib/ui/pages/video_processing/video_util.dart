@@ -70,9 +70,9 @@ class VideoUtil {
 
     Future<File> fileFuture = new File(fullTemporaryPath)
         .writeAsBytes(byteList, mode: FileMode.writeOnly, flush: true);
-
+/* 
     print(chalk.white
-        .bold('assets/themes/$assetName saved to file at $fullTemporaryPath.'));
+        .bold('assets/themes/$assetName saved to file at $fullTemporaryPath.')); */
 
     return fileFuture;
   }
@@ -120,7 +120,10 @@ class VideoUtil {
     print(chalk.white.bold("reverse $reverse"));
     print(chalk.white.bold("creditos $creditos"));
     print(chalk.white.bold("timeRecord $timeRecord"));
-    print(chalk.white.bold("timeTotal $MUSIC1"));
+    print(chalk.white.bold("timeTotal $timeTotal"));
+    print(chalk.white.bold("video360path $video360Path"));
+    print(chalk.white.bold("logoPath $logoPath"));
+    print(chalk.white.bold("Music path $music1Path"));
 
     return "-y -hide_banner -i $video360Path " +
         "-ss $normal1 -t $slowMotion -i $video360Path " +
@@ -145,7 +148,7 @@ class VideoUtil {
         "[part1][part2][part3][part4][part5]concat=n=5:v=1:a=0,scale=w=720:h=1280,format=" +
         "yuv420p" + //  pixelFormat +
         "[video]\"" +
-        " -map [video] -map [music]  -vsync 2 -async 1 " +
+        " -map [video] -map [music] " +
 
         // customOptions +
         "-c:v " +

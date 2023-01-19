@@ -195,6 +195,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           videoProvider.savePathPrefrerence(videoController.videoPath.value);
           Get.offNamed(RouteNames.videoProcessing,
               arguments: videoController.videoPath.value);
+          print(chalk.yellow.bold(videoController.videoPath.value));
         }));
       }
 

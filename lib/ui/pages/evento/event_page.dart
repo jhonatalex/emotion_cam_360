@@ -223,7 +223,9 @@ class _EventPageState extends State<EventPage> {
           eventProvider.saveEventPrefrerence(_evenController.evento.value);
 
           eventProvider.saveMusicPrefrerence(textFileMp3);
+          print(chalk.white.bold("textfileMusic path : $textFileMp3"));
           eventProvider.saveLogoPrefrerence(textFileImage);
+          print(chalk.white.bold("textfileImage path : $textFileImage"));
 
           //lIMPIAR VISTA
           _evenController.evento.value = null;
@@ -234,7 +236,7 @@ class _EventPageState extends State<EventPage> {
         }
       }));
 
-      return Stack(children: [
+      return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(
           onTap: () {
             if (_evenController.nameController.value.text != '') {
@@ -245,7 +247,8 @@ class _EventPageState extends State<EventPage> {
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             } else {
-              MessengerSnackBar(context, "Favor, debe ingresar un nombre");
+              MessengerSnackBar(
+                  context, "Por favor, debe ingresar un nombre al evento");
             }
           },
           child: Container(
@@ -268,9 +271,10 @@ class _EventPageState extends State<EventPage> {
               ]),
             ),
             child: Center(
-              child: isloading
+              child: /* isloading
                   ? const CircularProgressIndicator()
-                  : Text(name,
+                  :  */
+                  Text(name,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -278,7 +282,7 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ),
-        if (isloading) const CircularProgressIndicator()
+        //if (isloading) const CircularProgressIndicator()
       ]);
     });
   }

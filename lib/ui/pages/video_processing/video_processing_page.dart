@@ -42,15 +42,10 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   @override
   void initState() {
     super.initState();
-    FFmpegKitConfig.init().then((_) {
-      VideoUtil.prepareAssets();
-    });
-
     _init();
   }
 
   Future<void> _init() async {
-    print(chalk.yellow.bold("_init iniciado"));
     await Future.delayed(const Duration(seconds: 3));
     encodeVideo();
   }
@@ -59,7 +54,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     print(chalk.yellow.bold("encode video"));
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
-
+    print(chalk.white.bold(eventProvider.logoPrefrerences));
+    print(chalk.white.bold(eventProvider.musicPrefrerences));
     VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
       VideoUtil.assetPath(VideoUtil.BGCREDITOS).then((endingPath) {
         VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
@@ -180,12 +176,12 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
           Text(
             " Procesando video...",
             style: TextStyle(fontSize: sclW(context) * 3),
-          ), /* 
+          ),
           ElevatedButton(
               onPressed: () {
-                Get.offNamed(RouteNames.showVideo);
+                encodeVideo();
               },
-              child: Text("ir a show video")), */
+              child: Text("encode video")),
         ],
       );
     } else {

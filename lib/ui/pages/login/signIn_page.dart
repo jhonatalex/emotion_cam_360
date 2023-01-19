@@ -1,8 +1,10 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signUp_page.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -231,11 +233,29 @@ class _SignInPageState extends State<SignInPage> {
               MaterialPageRoute(builder: (builder) => HomePage()),
               (route) => false);
         } catch (e) {
-          final snackbar = SnackBar(content: Text(e.toString()));
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          final msg = e.toString();
           setState(() {
             circular = false;
           });
+
+          if (msg == "[firebase_auth/unknown] Given String is empty or null") {
+            MessengerSnackBar(context, "Los campos no pueden ir vacío.");
+          }
+          if (msg ==
+              "[firebase_auth/wrong-password] The password is invalid or the user does not have a password.") {
+            MessengerSnackBar(context,
+                "La contraseña es invalida o el usuario no tiene una contraseña.");
+          }
+          if (msg ==
+              "[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.") {
+            MessengerSnackBar(context,
+                "No hay un usuario registrado con este correo o puede haber sido borrado.");
+          }
+          if (msg ==
+              "[firebase_auth/invalid-email] The email address is badly formatted.") {
+            MessengerSnackBar(context, "Ingrese un correo válido.");
+          }
+          print(chalk.white.bold(e.toString()));
         }
       },
       child: Container(
