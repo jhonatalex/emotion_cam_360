@@ -28,8 +28,6 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     return (string == null) ? "" : valuePrefix + string;
   }
 
-  var file = Get.arguments;
-
   //final String _selectedCodec = "mpeg4";
   late String extension;
   late Statistics? _statistics;
@@ -55,6 +53,9 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   void encodeVideo() {
+    var file = Get.arguments;
+
+    print(chalk.brightGreen('PROCESSIN VIDEDO$file'));
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
 
@@ -63,10 +64,10 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
         VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
           getVideoFile().then((videoFile) {
             final styleVideoOne = VideoUtil.styleVideoOne(
-              eventProvider.logoPrefrerences,
+              eventProvider.eventPrefrerences.overlay,
               endingPath,
-              file[1], //videoProvider.pathPreferences,
-              eventProvider.musicPrefrerences,
+              file, //videoProvider.pathPreferences,
+              eventProvider.eventPrefrerences.music,
               videoFile.path,
             );
             FFmpegKit.executeAsync(

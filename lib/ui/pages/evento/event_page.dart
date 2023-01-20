@@ -222,8 +222,8 @@ class _EventPageState extends State<EventPage> {
         if (_evenController.evento.value != null) {
           eventProvider.saveEventPrefrerence(_evenController.evento.value);
 
-          eventProvider.saveMusicPrefrerence(textFileMp3);
-          eventProvider.saveLogoPrefrerence(textFileImage);
+          //eventProvider.saveMusicPrefrerence(textFileMp3);
+          //eventProvider.saveLogoPrefrerence(textFileImage);
 
           //lIMPIAR VISTA
           _evenController.evento.value = null;

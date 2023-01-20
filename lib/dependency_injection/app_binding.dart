@@ -65,26 +65,6 @@ class EventoActualPreferencesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //MUSICA
-  get musicPrefrerences {
-    return _musicEntity;
-  }
-
-  void saveMusicPrefrerence(entity) {
-    this._musicEntity = entity;
-    notifyListeners();
-  }
-
-  //LOGO
-  get logoPrefrerences {
-    return _logoEntity;
-  }
-
-  void saveLogoPrefrerence(entity) {
-    this._logoEntity = entity;
-    notifyListeners();
-  }
-
   get seleccionarPrefrerences {
     return _seleccionar;
   }
