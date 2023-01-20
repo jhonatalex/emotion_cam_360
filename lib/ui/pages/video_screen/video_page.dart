@@ -251,9 +251,6 @@ class _VideoPageState extends State<VideoPage> {
       var isLoading = _evenController.isLoading.value;
       var eventBd = _evenController.eventoBd.value;
 
-      const eventSeleccione =
-          EventEntity("Seleccione", "Seleccione", "music", overlay: "overlay");
-
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
 

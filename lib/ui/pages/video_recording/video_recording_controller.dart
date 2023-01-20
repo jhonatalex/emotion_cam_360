@@ -25,7 +25,7 @@ class VideoController extends GetxController {
   RxBool isRecording = false.obs; // Bandera indicadora de grabación en proceso
   int timeSelected = 10; //Variables
   late List<CameraDescription> cameras; // Lista de cámaras disponibles
-  CameraController? controller; // Controlador de la cámara
+  Rx<CameraController?> controller = Rx(null); // Controlador de la cámara
   int cameraIndex = 1; // Índice de cámara actual
   RxInt start = 10.obs;
   //el tiempo que se configuró más los 10seg para empezar
@@ -35,7 +35,7 @@ class VideoController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     // Verificar la lista de cámaras disponibles al iniciar el Widget
-    availableCameras().then((cameras) {
+    /*  availableCameras().then((cameras) {
       // Guardar la lista de cámaras
       cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
@@ -45,12 +45,12 @@ class VideoController extends GetxController {
         // Inicializar la cámara pasando el CameraDescription de la cámara seleccionada
         initCamera(cameras[cameraIndex]);
       }
-    });
+    }); */
     //iniciar temporizador
-    startTimer();
+    //startTimer();
   }
 
-  initCamera(CameraDescription camera) async {
+  /* initCamera(CameraDescription camera) async {
     // Si el controlador está en uso,
     // realizar un dispose para detenerlo antes de continuar
     Future<void> disposeCameraController() async {
@@ -60,7 +60,7 @@ class VideoController extends GetxController {
 
       final cameraController = controller;
 
-      controller = null;
+      controller.value = null;
 
       // Wait for the post frame callback.
       final completerPostFrameCallback = Completer<Duration>();
@@ -69,22 +69,22 @@ class VideoController extends GetxController {
       });
       await completerPostFrameCallback.future;
 
-      return cameraController!.dispose();
+      return cameraController.value?.dispose();
     }
 
     //hacer dispose con el codigo anterior
     //me costo resolver ese problema
     // Indicar al controlador la nueva cámara a utilizar
-    controller = CameraController(camera, ResolutionPreset.high);
+    controller.value = CameraController(camera, ResolutionPreset.high);
     // Agregar un Listener para refrescar la pantalla en cada cambio
-    controller!.addListener(() {
+    controller.value!.addListener(() {
       start.value > 5 ? !isRecording.value : "";
     });
     // Inicializar el controlador
-    controller!.initialize();
+    controller.value!.initialize();
   }
-
-  buildCamera() {
+ */
+  /* buildCamera() {
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
     if (controller == null || !controller!.value.isInitialized) {
       return const Center(child: Text('Loading...'));
@@ -97,10 +97,10 @@ class VideoController extends GetxController {
       ),
     );
   }
-
-  // Detener la grabación de video
+ */
+  /*  // Detener la grabación de video
   Future<void> onStop() async {
-    final file = await controller?.stopVideoRecording();
+    final file = await controller.value?.stopVideoRecording();
     isRecording.value = false;
 
     //CAMBIAR ACA SALTAR VIDEO
@@ -112,13 +112,13 @@ class VideoController extends GetxController {
   }
 
   recordVideo() async {
-    await controller?.prepareForVideoRecording();
-    await controller?.startVideoRecording();
+    await controller.value?.prepareForVideoRecording();
+    await controller.value?.startVideoRecording();
 
     isRecording.value = true;
-  }
+  } */
 
-  startTimer() {
+  /*  startTimer() {
     const oneSec = Duration(seconds: 1);
     Timer.periodic(
       oneSec,
@@ -147,5 +147,5 @@ class VideoController extends GetxController {
         }
       },
     );
-  }
+  } */
 }
