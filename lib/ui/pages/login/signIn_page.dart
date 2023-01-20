@@ -272,7 +272,11 @@ class _SignInPageState extends State<SignInPage> {
         ),
         child: Center(
           child: circular
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator(
+                  backgroundColor: AppColors.violet,
+                  color: AppColors.royalBlue,
+                  strokeWidth: 8,
+                )
               : Text(name,
                   style: const TextStyle(
                     color: Colors.white,

@@ -1,6 +1,7 @@
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
+import 'package:emotion_cam_360/ui/widgets/share_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -22,7 +23,7 @@ class FinishQrPage extends StatelessWidget {
               icon: const Icon(Icons.home),
               iconSize: sclH(context) * 3,
               onPressed: () {
-                Get.offNamed(RouteNames.home);
+                Get.offAllNamed(RouteNames.home);
               })),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -59,34 +60,7 @@ class FinishQrPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Wrap(
-                  spacing: 20,
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.facebook),
-                      label: Text("Facebook"),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.pink,
-                      ),
-                      label: Text("Instagram"),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.whatsapp_rounded,
-                        color: Colors.green,
-                      ),
-                      label: Text("Whatsapp"),
-                    ),
-                  ],
-                ),
+                const Sharebuttons(),
               ],
             ),
           ),

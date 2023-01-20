@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'video_list__controller.dart';
+import 'video_list_controller.dart';
 
 class VideoListBinding implements Bindings {
   const VideoListBinding();
