@@ -1,5 +1,6 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
@@ -264,9 +265,9 @@ class _SignInPageState extends State<SignInPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(colors: [
-            Color(0xff604fef),
-            Color.fromARGB(255, 153, 120, 230),
-            Color(0xff604fef)
+            AppColors.royalBlue,
+            AppColors.violet,
+            AppColors.royalBlue,
           ]),
         ),
         child: Center(

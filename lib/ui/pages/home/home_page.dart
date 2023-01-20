@@ -4,7 +4,7 @@ import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
-import 'package:emotion_cam_360/ui/widgets/carrucel_styles.dart';
+import 'package:emotion_cam_360/ui/widgets/carrucel_eventos.dart';
 import 'package:emotion_cam_360/ui/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 

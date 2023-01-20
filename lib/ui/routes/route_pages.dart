@@ -2,8 +2,12 @@ import 'package:emotion_cam_360/ui/pages/evento/event_binding.dart';
 import 'package:emotion_cam_360/ui/pages/evento/event_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/profile_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
+import 'package:emotion_cam_360/ui/pages/video_list/video_list_binding.dart';
+import 'package:emotion_cam_360/ui/pages/video_list/video_list_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_processing_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.dart';
+import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_binding.dart';
+import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_page.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:get/get.dart';
 
@@ -108,6 +112,18 @@ class RoutePages {
         page: () => const EventPage(),
         transition: Transition.fadeIn,
         binding: const EventBinding(),
+      ),
+      GetPage(
+        name: RouteNames.videoListPage,
+        page: () => VideoListPage(),
+        transition: Transition.fadeIn,
+        binding: const VideoListBinding(),
+      ),
+      GetPage(
+        name: RouteNames.videoViewerPage,
+        page: () => VideoViewerPage(),
+        transition: Transition.fadeIn,
+        binding: const VideoViewerBinding(),
       ),
     ];
   }

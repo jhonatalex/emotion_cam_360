@@ -32,7 +32,7 @@ class EventController extends GetxController {
   Rx<EventEntity?> eventoBd = Rx(null);
   Rx<MyUser?> user = Rx(null);
 
-  final eventos = [].obs;
+  var eventos = [].obs;
 
   Rx<EventEntity?> eventoSelected = Rx(null);
 
@@ -40,6 +40,7 @@ class EventController extends GetxController {
   void onInit() {
     //TRER LISTA DE EVENTOS
     getEventBd();
+    getAllMyEventController();
     super.onInit();
 
     //prepara las assets y los pasa al cache,
@@ -94,6 +95,23 @@ class EventController extends GetxController {
     isLoading.value = false;
   }
 
+  Future<void> getAllMyEventController() async {
+    //TO REPOSITORY
+    final listEvent = await _eventRepository.getAllMyEventFirebase();
+
+    //CONVERTIR RESPUESTA EN ENTITIES
+    List<EventEntity?> listEventEntity = [];
+
+    for (var doc in listEvent) {
+      EventEntity eventNew = EventEntity(doc["id"], doc["name"], doc["music"],
+          overlay: doc["overlay"], videos: doc["videos"]);
+
+      listEventEntity.add(eventNew);
+    }
+    eventos.value = listEventEntity;
+    print(chalk.green.bold(eventos.value));
+  }
+
   //BASE DATOS
   Future<void> loadInitialData() async {
     isLoading.value = true;
@@ -112,7 +130,7 @@ class EventController extends GetxController {
   }
 
   Future<void> deleteEvent(EventEntity toDelete) async {
-    eventos.remove(toDelete);
+    eventos.value.remove(toDelete);
     _eventRepository.deleteEvent(toDelete);
   }
 }

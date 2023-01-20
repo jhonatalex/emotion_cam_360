@@ -111,7 +111,7 @@ class FirebaseProvider {
         .then((QuerySnapshot querySnapshot) {
       listaEventos = querySnapshot.docs;
       querySnapshot.docs.forEach((doc) {
-        print(doc["id"]);
+        //print(doc["id"]);
       });
     });
 
