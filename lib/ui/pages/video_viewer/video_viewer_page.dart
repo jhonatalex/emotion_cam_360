@@ -64,6 +64,7 @@ class VideoViewerPage extends StatelessWidget {
                   color: Colors.black,
                   //height: 200,
                   child: Stack(
+                    alignment: AlignmentDirectional.center,
                     children: [
                       FutureBuilder(
                         future: _initVideoPlayer(
