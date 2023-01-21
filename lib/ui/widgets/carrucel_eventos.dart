@@ -4,6 +4,7 @@ import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,21 +44,21 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
 }
 
 class PopularesSlider extends StatelessWidget {
-  final _evenController = Get.find<EventController>();
+  String imgDefault = "assets/img/logo-emotion.png";
+  final _eventController = Get.find<EventController>();
   @override
   build(BuildContext context) {
+    _eventController.getAllMyEventController();
     return Obx(() {
-      var listEvents = _evenController.eventos;
-      if (listEvents.length == 0) {
+      var listEvents = _eventController.eventos;
+      if (listEvents.isEmpty) {
         for (var i = 0; i < 3; i++) {
           listEvents.add(
-            EventEntity("id", "Evento", "music",
-                overlay: "asset/img/logo-emotion.png"),
+            const EventEntity("id", "Evento", "music",
+                overlay: "assets/img/logo-emotion.png"),
           );
         }
       }
-
-      print(chalk.yellow.bold(listEvents.length));
       return CarouselSlider(
         options: CarouselOptions(
             height: sclH(context) * 30,
@@ -73,35 +74,46 @@ class PopularesSlider extends StatelessWidget {
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
-                onTap: () =>
-                    Get.toNamed(RouteNames.videoListPage, arguments: i!.name),
+                onTap: () {
+                  if (i!.overlay == imgDefault) {
+                    Get.toNamed(RouteNames.videoListPage,
+                        arguments: [i!.name, i!.videos]);
+                  } else {
+                    MessengerSnackBar(context, "No se han cargado eventos");
+                  }
+                },
                 child: Container(
                     width: sclH(context) * 30,
                     //margin: EdgeInsets.symmetric(horizontal: sclH(context) / 2),
                     decoration: BoxDecoration(
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: AssetImage("assets/img/bg_sld.jpg"),
                             fit: BoxFit.fill),
                         borderRadius: BorderRadius.circular(25)),
                     child: Column(
                       //mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           i!.name,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: AppColors.royalBlue, fontSize: 20),
                         ),
-                        SizedBox(
-                          height: 10,
+                        const SizedBox(
+                          height: 20,
                         ),
-                        Image.network(
-                          i!.overlay,
-                          scale: 10,
-                        )
+                        i!.overlay != imgDefault
+                            ? Image.network(
+                                i!.overlay,
+                                scale: 13,
+                              )
+                            : Image.asset(
+                                imgDefault,
+                                scale: 8,
+                              ),
                       ],
                     )),
               );
