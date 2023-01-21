@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/entities/event.dart';
+import 'package:emotion_cam_360/entities/responseFirebase.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,7 +17,7 @@ class VideoRepositoryImp extends VideoRepository {
   //Future<MyUser?> getMyUser() => provider.getMyUser();
 
   @override
-  Future<String> saveMyVideoRepository(
+  Future<Responsefirebase> saveMyVideoRepository(
       Uint8List? video, String videoPath, EventEntity eventoActual) async {
     return provider.saveMyVideoProvider(video, videoPath, eventoActual);
   }

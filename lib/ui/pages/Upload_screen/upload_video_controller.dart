@@ -1,6 +1,9 @@
 import 'package:chalkdart/chalk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/entities/event.dart';
+import 'package:emotion_cam_360/entities/responseFirebase.dart';
 import 'package:emotion_cam_360/entities/video.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/video_repository.dart';
@@ -13,7 +16,7 @@ class UploadVideoController extends GetxController {
   final RxBool loading = RxBool(true);
   Rx<bool> isSaving = Rx(false);
   Rx<VideoEntity?> video = Rx(null);
-  Rx<String> urlVideoObserver = Rx('');
+  Rx<Responsefirebase?> urlVideoObserver = Rx(null);
 
   @override
   void onInit() {
