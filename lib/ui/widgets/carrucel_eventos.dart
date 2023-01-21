@@ -44,12 +44,13 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
 }
 
 class PopularesSlider extends StatelessWidget {
-  final _evenController = Get.find<EventController>();
   String imgDefault = "assets/img/logo-emotion.png";
+  final _eventController = Get.find<EventController>();
   @override
   build(BuildContext context) {
+    _eventController.getAllMyEventController();
     return Obx(() {
-      var listEvents = _evenController.eventos;
+      var listEvents = _eventController.eventos;
       if (listEvents.isEmpty) {
         for (var i = 0; i < 3; i++) {
           listEvents.add(
@@ -74,8 +75,9 @@ class PopularesSlider extends StatelessWidget {
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
-                  if (i!.overlay != imgDefault) {
-                    Get.toNamed(RouteNames.videoListPage, arguments: i!.name);
+                  if (i!.overlay == imgDefault) {
+                    Get.toNamed(RouteNames.videoListPage,
+                        arguments: [i!.name, i!.videos]);
                   } else {
                     MessengerSnackBar(context, "No se han cargado eventos");
                   }

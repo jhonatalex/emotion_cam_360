@@ -11,11 +11,14 @@ class VideoListPage extends StatelessWidget {
   VideoListPage({super.key});
 
   final _evenController = Get.find<EventController>();
-  var name = Get.arguments;
+  var eventSelected = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    var listEvents = _evenController.eventos;
-    print(chalk.white.bold(listEvents));
+    //var listEvents = _evenController.eventos;
+    print(chalk.white.bold(eventSelected));
+    String nameEvent = eventSelected[0];
+    List videosEvent = ["Video 1", "Video 2", "Video 3"];
+    //List videosEvent = eventSelected[1];
 
     return Stack(
       children: [
@@ -23,7 +26,7 @@ class VideoListPage extends StatelessWidget {
         Scaffold(
           appBar: AppBar(
             title: Text(
-              name.toString().toUpperCase(),
+              eventSelected[0].toString().toUpperCase(),
               style: TextStyle(fontSize: sclW(context) * 5),
             ),
             backgroundColor: Colors.transparent,
@@ -34,7 +37,7 @@ class VideoListPage extends StatelessWidget {
             children: [
               Center(
                 child: Text(
-                  'Lista de Videos del Evento $name',
+                  'Lista de Videos del Evento ${eventSelected[0]}',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: sclH(context) * 2),
                 ),
@@ -47,11 +50,12 @@ class VideoListPage extends StatelessWidget {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                       ),
-                      itemCount: 10,
+                      itemCount: 10, //videosEvent.length
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () => Get.toNamed(RouteNames.videoViewerPage,
                               arguments:
+                                  //videosEvent[index],
                                   //"/data/user/0/com.example.emotion_cam_360/cache/REC252710529.mp4",
                                   "https://firebasestorage.googleapis.com/v0/b/emotion360-72a62.appspot.com/o/PbHvDg0ypoMtcmcK1Dpzx1NUr9y1%2Fvideos360%2Fvideo.mp4?alt=media&token=67148754-033d-4d0f-8111-836cabbe3927"),
                           child: Container(
