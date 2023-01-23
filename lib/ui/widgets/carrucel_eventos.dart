@@ -10,20 +10,10 @@ import 'package:get/get.dart';
 
 import '../../repositories/abstractas/responsive.dart';
 
-class CarrucelStyles extends StatefulWidget {
+class CarrucelStyles extends StatelessWidget {
   const CarrucelStyles({super.key});
 
-  @override
-  State<CarrucelStyles> createState() => _CarrucelStylesState();
-}
-
-class _CarrucelStylesState extends State<CarrucelStyles> {
   // final CarouselController _carouselController = CarouselController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +35,9 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
 
 class PopularesSlider extends StatelessWidget {
   String imgDefault = "assets/img/logo-emotion.png";
+
   final _eventController = Get.find<EventController>();
+
   @override
   build(BuildContext context) {
     _eventController.getAllMyEventController();

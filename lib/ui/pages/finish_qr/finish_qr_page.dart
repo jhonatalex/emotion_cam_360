@@ -60,7 +60,7 @@ class FinishQrPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Sharebuttons(),
+                Sharebuttons(urlVideo),
               ],
             ),
           ),
