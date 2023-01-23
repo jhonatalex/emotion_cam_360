@@ -15,6 +15,6 @@ abstract class EventRepository {
   //DB
   Future<List<EventEntity>> getAllEvents();
   Future<bool> deleteEvent(EventEntity toDelete);
-  Future<EventEntity> getLastEvent();
+  Future<EventEntity?> getLastEvent();
   //Future<EventEntity> getNewEvent();
 }

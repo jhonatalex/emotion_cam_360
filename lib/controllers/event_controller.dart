@@ -1,17 +1,23 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:chalkdart/chalk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../entities/user.dart';
 import '../repositories/abstractas/event_repository.dart';
 import 'auth_controller.dart';
+import 'package:path/path.dart' as path;
 
 class EventController extends GetxController {
   final _eventRepository = Get.find<EventRepositoryImple>();
@@ -28,13 +34,26 @@ class EventController extends GetxController {
 
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
-  Rx<EventEntity?> evento = Rx(null);
+  Rx<EventEntity?> eventoFirebase = Rx(null);
   Rx<EventEntity?> eventoBd = Rx(null);
   Rx<MyUser?> user = Rx(null);
 
   var eventos = [].obs;
 
   Rx<EventEntity?> eventoSelected = Rx(null);
+
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
+  FirebaseStorage get storage => FirebaseStorage.instance;
+  String _txt = 'Cargando Videoa la nube....';
+  late var urlDownload = ''.obs;
+  UploadTask? uploadTask;
+  RxDouble progress = 0.0.obs;
+
+  User get currentUser {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('Not authenticated exception');
+    return user;
+  }
 
   @override
   void onInit() {
@@ -79,20 +98,21 @@ class EventController extends GetxController {
     await _eventRepository.saveMyEvento(
         newEvent, pickedImageLogo.value, pickedMp3File.value);
 
-    evento.value = newEvent;
+    eventoFirebase.value = newEvent;
 
     isSaving.value = false;
     isLoading.value = false;
   }
 
-  Future<void> getMyEventController(String idEvent) async {
+  Future<EventEntity?> getMyEventController(String idEvent) async {
     isLoading.value = true;
     //TO REPOSITORY
     print(chalk.brightGreen('entro eventController event ${idEvent}'));
     final newEvent = await _eventRepository.getMyEventFirebase(idEvent);
-    evento.value = newEvent;
+    eventoFirebase.value = newEvent;
     print(chalk.redBright(newEvent));
     isLoading.value = false;
+    return newEvent;
   }
 
   Future<void> getAllMyEventController() async {
@@ -112,13 +132,6 @@ class EventController extends GetxController {
     print(chalk.green.bold(eventos.value));
   }
 
-  //BASE DATOS
-  Future<void> loadInitialData() async {
-    isLoading.value = true;
-
-    isLoading.value = false;
-  }
-
   Future<void> getEventBd() async {
     if (isLoading.isTrue) return;
     isLoading.value = true;
@@ -132,5 +145,54 @@ class EventController extends GetxController {
   Future<void> deleteEvent(EventEntity toDelete) async {
     eventos.value.remove(toDelete);
     _eventRepository.deleteEvent(toDelete);
+  }
+
+  Future<void> uploadVideoToFirebase(
+      Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
+    //final eventFirebase = _evenController.eventoFirebase.value;
+
+    final eventFirebase = await getMyEventController(currentEvent.id);
+
+    if (eventFirebase != null) {
+      currentEvent = eventFirebase;
+
+      var listaVideos = [];
+
+      if (currentEvent.videos != null) {
+        listaVideos = currentEvent.videos!;
+      }
+
+      final ref = firestore.doc('user_${currentUser.uid}/${currentEvent.id}');
+
+      if (video != null) {
+        final videoPath =
+            '${currentUser.uid}/videos360/${path.basename(rutaVideo)}';
+
+        final storageRef = storage.ref(videoPath);
+        UploadTask uploadTask = storageRef.putData(
+            video, SettableMetadata(contentType: 'video/mp4'));
+        uploadTask.snapshotEvents.listen((event) async {
+          progress.value = ((event.bytesTransferred.toDouble() /
+                      event.totalBytes.toDouble()) *
+                  100)
+              .roundToDouble();
+
+          if (progress.value == 100) {
+            event.ref.getDownloadURL().then((downloadUrl) {
+              urlDownload.value = downloadUrl;
+
+              listaVideos.add(urlDownload.value);
+              print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
+              ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
+                  SetOptions(merge: true));
+            });
+
+            urlDownload.value = await storageRef.getDownloadURL();
+          }
+        });
+      } else {
+        ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
+      }
+    }
   }
 }

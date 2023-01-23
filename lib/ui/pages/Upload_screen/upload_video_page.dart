@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/entities/responseFirebase.dart';
@@ -37,6 +38,9 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
   UploadTask? uploadTask;
   double progress = 0.0;
 
+  final _evenController = Get.find<EventController>();
+  final controller = Get.find<UploadVideoController>();
+
   User get currentUser {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) throw Exception('Not authenticated exception');
@@ -45,25 +49,31 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
 
   Future<void> uploadVideoToFirebase(
       Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
-    try {
-      var listaVideos = [];
+    //final eventFirebase = _evenController.eventoFirebase.value;
 
-      if (currentEvent.videos != null) {
-        listaVideos = currentEvent.videos!;
-      }
+    final eventFirebase =
+        await _evenController.getMyEventController(currentEvent.id);
 
-      final ref = firestore.doc('user_${currentUser.uid}/${currentEvent.id}');
+    if (eventFirebase != null) {
+      currentEvent = eventFirebase;
+      try {
+        var listaVideos = [];
 
-      if (video != null) {
-        final videoPath =
-            '${currentUser.uid}/videos360/${path.basename(rutaVideo)}';
+        if (currentEvent.videos != null) {
+          listaVideos = currentEvent.videos!;
+        }
 
-        try {
+        final ref = firestore.doc('user_${currentUser.uid}/${currentEvent.id}');
+
+        if (video != null) {
+          final videoPath =
+              '${currentUser.uid}/videos360/${path.basename(rutaVideo)}';
+
           final storageRef = storage.ref(videoPath);
           UploadTask uploadTask = storageRef.putData(
               video, SettableMetadata(contentType: 'video/mp4'));
           uploadTask.snapshotEvents.listen((event) {
-            setState(() {
+            setState(() async {
               progress = ((event.bytesTransferred.toDouble() /
                           event.totalBytes.toDouble()) *
                       100)
@@ -73,36 +83,35 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                 event.ref
                     .getDownloadURL()
                     .then((downloadUrl) => urlDownload = downloadUrl);
+              }
 
+              urlDownload = await storageRef.getDownloadURL();
+
+              if (urlDownload != '') {
                 listaVideos.add(urlDownload);
-
+                print(chalk.brightGreen('URL FIREBASE  $urlDownload'));
                 ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
                     SetOptions(merge: true));
+              }
 
-                if (urlDownload.isNotEmpty) {
+              /*  if (urlDownload != '') {
                   Future.delayed(const Duration(seconds: 2), () {
                     Get.offNamed(RouteNames.finishQr, arguments: urlDownload);
                   });
-                }
-              }
+                } */
             });
           });
-        } on FirebaseException catch (e) {
-          MessengerSnackBar(context, e.toString());
+        } else {
+          ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
         }
-      } else {
-        await ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
+      } on FirebaseException catch (e) {
+        MessengerSnackBar(context, e.toString());
       }
-    } on FirebaseException catch (e) {
-      MessengerSnackBar(context, e.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<UploadVideoController>();
-    final isSaving = controller.isSaving.value;
-
     final videoProvider = Provider.of<VideoPreferencesProvider>(context);
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
@@ -115,6 +124,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     return Obx(() {
       final isloading = controller.loading.value;
       Responsefirebase? responsefirebase = controller.urlVideoObserver.value;
+      var progresController = _evenController.progress;
 
       return Scaffold(
           backgroundColor: AppColors.vulcan,
@@ -136,7 +146,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                 width: 200.0,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 375),
-                  child: progress == 100.0
+                  child: _evenController.progress.value == 100
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
@@ -158,14 +168,14 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                           ],
                         )
                       : LiquidCircularProgressIndicator(
-                          value: progress / 100,
+                          value: _evenController.progress.value.toInt() / 100,
                           valueColor: const AlwaysStoppedAnimation(
                             AppColors.royalBlue,
                           ),
                           backgroundColor: Colors.white,
                           direction: Axis.vertical,
                           center: Text(
-                            "$progress%",
+                            "${_evenController.progress.value}%",
                             style: const TextStyle(
                                 fontFamily: "Verdana",
                                 color: Colors.black87,
@@ -187,7 +197,12 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
               ElevatedButton(
                 child: Text("SUBIR"),
                 onPressed: () {
-                  uploadVideoToFirebase(
+                  /*     uploadVideoToFirebase(
+                      videoProvider.videoPreferences,
+                      videoProvider.pathPreferences,
+                      eventProvider.eventPrefrerences); */
+
+                  _evenController.uploadVideoToFirebase(
                       videoProvider.videoPreferences,
                       videoProvider.pathPreferences,
                       eventProvider.eventPrefrerences);

@@ -17,7 +17,7 @@ class EventEntity extends Equatable {
     return this.videos;
   }
 
-  Map<String, Object?> toFirebaseMap({List? videos, String? overlay}) {
+  Map<String, Object?> toFirebaseMap({List? videos}) {
     return <String, Object?>{
       'id': id,
       'name': name,

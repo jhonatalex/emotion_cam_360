@@ -62,7 +62,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
   @override
   Widget build(BuildContext context) {
     final videoProvider = Provider.of<VideoPreferencesProvider>(context);
-
+    var file = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Vista Previa'),

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/controllers/auth_controller.dart';

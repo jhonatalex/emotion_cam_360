@@ -95,15 +95,14 @@ class FirebaseProvider {
 
       print(chalk.brightGreen('LOG AQUI $url'));
 
-      await ref.set(
-          newEvent.toFirebaseMap(overlay: url), SetOptions(merge: true));
+      await ref.set(newEvent.toFirebaseMap(), SetOptions(merge: true));
     } else {
       await ref.set(newEvent.toFirebaseMap(), SetOptions(merge: true));
     }
   }
 
   Future<EventEntity?> getMyEventProvider(idEvent) async {
-    print(chalk.brightGreen('entro PROVIDER'));
+    print(chalk.brightGreen('entro PROVIDER $idEvent'));
     final snapshot =
         await firestore.doc('user_${currentUser.uid}/$idEvent').get();
 

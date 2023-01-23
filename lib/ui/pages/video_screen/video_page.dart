@@ -254,6 +254,8 @@ class _VideoPageState extends State<VideoPage> {
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
 
+      //eventProvider.saveEventPrefrerence(eventoSelected);
+
       return DefaultTabController(
           length: 5,
           child: Scaffold(

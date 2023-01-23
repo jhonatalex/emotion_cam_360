@@ -7,6 +7,7 @@ import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:file_picker/file_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -64,29 +65,6 @@ class _EventPageState extends State<EventPage> {
     final TextEditingController _musicaController = TextEditingController();
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
-
-    final imageObx = Obx(() {
-      Widget image = Image.asset(
-        'assets/img/blank-profile.png',
-        fit: BoxFit.fill,
-      );
-
-      if (_evenController.pickedImageLogo.value != null) {
-        image = Image.file(
-          _evenController.pickedImageLogo.value!,
-          fit: BoxFit.fill,
-        );
-      } else if (_evenController.evento.value?.overlay.isNotEmpty == true) {
-        image = CachedNetworkImage(
-          imageUrl: _evenController.evento.value!.overlay,
-          progressIndicatorBuilder: (_, __, progress) =>
-              CircularProgressIndicator(value: progress.progress),
-          errorWidget: (_, __, ___) => const Icon(Icons.error),
-          fit: BoxFit.fill,
-        );
-      }
-      return image;
-    });
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -219,14 +197,15 @@ class _EventPageState extends State<EventPage> {
       final isloading = _evenController.isLoading.value;
 
       Future.delayed(const Duration(microseconds: 500), (() {
-        if (_evenController.evento.value != null) {
-          eventProvider.saveEventPrefrerence(_evenController.evento.value);
+        if (_evenController.eventoFirebase.value != null) {
+          eventProvider
+              .saveEventPrefrerence(_evenController.eventoFirebase.value);
 
           //eventProvider.saveMusicPrefrerence(textFileMp3);
           //eventProvider.saveLogoPrefrerence(textFileImage);
 
           //lIMPIAR VISTA
-          _evenController.evento.value = null;
+          _evenController.eventoFirebase.value = null;
           // TRAE EL ULTIMO EVENTO CREADO
           _evenController.getEventBd();
 
@@ -254,18 +233,10 @@ class _EventPageState extends State<EventPage> {
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              //*** y si usamos el degradado para el boton?
-
-              /*  image: DecorationImage(
-                  image: AssetImage("assets/img/background.png"),
-                  fit: BoxFit.cover), */
               gradient: const LinearGradient(colors: [
                 AppColors.royalBlue,
                 AppColors.violet,
                 AppColors.royalBlue,
-                /*  Color(0xff604fef),
-                Color.fromARGB(255, 153, 120, 230),
-                Color(0xff604fef) */
               ]),
             ),
             child: Center(

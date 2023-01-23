@@ -55,7 +55,8 @@ class EventRepositoryImple extends EventRepository {
   }
 
   @override
-  Future<EventEntity> getLastEvent() async {
+  Future<EventEntity?> getLastEvent() async {
+    // final eventFirebase = await getMyEventFirebase(eventBD.id);
     return _dbDataSource.getLastEvent();
   }
 

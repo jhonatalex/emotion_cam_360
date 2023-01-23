@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/ui/pages/Upload_screen/upload_video_controller.dart';
 import 'package:get/get.dart';
 

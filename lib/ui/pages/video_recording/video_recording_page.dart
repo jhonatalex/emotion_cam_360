@@ -109,6 +109,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     file!.readAsBytes().then((valueBytes) =>
         Get.offNamed(RouteNames.videoProcessing, arguments: file.path));
     //videoProvider.savePathPrefrerence(videoController.videoPath.value);
+    // Get.offNamed(RouteNames.showVideo, arguments: file.path));
   }
 
   _recordVideo() async {
