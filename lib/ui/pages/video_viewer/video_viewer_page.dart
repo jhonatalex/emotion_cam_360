@@ -46,7 +46,7 @@ class VideoViewerPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "REPRODUCIR VIDEO N° #",
+          "REPRODUCIR VIDEO",
           style: TextStyle(fontSize: sclW(context) * 5),
         ),
         backgroundColor: Colors.transparent,

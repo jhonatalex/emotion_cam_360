@@ -178,18 +178,18 @@ class EventController extends GetxController {
               .roundToDouble();
 
           if (progress.value == 100) {
-            event.ref.getDownloadURL().then((downloadUrl) {
-              urlDownload.value = downloadUrl;
+            //event.ref.getDownloadURL().then((downloadUrl) {
+            //urlDownload.value = downloadUrl;
 
-              listaVideos.add(urlDownload.value);
-              print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
-              ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
-                  SetOptions(merge: true));
-            });
-
-            urlDownload.value = await storageRef.getDownloadURL();
           }
         });
+
+        urlDownload.value = await storageRef.getDownloadURL();
+
+        listaVideos.add(urlDownload.value);
+        print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
+        ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
+            SetOptions(merge: true));
       } else {
         ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
       }

@@ -47,7 +47,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     return user;
   }
 
-  Future<void> uploadVideoToFirebase(
+  /* Future<void> uploadVideoToFirebase(
       Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
     //final eventFirebase = _evenController.eventoFirebase.value;
 
@@ -108,7 +108,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
         MessengerSnackBar(context, e.toString());
       }
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

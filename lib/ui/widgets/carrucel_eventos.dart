@@ -70,20 +70,19 @@ class PopularesSlider extends StatelessWidget {
             reverse: false,
             scrollDirection: Axis.horizontal,
             enlargeCenterPage: true),
-        items: listEvents.map((i) {
+        items: listEvents.map((event) {
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
-                  if (i!.overlay == imgDefault) {
-                    Get.toNamed(RouteNames.videoListPage,
-                        arguments: [i!.name, i!.videos]);
+                  if (event!.overlay != imgDefault) {
+                    Get.toNamed(RouteNames.videoListPage, arguments: event);
                   } else {
                     MessengerSnackBar(context, "No se han cargado eventos");
                   }
                 },
                 child: Container(
-                    width: sclH(context) * 30,
+                    width: sclH(context) * 35,
                     //margin: EdgeInsets.symmetric(horizontal: sclH(context) / 2),
                     decoration: BoxDecoration(
                         image: const DecorationImage(
@@ -94,26 +93,21 @@ class PopularesSlider extends StatelessWidget {
                       //mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
-                          i!.name,
+                          event!.name,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               color: AppColors.royalBlue, fontSize: 20),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 5,
                         ),
-                        i!.overlay != imgDefault
-                            ? Image.network(
-                                i!.overlay,
-                                scale: 13,
-                              )
-                            : Image.asset(
-                                imgDefault,
-                                scale: 8,
-                              ),
+                        Image.asset(
+                          imgDefault,
+                          scale: 8,
+                        ),
                       ],
                     )),
               );
