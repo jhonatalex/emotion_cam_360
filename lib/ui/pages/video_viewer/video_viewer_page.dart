@@ -123,16 +123,13 @@ class VideoViewerPage extends StatelessWidget {
                               ],
                             );
                           }),
+                          const Sharebuttons(),
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
-              const Sharebuttons(),
-              const SizedBox(
-                height: 20,
-              )
             ],
           ),
         ],
