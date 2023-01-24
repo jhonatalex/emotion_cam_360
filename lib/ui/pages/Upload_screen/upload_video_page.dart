@@ -46,6 +46,8 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     // TODO: implement initState
     super.initState();
     _init();
+
+    progresController = 0.0;
   }
 
   Future<void> _init() async {
@@ -78,7 +80,9 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
       if (progresController == 100) {
         Future.delayed(const Duration(seconds: 2), () {
           clearView();
-          Get.offNamed(RouteNames.finishQr,
+          progresController = 0.0;
+
+          Get.offAllNamed(RouteNames.finishQr,
               arguments: _evenController.urlDownload.value);
         });
       }
@@ -135,7 +139,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                           backgroundColor: Colors.white,
                           direction: Axis.vertical,
                           center: Text(
-                            "${_evenController.progress.value}%",
+                            "${_evenController.progress.value.toInt()}%",
                             style: const TextStyle(
                                 fontFamily: "Verdana",
                                 color: Colors.black87,

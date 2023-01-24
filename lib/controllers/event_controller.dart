@@ -151,50 +151,56 @@ class EventController extends GetxController {
       Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
     isSaving.value = true;
 
-    final eventFirebase = await getMyEventController(currentEvent.id);
+    final DateTime now = DateTime.now();
+    final int millSeconds = now.millisecondsSinceEpoch;
+    final String month = now.month.toString();
+    final String day = now.day.toString();
+    final String year = now.year.toString();
+    final String today = ('$day-$month-$year');
+    final String storageId = ("VID_360_$millSeconds$day");
 
-    if (eventFirebase != null) {
-      currentEvent = eventFirebase;
+    final ref = firestore.doc('user_${currentUser.uid}/${currentEvent.id}');
 
-      var listaVideos = [];
+    if (video != null) {
+      final videoPath =
+          '${currentUser.uid}/videos360/${currentEvent.id}/$today/${storageId + day + path.basename(rutaVideo)}';
 
-      if (currentEvent.videos != null) {
-        listaVideos = currentEvent.videos!;
-      }
+      final storageRef = storage.ref(videoPath);
+      UploadTask uploadTask =
+          storageRef.putData(video, SettableMetadata(contentType: 'video/mp4'));
+      uploadTask.snapshotEvents.listen((event) {
+        progress.value =
+            ((event.bytesTransferred.toDouble() / event.totalBytes.toDouble()) *
+                    100)
+                .roundToDouble();
 
-      final ref = firestore.doc('user_${currentUser.uid}/${currentEvent.id}');
+        if (progress.value == 100) {
+          event.ref.getDownloadURL().then((downloadUrl) {
+            urlDownload.value = downloadUrl;
 
-      if (video != null) {
-        final videoPath =
-            '${currentUser.uid}/videos360/${path.basename(rutaVideo)}';
-
-        final storageRef = storage.ref(videoPath);
-        UploadTask uploadTask = storageRef.putData(
-            video, SettableMetadata(contentType: 'video/mp4'));
-        uploadTask.snapshotEvents.listen((event) {
-          progress.value = ((event.bytesTransferred.toDouble() /
-                      event.totalBytes.toDouble()) *
-                  100)
-              .roundToDouble();
-
-          if (progress.value == 100) {
-            //event.ref.getDownloadURL().then((downloadUrl) {
-            // urlDownload.value = downloadUrl;
-            //});
-          }
-        });
-
-        urlDownload.value = await storageRef.getDownloadURL();
-
-        if (urlDownload.isNotEmpty) {
-          listaVideos.add(urlDownload.value);
-          print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
-          ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
-              SetOptions(merge: true));
+            ref.update({
+              "videos": FieldValue.arrayUnion([urlDownload.value]),
+            });
+          });
         }
-      } else {
-        ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
-      }
+      });
+
+      //urlDownload.value = await storageRef.getDownloadURL();
+
+      //if (urlDownload.isNotEmpty) {
+      // print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
+
+      /*   ref.update({
+          "videos": FieldValue.arrayUnion([urlDownload.value]),
+        }); */
+
+      // ref.set(eventFirebase.toFirebaseMap(videos: listaVideos),
+      // SetOptions(merge: true));
+
+      // }
+    } else {
+      ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
     }
+    //}
   }
 }

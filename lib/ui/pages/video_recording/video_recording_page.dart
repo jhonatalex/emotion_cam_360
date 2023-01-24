@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,13 +19,13 @@ class VideoRecordingPage extends StatefulWidget {
 
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
   //Variables
-
-  final _videoController = Get.find<VideoController>();
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
   int _cameraIndex = 1; // Índice de cámara actual
   bool _isRecording = false; // Bandera indicadora de grabación en proceso
 
+  double _opacityText = 1.0;
+  double _opacityRec = 1;
   double _width = 15;
   bool _isFirst = true;
   int _selectedIndex = 2;
@@ -63,13 +62,16 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       final cameraController = _controller;
 
       _controller = null;
+      if (mounted) {
+        setState(() {});
 
-      // Wait for the post frame callback.
-      final completerPostFrameCallback = Completer<Duration>();
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        completerPostFrameCallback.complete(timeStamp);
-      });
-      await completerPostFrameCallback.future;
+        // Wait for the post frame callback.
+        final completerPostFrameCallback = Completer<Duration>();
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          completerPostFrameCallback.complete(timeStamp);
+        });
+        await completerPostFrameCallback.future;
+      }
 
       return cameraController!.dispose();
     }
@@ -79,13 +81,9 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.high);
     // Agregar un Listener para refrescar la pantalla en cada cambio
-    _controller!.addListener(() => setState(() {
-          print(chalk.white.bold("actualizar pantalla"));
-        }));
+    _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
     _controller!.initialize();
-
-    await _controller?.prepareForVideoRecording();
   }
 
   Widget _buildCamera() {
@@ -105,7 +103,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   // Detener la grabación de video
   Future<void> _onStop() async {
     final file = await _controller?.stopVideoRecording();
-    _isRecording = false;
+    setState(() => _isRecording = false);
 
     //READ BYTES AND SEND DATA WITH GETX
     file!.readAsBytes().then((valueBytes) =>
@@ -115,33 +113,48 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   _recordVideo() async {
+    await _controller?.prepareForVideoRecording();
     await _controller?.startVideoRecording();
 
-    _isRecording = true;
+    setState(() => _isRecording = true);
   }
 
+  late Timer _timer;
+  int _start = 5;
   //el tiempo que se configuró más los 10seg para empezar
 
   void startTimer() {
-    Timer.periodic(
-      Duration(seconds: 1),
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
       (Timer timer) {
-        if (_videoController.start.value == 2) {
-          _videoController.opacityText.value = 0;
+        if (_start == 2) {
+          print("es dos");
+          setState(() {
+            _opacityText = 0;
+            _opacityRec = 0;
+          });
         }
-        if (_videoController.start.value == 0) {
-          _recordVideo();
-          _videoController.opacityRec.value = 1;
+        if (_start == 0) {
+          print("es cero");
+          setState(() {
+            _recordVideo();
+          });
         }
-        if (_videoController.start.value == -_timeSelected) {
+        if (_start == -_timeSelected) {
           //los 10 segundos de espera son +
           //y de ahi en adelante son los de grabación
-          timer.cancel();
-          print("es Termina de grabar");
+          print("es -timeselected");
           _onStop();
+          timer.cancel();
+          /*  setState(() {
+            _onStop();
+          }); */
         } else {
-          _videoController.start.value--;
-          print(-_videoController.start.value);
+          setState(() {
+            _start--;
+          });
+          print(-_start);
         }
       },
     );
@@ -149,8 +162,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   @override
   void dispose() {
+    _timer.cancel();
     super.dispose();
-    _controller?.dispose(); //camera controller
   }
 
   @override
@@ -165,12 +178,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           iconSize: sclH(context) * 3,
           onPressed: (() => Get.offNamed(RouteNames.videoPage)),
         ),
-        actions: [
-          buttonRec(),
-          SizedBox(
-            width: 20,
-          )
-        ],
+        actions: [buttonRec()],
       ),
       backgroundColor: AppColors.vulcan,
       extendBodyBehindAppBar: true,
@@ -186,52 +194,43 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   buttonRec() {
-    return Obx(() {
-      return AnimatedOpacity(
-        opacity: _videoController.opacityRec.value,
-        duration: Duration(seconds: 1),
-        onEnd: () {
-          _videoController.opacityRec.value =
-              _videoController.opacityRec.value == 0 ? 1.0 : 0.0;
-        },
-        child: Icon(
-          Icons.circle,
-          color: Colors.red,
-        ),
-      );
-    });
+    return AnimatedOpacity(
+      opacity: 1 - _opacityRec,
+      duration: Duration(seconds: 1),
+      onEnd: () {
+        _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;
+      },
+    );
   }
 
   countDown(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Obx(() {
-          return Center(
-            child: AnimatedOpacity(
-              opacity: _videoController.opacityText.value,
-              curve: Curves.easeInToLinear,
-              duration: Duration(milliseconds: 500),
-              child: Column(
-                children: [
-                  Text(
-                    'Preparate...',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-                  Text(
-                    "${_videoController.start.value}",
-                    style: TextStyle(fontSize: sclH(context) * 20),
-                  ),
-                  Text(
-                    'La aventura está por comenzar...',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: sclH(context) * 4),
-                  ),
-                ],
-              ),
+        Center(
+          child: AnimatedOpacity(
+            opacity: _opacityText,
+            curve: Curves.easeInToLinear,
+            duration: Duration(milliseconds: 500),
+            child: Column(
+              children: [
+                Text(
+                  'Preparate...',
+                  style: TextStyle(fontSize: sclH(context) * 3),
+                ),
+                Text(
+                  "$_start",
+                  style: TextStyle(fontSize: sclH(context) * 20),
+                ),
+                Text(
+                  'La aventura está por comenzar...',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: sclH(context) * 4),
+                ),
+              ],
             ),
-          );
-        }),
+          ),
+        ),
       ],
     );
   }

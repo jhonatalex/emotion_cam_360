@@ -70,7 +70,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
         backgroundColor: Colors.black26,
         leading: IconButton(
             onPressed: () {
-              Get.offNamed(RouteNames.videoPage);
+              Get.offAllNamed(RouteNames.videoPage);
             },
             icon: Icon(Icons.video_call)),
         actions: [
@@ -79,7 +79,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
             onPressed: () {
               print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
-              Get.offNamed(RouteNames.uploadVideo);
+              Get.offAllNamed(RouteNames.uploadVideo);
             },
           )
         ],

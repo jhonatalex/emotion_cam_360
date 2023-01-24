@@ -22,7 +22,7 @@ class AppBinding implements Bindings {
     Get.put<AuthRepository>(AuthRepositoryImp(), permanent: true);
     //Get.put<EventRepository>(EventRepositoryImple(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
-    Get.put<EventController>(EventController(), permanent: true);
+    // Get.put<EventController>(EventController(), permanent: true);
   }
 }
 

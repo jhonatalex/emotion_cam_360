@@ -43,7 +43,7 @@ class _ButtonPlayState extends State<ButtonPlay> {
                 opacity: _opacity,
                 curve: Curves.easeInToLinear,
                 duration: Duration(milliseconds: 700),
-                onEnd: () => Get.toNamed(RouteNames.videoRecording),
+                onEnd: () => Get.offAllNamed(RouteNames.videoRecording),
                 child: Column(
                   children: [
                     GestureDetector(

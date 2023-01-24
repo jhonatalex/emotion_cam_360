@@ -15,5 +15,9 @@ class UploadVideoBinding implements Bindings {
     Get.lazyPut<FirebaseProvider>(
       () => FirebaseProvider(),
     );
+
+    Get.lazyPut<EventController>(
+      () => EventController(),
+    );
   }
 }

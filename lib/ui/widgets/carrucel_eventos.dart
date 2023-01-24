@@ -53,7 +53,7 @@ class PopularesSlider extends StatelessWidget {
       }
       return CarouselSlider(
         options: CarouselOptions(
-            height: sclH(context) * 30,
+            height: sclH(context) * 32,
             //aspectRatio: 15 / 9,
             viewportFraction: 0.4,
             enlargeFactor: 0.3,
@@ -87,18 +87,21 @@ class PopularesSlider extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          event!.name,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: AppColors.royalBlue, fontSize: 20),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            event!.name,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: AppColors.royalBlue, fontSize: 20),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Image.asset(
-                          imgDefault,
-                          scale: 8,
+                        Container(
+                          margin: EdgeInsets.only(top: sclH(context) * 2),
+                          child: Image.asset(
+                            imgDefault,
+                            scale: 8,
+                          ),
                         ),
                       ],
                     )),

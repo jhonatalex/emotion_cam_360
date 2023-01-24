@@ -23,13 +23,13 @@ class FinishQrPage extends StatelessWidget {
               icon: const Icon(Icons.home),
               iconSize: sclH(context) * 3,
               onPressed: () {
-                Get.offNamed(RouteNames.home);
+                Get.offAllNamed(RouteNames.home);
               })),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           BackgroundGradient(context),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
