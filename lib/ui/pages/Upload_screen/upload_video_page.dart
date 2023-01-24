@@ -82,14 +82,14 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
               ), */
               const SizedBox(height: 20),
               SizedBox(
-                height: 200.0,
-                width: 200.0,
+                height: sclW(context) * 60,
+                width: sclW(context) * 60,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 375),
                   child: _evenController.progress.value == 100
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.check_rounded,
                               color: Colors.green,
@@ -101,7 +101,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                               'Proceso Completado',
                               style: TextStyle(
                                 fontFamily: "Verdana",
-                                fontSize: 18,
+                                fontSize: sclW(context) * 4,
                                 color: Colors.green,
                               ),
                             ),

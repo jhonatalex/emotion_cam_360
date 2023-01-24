@@ -71,6 +71,12 @@ class _VideoPageState extends State<VideoPage> {
     //_evenController.getMyEventController('Santiago_fecha_8-1-2023');
   }
 
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   _initCamera(CameraDescription camera) async {
     Future<void> _disposeCameraController() async {
       if (_controller == null) {
@@ -268,16 +274,8 @@ class _VideoPageState extends State<VideoPage> {
                 iconSize: sclH(context) * 3,
                 onPressed: (() => Get.offNamed(RouteNames.home)),
               ),
-              //centerTitle: true,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(children: [
-                    if (!isLoading) DropdownEventos(eventBd),
-                    if (isLoading) const CircularProgressIndicator()
-                  ]),
-                ],
-              ),
+              centerTitle: true,
+              title: DropdownEventos(eventBd),
             ),
             backgroundColor: AppColors.vulcan,
             //extendBodyBehindAppBar: true,

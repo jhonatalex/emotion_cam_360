@@ -218,11 +218,6 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             " Procesando video...",
             style: TextStyle(fontSize: sclW(context) * 3),
           ),
-          ElevatedButton(
-              onPressed: () {
-                encodeVideo();
-              },
-              child: Text("encode video")),
         ],
       );
     } else {

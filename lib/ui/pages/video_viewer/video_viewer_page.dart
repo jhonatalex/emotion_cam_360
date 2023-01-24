@@ -11,13 +11,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:share_plus/share_plus.dart';
 
-class VideoViewerPage extends StatelessWidget {
+class VideoViewerPage extends StatefulWidget {
+  @override
+  State<VideoViewerPage> createState() => _VideoViewerPageState();
+}
+
+class _VideoViewerPageState extends State<VideoViewerPage> {
   var video = Get.arguments;
 
   late VideoPlayerController _videoPlayerController;
 
   final vVC = Get.find<VideoViewerController>();
+
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
 
   Future _initVideoPlayer(url) async {
     _videoPlayerController = VideoPlayerController.network(url);
@@ -123,7 +135,7 @@ class VideoViewerPage extends StatelessWidget {
                               ],
                             );
                           }),
-                          const Sharebuttons(),
+                          Sharebuttons(video),
                         ],
                       ),
                     ],
