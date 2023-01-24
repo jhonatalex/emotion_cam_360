@@ -171,25 +171,21 @@ class EventController extends GetxController {
         final storageRef = storage.ref(videoPath);
         UploadTask uploadTask = storageRef.putData(
             video, SettableMetadata(contentType: 'video/mp4'));
-        uploadTask.snapshotEvents.listen((event) async {
+        uploadTask.snapshotEvents.listen((event) {
           progress.value = ((event.bytesTransferred.toDouble() /
                       event.totalBytes.toDouble()) *
                   100)
               .roundToDouble();
-
-          if (progress.value == 100) {
-            //event.ref.getDownloadURL().then((downloadUrl) {
-            //urlDownload.value = downloadUrl;
-
-          }
         });
 
         urlDownload.value = await storageRef.getDownloadURL();
 
-        listaVideos.add(urlDownload.value);
-        print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
-        ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
-            SetOptions(merge: true));
+        if (urlDownload.isNotEmpty) {
+          listaVideos.add(urlDownload.value);
+          print(chalk.brightGreen('URL FIREBASE  ${urlDownload.value}'));
+          ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
+              SetOptions(merge: true));
+        }
       } else {
         ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
       }

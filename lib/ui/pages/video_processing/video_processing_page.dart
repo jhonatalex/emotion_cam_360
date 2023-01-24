@@ -10,6 +10,7 @@ import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:ffmpeg_kit_flutter_video/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../repositories/abstractas/responsive.dart';
@@ -153,10 +154,52 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
           Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Container(
-                height: 80,
-                width: 80,
-                child: const CircularProgressIndicator(
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 200.0,
+                width: 200.0,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 375),
+                  child: completePercentage == 100
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.check_rounded,
+                              color: Colors.green,
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              'Proceso Completado',
+                              style: TextStyle(
+                                fontFamily: "Verdana",
+                                fontSize: 18,
+                                color: Color.fromARGB(255, 215, 241, 216),
+                              ),
+                            ),
+                          ],
+                        )
+                      : LiquidCircularProgressIndicator(
+                          value: completePercentage.toDouble(),
+                          valueColor: const AlwaysStoppedAnimation(
+                            AppColors.royalBlue,
+                          ),
+                          backgroundColor: Colors.white,
+                          direction: Axis.vertical,
+                          center: Text(
+                            "$completePercentage%",
+                            style: const TextStyle(
+                                fontFamily: "Verdana",
+                                color: Colors.black87,
+                                fontSize: 25.0),
+                          ),
+                        ),
+                ),
+              ),
+
+              /*  const CircularProgressIndicator(
                   backgroundColor: AppColors.violet,
                   color: AppColors.royalBlue,
                   strokeWidth: 8,
@@ -165,7 +208,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               Text(
                 "$completePercentage % ",
                 style: TextStyle(fontSize: sclW(context) * 3),
-              ),
+              ), */
             ],
           ),
           const SizedBox(

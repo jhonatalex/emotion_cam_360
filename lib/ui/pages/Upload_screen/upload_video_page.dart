@@ -36,79 +36,10 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
   String _txt = 'Cargando Videoa la nube....';
   late var urlDownload = '';
   UploadTask? uploadTask;
-  double progress = 0.0;
+  double progresController = 0.0;
 
   final _evenController = Get.find<EventController>();
   final controller = Get.find<UploadVideoController>();
-
-  User get currentUser {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) throw Exception('Not authenticated exception');
-    return user;
-  }
-
-  /* Future<void> uploadVideoToFirebase(
-      Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
-    //final eventFirebase = _evenController.eventoFirebase.value;
-
-    final eventFirebase =
-        await _evenController.getMyEventController(currentEvent.id);
-
-    if (eventFirebase != null) {
-      currentEvent = eventFirebase;
-      try {
-        var listaVideos = [];
-
-        if (currentEvent.videos != null) {
-          listaVideos = currentEvent.videos!;
-        }
-
-        final ref = firestore.doc('user_${currentUser.uid}/${currentEvent.id}');
-
-        if (video != null) {
-          final videoPath =
-              '${currentUser.uid}/videos360/${path.basename(rutaVideo)}';
-
-          final storageRef = storage.ref(videoPath);
-          UploadTask uploadTask = storageRef.putData(
-              video, SettableMetadata(contentType: 'video/mp4'));
-          uploadTask.snapshotEvents.listen((event) {
-            setState(() async {
-              progress = ((event.bytesTransferred.toDouble() /
-                          event.totalBytes.toDouble()) *
-                      100)
-                  .roundToDouble();
-
-              if (progress == 100) {
-                event.ref
-                    .getDownloadURL()
-                    .then((downloadUrl) => urlDownload = downloadUrl);
-              }
-
-              urlDownload = await storageRef.getDownloadURL();
-
-              if (urlDownload != '') {
-                listaVideos.add(urlDownload);
-                print(chalk.brightGreen('URL FIREBASE  $urlDownload'));
-                ref.set(currentEvent.toFirebaseMap(videos: listaVideos),
-                    SetOptions(merge: true));
-              }
-
-              /*  if (urlDownload != '') {
-                  Future.delayed(const Duration(seconds: 2), () {
-                    Get.offNamed(RouteNames.finishQr, arguments: urlDownload);
-                  });
-                } */
-            });
-          });
-        } else {
-          ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
-        }
-      } on FirebaseException catch (e) {
-        MessengerSnackBar(context, e.toString());
-      }
-    }
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -123,8 +54,17 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
 
     return Obx(() {
       final isloading = controller.loading.value;
-      Responsefirebase? responsefirebase = controller.urlVideoObserver.value;
-      var progresController = _evenController.progress;
+
+      progresController = _evenController.progress.value;
+
+      if (progresController == 100) {
+        Future.delayed(const Duration(seconds: 2), () {
+          clearView();
+
+          Get.offNamed(RouteNames.finishQr,
+              arguments: _evenController.urlDownload.value);
+        });
+      }
 
       return Scaffold(
           backgroundColor: AppColors.vulcan,
@@ -212,4 +152,6 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
           ]));
     });
   }
+
+  void clearView() {}
 }
