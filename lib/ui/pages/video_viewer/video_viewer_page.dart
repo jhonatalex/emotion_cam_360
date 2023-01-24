@@ -72,7 +72,6 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
             children: [
               Expanded(
                 child: Container(
-                  //margin: EdgeInsets.all(20),
                   color: Colors.black,
                   //height: 200,
                   child: Stack(

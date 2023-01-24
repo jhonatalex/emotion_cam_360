@@ -52,7 +52,6 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   void encodeVideo() {
     var file = Get.arguments;
 
-    print(chalk.brightGreen('PROCESSIN VIDEDO$file'));
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
     VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
@@ -182,7 +181,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                           ],
                         )
                       : LiquidCircularProgressIndicator(
-                          value: completePercentage.toDouble(),
+                          value: completePercentage.toDouble() / 100,
                           valueColor: const AlwaysStoppedAnimation(
                             AppColors.royalBlue,
                           ),
@@ -212,11 +211,16 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
           Text(
             " Procesando video...",
-            style: TextStyle(fontSize: sclW(context) * 3),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: sclW(context) * 4,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
         ],
       );

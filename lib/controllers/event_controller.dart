@@ -149,7 +149,7 @@ class EventController extends GetxController {
 
   Future<void> uploadVideoToFirebase(
       Uint8List? video, String rutaVideo, EventEntity currentEvent) async {
-    //final eventFirebase = _evenController.eventoFirebase.value;
+    isSaving.value = true;
 
     final eventFirebase = await getMyEventController(currentEvent.id);
 
@@ -176,6 +176,12 @@ class EventController extends GetxController {
                       event.totalBytes.toDouble()) *
                   100)
               .roundToDouble();
+
+          if (progress.value == 100) {
+            //event.ref.getDownloadURL().then((downloadUrl) {
+            // urlDownload.value = downloadUrl;
+            //});
+          }
         });
 
         urlDownload.value = await storageRef.getDownloadURL();

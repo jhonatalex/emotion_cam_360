@@ -42,10 +42,29 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
   final controller = Get.find<UploadVideoController>();
 
   @override
-  Widget build(BuildContext context) {
-    final videoProvider = Provider.of<VideoPreferencesProvider>(context);
-    final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _init();
+  }
 
+  Future<void> _init() async {
+    await Future.delayed(const Duration(seconds: 3));
+    saveVideotoFirebase();
+  }
+
+  void saveVideotoFirebase() {
+    final videoProvider =
+        Provider.of<VideoPreferencesProvider>(context, listen: false);
+    final eventProvider =
+        Provider.of<EventoActualPreferencesProvider>(context, listen: false);
+
+    _evenController.uploadVideoToFirebase(videoProvider.videoPreferences,
+        videoProvider.pathPreferences, eventProvider.eventPrefrerences);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     /*  Future<void> saveVideo(Uint8List? videoByte, String videoPath,
         EventEntity eventoActual) async {
       await controller.saveMyVideoController(
@@ -53,14 +72,12 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     } */
 
     return Obx(() {
-      final isloading = controller.loading.value;
-
+      final isSaving = _evenController.isSaving.value;
       progresController = _evenController.progress.value;
 
       if (progresController == 100) {
         Future.delayed(const Duration(seconds: 2), () {
           clearView();
-
           Get.offNamed(RouteNames.finishQr,
               arguments: _evenController.urlDownload.value);
         });
@@ -69,7 +86,10 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
       return Scaffold(
           backgroundColor: AppColors.vulcan,
           body: Stack(alignment: AlignmentDirectional.center, children: [
-            BackgroundGradient(context),
+            AnimatedOpacity(
+                duration: Duration(seconds: 1),
+                opacity: progresController / 100,
+                child: BackgroundGradient(context)),
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               /*        Container(
                 height: 80,
@@ -90,11 +110,11 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.check_rounded,
                               color: Colors.green,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
@@ -108,7 +128,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                           ],
                         )
                       : LiquidCircularProgressIndicator(
-                          value: _evenController.progress.value.toInt() / 100,
+                          value: _evenController.progress.value / 100,
                           valueColor: const AlwaysStoppedAnimation(
                             AppColors.royalBlue,
                           ),
@@ -124,17 +144,17 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                         ),
                 ),
               ),
-              if (isloading)
-                Text(
-                  "Subiendo video a la nube...",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: sclW(context) * 4,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+              const SizedBox(height: 30),
+              Text(
+                "Subiendo video a la nube...",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: sclW(context) * 4,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-              ElevatedButton(
+              ),
+              /* ElevatedButton(
                 child: Text("SUBIR"),
                 onPressed: () {
                   /*     uploadVideoToFirebase(
@@ -147,7 +167,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                       videoProvider.pathPreferences,
                       eventProvider.eventPrefrerences);
                 },
-              )
+              ) */
             ]),
           ]));
     });
