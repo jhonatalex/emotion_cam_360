@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
@@ -63,11 +65,13 @@ class PopularesSlider extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             enlargeCenterPage: true),
         items: listEvents.map((event) {
+          print(chalk.white.bold(
+              "${event!.id}  \n ${event!.name} \n ${event!.music} \n ${event!.overlay}"));
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
-                  if (event!.overlay != imgDefault) {
+                  if (event!.name != "Evento") {
                     Get.toNamed(RouteNames.videoListPage, arguments: event);
                   } else {
                     MessengerSnackBar(context, "No se han cargado eventos");
@@ -98,10 +102,17 @@ class PopularesSlider extends StatelessWidget {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: sclH(context) * 2),
-                          child: Image.asset(
-                            imgDefault,
-                            scale: 8,
-                          ),
+                          child: event!.name != "Evento"
+                              ? Image.file(
+                                  File(event!.overlay),
+                                  width: sclW(context) * 30,
+                                  height: sclW(context) * 30,
+                                )
+                              : Image.asset(
+                                  imgDefault,
+                                  width: sclW(context) * 30,
+                                  height: sclW(context) * 30,
+                                ),
                         ),
                       ],
                     )),

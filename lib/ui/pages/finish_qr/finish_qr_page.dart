@@ -16,15 +16,17 @@ class FinishQrPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          toolbarHeight: sclH(context) * 7,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-              icon: const Icon(Icons.home),
-              iconSize: sclH(context) * 3,
-              onPressed: () {
-                Get.offAllNamed(RouteNames.home);
-              })),
+        toolbarHeight: sclH(context) * 7,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+            icon: const Icon(Icons.home),
+            iconSize: sclH(context) * 3,
+            onPressed: () {
+              Get.offAllNamed(RouteNames.home);
+            }),
+        actions: [Sharebuttons(urlVideo, "")],
+      ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -60,7 +62,7 @@ class FinishQrPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Sharebuttons(urlVideo),
+                Sharebuttons(urlVideo, "Compartir"),
               ],
             ),
           ),

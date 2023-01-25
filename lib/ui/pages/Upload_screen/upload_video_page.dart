@@ -106,8 +106,8 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
               ), */
               const SizedBox(height: 20),
               SizedBox(
-                height: sclW(context) * 60,
-                width: sclW(context) * 60,
+                height: sclW(context) * 40,
+                width: sclW(context) * 40,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 375),
                   child: _evenController.progress.value == 100

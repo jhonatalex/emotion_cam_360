@@ -63,6 +63,9 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          Sharebuttons(video, ""),
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -135,7 +138,6 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                               ],
                             );
                           }),
-                          Sharebuttons(video),
                         ],
                       ),
                     ],

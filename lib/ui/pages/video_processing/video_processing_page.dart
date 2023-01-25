@@ -135,7 +135,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     int totalVideoDuration = VideoUtil.timeTotal * 1000;
 
     completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
-    print(chalk.red.bold(completePercentage));
+    //print(chalk.red.bold(completePercentage));
     if (completePercentage <= 100) {
       if (isEncoded == false) {
         setState(() {
@@ -155,8 +155,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             children: [
               const SizedBox(height: 20),
               SizedBox(
-                height: 200.0,
-                width: 200.0,
+                height: sclW(context) * 40,
+                width: sclW(context) * 40,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 375),
                   child: completePercentage == 100
