@@ -1,4 +1,4 @@
-import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/share_buttons.dart';

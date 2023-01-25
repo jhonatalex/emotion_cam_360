@@ -1,11 +1,13 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
-import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signUp_page.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -29,6 +31,8 @@ class _SignInPageState extends State<SignInPage> {
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   AuthClass authClass = AuthClass();
+
+  final _authRepository = Get.find<AuthRepository>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,13 @@ class _SignInPageState extends State<SignInPage> {
               ),
               buttonItem("assets/img/google.svg", "Continue con Google", 25,
                   () async {
+                try {
+                  await _authRepository.signInGoogle();
+                } on FirebaseAuthException catch (e) {
+                  final snackbar = SnackBar(content: Text(e.toString()));
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                }
+
                 await authClass.googleSignIn(context);
               }),
               const SizedBox(

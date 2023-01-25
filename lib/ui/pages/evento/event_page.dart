@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
-import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:file_picker/file_picker.dart';

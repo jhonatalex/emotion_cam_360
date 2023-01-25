@@ -1,5 +1,5 @@
 import 'package:emotion_cam_360/data/db_data_source.dart';
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/routes/route_pages.dart';

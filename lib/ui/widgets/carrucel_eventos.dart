@@ -2,13 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../repositories/abstractas/responsive.dart';
+import 'responsive.dart';
 
 class CarrucelStyles extends StatelessWidget {
   const CarrucelStyles({super.key});

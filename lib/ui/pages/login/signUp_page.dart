@@ -1,7 +1,10 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
+import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -43,6 +46,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool circular = false;
   AuthClass authClass = AuthClass();
+
+  final _authRepository = Get.find<AuthRepository>();
+
   @override
   Widget build(BuildContext context) {
     final userSession = Provider.of<SesionPreferencerProvider>(context);
@@ -195,6 +201,18 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  Future<void> saveMyUser(String email, String password) async {
+    try {
+      await _authRepository.createUserWithEmail(
+        email.trim(),
+        password,
+      );
+    } on FirebaseAuthException catch (e) {
+      final snackbar = SnackBar(content: Text(e.toString()));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+  }
+
   Widget colorButton(String name, SesionPreferencerProvider userSession) {
     return InkWell(
       onTap: () async {
@@ -202,21 +220,24 @@ class _SignUpPageState extends State<SignUpPage> {
           circular = true;
         });
         try {
-          firebase_auth.UserCredential userCredential =
+          /*  firebase_auth.UserCredential userCredential =
               await firebaseAuth.createUserWithEmailAndPassword(
                   email: _emailController.text,
-                  password: _passwordController.text);
-          print(userCredential.user!.email);
+                  password: _passwordController.text); */
+          //print(userCredential.user!.email);
+
+          saveMyUser(_emailController.text, _passwordController.text);
+
           setState(() {
             circular = false;
           });
           //VOLATIL DATA
-          userSession.saveUser(userCredential.user!.email);
+          // userSession.saveUser(userCredential.user!.email);
 
           //PERSITENCIA DATA
-          authClass.storeTokenAndData(userCredential);
+          //authClass.storeTokenAndData(userCredential);
 
-          print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
+          //print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
 
           Get.offNamed(RouteNames.home);
         } catch (e) {

@@ -1,7 +1,7 @@
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../repositories/abstractas/responsive.dart';
+import 'responsive.dart';
 import '../routes/route_names.dart';
 
 //el ejemplo de arriba ess para giarnos por eso hago otra clase aqui

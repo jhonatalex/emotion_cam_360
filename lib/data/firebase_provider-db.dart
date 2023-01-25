@@ -21,6 +21,7 @@ class FirebaseProvider {
     return user;
   }
 
+//____________________USUARIO______________________________________//
 //LEER BD
   Future<MyUser?> getMyUser() async {
     final snapshot = await firestore.doc('user/${currentUser.uid}').get();
@@ -28,7 +29,15 @@ class FirebaseProvider {
     return null;
   }
 
-//____________VIDEOS_____________________________________________//
+  //GUARDAR EN BD
+  Future<void> saveMyUser(MyUser user) async {
+    print(chalk.brightGreen('entro AL PROVIDER $user'));
+
+    final ref = firestore.doc('user/${user.email}');
+    await ref.set(user.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+//____________VIDEOS______________________________________________________//
   //GUARDAR EN BD DE FIRESTORE
   Future<Responsefirebase> saveMyVideoProvider(
       Uint8List? video, String rutaVideo, EventEntity currentEvent) async {

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';

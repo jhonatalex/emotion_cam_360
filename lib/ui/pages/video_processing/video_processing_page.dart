@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit.dart';
@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../repositories/abstractas/responsive.dart';
+import '../../widgets/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/background_gradient.dart';
 
