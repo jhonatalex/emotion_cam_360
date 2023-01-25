@@ -8,6 +8,6 @@ class VideoBinding implements Bindings {
 
   @override
   void dependencies() {
-    Get.lazyPut<VideoController>(() => VideoController());
+    Get.lazyPut<VideoRecordController>(() => VideoRecordController());
   }
 }

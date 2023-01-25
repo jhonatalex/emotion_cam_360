@@ -113,7 +113,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               duration: Duration(seconds: 1),
               opacity: _opacity,
               child: BackgroundGradient(context)),
-          dinamicText(videoProvider),
+          dinamicText(videoProvider, context),
         ],
       ),
     );
@@ -145,7 +145,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     }
   }
 
-  dinamicText(videoProvider) {
+  dinamicText(videoProvider, context) {
     if (isEncoded == false && completePercentage < 100) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -162,19 +162,17 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                   child: completePercentage == 100
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.check_rounded,
-                              color: Colors.green,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              'Proceso Completado',
+                              'Completado',
                               style: TextStyle(
-                                fontFamily: "Verdana",
-                                fontSize: 18,
+                                fontSize: sclW(context) * 4,
                                 color: Color.fromARGB(255, 215, 241, 216),
                               ),
                             ),
@@ -243,7 +241,9 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                     videoProvider.saveVideoPrefrerence(valueBytes);
                     videoProvider.savePathPrefrerence(fileEncoded.path);
 
-                    Get.offNamed(RouteNames.showVideo);
+                    Get.offNamed(RouteNames.videoViewerPage,
+                        arguments: fileEncoded.path);
+                    // Get.offNamed(RouteNames.showVideo);
                     // arguments: [valueBytes, fileEncoded.path]);
                   });
                   print(chalk.white.bold(fileEncoded.path));

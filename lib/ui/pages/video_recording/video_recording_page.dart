@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,17 +20,19 @@ class VideoRecordingPage extends StatefulWidget {
 
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
   //Variables
+
+  final VideoRecordController vRCtrl = Get.find<VideoRecordController>();
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
   int _cameraIndex = 1; // Índice de cámara actual
-  bool _isRecording = false; // Bandera indicadora de grabación en proceso
-
+  // bool _isRecording = false; Bandera indicadora de grabación en proceso
+/* 
   double _opacityText = 1.0;
-  double _opacityRec = 1;
+  double _opacityRec = 0;
   double _width = 15;
   bool _isFirst = true;
   int _selectedIndex = 2;
-  int _timeSelected = 10; // tiempo seleccionado por el usuario
+  int _timeSelected = 10; // tiempo seleccionado por el usuario */
 
   @override
   void initState() {
@@ -40,9 +43,10 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       // Guardar la lista de cámaras
       _cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
-      if (_cameras.length != 0) {
+      if (_cameras.isNotEmpty) {
+        //_cameras.length != 0
         // Inicializar el índice de cámara actual en 0 para obtener la primera
-        _cameraIndex = 1;
+        _cameraIndex = vRCtrl.settingsController.cameraIndex.value;
         // Inicializar la cámara pasando el CameraDescription de la cámara seleccionada
         _initCamera(_cameras[_cameraIndex]);
       }
@@ -76,8 +80,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       return cameraController!.dispose();
     }
 
-    //hacer dispose con el codigo anterior
-    //me costo resolver ese problema
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.high);
     // Agregar un Listener para refrescar la pantalla en cada cambio
@@ -103,12 +105,13 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   // Detener la grabación de video
   Future<void> _onStop() async {
     final file = await _controller?.stopVideoRecording();
-    setState(() => _isRecording = false);
-
+    print(chalk.white.bold("Pasar de pantalla"));
     //READ BYTES AND SEND DATA WITH GETX
+
     file!.readAsBytes().then((valueBytes) =>
         Get.offNamed(RouteNames.videoProcessing, arguments: file.path));
     //videoProvider.savePathPrefrerence(videoController.videoPath.value);
+
     // Get.offNamed(RouteNames.showVideo, arguments: file.path));
   }
 
@@ -116,32 +119,27 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     await _controller?.prepareForVideoRecording();
     await _controller?.startVideoRecording();
 
-    setState(() => _isRecording = true);
+    Future.delayed(
+        Duration(seconds: vRCtrl.settingsController.timeRecord.value), () {
+      _onStop();
+    });
   }
 
-  late Timer _timer;
-  int _start = 5;
-  //el tiempo que se configuró más los 10seg para empezar
-
   void startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
+    int startTime = vRCtrl.settingsController.timeRecord.value;
+
+    Timer.periodic(
+      const Duration(seconds: 1),
       (Timer timer) {
-        if (_start == 2) {
-          print("es dos");
-          setState(() {
-            _opacityText = 0;
-            _opacityRec = 0;
-          });
+        if (startTime == 2) {
+          vRCtrl.opacityText.value = 0;
         }
-        if (_start == 0) {
-          print("es cero");
-          setState(() {
-            _recordVideo();
-          });
-        }
-        if (_start == -_timeSelected) {
+        if (startTime == 0) {
+          timer.cancel();
+          vRCtrl.opacityRec.value = 1;
+          _recordVideo();
+        } /* 
+        if (startTime == -_timeSelected) {
           //los 10 segundos de espera son +
           //y de ahi en adelante son los de grabación
           print("es -timeselected");
@@ -150,11 +148,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           /*  setState(() {
             _onStop();
           }); */
-        } else {
+        } */
+        else {
           setState(() {
-            _start--;
+            startTime--;
           });
-          print(-_start);
+          print(chalk.white.bold(startTime));
         }
       },
     );
@@ -162,12 +161,14 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
+    vRCtrl.dispose();
+    //_controller!.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    int startTime = vRCtrl.settingsController.timeRecord.value;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: sclH(context) * 7,
@@ -178,7 +179,12 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
           iconSize: sclH(context) * 3,
           onPressed: (() => Get.offNamed(RouteNames.videoPage)),
         ),
-        actions: [buttonRec()],
+        actions: [
+          buttonRec(),
+          const SizedBox(
+            width: 10,
+          )
+        ],
       ),
       backgroundColor: AppColors.vulcan,
       extendBodyBehindAppBar: true,
@@ -187,50 +193,69 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
         alignment: Alignment.center,
         children: [
           _buildCamera(),
-          countDown(context),
+          textCountDown(context, startTime),
         ],
       ),
     );
   }
 
   buttonRec() {
-    return AnimatedOpacity(
-      opacity: 1 - _opacityRec,
-      duration: Duration(seconds: 1),
-      onEnd: () {
-        _opacityRec = _opacityRec == 0 ? 1.0 : 0.0;
-      },
-    );
+    return Obx(() {
+      return AnimatedOpacity(
+        opacity: vRCtrl.opacityRec.value,
+        duration: const Duration(seconds: 1),
+        onEnd: () {
+          vRCtrl.opacityRec.value = vRCtrl.opacityRec.value == 0 ? 1.0 : 0.0;
+        },
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: const [
+            Icon(
+              Icons.circle_outlined,
+              color: Colors.red,
+              size: 30,
+            ),
+            Icon(
+              Icons.circle,
+              color: Colors.red,
+              size: 18,
+            ),
+          ],
+        ),
+      );
+    });
   }
 
-  countDown(BuildContext context) {
+  textCountDown(BuildContext context, startTime) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(
-          child: AnimatedOpacity(
-            opacity: _opacityText,
-            curve: Curves.easeInToLinear,
-            duration: Duration(milliseconds: 500),
-            child: Column(
-              children: [
-                Text(
-                  'Preparate...',
-                  style: TextStyle(fontSize: sclH(context) * 3),
-                ),
-                Text(
-                  "$_start",
-                  style: TextStyle(fontSize: sclH(context) * 20),
-                ),
-                Text(
-                  'La aventura está por comenzar...',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: sclH(context) * 4),
-                ),
-              ],
+        Obx(() {
+          return Center(
+            child: AnimatedOpacity(
+              opacity: vRCtrl.opacityText.value,
+              curve: Curves.easeInToLinear,
+              duration: Duration(milliseconds: 500),
+              child: Column(
+                children: [
+                  Text(
+                    'Preparate...',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+                  Text(
+                    "$startTime",
+                    style: TextStyle(fontSize: sclH(context) * 20),
+                  ),
+                  Text(
+                    'La aventura está por comenzar...',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: sclH(context) * 4),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        })
       ],
     );
   }

@@ -116,17 +116,14 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                           children: [
                             const Icon(
                               Icons.check_rounded,
-                              color: Colors.green,
                             ),
                             const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              'Proceso Completado',
+                              'Completado',
                               style: TextStyle(
-                                fontFamily: "Verdana",
                                 fontSize: sclW(context) * 4,
-                                color: Colors.green,
                               ),
                             ),
                           ],

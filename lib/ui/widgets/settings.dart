@@ -28,25 +28,12 @@ class Settings extends StatelessWidget {
     "Alegría ritmica",
     "Enamorados",
   ];
-  String musicvalue = 'Hallman E.D.';
-  List<String> musicitems = [
-    "Hallman E.D.",
-    "Titulo1 A.A.", //Titulo Abreviación. Autor.
-    "Titulo2 A.A.", //Titulo Abreviación. Autor.
-    "Titulo3 A.A.", //Titulo Abreviación. Autor.
-  ];
   String fondovalue = 'Espiral';
   List<String> fondoitems = [
     "Espiral",
     "Explosión", //Titulo Abreviación. Autor.
     "Titulo2 A.A.", //Titulo Abreviación. Autor.
     "Titulo3 A.A.", //Titulo Abreviación. Autor.
-  ];
-  String timevalue = '10';
-  List<String> timeitems = [
-    "10",
-    "15",
-    "20",
   ];
 
   @override
@@ -82,36 +69,6 @@ class Settings extends StatelessWidget {
                 DropdownCustom(configvalue, configitems),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Seleccione Imagen",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              CircleAvatar(
-                radius: 60,
-                child: FlutterLogo(
-                  size: 90,
-                ),
-              ),
-            ],
-          ),
-          ListTile(
-            title: Text(
-              'Música',
-              style: TextStyle(fontSize: sclH(context) * 2.5),
-            ),
-            subtitle: Text("Deside que música usar de fondo para el video",
-                style: TextStyle(fontSize: sclH(context) * 1.7)),
-            trailing: DropdownCustom(musicvalue, musicitems),
           ),
           ListTile(
             title: Text(
