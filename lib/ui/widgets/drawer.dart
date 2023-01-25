@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/auth_controller.dart';
-import '../../repositories/abstractas/appcolors.dart';
-import '../../repositories/abstractas/responsive.dart';
+import 'appcolors.dart';
+import 'responsive.dart';
 
 class MyDrawer extends StatefulWidget {
   MyDrawer({super.key});

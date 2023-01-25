@@ -1,3 +1,4 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -59,6 +60,9 @@ class AuthClass {
   }
 
   Future<void> storeTokenAndData(UserCredential userCredential) async {
+    print(chalk
+        .yellowBright('LOG AQUI ${userCredential.user!.email.toString()}'));
+
     //CUANDO ES CON USUARIO E IMEL NO TIENE TOKEN
     if (userCredential.credential != null) {
       await storage.write(
@@ -78,14 +82,14 @@ class AuthClass {
 
   Future<void> verifyPhoneNumber(
       String phoneNumber, BuildContext context, Function setData) async {
-    PhoneVerificationCompleted verificationCompleted =
-        (PhoneAuthCredential phoneAuthCredential) async {
+    verificationCompleted(PhoneAuthCredential phoneAuthCredential) async {
       showSnackBar(context, "Verification Completed");
-    };
-    PhoneVerificationFailed verificationFailed =
-        (FirebaseAuthException exception) {
+    }
+
+    verificationFailed(FirebaseAuthException exception) {
       showSnackBar(context, exception.toString());
-    };
+    }
+
     // ignore: prefer_function_declarations_over_variables
     PhoneCodeSent codeSent =
         (String verificationID, [int? forceResnedingtoken]) {

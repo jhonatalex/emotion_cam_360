@@ -1,12 +1,25 @@
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/controllers/auth_controller.dart';
+import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
+import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
+import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
+import '../../entities/user.dart';
 import '../abstractas/auth_repositoryAbst.dart';
 
 class AuthRepositoryImp implements AuthRepository {
   //const AuthFirebase();
 
   final _firebaseAuthUniqueInstance = FirebaseAuth.instance;
+  final _userRepository = Get.put<MyUserRepository>(MyUserRepositoryImp());
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
+  AuthClass authClass = AuthClass();
 
   //FUNCION PARA CONVERTIR USER DE FIREBASE  DE NUESTROO USER MODELO AUTHUSER
   AuthUser? _userFirebaseConvertToModel(User? user) =>
@@ -37,11 +50,32 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<AuthUser?> createUserWithEmail(
       String username, String password) async {
-    final authResult = await _firebaseAuthUniqueInstance
+    /*    final authResult = await _firebaseAuthUniqueInstance
+        .createUserWithEmailAndPassword(email: username, password: password);
+ */
+    firebase_auth.UserCredential userCredential = await firebaseAuth
         .createUserWithEmailAndPassword(email: username, password: password);
 
-    return _userFirebaseConvertToModel(authResult.user);
+    //PERSITENCIA DATA
+    await authClass.storeTokenAndData(userCredential);
+
+    //GUARDAR EL USUARIO PERSONALIZADO
+    final uid = Get.find<AuthController>().authUser.value!.uid;
+    final email = username;
+    const statusInitial = true;
+    final newUser = MyUser(uid, email, status: statusInitial);
+
+    await _userRepository.saveMyUser(newUser);
+
+    return _userFirebaseConvertToModel(userCredential.user);
   }
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   //GOOGLE
   @override
@@ -49,14 +83,31 @@ class AuthRepositoryImp implements AuthRepository {
     final googleUser = await GoogleSignIn().signIn();
     final googleAuth = await googleUser?.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+    final googleSignInAccount = await GoogleSignIn().signIn();
+    final googleSignInAuthentication =
+        await googleSignInAccount?.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.credential(
+      idToken: googleSignInAuthentication?.idToken,
+      accessToken: googleSignInAuthentication?.accessToken,
     );
 
-    final authResult =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    return _userFirebaseConvertToModel(authResult.user);
+    UserCredential userCredential = await auth.signInWithCredential(credential);
+
+    if (userCredential.additionalUserInfo!.isNewUser) {
+      //GUARDAR EL USUARIO PERSONALIZADO
+      final uid = userCredential.user?.email;
+      final email = userCredential.user?.email;
+      const statusInitial = true;
+      final newUser = MyUser(uid!, email!, status: statusInitial);
+
+      await _userRepository.saveMyUser(newUser);
+    }
+
+    //PERSITENCIA DATA
+    await authClass.storeTokenAndData(userCredential);
+
+    return _userFirebaseConvertToModel(userCredential.user);
   }
 
   @override

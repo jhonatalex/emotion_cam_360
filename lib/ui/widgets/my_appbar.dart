@@ -1,5 +1,5 @@
-import 'package:emotion_cam_360/repositories/abstractas/appcolors.dart';
-import 'package:emotion_cam_360/repositories/abstractas/responsive.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
 bool isConected = true;

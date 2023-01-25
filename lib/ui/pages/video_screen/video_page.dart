@@ -14,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../../../repositories/abstractas/appcolors.dart';
-import '../../../repositories/abstractas/responsive.dart';
+import '../../widgets/appcolors.dart';
+import '../../widgets/responsive.dart';
 import '../../routes/route_names.dart';
 import '../../widgets/button_play.dart';
 import '../../widgets/dropdown_events.dart';

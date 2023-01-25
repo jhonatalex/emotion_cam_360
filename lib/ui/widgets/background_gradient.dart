@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../repositories/abstractas/appcolors.dart';
+import 'appcolors.dart';
 
 Container BackgroundGradient(BuildContext context) {
   return Container(

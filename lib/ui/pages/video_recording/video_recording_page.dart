@@ -6,8 +6,8 @@ import 'package:chalkdart/chalk.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../repositories/abstractas/appcolors.dart';
-import '../../../repositories/abstractas/responsive.dart';
+import '../../widgets/appcolors.dart';
+import '../../widgets/responsive.dart';
 import '../../routes/route_names.dart';
 
 class VideoRecordingPage extends StatefulWidget {
