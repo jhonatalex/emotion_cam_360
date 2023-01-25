@@ -65,8 +65,6 @@ class PopularesSlider extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             enlargeCenterPage: true),
         items: listEvents.map((event) {
-          print(chalk.white.bold(
-              "${event!.id}  \n ${event!.name} \n ${event!.music} \n ${event!.overlay}"));
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
@@ -86,13 +84,12 @@ class PopularesSlider extends StatelessWidget {
                             fit: BoxFit.fill),
                         borderRadius: BorderRadius.circular(25)),
                     child: Column(
-                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 20),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: sclH(context) * 1,
+                            left: sclW(context) * 5,
+                          ),
                           child: Text(
                             event!.name,
                             textAlign: TextAlign.center,
@@ -100,8 +97,11 @@ class PopularesSlider extends StatelessWidget {
                                 color: AppColors.royalBlue, fontSize: 20),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: sclH(context) * 2),
+                        SizedBox(
+                          height: sclH(context) * 2,
+                        ),
+                        FittedBox(
+                          fit: BoxFit.fill,
                           child: event!.name != "Evento"
                               ? Image.file(
                                   File(event!.overlay),
