@@ -63,10 +63,14 @@ class _DropdownEventosState extends State<DropdownEventos> {
 
       // Array list of items
       items: listEventEntity.map<DropdownMenuItem<EventEntity>>((value) {
+        print(chalk.white.bold(value));
         return DropdownMenuItem<EventEntity>(
           value: value,
           child: Text(
-            value.name,
+            //evitar que se desborde si el nombre es muy largo
+            value.name != "Seleccione" && value.name != "Crear Evento"
+                ? "${value.name.toString().substring(0, 20)}..."
+                : value.name,
             style: TextStyle(fontSize: sclH(context) * 3),
           ),
         );

@@ -61,9 +61,12 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
     // y asi poder usar isData como validador
     String data = video as String;
     data = data.substring(1, 5);
-    data == "data" ? isData = true : isData = false;
+    data == "data"
+        ? isData = true
+        : isData =
+            false; /* 
     print(chalk.white.bold("Video path $video"));
-    print(chalk.white.bold("Video path $isData"));
+    print(chalk.white.bold("Video path $isData")); */
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -80,10 +83,11 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                 icon: Icon(Icons.video_call))
             : IconButton(
                 onPressed: () {
-                  Get.offAllNamed(RouteNames.home);
+                  Get.back();
+                  // Get.offAllNamed(RouteNames.home);
                   //por ahora mientras consigo como volver jeje
                 },
-                icon: Icon(Icons.arrow_back)),
+                icon: const Icon(Icons.arrow_back)),
         actions: [
           isData
               ? IconButton(
