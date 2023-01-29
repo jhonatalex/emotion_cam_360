@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>869955665095-dkt40qdhdkdk8d89apss6ps4f0hrnnrh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.869955665095-dkt40qdhdkdk8d89apss6ps4f0hrnnrh</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>869955665095-oilbu6j68jl7k4v12kk84n2ac70840sk.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAeBjnFyH-3rV2-Jd1ClIKuJSgkjH2Nk14</string>
+	<key>GCM_SENDER_ID</key>
+	<string>869955665095</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.marketglobal.emotionCam360</string>
+	<key>PROJECT_ID</key>
+	<string>emotion360-72a62</string>
+	<key>STORAGE_BUCKET</key>
+	<string>emotion360-72a62.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:869955665095:ios:67963b020be0a224ced2e2</string>
+</dict>
+</plist>
