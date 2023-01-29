@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';

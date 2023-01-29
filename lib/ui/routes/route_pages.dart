@@ -9,6 +9,8 @@ import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.da
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_page.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:emotion_cam_360/ui/widgets/Subscription_page.dart';
+import 'package:emotion_cam_360/ui/widgets/politics.dart';
 import 'package:get/get.dart';
 
 import '../pages/Upload_screen/upload_video_binding.dart';
@@ -124,6 +126,18 @@ class RoutePages {
         page: () => VideoViewerPage(),
         transition: Transition.fadeIn,
         binding: const VideoViewerBinding(),
+      ),
+      GetPage(
+        name: RouteNames.subscription,
+        page: () => SubscriptionPage(),
+        transition: Transition.fadeIn,
+        //binding: const VideoViewerBinding(),
+      ),
+      GetPage(
+        name: RouteNames.politics,
+        page: () => PoliticsPage(),
+        transition: Transition.fadeIn,
+        //binding: const VideoViewerBinding(),
       ),
     ];
   }

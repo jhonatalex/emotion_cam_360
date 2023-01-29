@@ -42,7 +42,7 @@ class _ButtonPlayState extends State<ButtonPlay> {
               AnimatedOpacity(
                 opacity: _opacity,
                 curve: Curves.easeInToLinear,
-                duration: Duration(milliseconds: 700),
+                duration: const Duration(milliseconds: 700),
                 onEnd: () => Get.offAllNamed(RouteNames.videoRecording),
                 child: Column(
                   children: [
@@ -55,11 +55,11 @@ class _ButtonPlayState extends State<ButtonPlay> {
                         }
                       },
                       child: AnimatedContainer(
-                          duration: Duration(milliseconds: 1000),
+                          duration: const Duration(milliseconds: 1000),
                           curve: Curves.easeInSine,
                           width: sclH(context) * _width,
                           height: sclH(context) * _width * 2 / 3,
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(

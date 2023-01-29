@@ -25,6 +25,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
   int _cameraIndex = 1; // Índice de cámara actual
+  late int startTime;
   // bool _isRecording = false; Bandera indicadora de grabación en proceso
 /* 
   double _opacityText = 1.0;
@@ -126,30 +127,20 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   void startTimer() {
-    int startTime = vRCtrl.settingsController.timeRecord.value;
+    startTime = vRCtrl.settingsController.timeRecord.value;
 
     Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
         if (startTime == 2) {
           vRCtrl.opacityText.value = 0;
+          print(chalk.yellow.bold("la camara usada es $_cameraIndex"));
         }
         if (startTime == 0) {
           timer.cancel();
           vRCtrl.opacityRec.value = 1;
           _recordVideo();
-        } /* 
-        if (startTime == -_timeSelected) {
-          //los 10 segundos de espera son +
-          //y de ahi en adelante son los de grabación
-          print("es -timeselected");
-          _onStop();
-          timer.cancel();
-          /*  setState(() {
-            _onStop();
-          }); */
-        } */
-        else {
+        } else {
           setState(() {
             startTime--;
           });
@@ -168,7 +159,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
   @override
   Widget build(BuildContext context) {
-    int startTime = vRCtrl.settingsController.timeRecord.value;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: sclH(context) * 7,
@@ -200,26 +190,30 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   }
 
   buttonRec() {
+    int i = 0;
     return Obx(() {
       return AnimatedOpacity(
         opacity: vRCtrl.opacityRec.value,
         duration: const Duration(seconds: 1),
         onEnd: () {
+          i++;
+
           vRCtrl.opacityRec.value = vRCtrl.opacityRec.value == 0 ? 1.0 : 0.0;
         },
         child: Stack(
           alignment: AlignmentDirectional.center,
-          children: const [
-            Icon(
+          children: [
+            const Icon(
               Icons.circle_outlined,
               color: Colors.red,
               size: 30,
             ),
-            Icon(
+            const Icon(
               Icons.circle,
               color: Colors.red,
               size: 18,
             ),
+            Text("$i"), //Temporal
           ],
         ),
       );
@@ -235,7 +229,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
             child: AnimatedOpacity(
               opacity: vRCtrl.opacityText.value,
               curve: Curves.easeInToLinear,
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               child: Column(
                 children: [
                   Text(

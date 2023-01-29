@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -10,9 +6,7 @@ import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/share_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import 'package:share_plus/share_plus.dart';
 
 class VideoViewerPage extends StatefulWidget {
   @override
@@ -80,7 +74,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                 onPressed: () {
                   Get.offAllNamed(RouteNames.videoPage);
                 },
-                icon: Icon(Icons.video_call))
+                icon: const Icon(Icons.video_call))
             : IconButton(
                 onPressed: () {
                   Get.back();
@@ -108,7 +102,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
           BackgroundGradient(context),
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 80,
               ),
               Expanded(

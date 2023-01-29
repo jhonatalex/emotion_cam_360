@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:emotion_cam_360/entities/video.dart';
-import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
+import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:get/get.dart';
 
 class VideoRecordController extends GetxController {

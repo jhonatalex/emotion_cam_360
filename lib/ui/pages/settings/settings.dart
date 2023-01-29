@@ -2,7 +2,7 @@ import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
-import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
+import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -53,7 +53,7 @@ class Settings extends StatelessWidget {
               fontSize: sclH(context) * 4,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Container(
@@ -113,7 +113,7 @@ class Settings extends StatelessWidget {
               },
             );
           }),
-          Divider(
+          const Divider(
             height: 30,
             color: AppColors.violet,
             indent: 20,
@@ -192,7 +192,7 @@ class Settings extends StatelessWidget {
               ],
             ),
           ]),
-          Divider(
+          const Divider(
             height: 30,
             color: AppColors.violet,
             indent: 20,
@@ -208,17 +208,17 @@ class Settings extends StatelessWidget {
               ),
               TextButton.icon(
                   onPressed: () => settingsController.makeDefault(),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.refresh,
                     color: Colors.white,
                   ),
-                  label: Text(
+                  label: const Text(
                     "default",
                     style: TextStyle(color: Colors.white),
                   )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Container(
@@ -231,7 +231,7 @@ class Settings extends StatelessWidget {
                 Obx(() {
                   return Column(
                     children: [
-                      Text("Normal"),
+                      const Text("Normal"),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Slider(
@@ -252,7 +252,7 @@ class Settings extends StatelessWidget {
                 Obx(() {
                   return Column(
                     children: [
-                      Text("Slow Motion"),
+                      const Text("Slow Motion"),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Slider(
@@ -274,7 +274,7 @@ class Settings extends StatelessWidget {
                 Obx(() {
                   return Column(
                     children: [
-                      Text("Normal"),
+                      const Text("Normal"),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Slider(
@@ -295,7 +295,7 @@ class Settings extends StatelessWidget {
                 Obx(() {
                   return Column(
                     children: [
-                      Text("Reverse"),
+                      const Text("Reverse"),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Slider(
@@ -318,7 +318,7 @@ class Settings extends StatelessWidget {
                 Obx(() {
                   return Column(
                     children: [
-                      Text("Créditos"),
+                      const Text("Créditos"),
                       RotatedBox(
                         quarterTurns: 3,
                         child: Slider(

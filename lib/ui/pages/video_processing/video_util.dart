@@ -4,9 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/ui/widgets/settings-controller.dart';
-import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
+import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';

@@ -1,8 +1,4 @@
-import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
-import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_eventos.dart';
 import 'package:emotion_cam_360/ui/widgets/drawer.dart';

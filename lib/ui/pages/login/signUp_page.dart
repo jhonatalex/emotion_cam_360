@@ -1,8 +1,5 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
-import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
-import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +124,7 @@ class _SignUpPageState extends State<SignUpPage> {
       String imagePath, String buttonName, double size, Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
         child: Card(
@@ -166,7 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget textItem(
       String name, TextEditingController controller, bool obsecureText) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
       height: 55,
       child: TextFormField(

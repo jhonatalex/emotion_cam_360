@@ -1,15 +1,11 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:emotion_cam_360/data/db_data_source.dart';
 import 'package:emotion_cam_360/entities/event.dart';
-import 'package:emotion_cam_360/entities/video.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../data/firebase_provider-db.dart';
 
 import '../abstractas/event_repository.dart';
-import '../abstractas/video_repository.dart';
 
 class EventRepositoryImple extends EventRepository {
   final provider = FirebaseProvider();

@@ -54,7 +54,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // Si el controlador es nulo o no está inicializado aún,
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
     if (_controller == null || !_controller!.value.isInitialized)
-      return Center(child: Text('Loading...'));
+      return const Center(child: Text('Loading...'));
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
     return AspectRatio(
       // Solicitar la relación alto/ancho al controlador
@@ -76,17 +76,17 @@ class _CameraScreenState extends State<CameraScreen> {
         ),
         // Ícono para iniciar la grabación
         IconButton(
-            icon: Icon(Icons.radio_button_checked),
+            icon: const Icon(Icons.radio_button_checked),
             onPressed: () => {}), // _isRecording ? null : _onRecord,
 
         // Ícono para tener la grabación
         IconButton(
-          icon: Icon(Icons.stop),
+          icon: const Icon(Icons.stop),
           onPressed: _isRecording ? _onStop : null,
         ),
         // Ícono para reproducir el video grabado
         IconButton(
-            icon: Icon(Icons.play_arrow),
+            icon: const Icon(Icons.play_arrow),
             onPressed: () => {}), //_isRecording ? null : _onPlay,
       ],
     );
@@ -140,7 +140,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Emotion CAM 360')),
+      appBar: AppBar(title: const Text('Emotion CAM 360')),
       body: Column(children: [
         Container(height: 550, child: Center(child: _buildCamera())),
         _buildControls(),

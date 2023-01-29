@@ -1,13 +1,9 @@
 import 'package:chalkdart/chalk.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/entities/responseFirebase.dart';
 import 'package:emotion_cam_360/entities/video.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../repositories/abstractas/video_repository.dart';
-import '../../routes/route_names.dart';
 
 class UploadVideoController extends GetxController {
   final _videoRepository = Get.find<VideoRepository>();

@@ -1,15 +1,13 @@
-import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/auth_controller.dart';
 import 'appcolors.dart';
 import 'responsive.dart';
 
 class MyDrawer extends StatefulWidget {
-  MyDrawer({super.key});
+  const MyDrawer({super.key});
 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
@@ -75,9 +73,6 @@ class _MyDrawerState extends State<MyDrawer> {
                     Get.offNamed(RouteNames.eventPage);
                   },
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 ListTile(
                   iconColor: Colors.white,
                   textColor: Colors.white,
@@ -97,6 +92,42 @@ class _MyDrawerState extends State<MyDrawer> {
                     await authClass.logout();
                     //Get.find<AuthController>().signOut();
                     Get.offNamed(RouteNames.signIn);
+                  },
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  //  tileColor: Colors.black38,
+                  leading: Icon(
+                    emailUser == null
+                        ? Icons.bookmark_add_outlined
+                        : Icons.bookmark_outlined,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    emailUser == null ? 'Subscribirse' : 'Usuario Subscrito',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+
+                  onTap: () {
+                    Get.toNamed(RouteNames.subscription);
+                  },
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  //  tileColor: Colors.black38,
+                  leading: Icon(
+                    Icons.my_library_books_outlined,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    'Terminos y Condiciones',
+                    style: TextStyle(fontSize: sclH(context) * 3),
+                  ),
+
+                  onTap: () {
+                    Get.toNamed(RouteNames.politics);
                   },
                 ),
                 const SizedBox(

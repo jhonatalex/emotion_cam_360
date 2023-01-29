@@ -110,7 +110,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
         alignment: Alignment.center,
         children: [
           AnimatedOpacity(
-              duration: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
               opacity: _opacity,
               child: BackgroundGradient(context)),
           dinamicText(videoProvider, context),
@@ -173,7 +173,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                               'Completado',
                               style: TextStyle(
                                 fontSize: sclW(context) * 4,
-                                color: Color.fromARGB(255, 215, 241, 216),
+                                color: const Color.fromARGB(255, 215, 241, 216),
                               ),
                             ),
                           ],
