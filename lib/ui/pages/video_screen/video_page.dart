@@ -43,7 +43,7 @@ class _VideoPageState extends State<VideoPage> {
 
   //late var listEvents;
 
-  final _evenController = Get.find<EventController>();
+  final _evenController = Get.put(EventController());
   final SettingsController settingsController = Get.put(SettingsController());
 
   @override

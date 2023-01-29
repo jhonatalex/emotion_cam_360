@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -63,6 +64,8 @@ class _EventPageState extends State<EventPage> {
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
+    print(chalk.yellow.bold(textFileImage));
+    print(chalk.yellow.bold(textFileMp3));
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -295,13 +298,12 @@ class _EventPageState extends State<EventPage> {
                   //MUSICA
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles(
-                    type: FileType.audio,
+                    type: FileType.custom,
+                    allowedExtensions: ["mp3"],
                   );
                   if (result != null) {
                     Get.find<EventController>()
                         .setMp3(File(result.files.single.path!));
-
-                    //var file = File(result.files.single.path);
                   } else {
                     // User canceled the picker
                   }
