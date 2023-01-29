@@ -68,7 +68,10 @@ class _DropdownEventosState extends State<DropdownEventos> {
           value: value,
           child: Text(
             //evitar que se desborde si el nombre es muy largo
-            value.name != "Seleccione" && value.name != "Crear Evento"
+            value.name != "Seleccione" &&
+                    value.name != "Crear Evento" &&
+                    value.name.toString().length >= 20
+                //que no sea seleccione ni crear evento y tenga mas de 20 caracteres
                 ? "${value.name.toString().substring(0, 20)}..."
                 : value.name,
             style: TextStyle(fontSize: sclH(context) * 3),
