@@ -105,6 +105,14 @@ class _EventPageState extends State<EventPage> {
               const SizedBox(
                 height: 15,
               ),
+              /*   ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FilePickerDemo()));
+                  },
+                  child: Text("Ejemplo")) */
             ],
           ),
         ),
@@ -296,12 +304,17 @@ class _EventPageState extends State<EventPage> {
               onPressed: () async {
                 if (isMp3) {
                   //MUSICA
+                  //
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles(
                     type: FileType.custom,
-                    allowedExtensions: ["mp3"],
+                    allowedExtensions: ['mp3'],
                   );
-                  if (result != null) {
+                  final String path = result?.files.single.path! ?? "0";
+                  if (path.contains(' ')) {
+                    MessengerSnackBar(context,
+                        "El nombre del audio no debe contener espacios, por favor corrígelo e intenta de nuevo");
+                  } else if (result != null) {
                     Get.find<EventController>()
                         .setMp3(File(result.files.single.path!));
                   } else {
