@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -83,38 +85,48 @@ class PopularesSlider extends StatelessWidget {
                             image: AssetImage("assets/img/bg_sld.jpg"),
                             fit: BoxFit.fill),
                         borderRadius: BorderRadius.circular(25)),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: sclH(context) * 1,
-                            left: sclW(context) * 5,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: sclH(context) * 1.5,
+                              //left: sclW(context) * 5,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              event!.name,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: AppColors.royalBlue,
+                                  fontSize: sclW(context) * 5),
+                            ),
                           ),
-                          child: Text(
-                            event!.name,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                color: AppColors.royalBlue, fontSize: 20),
+                          SizedBox(
+                            height: sclH(context) * 1,
                           ),
-                        ),
-                        SizedBox(
-                          height: sclH(context) * 2,
-                        ),
-                        FittedBox(
-                          fit: BoxFit.fill,
-                          child: event!.name != "Evento"
-                              ? Image.file(
-                                  File(event!.overlay),
-                                  width: sclW(context) * 30,
-                                  height: sclW(context) * 30,
-                                )
-                              : Image.asset(
-                                  imgDefault,
-                                  width: sclW(context) * 30,
-                                  height: sclW(context) * 30,
-                                ),
-                        ),
-                      ],
+                          Hero(
+                            tag: event!.overlay,
+                            child: event!.name != "Evento"
+                                ? Image.file(
+                                    File(event!.overlay),
+                                    width: sclW(context) * 30,
+                                    height: sclW(context) * 30,
+                                  )
+                                : Image.asset(
+                                    event!.overlay,
+                                    width: sclW(context) * 30,
+                                    height: sclW(context) * 30,
+                                  ),
+                          ),
+                          SizedBox(
+                            height: sclH(context) * 8,
+                          )
+                        ],
+                      ),
                     )),
               );
             },

@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'package:chalkdart/chalk.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import '../pages/Upload_screen/upload_video_page.dart';
 import '../routes/route_names.dart';
 
 class ShowVideoPage extends StatefulWidget {
@@ -55,7 +50,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
     _videoPlayerController = VideoPlayerController.file(File(file));
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(false);
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     await _videoPlayerController.play();
   }
 
@@ -72,7 +67,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
             onPressed: () {
               Get.offAllNamed(RouteNames.videoPage);
             },
-            icon: Icon(Icons.video_call)),
+            icon: const Icon(Icons.video_call)),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
@@ -108,7 +103,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
               ? _videoPlayerController.pause()
               : _videoPlayerController.play();
         },
-        child: Icon(
+        child: const Icon(
           /* 
           _videoPlayerController.value.isPlaying
               ? Icons.pause

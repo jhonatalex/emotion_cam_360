@@ -7,7 +7,6 @@ import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
-import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,8 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../entities/user.dart';
-import '../repositories/abstractas/event_repository.dart';
-import 'auth_controller.dart';
 import 'package:path/path.dart' as path;
 
 class EventController extends GetxController {
@@ -44,7 +41,6 @@ class EventController extends GetxController {
 
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
   FirebaseStorage get storage => FirebaseStorage.instance;
-  String _txt = 'Cargando Videoa la nube....';
   late var urlDownload = ''.obs;
   UploadTask? uploadTask;
   RxDouble progress = 0.0.obs;

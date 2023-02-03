@@ -12,12 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
-import '../../routes/route_names.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -146,7 +143,7 @@ class _SignInPageState extends State<SignInPage> {
       String imagePath, String buttonName, double size, Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
         child: Card(
@@ -185,7 +182,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget textItem(
       String name, TextEditingController controller, bool obsecureText) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
       height: 55,
       child: TextFormField(

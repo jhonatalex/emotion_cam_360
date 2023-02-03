@@ -4,12 +4,10 @@ import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
-import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
+import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
-import 'package:emotion_cam_360/ui/widgets/settings.dart';
-import 'package:ffmpeg_kit_flutter_video/return_code.dart';
+import 'package:emotion_cam_360/ui/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -17,9 +15,7 @@ import 'package:provider/provider.dart';
 import '../../widgets/appcolors.dart';
 import '../../widgets/responsive.dart';
 import '../../routes/route_names.dart';
-import '../../widgets/button_play.dart';
 import '../../widgets/dropdown_events.dart';
-import '../../widgets/show_video_page.dart';
 
 class VideoPage extends StatefulWidget {
   const VideoPage({super.key});
@@ -32,7 +28,7 @@ class _VideoPageState extends State<VideoPage> {
   //Variables
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
-  int _cameraIndex = 1; // Índice de cámara actual
+
   bool _isRecording = false; // Bandera indicadora de grabación en proceso
 
   bool _isFirst = true;
@@ -40,14 +36,15 @@ class _VideoPageState extends State<VideoPage> {
   IconData currentIcon = Icons.camera_front;
   String currentLabel = "Frontal";
   bool isCamSelected = true;
-
+  late int _cameraIndex; // Índice de cámara actual
   double _opacity = 1.0;
   double _width = 15;
   int endTime = 5;
 
   //late var listEvents;
 
-  final _evenController = Get.find<EventController>();
+  final _evenController = Get.put(EventController());
+  final SettingsController settingsController = Get.put(SettingsController());
 
   @override
   void initState() {
@@ -60,7 +57,8 @@ class _VideoPageState extends State<VideoPage> {
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
       if (_cameras.length != 0) {
         // Inicializar el índice de cámara actual en 0 para obtener la primera
-        _cameraIndex = 1;
+        // si tiene frontal sería la index=1
+        _cameraIndex = settingsController.cameraIndex.value;
         // Inicializar la cámara pasando el CameraDescription de la cámara seleccionada
         _initCamera(_cameras[_cameraIndex]);
       }
@@ -154,6 +152,8 @@ class _VideoPageState extends State<VideoPage> {
     _cameraIndex = (_cameraIndex + 1) % 2;
     _initCamera(_cameras[_cameraIndex]);
     _getCameraIcon(_cameras[_cameraIndex].lensDirection);
+    settingsController.cameraIndex.value = _cameraIndex;
+    print(chalk.white.bold("Camera $_cameraIndex"));
   }
 
   // ignore: non_constant_identifier_names
@@ -221,11 +221,11 @@ class _VideoPageState extends State<VideoPage> {
                         }
                       },
                       child: AnimatedContainer(
-                          duration: Duration(milliseconds: 1000),
+                          duration: const Duration(milliseconds: 1000),
                           curve: Curves.easeInSine,
                           width: sclH(context) * _width,
                           height: sclH(context) * _width * 2 / 3,
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             image: const DecorationImage(
@@ -261,7 +261,7 @@ class _VideoPageState extends State<VideoPage> {
           Provider.of<EventoActualPreferencesProvider>(context);
 
       //eventProvider.saveEventPrefrerence(eventoSelected);
-
+      print(chalk.yellow.bold(eventBd));
       return DefaultTabController(
           length: 5,
           child: Scaffold(

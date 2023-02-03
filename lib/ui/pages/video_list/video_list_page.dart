@@ -31,9 +31,11 @@ class VideoListPage extends StatelessWidget {
         BackgroundGradient(context),
         Scaffold(
           appBar: AppBar(
-            title: Text(
-              "EVENTO: ${nameEvent.toString().toUpperCase()}",
-              style: TextStyle(fontSize: sclW(context) * 5),
+            title: Center(
+              child: Text(
+                "EVENTO: ${nameEvent.toString().toUpperCase()}",
+                style: TextStyle(fontSize: sclW(context) * 5),
+              ),
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -42,10 +44,13 @@ class VideoListPage extends StatelessWidget {
           body: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Opacity(
-                opacity: 0.25,
-                child: Image.file(
-                  File(imageEvent),
+              Hero(
+                tag: imageEvent,
+                child: Opacity(
+                  opacity: 0.25,
+                  child: Image.file(
+                    File(imageEvent),
+                  ),
                 ),
               ),
               videosEvent?.length == null

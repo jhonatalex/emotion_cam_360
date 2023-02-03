@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
-import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,7 +17,6 @@ import 'package:provider/provider.dart';
 import '../../../controllers/event_controller.dart';
 import '../../../servicies/auth_service.dart';
 import '../home/home_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
@@ -66,6 +64,8 @@ class _EventPageState extends State<EventPage> {
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
+    print(chalk.yellow.bold(textFileImage));
+    print(chalk.yellow.bold(textFileMp3));
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -105,6 +105,14 @@ class _EventPageState extends State<EventPage> {
               const SizedBox(
                 height: 15,
               ),
+              /*   ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FilePickerDemo()));
+                  },
+                  child: Text("Ejemplo")) */
             ],
           ),
         ),
@@ -284,26 +292,31 @@ class _EventPageState extends State<EventPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                      color: Color.fromARGB(255, 175, 180, 184), width: 1),
+                      color: const Color.fromARGB(255, 175, 180, 184),
+                      width: 1),
                 ),
                 child: Center(
                   child: Text(_setTextPath(textFileImage, textFileMp3, isMp3),
-                      maxLines: 2, style: TextStyle(fontSize: 12)),
+                      maxLines: 2, style: const TextStyle(fontSize: 12)),
                 )),
             IconButton(
               icon: const Icon(Icons.note_add_outlined),
               onPressed: () async {
                 if (isMp3) {
                   //MUSICA
+                  //
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles(
-                    type: FileType.audio,
+                    type: FileType.custom,
+                    allowedExtensions: ['mp3'],
                   );
-                  if (result != null) {
+                  final String path = result?.files.single.path! ?? "0";
+                  if (path.contains(' ')) {
+                    MessengerSnackBar(context,
+                        "El nombre del audio no debe contener espacios, por favor corrígelo e intenta de nuevo");
+                  } else if (result != null) {
                     Get.find<EventController>()
                         .setMp3(File(result.files.single.path!));
-
-                    //var file = File(result.files.single.path);
                   } else {
                     // User canceled the picker
                   }
@@ -318,9 +331,9 @@ class _EventPageState extends State<EventPage> {
                 }
               },
               style: IconButton.styleFrom(
-                foregroundColor: Color.fromARGB(255, 153, 120, 230),
-                backgroundColor: Color(0xff604fef),
-                hoverColor: Color(0xff604fef),
+                foregroundColor: const Color.fromARGB(255, 153, 120, 230),
+                backgroundColor: const Color(0xff604fef),
+                hoverColor: const Color(0xff604fef),
               ),
             ),
           ]),

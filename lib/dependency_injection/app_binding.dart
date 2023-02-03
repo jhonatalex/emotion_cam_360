@@ -1,14 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
-import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
-import 'package:emotion_cam_360/repositories/abstractas/event_repository.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/abstractas/video_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/auth_repositoryImp.dart';
-import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/video_repositoryImpl.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
+  // flit camera
+
+  RxInt cameraIndex = 1.obs;
+  //settings
   RxBool fadeInOut = true.obs;
   RxBool noSave = true.obs;
   RxInt normal1 = 3.obs;

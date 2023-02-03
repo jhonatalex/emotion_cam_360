@@ -13,7 +13,7 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.vulcan,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,

@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class VideoController extends GetxController {
   //OBSERVABLES

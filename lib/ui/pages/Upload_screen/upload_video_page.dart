@@ -1,29 +1,19 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
-import 'package:emotion_cam_360/entities/event.dart';
-import 'package:emotion_cam_360/entities/responseFirebase.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/Upload_screen/upload_video_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
-import 'package:emotion_cam_360/ui/widgets/button_play.dart';
-import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import '../../widgets/background_gradient.dart';
-import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 class UploadVideoPage extends StatefulWidget {
   @override
@@ -116,17 +106,14 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                           children: [
                             const Icon(
                               Icons.check_rounded,
-                              color: Colors.green,
                             ),
                             const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                              'Proceso Completado',
+                              'Completado',
                               style: TextStyle(
-                                fontFamily: "Verdana",
                                 fontSize: sclW(context) * 4,
-                                color: Colors.green,
                               ),
                             ),
                           ],

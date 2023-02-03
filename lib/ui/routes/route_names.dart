@@ -12,8 +12,10 @@ class RouteNames {
   static const String videoPage = '/video-screen';
   static const String signUp = '/signUp';
   static const String signIn = '/signIn';
-  static const String profile = '/profile';
+  static const String subscription = '/subscription';
   static const String phonePage = '/phone-page';
+  static const String politics = '/politics';
+  static const String profile = '/profile';
   static const String eventPage = '/event';
   static const String videoListPage = '/video-list';
   static const String videoViewerPage = '/video-viewer';

@@ -1,7 +1,4 @@
-import 'dart:io';
-
-import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_controller.dart';
@@ -9,9 +6,7 @@ import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/share_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import 'package:share_plus/share_plus.dart';
 
 class VideoViewerPage extends StatefulWidget {
   @override
@@ -20,15 +15,15 @@ class VideoViewerPage extends StatefulWidget {
 
 class _VideoViewerPageState extends State<VideoViewerPage> {
   var video = Get.arguments;
-
+  bool isData = true;
   late VideoPlayerController _videoPlayerController;
 
   final vVC = Get.find<VideoViewerController>();
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
     super.dispose();
+    _videoPlayerController.dispose();
   }
 
   Future _initVideoPlayer(url) async {
@@ -54,7 +49,18 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
   @override
   Widget build(BuildContext context) {
     //final videoProvider = Provider.of<VideoPreferencesProvider>(context);
+
+    //validar si es videoshow o video viewer verificando
+    // si el link proviene de la data o internet
+    // y asi poder usar isData como validador
+    String data = video as String;
+    data = data.substring(1, 5);
+    data == "data"
+        ? isData = true
+        : isData =
+            false; /* 
     print(chalk.white.bold("Video path $video"));
+    print(chalk.white.bold("Video path $isData")); */
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,8 +69,31 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: isData
+            ? IconButton(
+                onPressed: () {
+                  Get.offAllNamed(RouteNames.videoPage);
+                },
+                icon: const Icon(Icons.video_call))
+            : IconButton(
+                onPressed: () {
+                  Get.back();
+                  // Get.offAllNamed(RouteNames.home);
+                  //por ahora mientras consigo como volver jeje
+                },
+                icon: const Icon(Icons.arrow_back)),
         actions: [
-          Sharebuttons(video, ""),
+          isData
+              ? IconButton(
+                  icon: const Icon(Icons.check),
+                  onPressed: () {
+                    Get.offAllNamed(RouteNames.uploadVideo);
+                  },
+                )
+              : Sharebuttons(
+                  video,
+                  "",
+                ),
         ],
       ),
       //extendBodyBehindAppBar: true,
@@ -73,11 +102,12 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
           BackgroundGradient(context),
           Column(
             children: [
+              const SizedBox(
+                height: 80,
+              ),
               Expanded(
                 child: Container(
-                  //margin: EdgeInsets.only(top: 20),
                   color: Colors.black,
-                  //height: 200,
                   child: Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
@@ -107,6 +137,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                           color: vVC.isPause.value
                               ? AppColors.violet
                               : Colors.transparent,
+                          size: sclH(context) * 5,
                         );
                       }),
                       Column(
@@ -124,7 +155,9 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                                         ? AppColors.violet
                                         : Colors.white,
                                   ),
-                                  iconSize: sclH(context) * 5,
+                                  iconSize: vVC.isPause.value
+                                      ? sclH(context) * 8
+                                      : sclH(context) * 5,
                                 ),
                                 IconButton(
                                   onPressed: playVideo,
@@ -134,7 +167,9 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                                         ? Colors.white
                                         : AppColors.violet,
                                   ),
-                                  iconSize: sclH(context) * 5,
+                                  iconSize: vVC.isPause.value
+                                      ? sclH(context) * 5
+                                      : sclH(context) * 8,
                                 ),
                               ],
                             );
