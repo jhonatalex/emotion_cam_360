@@ -96,14 +96,14 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                 ),
         ],
       ),
-      //extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           BackgroundGradient(context),
           Column(
             children: [
-              const SizedBox(
-                height: 80,
+              SizedBox(
+                height: sclH(context) * 10,
               ),
               Expanded(
                 child: Container(
@@ -122,10 +122,14 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                           } else {
                             return Positioned(
                               top: 0,
-                              child: AspectRatio(
-                                aspectRatio:
-                                    _videoPlayerController.value.aspectRatio,
-                                child: VideoPlayer(_videoPlayerController),
+                              child: Container(
+                                height: sclH(context) * 90,
+                                width: sclW(context) * 100,
+                                child: AspectRatio(
+                                  aspectRatio:
+                                      _videoPlayerController.value.aspectRatio,
+                                  child: VideoPlayer(_videoPlayerController),
+                                ),
                               ),
                             );
                           }
