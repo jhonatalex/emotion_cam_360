@@ -67,7 +67,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
           Sharebuttons(video, ""),
         ],
       ),
-      extendBodyBehindAppBar: true,
+      //extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           BackgroundGradient(context),
@@ -90,7 +90,8 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                             return const Center(
                                 child: CircularProgressIndicator());
                           } else {
-                            return Center(
+                            return Positioned(
+                              top: 0,
                               child: AspectRatio(
                                 aspectRatio:
                                     _videoPlayerController.value.aspectRatio,
