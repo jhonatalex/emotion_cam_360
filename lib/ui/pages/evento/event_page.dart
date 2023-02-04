@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
+import 'package:gmo_media_picker/media_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -312,6 +313,7 @@ class _EventPageState extends State<EventPage> {
                   );
                   final String path = result?.files.single.path! ?? "0";
                   if (path.contains(' ')) {
+                    // ignore: use_build_context_synchronously
                     MessengerSnackBar(context,
                         "El nombre del audio no debe contener espacios, por favor corrígelo e intenta de nuevo");
                   } else if (result != null) {
@@ -320,6 +322,20 @@ class _EventPageState extends State<EventPage> {
                   } else {
                     // User canceled the picker
                   }
+
+                  /*    MediaPicker.picker(
+                    context,
+                    type: RequestType.audio,
+                    //isReview: isReview,
+                    singleCallback: (AssetEntity asset) {
+                      print(chalk
+                          .brightGreen('PATHC AUDIO ${asset.relativePath!}'));
+
+                      Get.find<EventController>()
+                          .setMp3(File(asset.relativePath!));
+                      //return single item if  isMulti false
+                    },
+                  ); */
                 } else {
                   //IMAGEN
                   final pickedImage =
@@ -352,5 +368,16 @@ class _EventPageState extends State<EventPage> {
     return textFile.isEmpty
         ? textFile
         : textFile.substring(textFile.length - 45, textFile.length);
+  }
+
+  void pickerNew(RequestType type) {
+    MediaPicker.picker(
+      context,
+      type: type,
+      //isReview: isReview,
+      singleCallback: (AssetEntity asset) {
+        //return single item if  isMulti false
+      },
+    );
   }
 }

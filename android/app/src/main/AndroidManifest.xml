@@ -1,6 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.emotion_cam_360">
                                     <!--agregue package="com.example.emotion_cam_360" para corregir un error-->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission
+  android:name="android.permission.ACCESS_MEDIA_LOCATION"
+  tools:node="remove"
+  />
    <application
         android:label="emotion_cam_360"
         android:name="${applicationName}"
