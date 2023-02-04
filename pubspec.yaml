@@ -58,6 +58,7 @@ dependencies:
 
 #Debug
   chalkdart: ^2.0.8
+  #change_app_package_name: ^0.1.2
 
 
 

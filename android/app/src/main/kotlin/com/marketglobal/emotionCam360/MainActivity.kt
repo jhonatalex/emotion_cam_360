@@ -1,4 +1,4 @@
-package com.example.emotion_cam_360
+package com.marketglobal.emotionCam360
 
 import io.flutter.embedding.android.FlutterActivity
 

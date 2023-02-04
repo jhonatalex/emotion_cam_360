@@ -25,9 +25,9 @@ class EventController extends GetxController {
   final logoController = TextEditingController().obs;
 
   Rx<File?> pickedImageLogo =
-      Rx(File("/data/user/0/com.example.emotion_cam_360/cache/watermark.png"));
+      Rx(File("/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"));
   Rx<File?> pickedMp3File =
-      Rx(File("/data/user/0/com.example.emotion_cam_360/cache/hallman-ed.mp3"));
+      Rx(File("/data/user/0/com.marketglobal.emotionCam360/cache/hallman-ed.mp3"));
 
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);

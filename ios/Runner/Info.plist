@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string> $(PRODUCT_NAME) microphone use</string>
+	<key>kTCCServiceMediaLibrary</key>
+	<string> $(PRODUCT_NAME) music use</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string> $(PRODUCT_NAME) media use</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires access to your phone’s camera</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
