@@ -1,6 +1,9 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,71 +54,86 @@ class _SignUpPageState extends State<SignUpPage> {
     final userSession = Provider.of<SesionPreferencerProvider>(context);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: const Color(0xff141221),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Registro",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              textItem("Email", _emailController, false),
-              const SizedBox(
-                height: 15,
-              ),
-              textItem("Password", _passwordController, true),
-              const SizedBox(
-                height: 15,
-              ),
-              colorButton("Registrarme", userSession),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: const Color(0xff141221),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   const Text(
-                    "Tienes una cuenta?",
+                    "Registro",
                     style: TextStyle(
+                      fontSize: 35,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (builder) => SignInPage()),
-                          (route) => false);
-                    },
-                    child: const Text(
-                      "   Ingresa aqui",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 123, 54, 214),
-                        fontSize: 18,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  textItem("Email", _emailController, false),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  textItem("Password", _passwordController, true),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  colorButton("Registrarme", userSession),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "Tienes una cuenta?",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => SignInPage()),
+                              (route) => false);
+                        },
+                        child: const Text(
+                          "   Ingresa aqui",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 123, 54, 214),
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+          /* circular == true
+              ? Container(
+                  color: const Color(0xff141221).withOpacity(.5),
+                  child: const Center(
+                    child: SizedBox(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                )
+              : Container(), */
+        ],
       ),
     );
   }
@@ -204,45 +222,88 @@ class _SignUpPageState extends State<SignUpPage> {
         email.trim(),
         password,
       );
+
+      setState(() {
+        Get.offNamed(RouteNames.signIn);
+      });
     } on FirebaseAuthException catch (e) {
-      final snackbar = SnackBar(content: Text(e.toString()));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      String snackbar;
+
+      switch (e.code) {
+        case 'weak-password':
+          snackbar = "La contraseña debería tener al menos 6 caracteres.";
+          break;
+
+        case 'email-already-in-use':
+          snackbar = " El correo está actualmente en uso.";
+          break;
+
+        case 'invalid-email':
+          snackbar =
+              "Formato de correo incorrecto, verifíquelo e intente de nuevo.";
+          break;
+
+        default:
+          snackbar = e.code;
+          break;
+      }
+
+      MessengerSnackBar(context, snackbar);
+      print(chalk.white.bold(e.code));
+      print(chalk.white.bold(e.toString()));
+      setState(() {
+        circular = false;
+      });
+/* 
+      switch (e.code) {
+          case 'CameraAccessDenied':
+            // Handle access errors here.
+            break;
+          default:
+            // Handle other errors here.
+            break;
+        } */
     }
   }
 
   Widget colorButton(String name, SesionPreferencerProvider userSession) {
     return InkWell(
       onTap: () async {
-        setState(() {
-          circular = true;
-        });
-        try {
-          /*  firebase_auth.UserCredential userCredential =
+        if (_emailController.text != "" && _passwordController.text != "") {
+          setState(() {
+            circular = true;
+          });
+          try {
+            /*  firebase_auth.UserCredential userCredential =
               await firebaseAuth.createUserWithEmailAndPassword(
                   email: _emailController.text,
                   password: _passwordController.text); */
-          //print(userCredential.user!.email);
+            //print(userCredential.user!.email);
 
-          saveMyUser(_emailController.text, _passwordController.text);
+            saveMyUser(_emailController.text, _passwordController.text);
 
-          setState(() {
-            circular = false;
-          });
-          //VOLATIL DATA
-          // userSession.saveUser(userCredential.user!.email);
+            setState(() {
+              //circular = false;
+            });
 
-          //PERSITENCIA DATA
-          //authClass.storeTokenAndData(userCredential);
+            //VOLATIL DATA
+            // userSession.saveUser(userCredential.user!.email);
 
-          //print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
+            //PERSITENCIA DATA
+            //authClass.storeTokenAndData(userCredential);
 
-          Get.offNamed(RouteNames.home);
-        } catch (e) {
-          final snackbar = SnackBar(content: Text(e.toString()));
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-          setState(() {
-            circular = false;
-          });
+            //print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
+
+          } catch (e) {
+            final snackbar = SnackBar(content: Text(e.toString()));
+            MessengerSnackBar(context, snackbar);
+            setState(() {
+              circular = false;
+            });
+          }
+        } else {
+          MessengerSnackBar(
+              context, "Los campos, Email y Password, no deben estar vacios.");
         }
       },
       child: Container(
@@ -251,14 +312,16 @@ class _SignUpPageState extends State<SignUpPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(colors: [
-            Color(0xff604fef),
-            Color.fromARGB(255, 153, 120, 230),
-            Color(0xff604fef)
+            AppColors.royalBlue,
+            AppColors.violet,
+            AppColors.royalBlue,
           ]),
         ),
         child: Center(
           child: circular
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator(
+                  backgroundColor: AppColors.royalBlue,
+                )
               : Text(name,
                   style: const TextStyle(
                     color: Colors.white,

@@ -73,12 +73,12 @@ class _SignInPageState extends State<SignInPage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
               }),
-              const Text(
-                "O",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "O",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
               ),
               textItem("Email", _emailController, false),
               const SizedBox(
@@ -221,14 +221,14 @@ class _SignInPageState extends State<SignInPage> {
     return InkWell(
       onTap: () async {
         try {
+          setState(() {
+            circular = true;
+          });
           firebase_auth.UserCredential userCredential =
               await firebaseAuth.signInWithEmailAndPassword(
                   email: _emailController.text,
                   password: _passwordController.text);
           print(userCredential.user!.email);
-          setState(() {
-            circular = false;
-          });
 
           //VOLATIL DATA
           userSession.saveUser(userCredential.user!.email);
@@ -281,9 +281,7 @@ class _SignInPageState extends State<SignInPage> {
         child: Center(
           child: circular
               ? const CircularProgressIndicator(
-                  backgroundColor: AppColors.violet,
-                  color: AppColors.royalBlue,
-                  strokeWidth: 8,
+                  backgroundColor: AppColors.royalBlue,
                 )
               : Text(name,
                   style: const TextStyle(
