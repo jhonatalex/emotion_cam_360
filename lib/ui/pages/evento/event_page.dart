@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
+import 'package:gmo_media_picker/media_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -105,6 +106,14 @@ class _EventPageState extends State<EventPage> {
               const SizedBox(
                 height: 15,
               ),
+              /*   ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FilePickerDemo()));
+                  },
+                  child: Text("Ejemplo")) */
             ],
           ),
         ),
@@ -296,17 +305,37 @@ class _EventPageState extends State<EventPage> {
               onPressed: () async {
                 if (isMp3) {
                   //MUSICA
+                  //
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles(
                     type: FileType.custom,
-                    allowedExtensions: ["mp3"],
+                    allowedExtensions: ['mp3'],
                   );
-                  if (result != null) {
+                  final String path = result?.files.single.path! ?? "0";
+                  if (path.contains(' ')) {
+                    // ignore: use_build_context_synchronously
+                    MessengerSnackBar(context,
+                        "El nombre del audio no debe contener espacios, por favor corrígelo e intenta de nuevo");
+                  } else if (result != null) {
                     Get.find<EventController>()
                         .setMp3(File(result.files.single.path!));
                   } else {
                     // User canceled the picker
                   }
+
+                  /*    MediaPicker.picker(
+                    context,
+                    type: RequestType.audio,
+                    //isReview: isReview,
+                    singleCallback: (AssetEntity asset) {
+                      print(chalk
+                          .brightGreen('PATHC AUDIO ${asset.relativePath!}'));
+
+                      Get.find<EventController>()
+                          .setMp3(File(asset.relativePath!));
+                      //return single item if  isMulti false
+                    },
+                  ); */
                 } else {
                   //IMAGEN
                   final pickedImage =
@@ -339,5 +368,16 @@ class _EventPageState extends State<EventPage> {
     return textFile.isEmpty
         ? textFile
         : textFile.substring(textFile.length - 45, textFile.length);
+  }
+
+  void pickerNew(RequestType type) {
+    MediaPicker.picker(
+      context,
+      type: type,
+      //isReview: isReview,
+      singleCallback: (AssetEntity asset) {
+        //return single item if  isMulti false
+      },
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ const String resize =
     "setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1";
 
 final SettingsController settingsController = Get.put(SettingsController());
+final EventController eventController = Get.put(EventController());
 
 class VideoUtil {
   static int normal1 = settingsController.normal1.value.toInt();
@@ -41,6 +43,7 @@ class VideoUtil {
   //static const String VIDEO_CREATED = "1.mp4";
   // static const String SUBTITLE_ASSET = "subtitle.srt";
   //static const String FONT_ASSET_1 = "doppioone_regular.ttf";
+
   //static const String FONT_ASSET_2 = "truenorg.otf";
 
   static void prepareAssets() async {

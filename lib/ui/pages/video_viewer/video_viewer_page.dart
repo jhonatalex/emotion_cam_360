@@ -102,8 +102,8 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
           BackgroundGradient(context),
           Column(
             children: [
-              const SizedBox(
-                height: 80,
+              SizedBox(
+                height: sclH(context) * 10,
               ),
               Expanded(
                 child: Container(
@@ -120,10 +120,17 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                             return const Center(
                                 child: CircularProgressIndicator());
                           } else {
-                            return AspectRatio(
-                              aspectRatio:
-                                  _videoPlayerController.value.aspectRatio,
-                              child: VideoPlayer(_videoPlayerController),
+                            return Positioned(
+                              top: 0,
+                              child: Container(
+                                height: sclH(context) * 90,
+                                width: sclW(context) * 100,
+                                child: AspectRatio(
+                                  aspectRatio:
+                                      _videoPlayerController.value.aspectRatio,
+                                  child: VideoPlayer(_videoPlayerController),
+                                ),
+                              ),
                             );
                           }
                         },
