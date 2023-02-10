@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.marketglobal.emotionCam360">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.marketglobal.emotionCam360">
                                     <!--agregue package="com.marketglobal.emotionCam360" para corregir un error-->
     <uses-permission android:name="android.permission.INTERNET"/>
 

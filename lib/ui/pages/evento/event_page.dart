@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
-import 'package:gmo_media_picker/media_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -368,16 +367,5 @@ class _EventPageState extends State<EventPage> {
     return textFile.isEmpty
         ? textFile
         : textFile.substring(textFile.length - 45, textFile.length);
-  }
-
-  void pickerNew(RequestType type) {
-    MediaPicker.picker(
-      context,
-      type: type,
-      //isReview: isReview,
-      singleCallback: (AssetEntity asset) {
-        //return single item if  isMulti false
-      },
-    );
   }
 }
