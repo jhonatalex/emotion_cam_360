@@ -44,13 +44,10 @@ class VideoListPage extends StatelessWidget {
           body: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Hero(
-                tag: imageEvent,
-                child: Opacity(
-                  opacity: 0.25,
-                  child: Image.file(
-                    File(imageEvent),
-                  ),
+              Opacity(
+                opacity: 0.25,
+                child: Image.file(
+                  File(imageEvent),
                 ),
               ),
               videosEvent?.length == null

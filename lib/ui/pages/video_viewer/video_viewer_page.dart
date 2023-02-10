@@ -1,3 +1,4 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -27,6 +28,10 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
   }
 
   Future _initVideoPlayer(url) async {
+    print(chalk.white.bold(url));
+    /* isData
+        ? _videoPlayerController = VideoPlayerController.file(url)
+        : */
     _videoPlayerController = VideoPlayerController.network(url);
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(false);
