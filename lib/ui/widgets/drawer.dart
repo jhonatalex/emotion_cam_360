@@ -1,5 +1,6 @@
 import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:emotion_cam_360/ui/widgets/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,23 +18,80 @@ class _MyDrawerState extends State<MyDrawer> {
   AuthClass authClass = AuthClass();
 
   String? emailUser = '';
+  bool actualizado = false;
 
+  String date = dateLimit(5);
+  int dias = diasRestantes();
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
-    setState(() {});
+    if (!emailUser!.isEmpty && actualizado == false) {
+      actualizado = true;
+      print("Usuario: $emailUser ");
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     getEmailCurrentUser();
-
     return Drawer(
       width: sclW(context) * 80,
       backgroundColor: AppColors.vulcan.withOpacity(0.7),
-      child: Column(
+      child: ListView(
         children: [
-          SizedBox(
-            height: sclH(context) * 10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // const Text("información de Subscripción"),
+              IconButton(
+                icon: Icon(
+                  Icons.info_outline,
+                  color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                ),
+                onPressed: () {
+                  /* 
+                  String date = "";
+                  String dias = ""; */
+                  setState(
+                    () {
+                      date = dateLimit(0);
+                      dias = diasRestantes();
+                    },
+                  );
+                  //dialog con GetX
+                  Get.defaultDialog(
+                    backgroundColor: AppColors.vulcan,
+                    radius: 10.0,
+                    contentPadding: const EdgeInsets.all(20.0),
+                    title: 'Información de Subscripción',
+                    titleStyle: TextStyle(color: AppColors.royalBlue),
+                    middleText: 'Fecha de Vencimiento: $date  \n' +
+                        'Días Restantes: $dias',
+                    middleTextStyle: TextStyle(
+                      fontSize: sclH(context) * 3,
+                      //color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                    ),
+                    textConfirm: 'Okay',
+                    confirm: OutlinedButton.icon(
+                      onPressed: () => Get.back(),
+                      icon: const Icon(
+                        Icons.check,
+                        color: AppColors.violet,
+                      ),
+                      label: const Text(
+                        'Listo',
+                        style: TextStyle(color: AppColors.violet),
+                      ),
+                    ),
+                    /* cancel: OutlinedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.cancel),
+                          label: Text("cancelar"),
+                        ), */
+                  );
+                },
+              ),
+            ],
           ),
           Image.asset(
             "assets/img/logo-emotion.png",
