@@ -128,7 +128,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     style: TextStyle(fontSize: sclH(context) * 3),
                   ),
                   onTap: () {
-                    Get.offNamed(RouteNames.eventPage);
+                    Get.toNamed(RouteNames.eventPage);
                   },
                 ),
                 ListTile(
