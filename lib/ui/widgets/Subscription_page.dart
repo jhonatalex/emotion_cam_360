@@ -14,6 +14,13 @@ class SubscriptionPage extends StatefulWidget {
 
 class _SubscriptionPageState extends State<SubscriptionPage> {
   @override
+  void initState() {
+    super.initState();
+
+    getDateSaved();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double xOffset = 200;
     double yOffset = 500;
@@ -45,7 +52,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               int dias = 0;
               setState(
                 () {
-                  date = dateLimit(0);
+                  date = formatDatatime(dateLimit(0));
                   dias = diasRestantes();
                 },
               );
@@ -215,8 +222,49 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             ),
             child: ElevatedButton(
               onPressed: () {
-                String x = dateLimit(ndia);
-                print(chalk.white.bold("añadir $x dias"));
+                print(chalk.white.bold("añadir $ndia dias"));
+                int iDiasRestantes = diasRestantes();
+                String sDateSaved = formatDatatime(dateSaved());
+                String sDateLimit = formatDatatime(dateLimit(ndia));
+                Get.defaultDialog(
+                  backgroundColor: AppColors.vulcan,
+                  radius: 10.0,
+                  contentPadding: const EdgeInsets.all(20.0),
+                  title: 'Realizar pago',
+                  titleStyle: TextStyle(
+                    color: AppColors.royalBlue,
+                  ),
+                  middleText: 'Días Restantes: $iDiasRestantes \n\n' +
+                      'Despues de realizar el pago añadiremos $ndia dias  \n\n' +
+                      'Fecha de Vencimiento actual: \n $sDateSaved \n\n' +
+                      'Nueva Fecha de Vencimiento: \n $sDateLimit \n\n',
+                  middleTextStyle: TextStyle(fontSize: sclH(context) * 2.5),
+                  textConfirm: 'Okay',
+                  confirm: ElevatedButton.icon(
+                    onPressed: () {
+                      setDate(dateLimit(ndia));
+                    },
+                    icon: const Icon(
+                      Icons.check,
+                      //color: AppColors.violet,
+                    ),
+                    label: const Text(
+                      'Continuar',
+                      //style: TextStyle(color: AppColors.violet),
+                    ),
+                  ),
+                  cancel: ElevatedButton.icon(
+                    onPressed: () => Get.back(),
+                    icon: Icon(
+                      Icons.cancel,
+                      //color: AppColors.violet,
+                    ),
+                    label: Text(
+                      "Cancelar",
+                      //style: TextStyle(color: AppColors.violet),
+                    ),
+                  ),
+                );
               },
               child: Text(
                 "\$ $_precio",

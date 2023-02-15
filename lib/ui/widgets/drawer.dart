@@ -20,7 +20,7 @@ class _MyDrawerState extends State<MyDrawer> {
   String? emailUser = '';
   bool actualizado = false;
 
-  String date = dateLimit(5);
+  String date = formatDatatime(dateLimit(5));
   int dias = diasRestantes();
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
@@ -54,7 +54,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   String dias = ""; */
                   setState(
                     () {
-                      date = dateLimit(0);
+                      date = formatDatatime(dateLimit(0));
                       dias = diasRestantes();
                     },
                   );

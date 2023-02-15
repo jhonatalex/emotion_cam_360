@@ -17,6 +17,7 @@ class FirebaseProvider {
 
   User get currentUser {
     final user = FirebaseAuth.instance.currentUser;
+
     if (user == null) throw Exception('Not authenticated exception');
     return user;
   }
@@ -24,13 +25,27 @@ class FirebaseProvider {
 //____________________USUARIO______________________________________//
 //LEER BD
   Future<MyUser?> getMyUser() async {
+    //cree otro porque este usa uid y no me daba la data sino Null
     final snapshot = await firestore.doc('user/${currentUser.uid}').get();
+    if (snapshot.exists) return MyUser.fromFirebaseMap(snapshot.data()!);
+    return null;
+  }
+
+  Future<MyUser?> getMyUser2() async {
+    final snapshot = await firestore.doc('user/${currentUser.email}').get();
     if (snapshot.exists) return MyUser.fromFirebaseMap(snapshot.data()!);
     return null;
   }
 
   //GUARDAR EN BD
   Future<void> saveMyUser(MyUser user) async {
+    print(chalk.brightGreen('entro AL PROVIDER $user'));
+
+    final ref = firestore.doc('user/${user.email}');
+    await ref.set(user.toFirebaseMap(), SetOptions(merge: true));
+  }
+
+  Future<void> setSubscriptionDate(MyUser user) async {
     print(chalk.brightGreen('entro AL PROVIDER $user'));
 
     final ref = firestore.doc('user/${user.email}');

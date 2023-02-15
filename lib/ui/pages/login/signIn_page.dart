@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
@@ -41,95 +44,135 @@ class _SignInPageState extends State<SignInPage> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: const Color(0xff141221),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              const Text(
-                "Ingresar",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              buttonItem("assets/img/google.svg", "Continue con Google", 25,
-                  () async {
-                try {
-                  await _authRepository.signInGoogle();
-                } on FirebaseAuthException catch (e) {
-                  final snackbar = SnackBar(content: Text(e.toString()));
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                }
-
-                await authClass.googleSignIn(context);
-              }),
-              const SizedBox(
-                height: 15,
-              ),
-              buttonItem("assets/img/phone.svg", "Continue con Phono", 30, () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
-              }),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "O",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-              textItem("Email", _emailController, false),
-              const SizedBox(
-                height: 15,
-              ),
-              textItem("Contraseña", _passwordController, true),
-              const SizedBox(
-                height: 15,
-              ),
-              colorButton("Ingresar", userSession),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "¿No tienes una cuenta? ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: sclH(context) * 2,
+              BackgroundGradient(context),
+              Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: sclH(context) * 8,
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
+                    Container(
+                        height: sclW(context) * 35,
+                        child: Image.asset(
+                          "assets/img/logo-emotion.png",
+                        )),
+                    const Text(
+                      "Ingresar",
+                      style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    buttonItem(
+                        "assets/img/google.svg", "Continue con Google", 25,
+                        () async {
+                      try {
+                        await _authRepository.signInGoogle();
+                      } on FirebaseAuthException catch (e) {
+                        /* 
+                        final snackbar = SnackBar(content: Text(e.toString()));
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar); */
+                        MessengerSnackBar(context, e.toString());
+                      }
+
+                      //await authClass.googleSignIn(context);
+                    }),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    buttonItem(
+                        "assets/img/phone.svg", "Continue con Teléfono", 30,
+                        () {
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (builder) => const SignUpPage()),
-                          (route) => false);
-                    },
-                    child: Text(
-                      "  Registrate",
+                              builder: (builder) => PhoneAuthPage()));
+                    }),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "O",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  top: sclH(context) * 55,
+                  left: sclW(context) * 5,
+                  right: sclW(context) * 5,
+                  bottom: sclH(context) * 5,
+                ),
+                padding: EdgeInsets.symmetric(
+                    horizontal: sclW(context) * 5, vertical: sclW(context) * 5),
+                decoration: BoxDecoration(
+                  color: AppColors.vulcan,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    textItem("Email", _emailController, false),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    textItem("Contraseña", _passwordController, true),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    colorButton("Ingresar", userSession),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "¿No tienes una cuenta? ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: sclH(context) * 2,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => const SignUpPage()),
+                                (route) => false);
+                          },
+                          child: Text(
+                            "  Registrate",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 123, 54, 214),
+                              fontSize: sclH(context) * 2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "¿Olvidó su contraseña?",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 123, 54, 214),
+                        color: Colors.white,
                         fontSize: sclH(context) * 2,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "¿Olvidó su contraseña?",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: sclH(context) * 2,
+                  ],
                 ),
               ),
             ],
@@ -148,7 +191,7 @@ class _SignInPageState extends State<SignInPage> {
         height: 60,
         child: Card(
           elevation: 8,
-          color: Colors.black,
+          color: AppColors.vulcan,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
               side: const BorderSide(
@@ -228,7 +271,7 @@ class _SignInPageState extends State<SignInPage> {
               await firebaseAuth.signInWithEmailAndPassword(
                   email: _emailController.text,
                   password: _passwordController.text);
-          print(userCredential.user!.email);
+          print(userCredential.user!.uid);
 
           //VOLATIL DATA
           userSession.saveUser(userCredential.user!.email);

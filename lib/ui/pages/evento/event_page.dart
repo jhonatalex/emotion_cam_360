@@ -147,20 +147,21 @@ class _EventPageState extends State<EventPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: sclH(context) * 45),
-                padding: EdgeInsets.symmetric(horizontal: sclW(context) * 5),
+                margin: EdgeInsets.only(
+                  top: sclH(context) * 50,
+                  left: sclW(context) * 5,
+                  right: sclW(context) * 5,
+                  bottom: sclH(context) * 5,
+                ),
+                padding: EdgeInsets.symmetric(
+                    horizontal: sclW(context) * 5, vertical: sclW(context) * 5),
                 decoration: BoxDecoration(
                   color: AppColors.vulcan,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: ListView(
+                  padding: EdgeInsets.only(top: 5),
                   children: [
-                    /* 
-                    const SizedBox(
-                      height: 20,
-                    ), */
                     textItem(context, "Introduzca Nombre del Evento",
                         _evenController.nameController, false),
                     const SizedBox(
@@ -361,7 +362,7 @@ class _EventPageState extends State<EventPage> {
           Row(children: [
             Container(
                 padding: const EdgeInsets.all(10.0),
-                width: sclW(context) * 65,
+                width: sclW(context) * 55,
                 height: sclW(context) * 13,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
@@ -369,10 +370,14 @@ class _EventPageState extends State<EventPage> {
                       color: const Color.fromARGB(255, 175, 180, 184),
                       width: 1),
                 ),
-                child: Center(
-                  child: Text(_setTextPath(textFileImage, textFileMp3, isMp3),
-                      maxLines: 2,
-                      style: TextStyle(fontSize: sclH(context) * 2)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_setTextPath(textFileImage, textFileMp3, isMp3),
+                        maxLines: 2,
+                        style: TextStyle(fontSize: sclH(context) * 2)),
+                  ],
                 )),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -394,7 +399,7 @@ class _EventPageState extends State<EventPage> {
                       final dataBytes = result?.files.single.bytes;
                       print(chalk.white.bold(musicName));
                       print(chalk.white.bold(path));
-                      print(chalk.white.bold(dataBytes));
+                      //print(chalk.white.bold(dataBytes));
 
                       final List<int> byteList = dataBytes!.buffer.asUint8List(
                           dataBytes.offsetInBytes, dataBytes.lengthInBytes);
@@ -465,8 +470,10 @@ class _EventPageState extends State<EventPage> {
     if (isMp3) {
       textFile = textFileMp3.substring(50, textFileMp3.length);
     } else {
+      nombreImg > 45 ? nombreImg = 45 : nombreImg;
       textFile = textFileImage.substring(
           textFileImage.length - nombreImg, textFileImage.length);
+      print(chalk.white.bold(textFileImage.length));
     }
 
     return textFile;

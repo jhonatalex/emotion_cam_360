@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/ui/widgets/subscription.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -29,18 +31,36 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  void _authStateChanged(AuthUser? user) {
-    //VERIFICA EL USUARIO PARA MANDARLO A LA PANTALLA CORRECTA Y SET THE STATE
+  void _authStateChanged(AuthUser? user) async {
+    //VERIFICA EL USUARIO NO EXISTE PARA MANDARLO A LOGUEARSE Y SET THE STATE
     if (user == null) {
       authState.value = AuthState.signedOUT;
       Get.offAllNamed(RouteNames.signIn);
+      //Get.offAllNamed(RouteNames.home);
+    } else {
+      //authState.value = AuthState.signedIN;
+      //Get.offAllNamed(RouteNames.signIn);
+      //Get.offAllNamed(RouteNames.home);
+      print(chalk.green.bold("usuario: $user"));
+      await getDateSaved();
+      int _diasRestantes = diasRestantes();
+      _authSubscriptionChanged(_diasRestantes);
+    }
+    authUser.value = user;
+  }
+
+  void _authSubscriptionChanged(int diasRestantes) {
+    //VERIFICA LOS DIAS RESTANTES PARA MANDARLO A LA PANTALLA CORRECTA Y SET THE STATE
+    print(chalk.green.bold("DÍAS RESTANTES: $diasRestantes"));
+    if (diasRestantes < 0) {
+      authState.value = AuthState.signedOUT;
+      Get.offAllNamed(RouteNames.subscription);
       //Get.offAllNamed(RouteNames.home);
     } else {
       authState.value = AuthState.signedIN;
       //Get.offAllNamed(RouteNames.signIn);
       Get.offAllNamed(RouteNames.home);
     }
-    authUser.value = user;
   }
 
   Future<void> signOut() async {
