@@ -4,6 +4,7 @@ import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
+import 'package:emotion_cam_360/ui/widgets/subscription.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -64,7 +65,9 @@ class AuthRepositoryImp implements AuthRepository {
     final uid = Get.find<AuthController>().authUser.value!.uid;
     final email = username;
     //const statusInitial = true;
-    Timestamp dateInitial = Timestamp.now();
+    DateTime _dateInitial = newDateLimit(15);
+    Timestamp dateInitial = Timestamp.fromDate(_dateInitial);
+
     final newUser = MyUser(uid, email, date: dateInitial);
 
     await _userRepository.saveMyUser(newUser);

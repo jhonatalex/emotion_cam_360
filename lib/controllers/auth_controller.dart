@@ -28,6 +28,7 @@ class AuthController extends GetxController {
     //await Future.delayed(const Duration(seconds: 3));
     _authSubscription =
         _authRepository.onAuthStateChanged.listen(_authStateChanged);
+    // await getDateSaved;
     super.onInit();
   }
 
@@ -42,9 +43,10 @@ class AuthController extends GetxController {
       //Get.offAllNamed(RouteNames.signIn);
       //Get.offAllNamed(RouteNames.home);
       print(chalk.green.bold("usuario: $user"));
-      await getDateSaved();
       int _diasRestantes = diasRestantes();
+      print(chalk.green.bold("calculo de dias restantes"));
       _authSubscriptionChanged(_diasRestantes);
+      print(chalk.green.bold("paso a authsubscription"));
     }
     authUser.value = user;
   }
