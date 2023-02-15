@@ -45,8 +45,8 @@ class PopularesSlider extends StatelessWidget {
   @override
   build(BuildContext context) {
     _eventController.getAllMyEventController();
+    var listEvents = _eventController.eventos;
     return Obx(() {
-      var listEvents = _eventController.eventos;
       if (listEvents.isEmpty) {
         for (var i = 0; i < 3; i++) {
           listEvents.add(

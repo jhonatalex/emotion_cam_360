@@ -1,24 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class MyUser extends Equatable {
   final String id;
   final String email;
-  final bool status;
-
-  const MyUser(this.id, this.email, {required this.status});
+  Timestamp date;
+//Timestamp.now()
+  MyUser(this.id, this.email, {required this.date});
   @override
   List<Object?> get props => [id];
 
-  Map<String, Object?> toFirebaseMap({bool? newstatus}) {
+  Map<String, Object?> toFirebaseMap({String? newdate}) {
     return <String, Object?>{
       'id': id,
       'email': email,
-      'status': status,
+      'date': date,
     };
   }
 
   MyUser.fromFirebaseMap(Map<String, Object?> data)
       : id = data['id'] as String,
         email = data['email'] as String,
-        status = data['status'] as bool;
+        date = data['date'] as Timestamp;
 }

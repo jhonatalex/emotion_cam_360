@@ -20,7 +20,7 @@ class _MyDrawerState extends State<MyDrawer> {
   String? emailUser = '';
   bool actualizado = false;
 
-  String date = dateLimit(5);
+  late String date;
   int dias = diasRestantes();
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
@@ -54,7 +54,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   String dias = ""; */
                   setState(
                     () {
-                      date = dateLimit(0);
+                      date = formatDatatime(updateDateLimit(0));
                       dias = diasRestantes();
                     },
                   );
@@ -149,7 +149,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   onTap: () async {
                     await authClass.logout();
                     //Get.find<AuthController>().signOut();
-                    Get.offNamed(RouteNames.signIn);
+                    Get.offAllNamed(RouteNames.signIn);
                   },
                 ),
                 ListTile(
