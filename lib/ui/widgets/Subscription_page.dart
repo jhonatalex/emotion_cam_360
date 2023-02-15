@@ -1,10 +1,18 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
+import 'package:emotion_cam_360/ui/widgets/subscription.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 final ScrollController _controller = ScrollController();
 
-class SubscriptionPage extends StatelessWidget {
+class SubscriptionPage extends StatefulWidget {
+  @override
+  State<SubscriptionPage> createState() => _SubscriptionPageState();
+}
+
+class _SubscriptionPageState extends State<SubscriptionPage> {
   @override
   Widget build(BuildContext context) {
     double xOffset = 200;
@@ -15,37 +23,94 @@ class SubscriptionPage extends StatelessWidget {
     final top2 = sclH(context) * 65;
     final left3 = sclW(context) * 55;
     final top3 = sclH(context) * 65;
-
     return Scaffold(
       backgroundColor: AppColors.vulcan,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(
-            "SUBSCRIPCIONES",
-            style: TextStyle(fontSize: sclW(context) * 5),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "SUBSCRIPCIONES",
+          style: TextStyle(fontSize: sclW(context) * 5),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.info_outline,
+              color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+            ),
+            onPressed: () {
+              String date = "";
+              int dias = 0;
+              setState(
+                () {
+                  date = dateLimit(0);
+                  dias = diasRestantes();
+                },
+              );
+              //dialog con GetX
+              Get.defaultDialog(
+                backgroundColor: AppColors.vulcan,
+                radius: 10.0,
+                contentPadding: const EdgeInsets.all(20.0),
+                title: 'Información de Subscripción',
+                titleStyle: TextStyle(color: AppColors.royalBlue),
+                middleText:
+                    'Fecha de Vencimiento: $date  \n' + 'Días Restantes: $dias',
+                middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
+                textConfirm: 'Okay',
+                confirm: OutlinedButton.icon(
+                  onPressed: () => Get.back(),
+                  icon: const Icon(
+                    Icons.check,
+                    color: AppColors.violet,
+                  ),
+                  label: const Text(
+                    'Listo',
+                    style: TextStyle(color: AppColors.violet),
+                  ),
+                ),
+                /* cancel: OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.cancel),
+                      label: Text("cancelar"),
+                    ), */
+              );
+            },
           ),
-          centerTitle: true),
+        ],
+      ),
       body: SafeArea(
         child: ListView(
           scrollDirection: Axis.vertical,
           controller: _controller,
           children: [
+            /* 
+            Text("Fecha de Vencimiento: $date",
+                style: TextStyle(
+                    color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
+            Text("Días Restantes: $dias",
+                style: TextStyle(
+                    color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
+             */
             AnimatedContainer(
               duration: Duration(seconds: 1),
               transform: Matrix4.translationValues(0, 0, 0)..scale(01.0),
-              child: SubscriptionCard(context),
+              child: SubscriptionCard(
+                  context, "Standard", "semanal", 0, "28.00", 7),
             ),
             AnimatedContainer(
               duration: Duration(seconds: 1),
               //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
-              child: SubscriptionCard(context),
+              child: SubscriptionCard(
+                  context, "Basic", "mensual", 20, "89.60", 30),
             ),
             AnimatedContainer(
               duration: Duration(seconds: 1),
               // transform: Matrix4.translationValues(left3, top3, 0)..scale(0.5),
-              child: SubscriptionCard(context),
+              child: SubscriptionCard(
+                  context, "Ultimate", "anual", 60, "582.40", 365),
             ),
           ],
         ),
@@ -53,7 +118,8 @@ class SubscriptionPage extends StatelessWidget {
     );
   }
 
-  Widget SubscriptionCard(context) {
+  Widget SubscriptionCard(context, String _title, String timeSubs, int _desc,
+      String _precio, int ndia) {
     return Container(
       width: sclW(context) * 70,
       height: sclW(context) * 100,
@@ -72,13 +138,13 @@ class SubscriptionPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(5.0),
             child: Text(
-              "Standard",
+              _title,
               style: TextStyle(
                   color: AppColors.royalBlue, fontSize: sclW(context) * 6),
             ),
           ),
           Container(
-            width: sclW(context) * 64,
+            width: sclW(context) * 62,
             height: sclW(context) * 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -98,38 +164,45 @@ class SubscriptionPage extends StatelessWidget {
                 ListTile(
                   trailing: const Icon(Icons.check_circle_outline),
                   title: Text(
-                    "Subscripción anual",
+                    "Subscripción $timeSubs",
                     style: TextStyle(fontSize: sclW(context) * 4),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.check_circle_outline),
                   title: Text(
-                    "Subscripción anual",
-                    style: TextStyle(fontSize: sclW(context) * 4),
+                    "Eventos ilimitados",
+                    style: TextStyle(fontSize: sclW(context) * 3.5),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.check_circle_outline),
                   title: Text(
-                    "Subscripción anual",
-                    style: TextStyle(fontSize: sclW(context) * 4),
+                    "Uso iliitado de la cuenta en diferentes dispositivos",
+                    style: TextStyle(fontSize: sclW(context) * 3.5),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.check_circle_outline),
                   title: Text(
-                    "Subscripción anual",
-                    style: TextStyle(fontSize: sclW(context) * 4),
+                    "Almacenamiento en la nube por 30 días",
+                    style: TextStyle(fontSize: sclW(context) * 3.5),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.check_circle_outline),
+                  title: Text(
+                    "Ahorro del $_desc%",
+                    style: TextStyle(fontSize: sclW(context) * 3.5),
                   ),
                 ),
                 Spacer(),
                 CircleAvatar(
-                  radius: 35,
+                  radius: 30,
                   backgroundColor: Colors.white,
                   child: Icon(
                     Icons.home,
-                    size: 40,
+                    size: 35,
                   ),
                   foregroundColor: AppColors.violet,
                 )
@@ -141,8 +214,16 @@ class SubscriptionPage extends StatelessWidget {
               left: sclW(context) * 3,
             ),
             child: ElevatedButton(
-              onPressed: () {},
-              child: Text("99,99"),
+              onPressed: () {
+                String x = dateLimit(ndia);
+                print(chalk.white.bold("añadir $x dias"));
+              },
+              child: Text(
+                "\$ $_precio",
+                style: TextStyle(
+                  fontSize: sclW(context) * 5,
+                ),
+              ),
             ),
           ),
         ],
