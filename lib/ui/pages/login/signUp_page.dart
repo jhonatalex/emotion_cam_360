@@ -68,17 +68,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     //mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: sclH(context) * 8,
+                        height: sclH(context) * 5,
                       ),
                       Container(
-                          height: sclW(context) * 35,
+                          height: sclH(context) * 15,
                           child: Image.asset(
                             "assets/img/logo-emotion.png",
                           )),
-                      const Text(
+                      Text(
                         "Registro",
                         style: TextStyle(
-                          fontSize: 35,
+                          fontSize: sclH(context) * 5,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -88,10 +88,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: sclH(context) * 36,
+                    top: sclH(context) * 30,
                     left: sclW(context) * 5,
                     right: sclW(context) * 5,
-                    bottom: sclH(context) * 5,
+                    bottom: sclH(context) * 3,
                   ),
                   padding: EdgeInsets.symmetric(
                       horizontal: sclW(context) * 5,
@@ -112,29 +112,29 @@ class _SignUpPageState extends State<SignUpPage> {
                           fontSize: 18,
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
+                      SizedBox(
+                        height: sclH(context) * 4,
                       ),
                       textItem("Email", _emailController, false),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: sclH(context) * 2,
                       ),
                       textItem("Password", _passwordController, true),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: sclH(context) * 2,
                       ),
                       colorButton("Registrarme", userSession),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: sclH(context) * 2,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          const Text(
+                          Text(
                             "¿Ya tienes una cuenta?",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: sclH(context) * 2,
                             ),
                           ),
                           InkWell(
@@ -145,12 +145,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                       builder: (builder) => SignInPage()),
                                   (route) => false);
                             },
-                            child: const Text(
+                            child: Text(
                               "   Ingresa aqui",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 123, 54, 214),
-                                fontSize: 18,
+                                fontSize: sclH(context) * 2,
                               ),
                             ),
                           ),

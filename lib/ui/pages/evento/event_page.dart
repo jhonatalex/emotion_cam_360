@@ -148,13 +148,13 @@ class _EventPageState extends State<EventPage> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: sclH(context) * 50,
+                  top: sclH(context) * 44,
                   left: sclW(context) * 5,
                   right: sclW(context) * 5,
                   bottom: sclH(context) * 5,
                 ),
                 padding: EdgeInsets.symmetric(
-                    horizontal: sclW(context) * 5, vertical: sclW(context) * 5),
+                    horizontal: sclW(context) * 5, vertical: sclW(context) * 4),
                 decoration: BoxDecoration(
                   color: AppColors.vulcan,
                   borderRadius: BorderRadius.circular(30),
@@ -380,7 +380,7 @@ class _EventPageState extends State<EventPage> {
                   ],
                 )),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 5),
               child: CircleAvatar(
                 child: IconButton(
                   icon: const Icon(Icons.note_add_outlined),

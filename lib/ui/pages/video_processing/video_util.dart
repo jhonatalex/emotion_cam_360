@@ -149,6 +149,9 @@ class VideoUtil {
         "yuv420p" + //  pixelFormat +
         "[video]\"" +
         " -map [video] -map [music] " +
+        // " -map [video]:[music] " +
+        // " -map [video][music] " +
+        // " -map [video] " +
 
         // customOptions +
         "-c:v " +

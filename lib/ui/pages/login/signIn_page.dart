@@ -47,69 +47,64 @@ class _SignInPageState extends State<SignInPage> {
           child: Stack(
             children: [
               BackgroundGradient(context),
-              Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: sclH(context) * 8,
-                    ),
-                    Container(
-                        height: sclW(context) * 35,
-                        child: Image.asset(
-                          "assets/img/logo-emotion.png",
-                        )),
-                    const Text(
-                      "Ingresar",
-                      style: TextStyle(
-                        fontSize: 35,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+              Container(
+                height: sclH(context) * 50,
+                child: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: sclH(context) * 5,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    buttonItem(
-                        "assets/img/google.svg", "Continue con Google", 25,
-                        () async {
-                      try {
-                        await _authRepository.signInGoogle();
-                      } on FirebaseAuthException catch (e) {
-                        /* 
-                        final snackbar = SnackBar(content: Text(e.toString()));
-                        ScaffoldMessenger.of(context).showSnackBar(snackbar); */
-                        MessengerSnackBar(context, e.toString());
-                      }
+                      Container(
+                          height: sclH(context) * 15,
+                          child: Image.asset(
+                            "assets/img/logo-emotion.png",
+                          )),
+                      Text(
+                        "Ingresar",
+                        style: TextStyle(
+                          fontSize: sclH(context) * 5,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: sclH(context) * 2,
+                      ),
+                      buttonItem("assets/img/google.svg", "Continue con Google",
+                          sclH(context) * 4, () async {
+                        try {
+                          await _authRepository.signInGoogle();
+                        } on FirebaseAuthException catch (e) {
+                          /* 
+                          final snackbar = SnackBar(content: Text(e.toString()));
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar); */
+                          MessengerSnackBar(context, e.toString());
+                        }
 
-                      //await authClass.googleSignIn(context);
-                    }),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    buttonItem(
-                        "assets/img/phone.svg", "Continue con Teléfono", 30,
-                        () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => PhoneAuthPage()));
-                    }),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        "O",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        //await authClass.googleSignIn(context);
+                      }),
+                      SizedBox(
+                        height: sclH(context) * 2,
                       ),
-                    ),
-                  ],
+                      buttonItem("assets/img/phone.svg",
+                          "Continue con Teléfono", sclH(context) * 4, () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => PhoneAuthPage()));
+                      }),
+                      /*  */
+                    ],
+                  ),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: sclH(context) * 55,
+                  top: sclH(context) * 53,
                   left: sclW(context) * 5,
                   right: sclW(context) * 5,
-                  bottom: sclH(context) * 5,
+                  bottom: sclH(context) * 3,
                 ),
                 padding: EdgeInsets.symmetric(
                     horizontal: sclW(context) * 5, vertical: sclW(context) * 5),
@@ -121,16 +116,16 @@ class _SignInPageState extends State<SignInPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textItem("Email", _emailController, false),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: sclH(context) * 2,
                     ),
                     textItem("Contraseña", _passwordController, true),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: sclH(context) * 2,
                     ),
                     colorButton("Ingresar", userSession),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: sclH(context) * 2,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,8 +156,8 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: sclH(context) * 2,
                     ),
                     Text(
                       "¿Olvidó su contraseña?",
@@ -173,6 +168,13 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Center(
+                child: Text(
+                  "O",
+                  style: TextStyle(
+                      color: Colors.white, fontSize: sclH(context) * 3),
                 ),
               ),
             ],
@@ -188,7 +190,7 @@ class _SignInPageState extends State<SignInPage> {
       onTap: onTap,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
-        height: 60,
+        height: sclH(context) * 9,
         child: Card(
           elevation: 8,
           color: AppColors.vulcan,

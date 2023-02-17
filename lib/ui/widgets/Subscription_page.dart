@@ -71,15 +71,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         'Días Restantes: $dias',
                     middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
                     textConfirm: 'Okay',
-                    confirm: OutlinedButton.icon(
+                    confirm: ElevatedButton(
                       onPressed: () => Get.back(),
-                      icon: const Icon(
-                        Icons.check,
-                        color: AppColors.violet,
-                      ),
-                      label: const Text(
-                        'Listo',
-                        style: TextStyle(color: AppColors.violet),
+                      child: const Text(
+                        'Aceptar',
                       ),
                     ),
                     /* cancel: OutlinedButton.icon(
@@ -132,98 +127,105 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   Widget SubscriptionCard(context, String _title, String timeSubs, int _desc,
       String _precio, int ndia) {
     return Container(
-      width: sclW(context) * 70,
-      height: sclW(context) * 100,
+      //width: sclW(context) * 70,
+      height: sclH(context) * 64,
       margin: EdgeInsets.symmetric(
           vertical: sclW(context) * 5, horizontal: sclW(context) * 15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(80),
-          bottomRight: Radius.circular(80),
-        ),
-        color: Colors.white,
-      ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(35),
+          ),
+          color: AppColors.vulcan,
+          boxShadow: [
+            BoxShadow(
+                color: AppColors.vulcan.withOpacity(.5),
+                offset: const Offset(-10, 10),
+                blurRadius: 10),
+          ]),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(5.0),
+            padding: EdgeInsets.symmetric(vertical: sclH(context) * 1.5),
             child: Text(
               _title,
               style: TextStyle(
-                  color: AppColors.royalBlue, fontSize: sclW(context) * 6),
+                  color: AppColors.white, fontSize: sclW(context) * 6),
             ),
           ),
           Container(
             width: sclW(context) * 62,
-            height: sclW(context) * 80,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(80),
-                bottomRight: Radius.circular(80),
+            height: sclH(context) * 48,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(35),
               ),
               color: AppColors.royalBlue,
             ),
-            margin: EdgeInsets.only(
-              left: sclW(context) * 5,
-            ),
-            padding: EdgeInsets.all(
+            /* margin: EdgeInsets.only(
+              left: sclW(context) * 3,
+            ), */
+            /* padding: EdgeInsets.all(
               sclW(context) * 2,
-            ),
-            child: Column(
-              children: [
-                ListTile(
-                  trailing: const Icon(Icons.check_circle_outline),
-                  title: Text(
-                    "Subscripción $timeSubs",
-                    style: TextStyle(fontSize: sclW(context) * 4),
+            ), */
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ListTile(
+                    trailing: const Icon(Icons.check_circle_outline),
+                    title: Text(
+                      "Subscripción $timeSubs",
+                      style: TextStyle(
+                          fontSize: sclW(context) * 4,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.check_circle_outline),
-                  title: Text(
-                    "Eventos ilimitados",
-                    style: TextStyle(fontSize: sclW(context) * 3.5),
+                  ListTile(
+                    leading: const Icon(Icons.check_circle_outline),
+                    title: Text(
+                      "Eventos ilimitados",
+                      style: TextStyle(fontSize: sclW(context) * 4),
+                    ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.check_circle_outline),
-                  title: Text(
-                    "Uso iliitado de la cuenta en diferentes dispositivos",
-                    style: TextStyle(fontSize: sclW(context) * 3.5),
+                  ListTile(
+                    leading: const Icon(Icons.check_circle_outline),
+                    title: Text(
+                      "Uso iliitado de la cuenta en diferentes dispositivos",
+                      style: TextStyle(fontSize: sclW(context) * 4),
+                    ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.check_circle_outline),
-                  title: Text(
-                    "Almacenamiento en la nube por 30 días",
-                    style: TextStyle(fontSize: sclW(context) * 3.5),
+                  ListTile(
+                    leading: const Icon(Icons.check_circle_outline),
+                    title: Text(
+                      "Almacenamiento en la nube por 30 días",
+                      style: TextStyle(fontSize: sclW(context) * 4),
+                    ),
                   ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.check_circle_outline),
-                  title: Text(
-                    "Ahorro del $_desc%",
-                    style: TextStyle(fontSize: sclW(context) * 3.5),
+                  ListTile(
+                    leading: const Icon(Icons.check_circle_outline),
+                    title: Text(
+                      "Ahorro del $_desc%",
+                      style: TextStyle(fontSize: sclW(context) * 4),
+                    ),
                   ),
-                ),
-                Spacer(),
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.home,
-                    size: 35,
-                  ),
-                  foregroundColor: AppColors.violet,
-                )
-              ],
+                  /* Spacer(),
+                  CircleAvatar(
+                    radius: sclH(context) * 4,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.home,
+                      size: sclH(context) * 5,
+                    ),
+                    foregroundColor: AppColors.violet,
+                  ) */
+                ],
+              ),
             ),
           ),
           Container(
-            padding: EdgeInsets.only(
-              left: sclW(context) * 3,
-            ),
+            margin: EdgeInsets.all(2),
             child: ElevatedButton(
               onPressed: () {
                 print(chalk.white.bold("añadir $ndia dias"));

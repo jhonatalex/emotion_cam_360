@@ -72,15 +72,11 @@ class _MyDrawerState extends State<MyDrawer> {
                       //color: diasRestantes() > 3 ? Colors.green : Colors.orange,
                     ),
                     textConfirm: 'Okay',
-                    confirm: OutlinedButton.icon(
+                    confirm: ElevatedButton(
                       onPressed: () => Get.back(),
-                      icon: const Icon(
-                        Icons.check,
-                        color: AppColors.violet,
-                      ),
-                      label: const Text(
-                        'Listo',
-                        style: TextStyle(color: AppColors.violet),
+                      child: const Text(
+                        'Aceptar',
+                        //style: TextStyle(color: AppColors.violet),
                       ),
                     ),
                     /* cancel: OutlinedButton.icon(

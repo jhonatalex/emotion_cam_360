@@ -112,6 +112,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
               ),
               Expanded(
                 child: Container(
+                  //margin: EdgeInsets.only(bottom: 500),
                   color: Colors.black,
                   child: Stack(
                     alignment: AlignmentDirectional.center,
@@ -125,17 +126,12 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                             return const Center(
                                 child: CircularProgressIndicator());
                           } else {
-                            return Positioned(
-                              top: 0,
-                              child: Container(
-                                height: sclH(context) * 90,
-                                width: sclW(context) * 100,
-                                child: AspectRatio(
-                                  aspectRatio:
-                                      _videoPlayerController.value.aspectRatio,
-                                  child: VideoPlayer(_videoPlayerController),
-                                ),
-                              ),
+                            print(chalk.white.bold(
+                                _videoPlayerController.value.aspectRatio));
+                            return AspectRatio(
+                              aspectRatio:
+                                  _videoPlayerController.value.aspectRatio,
+                              child: VideoPlayer(_videoPlayerController),
                             );
                           }
                         },
