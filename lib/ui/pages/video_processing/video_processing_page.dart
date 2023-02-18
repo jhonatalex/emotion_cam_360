@@ -125,6 +125,12 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     return File("${documentsDirectory.path}/$video");
   }
 
+  Future<File> getVideoFile1() async {
+    var file = Get.arguments;
+    print(chalk.white.bold(file));
+    return File(file);
+  }
+
   void updateProgressDialog() {
     var statistics = _statistics;
     if (statistics == null || statistics.getTime() < 0) {
@@ -233,7 +239,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             height: 20,
           ),
           FutureBuilder(
-              future: getVideoFile(),
+              future: getVideoFile1(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   fileEncoded = snapshot.data as File;
