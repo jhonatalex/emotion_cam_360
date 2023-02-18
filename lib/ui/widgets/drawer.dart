@@ -1,6 +1,6 @@
 import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
-import 'package:emotion_cam_360/ui/widgets/subscription.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

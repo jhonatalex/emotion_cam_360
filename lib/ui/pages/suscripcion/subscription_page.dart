@@ -1,8 +1,10 @@
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/entities/suscripcion.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
-import 'package:emotion_cam_360/ui/widgets/subscription.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,9 +19,11 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   @override
   void initState() {
     super.initState();
-
+    Get.find<EventController>().getAllSuscripcionesController();
     getDateSaved();
   }
+
+  final _evenController = Get.find<EventController>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,108 +35,142 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     final top2 = sclH(context) * 65;
     final left3 = sclW(context) * 55;
     final top3 = sclH(context) * 65;
-    return Stack(
-      children: [
+    return Obx(() {
+      var items = _evenController.suscripciones;
+
+      return Stack(children: [
         BackgroundGradient(context),
         Scaffold(
-          //extendBodyBehindAppBar: true,
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
+            //extendBodyBehindAppBar: true,
             backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(
-              "SUBSCRIPCIONES",
-              style: TextStyle(fontSize: sclW(context) * 5),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.info_outline,
-                  color: diasRestantes() > 3 ? Colors.green : Colors.orange,
-                ),
-                onPressed: () {
-                  String date = "";
-                  int dias = 0;
-                  setState(
-                    () {
-                      date = formatDatatime(updateDateLimit(0));
-                      dias = diasRestantes();
-                    },
-                  );
-                  //dialog con GetX
-                  Get.defaultDialog(
-                    backgroundColor: AppColors.vulcan,
-                    radius: 10.0,
-                    contentPadding: const EdgeInsets.all(20.0),
-                    title: 'Información de Subscripción',
-                    titleStyle: TextStyle(color: AppColors.royalBlue),
-                    middleText: 'Fecha de Vencimiento: $date  \n' +
-                        'Días Restantes: $dias',
-                    middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
-                    textConfirm: 'Okay',
-                    confirm: ElevatedButton(
-                      onPressed: () => Get.back(),
-                      child: const Text(
-                        'Aceptar',
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                "SUBSCRIPCIONES",
+                style: TextStyle(fontSize: sclW(context) * 5),
+              ),
+              centerTitle: true,
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                  ),
+                  onPressed: () {
+                    String date = "";
+                    int dias = 0;
+                    setState(
+                      () {
+                        date = formatDatatime(updateDateLimit(0));
+                        dias = diasRestantes();
+                      },
+                    );
+                    //dialog con GetX
+                    Get.defaultDialog(
+                      backgroundColor: AppColors.vulcan,
+                      radius: 10.0,
+                      contentPadding: const EdgeInsets.all(20.0),
+                      title: 'Información de Subscripción',
+                      titleStyle: TextStyle(color: AppColors.royalBlue),
+                      middleText: 'Fecha de Vencimiento: $date  \n' +
+                          'Días Restantes: $dias',
+                      middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
+                      textConfirm: 'Okay',
+                      confirm: ElevatedButton(
+                        onPressed: () => Get.back(),
+                        child: const Text(
+                          'Aceptar',
+                        ),
                       ),
-                    ),
-                    /* cancel: OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.cancel),
-                          label: Text("cancelar"),
-                        ), */
+                      /* cancel: OutlinedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.cancel),
+                            label: Text("cancelar"),
+                          ), */
+                    );
+                  },
+                ),
+              ],
+            ),
+            body: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
+                    child: SubscriptionCard(
+                        context,
+                        item.name,
+                        item.typeDate,
+                        item.featureOne,
+                        item.featureTwo,
+                        item.featureThree,
+                        item.saving,
+                        item.price.toString(),
+                        30),
                   );
-                },
-              ),
-            ],
-          ),
-          body: ListView(
-            scrollDirection: Axis.vertical,
-            controller: _controller,
-            children: [
-              /* 
-              Text("Fecha de Vencimiento: $date",
-                  style: TextStyle(
-                      color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
-              Text("Días Restantes: $dias",
-                  style: TextStyle(
-                      color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
-               */
-              AnimatedContainer(
-                duration: Duration(seconds: 1),
-                transform: Matrix4.translationValues(0, 0, 0)..scale(01.0),
-                child: SubscriptionCard(
-                    context, "Standard", "semanal", 0, "28.00", 7),
-              ),
-              AnimatedContainer(
-                duration: Duration(seconds: 1),
-                //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
-                child: SubscriptionCard(
-                    context, "Basic", "mensual", 20, "89.60", 30),
-              ),
-              AnimatedContainer(
-                duration: Duration(seconds: 1),
-                // transform: Matrix4.translationValues(left3, top3, 0)..scale(0.5),
-                child: SubscriptionCard(
-                    context, "Ultimate", "anual", 60, "582.40", 365),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+                })
+
+            /*
+            
+            ListView(
+              scrollDirection: Axis.vertical,
+              controller: _controller,
+              children: [
+                /* 
+                Text("Fecha de Vencimiento: $date",
+                    style: TextStyle(
+                        color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
+                Text("Días Restantes: $dias",
+                    style: TextStyle(
+                        color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
+                 */
+    
+                AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  transform: Matrix4.translationValues(0, 0, 0)..scale(01.0),
+                  child: SubscriptionCard(
+                      context, "Standard", "semanal", 0, "12.00", 7),
+                ),
+                AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
+                  child: SubscriptionCard(
+                      context, "Basic", "mensual", 10, "35.00", 30),
+                ),
+                AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  // transform: Matrix4.translationValues(left3, top3, 0)..scale(0.5),
+                  child: SubscriptionCard(
+                      context, "Ultimate", "anual", 20, "336.00", 365),
+                ),
+              ],
+            ),*/
+
+            )
+      ]);
+    });
   }
 
-  Widget SubscriptionCard(context, String _title, String timeSubs, int _desc,
-      String _precio, int ndia) {
+  Widget SubscriptionCard(
+      context,
+      String _title,
+      String timeSubs,
+      String feature1,
+      String feature2,
+      String feature3,
+      int _desc,
+      String _precio,
+      int ndia) {
     return Container(
       //width: sclW(context) * 70,
       height: sclH(context) * 64,
       margin: EdgeInsets.symmetric(
           vertical: sclW(context) * 5, horizontal: sclW(context) * 15),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(35),
           ),
           color: AppColors.vulcan,
@@ -185,21 +223,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   ListTile(
                     leading: const Icon(Icons.check_circle_outline),
                     title: Text(
-                      "Eventos ilimitados",
+                      feature1,
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
                   ListTile(
                     leading: const Icon(Icons.check_circle_outline),
                     title: Text(
-                      "Uso iliitado de la cuenta en diferentes dispositivos",
+                      feature1,
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
                   ListTile(
                     leading: const Icon(Icons.check_circle_outline),
                     title: Text(
-                      "Almacenamiento en la nube por 30 días",
+                      feature3,
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
@@ -240,8 +278,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   titleStyle: TextStyle(
                     color: AppColors.royalBlue,
                   ),
-                  middleText: 'Días Restantes: $iDiasRestantes \n\n' +
-                      'Despues de realizar el pago añadiremos $ndia dias  \n\n' +
+                  middleText: 'Días Restantes: $iDiasRestantes \n\n'
+                          'Despues de realizar el pago añadiremos $ndia dias  \n\n' +
                       'Fecha de Vencimiento actual: \n $sDateSaved \n\n' +
                       'Nueva Fecha de Vencimiento: \n $sDateLimit \n\n' +
                       'Precio: \$ $_precio',
@@ -262,11 +300,11 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   ),
                   cancel: ElevatedButton.icon(
                     onPressed: () => Get.back(),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.cancel,
                       //color: AppColors.violet,
                     ),
-                    label: Text(
+                    label: const Text(
                       "Cancelar",
                       //style: TextStyle(color: AppColors.violet),
                     ),

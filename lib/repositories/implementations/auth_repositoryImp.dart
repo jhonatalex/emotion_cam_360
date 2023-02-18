@@ -4,7 +4,7 @@ import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
-import 'package:emotion_cam_360/ui/widgets/subscription.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
