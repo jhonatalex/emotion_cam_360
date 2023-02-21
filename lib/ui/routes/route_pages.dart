@@ -2,6 +2,7 @@ import 'package:emotion_cam_360/ui/pages/evento/event_binding.dart';
 import 'package:emotion_cam_360/ui/pages/evento/event_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/profile_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_list/video_list_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_list/video_list_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_processing_page.dart';
@@ -9,7 +10,7 @@ import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.da
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_page.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
-import 'package:emotion_cam_360/ui/widgets/Subscription_page.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_page.dart';
 import 'package:emotion_cam_360/ui/widgets/politics.dart';
 import 'package:get/get.dart';
 
@@ -131,7 +132,7 @@ class RoutePages {
         name: RouteNames.subscription,
         page: () => SubscriptionPage(),
         transition: Transition.fadeIn,
-        //binding: const VideoViewerBinding(),
+        binding: const SubscriptionBinding(),
       ),
       GetPage(
         name: RouteNames.politics,

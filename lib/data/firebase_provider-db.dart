@@ -4,6 +4,7 @@ import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/entities/responseFirebase.dart';
+import 'package:emotion_cam_360/entities/suscripcion.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -147,5 +148,31 @@ class FirebaseProvider {
     });
 
     return listaEventos;
+  }
+
+//____________SUBSCRIPCION DATA___________________________________________//
+
+  Future<List<Suscripcion>> getAllTypeSuscripcionProvider() async {
+    List<Suscripcion> listasuscripciones = [];
+
+    final querySnapshot = await firestore.collection('suscripcion').get();
+    final docs = querySnapshot.docs;
+
+    //CONVERTIR RESPUESTA EN ENTITIES
+    for (var doc in docs) {
+      final subsNew = Suscripcion(
+          doc["name"],
+          doc["typeDate"],
+          doc["featureOne"],
+          doc["featureTwo"],
+          doc["featureThree"],
+          doc["legal"],
+          doc["saving"],
+          doc["price"]);
+
+      listasuscripciones.add(subsNew);
+    }
+
+    return listasuscripciones;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:emotion_cam_360/data/db_data_source.dart';
 import 'package:emotion_cam_360/entities/event.dart';
+import 'package:emotion_cam_360/entities/suscripcion.dart';
 
 import '../../data/firebase_provider-db.dart';
 
@@ -35,6 +36,10 @@ class EventRepositoryImple extends EventRepository {
   @override
   Future<List> getAllMyEventFirebase() async {
     return provider.getAllMyEventProvider();
+  }
+
+  Future<List<Suscripcion>> getAllSuscripcionesFirebase() async {
+    return provider.getAllTypeSuscripcionProvider();
   }
 
 /*  @override

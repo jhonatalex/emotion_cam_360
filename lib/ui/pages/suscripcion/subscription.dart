@@ -2,6 +2,7 @@ import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/user.dart';
+import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,9 @@ DateTime _savedDate = DateTime.now();
 DateTime _endDate = DateTime.now();
 final provider = FirebaseProvider();
 late var userCurrent;
+
+AuthClass authClass = AuthClass();
+
 Future<MyUser?> getUserCurrent() async {
   return userCurrent;
 }
@@ -31,6 +35,10 @@ setDate(DateTime newDate) async {
   userCurrent!.date = Timestamp.fromDate(newDate);
   provider.setSubscriptionDate(userCurrent);
   print(chalk.white.bold("mandando a login... $newDate"));
+
+  //LOGICA DESLOGUEAR
+  await authClass.logout();
+  //Get.find<AuthController>().signOut();
   Get.offAllNamed(RouteNames.signIn);
 }
 

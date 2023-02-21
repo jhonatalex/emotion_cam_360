@@ -5,6 +5,7 @@ import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
+import 'package:emotion_cam_360/entities/suscripcion.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
@@ -36,6 +37,7 @@ class EventController extends GetxController {
   Rx<MyUser?> user = Rx(null);
 
   var eventos = [].obs;
+  var suscripciones = [].obs;
 
   Rx<EventEntity?> eventoSelected = Rx(null);
 
@@ -56,6 +58,7 @@ class EventController extends GetxController {
     //TRER LISTA DE EVENTOS
     getEventBd();
     getAllMyEventController();
+    //getAllSuscripcionesController();
     super.onInit();
 
     //prepara las assets y los pasa al cache,
@@ -198,5 +201,17 @@ class EventController extends GetxController {
       ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
     }
     //}
+  }
+
+  // OBTENER TIPOS DE SUSCRIPCIONES//
+  Future<void> getAllSuscripcionesController() async {
+    //TO REPOSITORY
+    final listSuscripciones =
+        await _eventRepository.getAllSuscripcionesFirebase();
+
+    print(chalk.yellow.bold("ENTRO AL METODO" + listSuscripciones.toString()));
+
+    suscripciones.value = listSuscripciones;
+    print(chalk.green.bold(suscripciones));
   }
 }
