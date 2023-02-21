@@ -3,11 +3,15 @@ import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
-
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:ffmpeg_kit_flutter/statistics.dart';
+/* 
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_video/return_code.dart';
-import 'package:ffmpeg_kit_flutter_video/statistics.dart';
+import 'package:ffmpeg_kit_flutter_video/statistics.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
@@ -226,12 +230,31 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               color: Colors.white,
             ),
           ),
+          ElevatedButton(
+              onPressed: () {
+                encodeVideo();
+              },
+              child: Text("again")),
         ],
       );
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // solo para no restablecer....↓↓↓↓
+          ElevatedButton(
+              onPressed: () {
+                encodeVideo();
+              },
+              child: Text("again")),
+          ElevatedButton(
+              onPressed: () {
+                Get.offNamed(RouteNames.videoViewerPage,
+                    arguments: fileEncoded.path);
+              },
+              child: Text("video viewer")),
+//lo anterior se debe quitar  ↑↑↑
+
           Text("Procesamiento completo...\n\nDisfruta tu experiencia.",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: sclW(context) * 3)),
@@ -239,16 +262,16 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             height: 20,
           ),
           FutureBuilder(
-              future: getVideoFile1(),
+              future: getVideoFile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   fileEncoded = snapshot.data as File;
                   fileEncoded.readAsBytes().then((valueBytes) {
                     videoProvider.saveVideoPrefrerence(valueBytes);
                     videoProvider.savePathPrefrerence(fileEncoded.path);
-
+/* 
                     Get.offNamed(RouteNames.videoViewerPage,
-                        arguments: fileEncoded.path);
+                        arguments: fileEncoded.path); */
                     // Get.offNamed(RouteNames.showVideo);
                     // arguments: [valueBytes, fileEncoded.path]);
                   });

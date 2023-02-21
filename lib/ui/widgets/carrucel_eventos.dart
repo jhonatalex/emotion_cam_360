@@ -108,14 +108,14 @@ class PopularesSlider extends StatelessWidget {
                           SizedBox(
                             height: sclH(context) * 1,
                           ),
-                          event!.name != "Evento"
-                              ? Image.file(
-                                  File(event!.overlay),
+                          event!.name == "Evento"
+                              ? Image.asset(
+                                  event!.overlay,
                                   width: sclW(context) * 30,
                                   height: sclW(context) * 30,
                                 )
-                              : Image.asset(
-                                  event!.overlay,
+                              : Image.file(
+                                  File(event!.overlay),
                                   width: sclW(context) * 30,
                                   height: sclW(context) * 30,
                                 ),

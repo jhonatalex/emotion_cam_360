@@ -7,7 +7,7 @@ import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
-import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +24,10 @@ class EventController extends GetxController {
   final musicController = TextEditingController();
   final logoController = TextEditingController().obs;
 
-  Rx<File?> pickedImageLogo =
-      Rx(File("/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"));
-  Rx<File?> pickedMp3File =
-      Rx(File("/data/user/0/com.marketglobal.emotionCam360/cache/hallman-ed.mp3"));
+  Rx<File?> pickedImageLogo = Rx(
+      File("/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"));
+  Rx<File?> pickedMp3File = Rx(
+      File("/data/user/0/com.marketglobal.emotionCam360/cache/hallman-ed.mp3"));
 
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);

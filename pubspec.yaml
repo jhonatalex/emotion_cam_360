@@ -39,7 +39,9 @@ dependencies:
 
 
 #Video
-  ffmpeg_kit_flutter_video: ^5.1.0
+  ffmpeg_kit_flutter: 5.1.0
+#  ffmpeg_kit_flutter_video: ^5.1.0
+#  ffmpeg_kit_flutter_full-gpl: ^5.1.0
   path: ^1.8.1
   fluttertoast: ^8.0.9
   video_player: ^2.2.6 #^2.4.7

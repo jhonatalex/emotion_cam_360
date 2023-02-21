@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import cloud_firestore
-import ffmpeg_kit_flutter_video
+import ffmpeg_kit_flutter
 import firebase_auth
 import firebase_core
 import firebase_storage

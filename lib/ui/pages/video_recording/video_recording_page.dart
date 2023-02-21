@@ -173,7 +173,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   void dispose() {
     super.dispose();
     vRCtrl.dispose();
-    //_controller!.dispose();
+    _controller!.dispose();
   }
 
   @override
