@@ -159,9 +159,9 @@ class VideoUtil {
         //"mpeg4 " + // videoCodec +
         //"libx265 " + // videoCodec +
         //"libkvazaar " + // videoCodec +
-        "-c:v libx264 -c:a aac -strict experimental -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
-        //"-b:v 10M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
-        //"-r 30 " +
+        "-c:v libx264 " + //-c:a aac -strict experimental -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
+        "-b:v 10M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
+        "-r 30 " +
         videoFilePath; //video1; //
   }
 }

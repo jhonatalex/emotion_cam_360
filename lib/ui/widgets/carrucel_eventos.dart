@@ -67,6 +67,7 @@ class PopularesSlider extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             enlargeCenterPage: true),
         items: listEvents.map((event) {
+          File imgDynamic = File(event.overlay);
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
@@ -114,11 +115,7 @@ class PopularesSlider extends StatelessWidget {
                                   width: sclW(context) * 30,
                                   height: sclW(context) * 30,
                                 )
-                              : Image.file(
-                                  File(event!.overlay),
-                                  width: sclW(context) * 30,
-                                  height: sclW(context) * 30,
-                                ),
+                              : Image.file(imgDynamic),
                           SizedBox(
                             height: sclH(context) * 8,
                           )
