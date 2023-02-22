@@ -11,10 +11,13 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
+//Resolución
+const int rH = 1280;
+const int rW = 720;
 const String pad =
-    "pad=width=720:height=1280:x=(720-iw)/2:y=(1280-ih)/2:color=#0e0c31";
+    "pad=width=$rW:height=$rH:x=($rW-iw)/2:y=($rH-ih)/2:color=#0e0c31";
 const String resize =
-    "setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,720/1280),min(iw,720),-1)':h='if(gte(iw/ih,720/1280),-1,min(ih,1280))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1";
+    "setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,$rW/$rH),min(iw,$rW),-1)':h='if(gte(iw/ih,$rW/$rH),-1,min(ih,$rH))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1";
 
 final SettingsController settingsController = Get.put(SettingsController());
 final EventController eventController = Get.put(EventController());
@@ -145,18 +148,19 @@ class VideoUtil {
         "[videocompleto2][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$nysm:end=$timeRecord,setpts=PTS-STARTPTS[part3];" +
         "[videocompleto3][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +
         "[creditos1][wm5]overlay=185:465:enable='between(t, 0,$creditos)',fade=t=in:st=0:d=1,$pad,trim=duration=$creditos,select=lte(n\\,$cp30),fade=t=out:st=$cm1:d=1[part5];" +
-        "[part1][part2][part3][part4][part5]concat=n=5:v=1:a=0,scale=w=720:h=1280,format=" +
-        "yuv420p" + //  pixelFormat +
+        "[part1][part2][part3][part4][part5]concat=n=5:v=1:a=0,scale=w=$rW:h=$rH,format=" +
+        "yuv420p" + //  pixelFormat + x264
+        //"yuv420p10le" + //  pixelFormat + x265
         "[video]\"" +
-        " -map [video] -map [music] " +
-        // " -map [video]:[music] " +
-        // " -map [video][music] " +
-        // " -map [video] " +
+        " -map '[video]' -map '[music]' " + //sin probar [music]
 
         // customOptions +
-        "-c:v " +
-        "mpeg4 " + // videoCodec +
-        "-b:v 10M " +
+        //"-c:v " +
+        //"mpeg4 " + // videoCodec +
+        //"libx265 " + // videoCodec +
+        //"libkvazaar " + // videoCodec +
+        "-c:v libx264 " + //-c:a aac -strict experimental -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
+        "-b:v 10M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
         "-r 30 " +
         videoFilePath; //video1; //
   }
