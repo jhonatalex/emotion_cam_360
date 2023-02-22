@@ -4,12 +4,13 @@ publish_to: 'none'
 version: 1.0.0+1
 environment:
   sdk: ">=2.17.5 <3.0.0"
-dependency_overrides:
-  ffi: ^2.0.1
+
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  flutter_launcher_icons: "^0.11.0"
+
 
 #Firebase
   firebase_core: ^2.1.1
@@ -66,7 +67,6 @@ dependencies:
 
 
 
-
 #open_file: ^2.1.1
 dev_dependencies:
   flutter_test:
@@ -85,3 +85,21 @@ flutter:
     - family: Lato
       fonts:
         - asset: assets/fonts/Lato-Regular.ttf
+
+#ICONOS DE LA APP
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/logo-emotion.png"
+  web:
+    generate: true
+    image_path: "assets/icon/logo-emotion.png"
+    background_color: "#ffff"
+
+  windows:
+    generate: true
+    image_path: "assets/icon/logo-emotion.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icon/logo-emotion.png"       

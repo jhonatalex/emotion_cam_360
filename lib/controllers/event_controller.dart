@@ -209,9 +209,6 @@ class EventController extends GetxController {
     final listSuscripciones =
         await _eventRepository.getAllSuscripcionesFirebase();
 
-    print(chalk.yellow.bold("ENTRO AL METODO" + listSuscripciones.toString()));
-
     suscripciones.value = listSuscripciones;
-    print(chalk.green.bold(suscripciones));
   }
 }
