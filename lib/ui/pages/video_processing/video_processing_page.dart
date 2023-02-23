@@ -236,6 +236,11 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 encodeVideo();
               },
               child: Text("again")),
+          ElevatedButton(
+              onPressed: () {
+                FFmpegKit.cancel();
+              },
+              child: Text("CANCELAR TODO")),
         ],
       );
     } else {

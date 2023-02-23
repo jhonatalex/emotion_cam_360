@@ -115,7 +115,11 @@ class PopularesSlider extends StatelessWidget {
                                   width: sclW(context) * 30,
                                   height: sclW(context) * 30,
                                 )
-                              : Image.file(imgDynamic),
+                              : Image.file(
+                                  imgDynamic,
+                                  width: sclW(context) * 30,
+                                  height: sclW(context) * 30,
+                                ),
                           SizedBox(
                             height: sclH(context) * 8,
                           )
