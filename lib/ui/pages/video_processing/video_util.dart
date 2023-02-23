@@ -149,8 +149,8 @@ class VideoUtil {
         "[videocompleto3][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +
         "[creditos1][wm5]overlay=185:465:enable='between(t, 0,$creditos)',fade=t=in:st=0:d=1,$pad,trim=duration=$creditos,select=lte(n\\,$cp30),fade=t=out:st=$cm1:d=1[part5];" +
         "[part1][part2][part3][part4][part5]concat=n=5:v=1:a=0,scale=w=$rW:h=$rH,format=" +
-        "yuv420p" + //  pixelFormat + x264
-        //"yuv420p10le" + //  pixelFormat + x265
+        //"yuv420p" + //  pixelFormat + x264
+        "yuv420p10le" + //  pixelFormat + x265
         "[video]\"" +
         " -map '[video]' -map '[music]' " + //sin probar [music]
 
@@ -159,9 +159,11 @@ class VideoUtil {
         //"mpeg4 " + // videoCodec +
         //"libx265 " + // videoCodec +
         //"libkvazaar " + // videoCodec +
-        "-c:v libx264 " + //-c:a aac -strict experimental -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
-        "-b:v 10M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
-        "-r 30 " +
+        "-c:v libx264 " + // -c:a aac -strict -2 -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
+        "-threads 4 " + //
+        //"-c:v libx264 -c:a aac -strict experimental -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
+        "-b:v 4M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
+        "-r 25 " +
         videoFilePath; //video1; //
   }
 }
