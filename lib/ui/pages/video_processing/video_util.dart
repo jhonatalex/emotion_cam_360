@@ -117,7 +117,7 @@ class VideoUtil {
     // String pixelFormat,
     // String customOptions
   ) {
-    print(chalk.white.bold("normal1 $normal1"));
+/*     print(chalk.white.bold("normal1 $normal1"));
     print(chalk.white.bold("Slow motion $slowMotion"));
     print(chalk.white.bold("normal2 $normal2"));
     print(chalk.white.bold("reverse $reverse"));
@@ -126,7 +126,7 @@ class VideoUtil {
     print(chalk.white.bold("timeTotal $timeTotal"));
     print(chalk.white.bold("video360path $video360Path"));
     print(chalk.white.bold("logoPath $logoPath"));
-    print(chalk.white.bold("Music path $music1Path"));
+    print(chalk.white.bold("Music path $music1Path")); */
 
     return "-y -hide_banner -i $video360Path " +
         "-ss $normal1 -t $slowMotion -i $video360Path " +
@@ -157,12 +157,13 @@ class VideoUtil {
         // customOptions +
         //"-c:v " +
         //"mpeg4 " + // videoCodec +
+        //"wmv" + // videoCodec +
         //"libx265 " + // videoCodec +
         //"libkvazaar " + // videoCodec +
         "-c:v libx264 " + // -c:a aac -strict -2 -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
-        "-threads 4 " + //
+        "-threads 4 " +
         //"-c:v libx264 -c:a aac -strict experimental -b:a 192k -movflags +faststart " + // videoCodec + -vsync 2 -async 1
-        "-b:v 4M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
+        // "-b:v 8M " + //-minrate 4000k -maxrate 4000k -bufsize 1835k
         "-r 25 " +
         videoFilePath; //video1; //
   }

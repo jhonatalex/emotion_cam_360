@@ -121,31 +121,10 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     'Crear Evento',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   onTap: () {
                     Get.toNamed(RouteNames.eventPage);
-                  },
-                ),
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  //  tileColor: Colors.black38,
-                  leading: Icon(
-                    emailUser == null
-                        ? Icons.login_outlined
-                        : Icons.logout_outlined,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-
-                  onTap: () async {
-                    await authClass.logout();
-                    //Get.find<AuthController>().signOut();
-                    Get.offAllNamed(RouteNames.signIn);
                   },
                 ),
                 ListTile(
@@ -160,7 +139,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     emailUser == null ? 'Subscribirse' : 'Usuario Subscrito',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
 
                   onTap: () {
@@ -176,12 +155,33 @@ class _MyDrawerState extends State<MyDrawer> {
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Terminos y Condiciones',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    'Terminos y Cond.',
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
 
                   onTap: () {
                     Get.toNamed(RouteNames.politics);
+                  },
+                ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  //  tileColor: Colors.black38,
+                  leading: Icon(
+                    emailUser == null
+                        ? Icons.login_outlined
+                        : Icons.logout_outlined,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
+                  ),
+
+                  onTap: () async {
+                    await authClass.logout();
+                    //Get.find<AuthController>().signOut();
+                    Get.offAllNamed(RouteNames.signIn);
                   },
                 ),
                 const SizedBox(
@@ -203,7 +203,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     'Facebook',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   // onTap: () {},
                 ),
@@ -216,7 +216,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     'Instagram',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   // onTap: () {},
                 ),
@@ -225,11 +225,11 @@ class _MyDrawerState extends State<MyDrawer> {
                   textColor: Colors.white,
                   leading: Icon(
                     Icons.play_arrow_rounded,
-                    size: sclH(context) * 3,
+                    size: sclH(context) * 4,
                   ),
                   title: Text(
                     'Youtube',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   // onTap: () {},
                 ),

@@ -151,7 +151,7 @@ class _EventPageState extends State<EventPage> {
                   top: sclH(context) * 44,
                   left: sclW(context) * 5,
                   right: sclW(context) * 5,
-                  bottom: sclH(context) * 5,
+                  bottom: sclH(context) * 10,
                 ),
                 padding: EdgeInsets.symmetric(
                     horizontal: sclW(context) * 5, vertical: sclW(context) * 4),
@@ -175,12 +175,10 @@ class _EventPageState extends State<EventPage> {
                     ),
                     filePikerCustom(context, "Logo", 170, false),
                     const SizedBox(
-                      height: 30,
+                      height: 40,
                     ),
                     colorButton(context, "Crear Evento", true, eventProvider),
-                    const SizedBox(
-                      height: 15,
-                    ),
+
                     /*   ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -361,8 +359,8 @@ class _EventPageState extends State<EventPage> {
                   TextStyle(fontSize: sclH(context) * 2, color: Colors.white)),
           Row(children: [
             Container(
-                padding: const EdgeInsets.all(10.0),
-                width: sclW(context) * 55,
+                padding: const EdgeInsets.all(5.0),
+                width: sclW(context) * 50,
                 height: sclW(context) * 13,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
@@ -397,9 +395,6 @@ class _EventPageState extends State<EventPage> {
                       final String musicName = result?.files.single.name ?? "0";
                       final String path = result?.files.single.path! ?? "0";
                       final dataBytes = result?.files.single.bytes;
-                      print(chalk.white.bold(musicName));
-                      print(chalk.white.bold(path));
-                      //print(chalk.white.bold(dataBytes));
 
                       final List<int> byteList = dataBytes!.buffer.asUint8List(
                           dataBytes.offsetInBytes, dataBytes.lengthInBytes);
@@ -407,7 +402,6 @@ class _EventPageState extends State<EventPage> {
                       final String fullTemporaryPath = join(
                           (await tempDirectory).path,
                           musicName.replaceAll(" ", "-"));
-                      print(chalk.yellow.bold(fullTemporaryPath));
 
                       Future<File> fileFuture = File(fullTemporaryPath)
                           .writeAsBytes(byteList,

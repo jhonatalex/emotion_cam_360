@@ -92,7 +92,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                             "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
                       }
                     },
-                    (log) => print(log.getMessage()),
+                    (log) {}, // (print(log.getMessage())),
                     (statistics) {
                       _statistics = statistics;
                       updateProgressDialog();
@@ -132,7 +132,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
   Future<File> getVideoFile1() async {
     var file = Get.arguments;
-    print(chalk.white.bold(file));
+    //print(chalk.white.bold(file));
     return File(file);
   }
 
@@ -231,7 +231,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               color: Colors.white,
             ),
           ),
-          ElevatedButton(
+          /* ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },
@@ -240,7 +240,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               onPressed: () {
                 FFmpegKit.cancel();
               },
-              child: Text("CANCELAR TODO")),
+              child: Text("CANCELAR TODO")) */
         ],
       );
     } else {
@@ -248,7 +248,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // solo para no restablecer....↓↓↓↓
-          ElevatedButton(
+          /*  ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },
@@ -258,7 +258,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 Get.offNamed(RouteNames.videoViewerPage,
                     arguments: fileEncoded.path);
               },
-              child: Text("video viewer")),
+              child: Text("video viewer")), */
 //lo anterior se debe quitar  ↑↑↑
 
           Text("Procesamiento completo...\n\nDisfruta tu experiencia.",
@@ -275,13 +275,13 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                   fileEncoded.readAsBytes().then((valueBytes) {
                     videoProvider.saveVideoPrefrerence(valueBytes);
                     videoProvider.savePathPrefrerence(fileEncoded.path);
-/* 
+
                     Get.offNamed(RouteNames.videoViewerPage,
-                        arguments: fileEncoded.path); */
+                        arguments: fileEncoded.path);
                     // Get.offNamed(RouteNames.showVideo);
                     // arguments: [valueBytes, fileEncoded.path]);
                   });
-                  print(chalk.white.bold(fileEncoded.path));
+                  //print(chalk.white.bold(fileEncoded.path));
                   return Container();
                 } else {
                   return Container();
