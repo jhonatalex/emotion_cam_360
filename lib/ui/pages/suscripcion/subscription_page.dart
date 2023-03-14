@@ -72,8 +72,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       radius: 10.0,
                       contentPadding: const EdgeInsets.all(20.0),
                       title: 'Información de Subscripción',
-                      titleStyle: TextStyle(color: AppColors.royalBlue),
-                      middleText: 'Fecha de Vencimiento: $date  \n' +
+                      titleStyle: const TextStyle(color: AppColors.royalBlue),
+                      middleText: 'Fecha de Vencimiento: $date  \n'
                           'Días Restantes: $dias',
                       middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
                       textConfirm: 'Okay',
@@ -156,13 +156,13 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
 
   Widget SubscriptionCard(
       context,
-      String _title,
+      String title,
       String timeSubs,
       String feature1,
       String feature2,
       String feature3,
-      int _desc,
-      String _precio,
+      int desc,
+      String precio,
       int ndia) {
     return Container(
       //width: sclW(context) * 70,
@@ -187,7 +187,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           Container(
             padding: EdgeInsets.symmetric(vertical: sclH(context) * 1.5),
             child: Text(
-              _title,
+              title,
               style: TextStyle(
                   color: AppColors.white, fontSize: sclW(context) * 6),
             ),
@@ -244,7 +244,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   ListTile(
                     leading: const Icon(Icons.check_circle_outline),
                     title: Text(
-                      "Ahorro del $_desc%",
+                      "Ahorro del $desc%",
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
@@ -263,7 +263,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(2),
+            margin: const EdgeInsets.all(2),
             child: ElevatedButton(
               onPressed: () {
                 print(chalk.white.bold("añadir $ndia dias"));
@@ -275,14 +275,14 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   radius: 10.0,
                   contentPadding: const EdgeInsets.all(20.0),
                   title: 'Realizar pago',
-                  titleStyle: TextStyle(
+                  titleStyle: const TextStyle(
                     color: AppColors.royalBlue,
                   ),
                   middleText: 'Días Restantes: $iDiasRestantes \n\n'
-                          'Despues de realizar el pago añadiremos $ndia dias  \n\n' +
-                      'Fecha de Vencimiento actual: \n $sDateSaved \n\n' +
+                          'Despues de realizar el pago añadiremos $ndia dias  \n\n'
+                          'Fecha de Vencimiento actual: \n $sDateSaved \n\n' +
                       'Nueva Fecha de Vencimiento: \n $sDateLimit \n\n' +
-                      'Precio: \$ $_precio',
+                      'Precio: \$ $precio',
                   middleTextStyle: TextStyle(fontSize: sclH(context) * 2.5),
                   textConfirm: 'Okay',
                   confirm: ElevatedButton.icon(
@@ -312,7 +312,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 );
               },
               child: Text(
-                "\$ $_precio",
+                "\$ $precio",
                 style: TextStyle(
                   fontSize: sclW(context) * 5,
                 ),
