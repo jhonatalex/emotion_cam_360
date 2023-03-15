@@ -1,4 +1,3 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
@@ -65,8 +64,8 @@ class AuthRepositoryImp implements AuthRepository {
     final uid = Get.find<AuthController>().authUser.value!.uid;
     final email = username;
     //const statusInitial = true;
-    DateTime _dateInitial = newDateLimit(15);
-    Timestamp dateInitial = Timestamp.fromDate(_dateInitial);
+    DateTime dateInitial2 = newDateLimit(15);
+    Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
     final newUser = MyUser(uid, email, date: dateInitial);
 
@@ -78,7 +77,7 @@ class AuthRepositoryImp implements AuthRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
+      //'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 
@@ -88,9 +87,10 @@ class AuthRepositoryImp implements AuthRepository {
     //   final googleUser = await GoogleSignIn().signIn();
     // final googleAuth = await googleUser?.authentication;
 
-    print(chalk.red.bold('hasta aqui todo bien: '));
-    final googleSignInAccount = await GoogleSignIn().signIn();
-    print(chalk.red.bold('Probando a ver: '));
+    //final googleSignInAccount = await GoogleSignIn().signIn();
+
+    final googleSignInAccount = await _googleSignIn.signIn();
+
     final googleSignInAuthentication =
         await googleSignInAccount?.authentication;
 
@@ -106,7 +106,9 @@ class AuthRepositoryImp implements AuthRepository {
       final uid = userCredential.user?.email;
       final email = userCredential.user?.email;
       //const statusInitial = true;
-      Timestamp dateInitial = Timestamp.now();
+      DateTime dateInitial2 = newDateLimit(15);
+      Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
+
       final newUser = MyUser(uid!, email!, date: dateInitial);
 
       await _userRepository.saveMyUser(newUser);
@@ -121,7 +123,7 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<void> signOut() async {
     //final googleSignIn = GoogleSignIn();
-    //await googleSignIn.signOut();
+    await _googleSignIn.signOut();
     await _firebaseAuthUniqueInstance.signOut();
   }
 
