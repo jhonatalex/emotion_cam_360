@@ -88,7 +88,9 @@ class AuthRepositoryImp implements AuthRepository {
     //   final googleUser = await GoogleSignIn().signIn();
     // final googleAuth = await googleUser?.authentication;
 
+    print(chalk.red.bold('hasta aqui todo bien: '));
     final googleSignInAccount = await GoogleSignIn().signIn();
+    print(chalk.red.bold('Probando a ver: '));
     final googleSignInAuthentication =
         await googleSignInAccount?.authentication;
 

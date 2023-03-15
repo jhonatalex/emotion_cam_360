@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
@@ -28,6 +29,7 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool circular = false;
+  bool isLogging = false;
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   AuthClass authClass = AuthClass();
@@ -71,19 +73,41 @@ class _SignInPageState extends State<SignInPage> {
                       SizedBox(
                         height: sclH(context) * 2,
                       ),
-                      buttonItem("assets/img/google.svg", "Continue con Google",
-                          sclH(context) * 4, () async {
-                        try {
-                          await _authRepository.signInGoogle();
-                        } on FirebaseAuthException catch (e) {
-                          /* 
+                      buttonItem(
+                        "assets/img/google.svg",
+                        "Continue con Google",
+                        sclH(context) * 4,
+                        () async {
+                          setState(() {
+                            isLogging = true;
+                          });
+                          try {
+                            await _authRepository.signInGoogle();
+
+                            /* GoogleSignIn _googleSignIn = GoogleSignIn(
+                              scopes: [
+                                'email',
+                                'https://www.googleapis.com/auth/contacts.readonly',
+                              ],
+                            );
+
+                            Future<void> _handleSignIn() async {
+                              try {
+                                await _googleSignIn.signIn();
+                              } catch (error) {
+                                print(error);
+                              }
+                            } */
+                          } on FirebaseAuthException catch (e) {
+                            /* 
                           final snackbar = SnackBar(content: Text(e.toString()));
                           ScaffoldMessenger.of(context).showSnackBar(snackbar); */
-                          MessengerSnackBar(context, e.toString());
-                        }
+                            MessengerSnackBar(context, e.toString());
+                          }
 
-                        //await authClass.googleSignIn(context);
-                      }),
+                          //await authClass.googleSignIn(context);
+                        },
+                      ),
                       SizedBox(
                         height: sclH(context) * 2,
                       ),
@@ -171,11 +195,15 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
               Center(
-                child: Text(
-                  "O",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: sclH(context) * 3),
-                ),
+                child: isLogging
+                    ? const CircularProgressIndicator(
+                        backgroundColor: AppColors.royalBlue,
+                      )
+                    : Text(
+                        "O",
+                        style: TextStyle(
+                            color: Colors.white, fontSize: sclH(context) * 3),
+                      ),
               ),
             ],
           ),
