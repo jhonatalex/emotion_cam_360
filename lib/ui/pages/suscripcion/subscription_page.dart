@@ -97,6 +97,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   final item = items[index];
+                  print(chalk.white.bold("items.length"));
+                  print(chalk.white.bold(items.length));
                   return AnimatedContainer(
                     duration: const Duration(seconds: 1),
                     //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
@@ -230,7 +232,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   ListTile(
                     leading: const Icon(Icons.check_circle_outline),
                     title: Text(
-                      feature1,
+                      feature2,
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),

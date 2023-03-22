@@ -331,7 +331,7 @@ class _SignInPageState extends State<SignInPage> {
           if (msg ==
               "[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.") {
             MessengerSnackBar(context,
-                "No hay un usuario registrado con este correo o puede haber sido borrado.");
+                "No éxiste usuario registrado con el correo por favor regístrese.");
           }
           if (msg ==
               "[firebase_auth/invalid-email] The email address is badly formatted.") {

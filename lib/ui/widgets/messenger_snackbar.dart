@@ -12,16 +12,22 @@ MessengerSnackBar(context, text) {
       children: [
         Container(
           width: sclW(context) * 100,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(20),
           margin: EdgeInsets.only(top: 20),
           child: Text(
             text,
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
-          color: AppColors.violet,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(color: AppColors.violet, width: 2),
+            ),
+            color: AppColors.vulcan,
+          ),
         ),
         Container(
           margin: EdgeInsets.only(left: 20),
