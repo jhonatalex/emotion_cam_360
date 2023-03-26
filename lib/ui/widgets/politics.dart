@@ -3,6 +3,8 @@ import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
 class PoliticsPage extends StatelessWidget {
+  const PoliticsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class PoliticsPage extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 20.0),
               child: ElevatedButton(
-                style: ButtonStyle(
+                style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.white12)),
                 onPressed: () {},
                 child: Text(
@@ -34,10 +36,10 @@ class PoliticsPage extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              padding: const EdgeInsets.all(10),
               color: Colors.white12,
-              height: sclH(context) * 71,
+              height: sclH(context) * 65,
               child: ListView(
                 children: [
                   Text(
@@ -68,14 +70,14 @@ class PoliticsPage extends StatelessWidget {
                           color: AppColors.royalBlue,
                           fontWeight: FontWeight.bold),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                   ),
                   const Text(
                       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               color: Colors.white12,
               child: Row(

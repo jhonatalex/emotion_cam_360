@@ -72,7 +72,6 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
               Get.offAllNamed(RouteNames.uploadVideo);
             },

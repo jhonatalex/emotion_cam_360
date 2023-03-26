@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
@@ -15,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
@@ -49,7 +45,7 @@ class _SignInPageState extends State<SignInPage> {
           child: Stack(
             children: [
               BackgroundGradient(context),
-              Container(
+              SizedBox(
                 height: sclH(context) * 50,
                 child: Center(
                   child: Column(
@@ -57,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
                       SizedBox(
                         height: sclH(context) * 5,
                       ),
-                      Container(
+                      SizedBox(
                           height: sclH(context) * 15,
                           child: Image.asset(
                             "assets/img/logo-emotion.png",
@@ -301,7 +297,6 @@ class _SignInPageState extends State<SignInPage> {
               await firebaseAuth.signInWithEmailAndPassword(
                   email: _emailController.text,
                   password: _passwordController.text);
-          print(userCredential.user!.uid);
 
           //VOLATIL DATA
           userSession.saveUser(userCredential.user!.email);
@@ -337,7 +332,6 @@ class _SignInPageState extends State<SignInPage> {
               "[firebase_auth/invalid-email] The email address is badly formatted.") {
             MessengerSnackBar(context, "Ingrese un correo válido.");
           }
-          print(chalk.white.bold(e.toString()));
         }
       },
       child: Container(

@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/statistics.dart';
 /* 
@@ -59,9 +57,9 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     FFmpegKit.cancel();
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
-    VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
-      VideoUtil.assetPath(VideoUtil.BGCREDITOS).then((endingPath) {
-        VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
+    VideoUtil.assetPath(VideoUtil.logo).then((logoPath) {
+      VideoUtil.assetPath(VideoUtil.bgCreditos).then((endingPath) {
+        VideoUtil.assetPath(VideoUtil.music1).then((music1Path) {
           getVideoFile().then((videoFile) {
             final styleVideoOne = VideoUtil.styleVideoOne(
               eventProvider.eventPrefrerences.overlay,
@@ -73,32 +71,28 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
             FFmpegKit.executeAsync(
                     styleVideoOne,
                     (session) async {
+                      final returnCode = await session.getReturnCode();
+                      /* 
                       final state = FFmpegKitConfig.sessionStateToString(
                           await session.getState());
-                      final returnCode = await session.getReturnCode();
                       final failStackTrace = await session.getFailStackTrace();
-                      final duration = await session.getDuration();
+                      final duration = await session.getDuration(); */
 
                       if (ReturnCode.isSuccess(returnCode)) {
-                        print(chalk.yellow.bold(
-                            "Aplicación de efectos Completa $duration milliseconds. now Show video"));
                         setState(() {
                           isEncoded == true;
                         });
-                      } else {
-                        print(chalk.white.bold(
-                            "aplicación de efectos fallida. Please check log for the details."));
-                        print(chalk.white.bold(
-                            "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
-                      }
+                      } else {}
                     },
                     (log) {}, // (print(log.getMessage())),
                     (statistics) {
                       _statistics = statistics;
                       updateProgressDialog();
                     })
-                .then((session) => print(chalk.white.bold(
-                    "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
+                /* .then((session) => print(chalk.white.bold(
+                    "Async FFmpeg process started with sessionId ${session.getSessionId()}.")))
+                    */
+                ;
           });
         });
       });

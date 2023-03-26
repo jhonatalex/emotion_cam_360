@@ -3,12 +3,9 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/controllers/event_controller.dart';
-import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 import '../../widgets/appcolors.dart';
 import '../../widgets/responsive.dart';
@@ -62,7 +59,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   _initCamera(CameraDescription camera) async {
     // Si el controlador está en uso,
     // realizar un dispose para detenerlo antes de continuar
-    Future<void> _disposeCameraController() async {
+    /* Future<void> _disposeCameraController() async {
       if (_controller == null) {
         return Future.value();
       }
@@ -82,7 +79,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       }
 
       return cameraController!.dispose();
-    }
+    } */
 
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.high);

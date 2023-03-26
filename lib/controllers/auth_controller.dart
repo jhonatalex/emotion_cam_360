@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../repositories/abstractas/auth_repositoryAbst.dart';
@@ -42,18 +40,14 @@ class AuthController extends GetxController {
       //authState.value = AuthState.signedIN;
       //Get.offAllNamed(RouteNames.signIn);
       //Get.offAllNamed(RouteNames.home);
-      print(chalk.green.bold("usuario: $user"));
-      int _diasRestantes = diasRestantes();
-      print(chalk.green.bold("calculo de dias restantes"));
-      _authSubscriptionChanged(_diasRestantes);
-      print(chalk.green.bold("paso a authsubscription"));
+      int nDiasRestantes = await diasRestantes();
+      _authSubscriptionChanged(nDiasRestantes);
     }
     authUser.value = user;
   }
 
-  void _authSubscriptionChanged(int diasRestantes) {
+  void _authSubscriptionChanged(diasRestantes) async {
     //VERIFICA LOS DIAS RESTANTES PARA MANDARLO A LA PANTALLA CORRECTA Y SET THE STATE
-    print(chalk.green.bold("DÍAS RESTANTES: $diasRestantes"));
     if (diasRestantes < 0) {
       authState.value = AuthState.signedOUT;
       Get.offAllNamed(RouteNames.subscription);

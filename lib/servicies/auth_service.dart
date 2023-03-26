@@ -50,7 +50,7 @@ class AuthClass {
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
       } else {
-        final snackbar = SnackBar(content: Text("Not Able to sign In "));
+        const snackbar = SnackBar(content: Text("Not Able to sign In "));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     } catch (e) {

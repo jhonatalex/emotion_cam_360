@@ -1,4 +1,3 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
@@ -70,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(
                         height: sclH(context) * 5,
                       ),
-                      Container(
+                      SizedBox(
                           height: sclH(context) * 15,
                           child: Image.asset(
                             "assets/img/logo-emotion.png",
@@ -149,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               "   Ingresa aqui",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 123, 54, 214),
+                                color: const Color.fromARGB(255, 123, 54, 214),
                                 fontSize: sclH(context) * 2,
                               ),
                             ),
@@ -274,8 +272,6 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       MessengerSnackBar(context, snackbar);
-      print(chalk.white.bold(e.code));
-      print(chalk.white.bold(e.toString()));
       setState(() {
         circular = false;
       });

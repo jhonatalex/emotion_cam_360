@@ -61,8 +61,8 @@ DateTime newDateLimit(int nDias) {
   return _endDate;
 }
 
-int diasRestantes() {
-  getDateSaved();
+Future diasRestantes() async {
+  await getDateSaved();
   Duration _diastotales = _savedDate.difference(DateTime.now());
   print(chalk.white.bold('Dias Restantes: ${_diastotales.inDays}'));
   return _diastotales.inDays;

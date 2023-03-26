@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
         //}
         //return content;
       }),*/
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       //if(emailUserToken!='') MyDrawer(emailUserToken),
     );
   }

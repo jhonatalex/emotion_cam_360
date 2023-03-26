@@ -9,11 +9,4 @@ class VideoController extends GetxController {
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
   Rx<VideoEntity?> video = Rx(null);
-
-  @override
-  void onInit() {
-    //getMyUser();
-
-    super.onInit();
-  }
 }

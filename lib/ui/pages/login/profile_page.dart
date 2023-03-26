@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
           centerTitle: true,
         ),
         body: SafeArea(
-            child: Container(
+            child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (image != null) {
       return FileImage(File(image.path));
     }
-    return AssetImage('assets/img/blank-profile.png');
+    return const AssetImage('assets/img/blank-profile.png');
   }
 
   Widget button(String name) {

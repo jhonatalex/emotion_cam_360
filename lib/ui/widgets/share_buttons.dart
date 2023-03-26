@@ -16,8 +16,7 @@ class Sharebuttons extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: () {
         Share.share(
-            'Maravillosa aventura! \nQuiero compartirla contigo... \n' +
-                'Visualiza mi video en: \n$video',
+            'Maravillosa aventura! \nQuiero compartirla contigo... \n Visualiza mi video en: \n$video',
             subject: 'Mira lo que he hecho!');
       },
       icon: const Icon(Icons.share),

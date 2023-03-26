@@ -22,6 +22,10 @@ MessengerSnackBar(context, text) {
                 child: Container(
                   height: sclH(context) * 4,
                   width: sclH(context) * 4,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38, width: 0.5),
+                      color: AppColors.violet,
+                      borderRadius: BorderRadius.circular(50)),
                   child: Center(
                     child: Text(
                       "!",
@@ -31,21 +35,20 @@ MessengerSnackBar(context, text) {
                       ),
                     ),
                   ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38, width: 0.5),
-                      color: AppColors.violet,
-                      borderRadius: BorderRadius.circular(50)),
                 ),
               ),
               const SizedBox(
                 width: 20,
               ),
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+              SizedBox(
+                width: sclW(context) * 70,
+                child: Text(
+                  text,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ],

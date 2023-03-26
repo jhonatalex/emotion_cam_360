@@ -40,7 +40,8 @@ class CarrucelStyles extends StatelessWidget {
 class PopularesSlider extends StatelessWidget {
   String imgDefault = "assets/img/logo-emotion.png";
 
-  final _eventController = Get.find<EventController>();
+  final _eventController = Get.put(EventController());
+  //final _eventController = Get.find<EventController>();
 
   @override
   build(BuildContext context) {

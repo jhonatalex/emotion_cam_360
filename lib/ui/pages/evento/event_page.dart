@@ -11,7 +11,6 @@ import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
@@ -71,13 +70,10 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
     final TextEditingController _musicaController = TextEditingController();
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
-    print(chalk.yellow.bold(textFileImage));
-    print(chalk.yellow.bold(textFileMp3));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -104,7 +100,7 @@ class _EventPageState extends State<EventPage> {
               Center(
                 child: ListView(
                   children: [
-                    Container(
+                    SizedBox(
                       height: sclW(context) * 100,
                       child: Opacity(
                         opacity: 0.5,
@@ -130,7 +126,7 @@ class _EventPageState extends State<EventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: sclH(context) * 30,
                       child: imgSelected.contains("assets")
                           ? Image.asset(
@@ -160,7 +156,7 @@ class _EventPageState extends State<EventPage> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: ListView(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 5),
                   children: [
                     textItem(context, "Introduzca Nombre del Evento",
                         _evenController.nameController, false),
@@ -201,7 +197,7 @@ class _EventPageState extends State<EventPage> {
       double size, Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
         child: Card(
@@ -278,9 +274,6 @@ class _EventPageState extends State<EventPage> {
   Widget colorButton(BuildContext context, String name, image,
       EventoActualPreferencesProvider eventProvider) {
     return Obx(() {
-      final isSaving = _evenController.isSaving.value;
-      final isloading = _evenController.isLoading.value;
-
       Future.delayed(const Duration(microseconds: 500), (() {
         if (_evenController.eventoFirebase.value != null) {
           eventProvider
@@ -393,19 +386,11 @@ class _EventPageState extends State<EventPage> {
                         withData: true,
                       );
                       final String musicName = result?.files.single.name ?? "0";
-                      final String path = result?.files.single.path! ?? "0";
                       final dataBytes = result?.files.single.bytes;
-
-                      final List<int> byteList = dataBytes!.buffer.asUint8List(
-                          dataBytes.offsetInBytes, dataBytes.lengthInBytes);
 
                       final String fullTemporaryPath = join(
                           (await tempDirectory).path,
                           musicName.replaceAll(" ", "-"));
-
-                      Future<File> fileFuture = File(fullTemporaryPath)
-                          .writeAsBytes(byteList,
-                              mode: FileMode.writeOnly, flush: true);
 
                       /*  if (path.contains(' ')) {
                         // ignore: use_build_context_synchronously
@@ -467,7 +452,6 @@ class _EventPageState extends State<EventPage> {
       nombreImg > 45 ? nombreImg = 45 : nombreImg;
       textFile = textFileImage.substring(
           textFileImage.length - nombreImg, textFileImage.length);
-      print(chalk.white.bold(textFileImage.length));
     }
 
     return textFile;

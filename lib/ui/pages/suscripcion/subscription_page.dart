@@ -1,6 +1,7 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/suscripcion.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -21,20 +22,33 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     super.initState();
     Get.find<EventController>().getAllSuscripcionesController();
     getDateSaved();
+    getEmailCurrentUser();
   }
 
   final _evenController = Get.find<EventController>();
 
+  String? emailUser = '';
+
+  bool actualizado = false;
+  void getEmailCurrentUser() async {
+    emailUser = await authClass.getEmailToken();
+    if (!emailUser!.isEmpty && actualizado == false) {
+      actualizado = true;
+      print("Usuario: $emailUser ");
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double xOffset = 200;
+    /* double xOffset = 200;
     double yOffset = 500;
     final left1 = sclW(context) * 15;
     final top1 = sclH(context) * 5;
     final left2 = sclW(context) * 10;
     final top2 = sclH(context) * 65;
     final left3 = sclW(context) * 55;
-    final top3 = sclH(context) * 65;
+    final top3 = sclH(context) * 65; */
     return Obx(() {
       var items = _evenController.suscripciones;
 
@@ -55,16 +69,15 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 IconButton(
                   icon: Icon(
                     Icons.info_outline,
-                    color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                    // color: diasRestantes() > 3 ? Colors.green : Colors.orange,
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     String date = "";
                     int dias = 0;
+                    date = formatDatatime(updateDateLimit(0));
+                    dias = await diasRestantes();
                     setState(
-                      () {
-                        date = formatDatatime(updateDateLimit(0));
-                        dias = diasRestantes();
-                      },
+                      () {},
                     );
                     //dialog con GetX
                     Get.defaultDialog(
@@ -93,27 +106,79 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 ),
               ],
             ),
-            body: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  print(chalk.white.bold("items.length"));
-                  print(chalk.white.bold(items.length));
-                  return AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
-                    child: SubscriptionCard(
-                        context,
-                        item.name,
-                        item.typeDate,
-                        item.featureOne,
-                        item.featureTwo,
-                        item.featureThree,
-                        item.saving,
-                        item.price.toString(),
-                        30),
-                  );
-                })
+            body: Column(
+              children: [
+                /* Image.asset(
+                  "assets/img/logo-emotion.png",
+                  height: sclH(context) * 15,
+                ),
+                if (emailUser != '')
+                      Text(
+                        emailUser == null ? 'EMOTION \n CAM 360' : 'Usuario: ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: sclH(context) * 1.5),
+                      ),
+                
+*/
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (emailUser != '')
+                      Text(
+                        emailUser == null ? '' : '$emailUser',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: sclH(context) * 2.5),
+                      ),
+                    TextButton.icon(
+                      icon: Icon(
+                        emailUser == null
+                            ? Icons.login_outlined
+                            : Icons.logout_outlined,
+                        size: sclH(context) * 2.5,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
+                        style: TextStyle(
+                          fontSize: sclH(context) * 2,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () async {
+                        await authClass.logout();
+                        //Get.find<AuthController>().signOut();
+                        Get.offAllNamed(RouteNames.signIn);
+                      },
+                    ),
+                  ],
+                ),
+                Container(
+                  height: sclH(context) * 81,
+                  width: sclW(context) * 100,
+                  child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        print(chalk.white.bold("items.length"));
+                        print(chalk.white.bold(items.length));
+                        return AnimatedContainer(
+                          duration: const Duration(seconds: 1),
+                          //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
+                          child: SubscriptionCard(
+                              context,
+                              item.name,
+                              item.typeDate,
+                              item.featureOne,
+                              item.featureTwo,
+                              item.featureThree,
+                              item.saving,
+                              item.price.toString(),
+                              30),
+                        );
+                      }),
+                ),
+              ],
+            )
 
             /*
             
@@ -267,9 +332,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           Container(
             margin: const EdgeInsets.all(2),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 print(chalk.white.bold("añadir $ndia dias"));
-                int iDiasRestantes = diasRestantes();
+                int iDiasRestantes = await diasRestantes();
                 String sDateSaved = formatDatatime(dateSaved());
                 String sDateLimit = formatDatatime(updateDateLimit(ndia));
                 Get.defaultDialog(
