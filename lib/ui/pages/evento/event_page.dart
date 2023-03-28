@@ -273,37 +273,41 @@ class _EventPageState extends State<EventPage> {
 
   Widget colorButton(BuildContext context, String name, image,
       EventoActualPreferencesProvider eventProvider) {
+    Future.delayed(const Duration(microseconds: 500), (() {
+      if (_evenController.eventoFirebase.value != null) {
+        eventProvider
+            .saveEventPrefrerence(_evenController.eventoFirebase.value);
+
+        //eventProvider.saveMusicPrefrerence(textFileMp3);
+        //eventProvider.saveLogoPrefrerence(textFileImage);
+
+        //lIMPIAR VISTA
+        _evenController.eventoFirebase.value = null;
+        // TRAE EL ULTIMO EVENTO CREADO
+        _evenController.getEventBd();
+
+        Get.offNamed(RouteNames.videoPage);
+      }
+    }));
     return Obx(() {
-      Future.delayed(const Duration(microseconds: 500), (() {
-        if (_evenController.eventoFirebase.value != null) {
-          eventProvider
-              .saveEventPrefrerence(_evenController.eventoFirebase.value);
-
-          //eventProvider.saveMusicPrefrerence(textFileMp3);
-          //eventProvider.saveLogoPrefrerence(textFileImage);
-
-          //lIMPIAR VISTA
-          _evenController.eventoFirebase.value = null;
-          // TRAE EL ULTIMO EVENTO CREADO
-          _evenController.getEventBd();
-
-          Get.offNamed(RouteNames.videoPage);
-        }
-      }));
-
+      bool isloading = _evenController.isLoading.value;
       return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(
           onTap: () {
+            //_evenController.isLoading.value = true;
             if (_evenController.nameController.value.text != '') {
               try {
                 _evenController.saveMyEvent();
+                setState(() {}); // no deberia ir pero no está actualizando
               } catch (e) {
                 final snackbar = SnackBar(content: Text(e.toString()));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             } else {
+              //isloading = false;
               MessengerSnackBar(
                   context, "Por favor, debe ingresar un nombre al evento");
+              _evenController.isLoading.value = false;
             }
           },
           child: Container(
@@ -318,10 +322,9 @@ class _EventPageState extends State<EventPage> {
               ]),
             ),
             child: Center(
-              child: /* isloading
+              child: isloading
                   ? const CircularProgressIndicator()
-                  :  */
-                  Text(name,
+                  : Text(name,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -329,7 +332,7 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ),
-        //if (isloading) const CircularProgressIndicator()
+        if (isloading) const CircularProgressIndicator()
       ]);
     });
   }

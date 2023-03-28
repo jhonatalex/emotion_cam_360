@@ -41,6 +41,7 @@ class VideoUtil {
   static const String logo = "watermark.png";
   static const String bgCreditos = "espiral.mov";
   static const String music1 = "hallman-ed.mp3";
+  static const String marco = "marco1.png";
   // static const String ASSET_5 = "sld_4.png";
   //static const String VIDEO_CREATED = "1.mp4";
   // static const String SUBTITLE_ASSET = "subtitle.srt";
@@ -52,6 +53,7 @@ class VideoUtil {
     await assetToFile(logo);
     await assetToFile(bgCreditos);
     await assetToFile(music1);
+    await assetToFile(marco);
     // await assetToFile(ASSET_5);
     // await assetToFile(VIDEO_CREATED);
     // await videoCreateToFile(VIDEO_CREATED);
@@ -112,6 +114,7 @@ class VideoUtil {
     String video360Path,
     String music1Path,
     String videoFilePath,
+    String marcoPath,
     //  String videoCodec,
     // String pixelFormat,
     // String customOptions
@@ -134,6 +137,7 @@ class VideoUtil {
         "-ss 0 -t $timeTotal -i $music1Path " +
         "-i $logoPath " +
         "-i $logoPath " +
+        "-i $marcoPath " + // editada
         "-filter_complex " +
         "\"[0:v]$resize,split=2[videocompleto1][videocompleto2];" +
         "[1:v]$resize[videorecorte1];" +
@@ -142,10 +146,17 @@ class VideoUtil {
         "[4:a]afade=t=in:st=0:d=2,afade=t=out:st=$ttm2:d=2 [music];" +
         "[5:v]scale=100x100,split=4[wm1][wm2][wm3][wm4];" +
         "[6:v]scale=350x350[wm5];" +
-        "[videocompleto1][wm1]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=0:end=$normal1,setpts=PTS-STARTPTS,fade=t=in:st=0:d=1[part1];" +
-        "[videorecorte1][wm2]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS[part2];" +
-        "[videocompleto2][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$nysm:end=$timeRecord,setpts=PTS-STARTPTS[part3];" +
-        "[videocompleto3][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +
+        "[7:v]$resize,split=4[mc1][mc2][mc3][mc4];" + //editada scale=200x200
+        "[videocompleto1][mc1]overlay=x=W-w:y=H-h[videocompleto11];" +
+        "[videorecorte1][mc2]overlay=x=W-w:y=H-h[videorecorte11];" +
+        "[videocompleto2][mc3]overlay=x=W-w:y=H-h[videocompleto21];" +
+        "[videocompleto3][mc4]overlay=x=W-w:y=H-h[videocompleto31];" +
+        // termina de aplicar logo
+        "[videocompleto11][wm1]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=0:end=$normal1,setpts=PTS-STARTPTS,fade=t=in:st=0:d=1[part1];" +
+        "[videorecorte11][wm2]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS[part2];" +
+        "[videocompleto21][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$nysm:end=$timeRecord,setpts=PTS-STARTPTS[part3];" +
+        "[videocompleto31][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +
+        //termina de aplicar marco
         "[creditos1][wm5]overlay=185:465:enable='between(t, 0,$creditos)',fade=t=in:st=0:d=1,$pad,trim=duration=$creditos,select=lte(n\\,$cp30),fade=t=out:st=$cm1:d=1[part5];" +
         "[part1][part2][part3][part4][part5]concat=n=5:v=1:a=0,scale=w=$rW:h=$rH,format=" +
         "yuv420p" + //  pixelFormat + x264

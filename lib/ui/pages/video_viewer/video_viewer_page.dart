@@ -75,7 +75,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         leading: isData
             ? IconButton(
                 onPressed: () {
-                  Get.offAllNamed(RouteNames.videoPage);
+                  Get.offAllNamed(RouteNames.home);
                 },
                 icon: const Icon(Icons.video_call))
             : IconButton(

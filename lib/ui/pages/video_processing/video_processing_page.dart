@@ -60,39 +60,42 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     VideoUtil.assetPath(VideoUtil.logo).then((logoPath) {
       VideoUtil.assetPath(VideoUtil.bgCreditos).then((endingPath) {
         VideoUtil.assetPath(VideoUtil.music1).then((music1Path) {
-          getVideoFile().then((videoFile) {
-            final styleVideoOne = VideoUtil.styleVideoOne(
-              eventProvider.eventPrefrerences.overlay,
-              endingPath,
-              file, //videoProvider.pathPreferences,
-              eventProvider.eventPrefrerences.music,
-              videoFile.path,
-            );
-            FFmpegKit.executeAsync(
-                    styleVideoOne,
-                    (session) async {
-                      final returnCode = await session.getReturnCode();
-                      /* 
+          VideoUtil.assetPath(VideoUtil.marco).then((marcoPath) {
+            getVideoFile().then((videoFile) {
+              final styleVideoOne = VideoUtil.styleVideoOne(
+                eventProvider.eventPrefrerences.overlay,
+                endingPath,
+                file, //videoProvider.pathPreferences,
+                eventProvider.eventPrefrerences.music,
+                videoFile.path,
+                marcoPath,
+              );
+              FFmpegKit.executeAsync(
+                      styleVideoOne,
+                      (session) async {
+                        final returnCode = await session.getReturnCode();
+                        /* 
                       final state = FFmpegKitConfig.sessionStateToString(
                           await session.getState());
                       final failStackTrace = await session.getFailStackTrace();
                       final duration = await session.getDuration(); */
 
-                      if (ReturnCode.isSuccess(returnCode)) {
-                        setState(() {
-                          isEncoded == true;
-                        });
-                      } else {}
-                    },
-                    (log) {}, // (print(log.getMessage())),
-                    (statistics) {
-                      _statistics = statistics;
-                      updateProgressDialog();
-                    })
-                /* .then((session) => print(chalk.white.bold(
+                        if (ReturnCode.isSuccess(returnCode)) {
+                          setState(() {
+                            isEncoded == true;
+                          });
+                        } else {}
+                      },
+                      (log) => (print(log.getMessage())), //{}, //
+                      (statistics) {
+                        _statistics = statistics;
+                        updateProgressDialog();
+                      })
+                  /* .then((session) => print(chalk.white.bold(
                     "Async FFmpeg process started with sessionId ${session.getSessionId()}.")))
                     */
-                ;
+                  ;
+            });
           });
         });
       });
@@ -225,7 +228,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               color: Colors.white,
             ),
           ),
-          /* ElevatedButton(
+          ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },
@@ -234,7 +237,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               onPressed: () {
                 FFmpegKit.cancel();
               },
-              child: Text("CANCELAR TODO")) */
+              child: Text("CANCELAR TODO"))
         ],
       );
     } else {
