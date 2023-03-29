@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,6 +55,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     });
     //iniciar temporizador
     startTimer();
+
+    print(chalk.white.bold(desingController.currentMarco.value));
   }
 
   _initCamera(CameraDescription camera) async {
@@ -106,13 +109,13 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   // Detener la grabación de video
   Future<void> _onStop() async {
     final file = await _controller?.stopVideoRecording();
-    print(chalk.white.bold(file!.mimeType));
+    /* print(chalk.white.bold(file!.mimeType));
     print(chalk.white.bold(file.name));
     print(chalk.white.bold(file.path));
-    print(chalk.white.bold("Pasar de pantalla"));
+    print(chalk.white.bold("Pasar de pantalla")); */
     //READ BYTES AND SEND DATA WITH GETX
 
-    file.readAsBytes().then((valueBytes) =>
+    file!.readAsBytes().then((valueBytes) =>
         Get.offNamed(RouteNames.videoProcessing, arguments: file.path));
     //videoProvider.savePathPrefrerence(videoController.videoPath.value);
 

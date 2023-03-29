@@ -135,6 +135,8 @@ class VideoUtil {
     print(chalk.white.bold("logoPath $logoPath"));
     print(chalk.white.bold("Music path $music1Path")); */
 
+    print(chalk.white.bold(desingController.currentMarco.value));
+
     return "-y -hide_banner -i $video360Path " +
         "-ss $normal1 -t $slowMotion -i $video360Path " +
         "-i $video360Path " +
@@ -171,7 +173,11 @@ class VideoUtil {
         "yuv420p" + //  pixelFormat + x264
         //"yuv420p10le" + //  pixelFormat + x265
         "[video]\"" +
+        //"[video];" +
+        //"[video]drawtext='fontfile=FreeSans.ttf:text=%{localtime\:%a %b %d %Y}'[o]\"" +
+        //"drawtext='fontfile=FreeSans.ttf:text=%{localtime\:%a %b %d %Y}'"+
         " -map '[video]' -map '[music]' " + //sin probar [music]
+        //" -map '[o]' -map '[music]' " + //sin probar [music]
 
         // customOptions +
         //"-c:v " +

@@ -30,10 +30,6 @@ class _DesingPageState extends State<DesingPage> {
   @override
   Widget build(BuildContext context) {
     recursos(context);
-    List logoTop = <int>[];
-    List logoleft = <int>[];
-    List textTop = <int>[];
-    List textleft = <int>[];
     return Obx((() {
       return Container(
         width: sclW(context) * 100,
@@ -85,11 +81,6 @@ class _DesingPageState extends State<DesingPage> {
                         height: 70, //sclW(context) * 30,
                       ),
               ),
-            /* 
-          FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.add),
-          ), */
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -126,11 +117,13 @@ class _DesingPageState extends State<DesingPage> {
                     if (desingController.currentMarco.value <
                         desingController.marcos.length - 1) {
                       desingController.currentMarco.value++;
+                      print(chalk.white
+                          .bold(desingController.currentMarco.value));
                     } else {
                       desingController.currentMarco.value = 0;
+                      print(
+                          chalk.red.bold(desingController.currentMarco.value));
                     }
-                    print(
-                        chalk.white.bold(desingController.currentMarco.value));
                   },
                   icon: const Icon(
                     Icons.add_circle,
