@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
@@ -62,6 +63,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
         VideoUtil.assetPath(VideoUtil.music1).then((music1Path) {
           VideoUtil.assetPath(VideoUtil.marco).then((marcoPath) {
             getVideoFile().then((videoFile) {
+              print(chalk.redBright.bold(marcoPath));
               final styleVideoOne = VideoUtil.styleVideoOne(
                 eventProvider.eventPrefrerences.overlay,
                 endingPath,

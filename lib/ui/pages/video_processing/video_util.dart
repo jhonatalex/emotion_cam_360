@@ -3,7 +3,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/ui/pages/desing/desing_controller.dart';
 import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,7 @@ const String resize =
     "setpts=PTS-STARTPTS,scale=w='if(gte(iw/ih,$rW/$rH),min(iw,$rW),-1)':h='if(gte(iw/ih,$rW/$rH),-1,min(ih,$rH))',scale=trunc(iw/2)*2:trunc(ih/2)*2,setsar=sar=1/1";
 
 final SettingsController settingsController = Get.put(SettingsController());
+final DesingController desingController = Get.put(DesingController());
 final EventController eventController = Get.put(EventController());
 
 class VideoUtil {
@@ -41,7 +44,7 @@ class VideoUtil {
   static const String logo = "watermark.png";
   static const String bgCreditos = "espiral.mov";
   static const String music1 = "hallman-ed.mp3";
-  static const String marco = "marco1.png";
+  static String marco = "marco${desingController.currentMarco.value}.png";
   // static const String ASSET_5 = "sld_4.png";
   //static const String VIDEO_CREATED = "1.mp4";
   // static const String SUBTITLE_ASSET = "subtitle.srt";
@@ -53,7 +56,9 @@ class VideoUtil {
     await assetToFile(logo);
     await assetToFile(bgCreditos);
     await assetToFile(music1);
-    await assetToFile(marco);
+    for (var i = 0; i < desingController.marcos.length; i++) {
+      await assetToFile(desingController.marcos[i]);
+    }
     // await assetToFile(ASSET_5);
     // await assetToFile(VIDEO_CREATED);
     // await videoCreateToFile(VIDEO_CREATED);
@@ -141,24 +146,28 @@ class VideoUtil {
         "-filter_complex " +
         "\"[0:v]$resize,split=2[videocompleto1][videocompleto2];" +
         "[1:v]$resize[videorecorte1];" +
-        "[2:v]$resize[videocompleto3];" +
+        "[2:v]$resize,split=2[videocompleto3][videocompleto4];" +
         "[3:v]$resize[creditos1];" +
         "[4:a]afade=t=in:st=0:d=2,afade=t=out:st=$ttm2:d=2 [music];" +
-        "[5:v]scale=100x100,split=4[wm1][wm2][wm3][wm4];" +
-        "[6:v]scale=350x350[wm5];" +
-        "[7:v]$resize,split=4[mc1][mc2][mc3][mc4];" + //editada scale=200x200
+        "[5:v]scale=100x100,split=5[wm1][wm2][wm3][wm4][wm5];" +
+        "[6:v]scale=350x350[wm6];" +
+        "[7:v]$resize,split=5[mc1][mc2][mc3][mc4][mc5];" + //editada scale=200x200
         "[videocompleto1][mc1]overlay=x=W-w:y=H-h[videocompleto11];" +
         "[videorecorte1][mc2]overlay=x=W-w:y=H-h[videorecorte11];" +
         "[videocompleto2][mc3]overlay=x=W-w:y=H-h[videocompleto21];" +
         "[videocompleto3][mc4]overlay=x=W-w:y=H-h[videocompleto31];" +
+        //reversa slowmotion
+        "[videocompleto4][mc5]overlay=x=W-w:y=H-h[videocompleto41];" +
         // termina de aplicar logo
         "[videocompleto11][wm1]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=0:end=$normal1,setpts=PTS-STARTPTS,fade=t=in:st=0:d=1[part1];" +
         "[videorecorte11][wm2]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS[part2];" +
         "[videocompleto21][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$nysm:end=$timeRecord,setpts=PTS-STARTPTS[part3];" +
         "[videocompleto31][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +
+        //reversa slowmotion
+        "[videocompleto41][wm5]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS,trim=start=8:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part5];" +
         //termina de aplicar marco
-        "[creditos1][wm5]overlay=185:465:enable='between(t, 0,$creditos)',fade=t=in:st=0:d=1,$pad,trim=duration=$creditos,select=lte(n\\,$cp30),fade=t=out:st=$cm1:d=1[part5];" +
-        "[part1][part2][part3][part4][part5]concat=n=5:v=1:a=0,scale=w=$rW:h=$rH,format=" +
+        "[creditos1][wm6]overlay=185:465:enable='between(t, 0,$creditos)',fade=t=in:st=0:d=1,$pad,trim=duration=$creditos,select=lte(n\\,$cp30),fade=t=out:st=$cm1:d=1[part6];" +
+        "[part1][part2][part3][part4][part5][part6]concat=n=6:v=1:a=0,scale=w=$rW:h=$rH,format=" +
         "yuv420p" + //  pixelFormat + x264
         //"yuv420p10le" + //  pixelFormat + x265
         "[video]\"" +

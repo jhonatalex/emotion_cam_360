@@ -7,6 +7,6 @@ class DesingBinding implements Bindings {
 
   @override
   void dependencies() {
-    Get.lazyPut<DesingPageController>(() => DesingPageController());
+    Get.lazyPut<DesingController>(() => DesingController());
   }
 }

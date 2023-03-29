@@ -45,7 +45,7 @@ class SesionPreferencerProvider with ChangeNotifier {
 }
 
 class EventoActualPreferencesProvider with ChangeNotifier {
-  EventEntity? _eventEntity = null;
+  EventEntity? _eventEntity;
   bool _seleccionar = false;
 
   get eventPrefrerences {

@@ -77,12 +77,10 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                 onPressed: () {
                   Get.offAllNamed(RouteNames.home);
                 },
-                icon: const Icon(Icons.video_call))
+                icon: const Icon(Icons.home))
             : IconButton(
                 onPressed: () {
                   Get.back();
-                  // Get.offAllNamed(RouteNames.home);
-                  //por ahora mientras consigo como volver jeje
                 },
                 icon: const Icon(Icons.arrow_back)),
         actions: [
