@@ -67,13 +67,13 @@ class _DesingPageState extends State<DesingPage> {
             //*********LOGO *****************/
             if (desingController.isWithLogo.value)
               Positioned(
-                bottom: 10,
-                left: sclW(context) * 5 + 10,
+                top: desingController.logoTop.value.toDouble(),
+                left: sclW(context) * 5 + desingController.logoLeft.value,
                 child: logoPath.contains("assets")
                     ? Image.asset(
                         "assets/img/logo-emotion.png",
-                        width: 70,
-                        height: 70,
+                        width: sclW(context) * 14,
+                        height: sclW(context) * 14,
                       )
                     : Image.file(
                         File(logoPath),
@@ -99,10 +99,7 @@ class _DesingPageState extends State<DesingPage> {
                   ),
                 ),
                 TextButton.icon(
-                  onPressed: () {
-                    desingController.isWithLogo.value =
-                        !desingController.isWithLogo.value;
-                  },
+                  onPressed: () => desingController.logoPositionChange(context),
                   icon: const Icon(
                     Icons.add_circle,
                     color: Colors.white,
