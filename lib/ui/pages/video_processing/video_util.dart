@@ -45,6 +45,17 @@ class VideoUtil {
   static const String bgCreditos = "espiral.mov";
   static const String music1 = "hallman-ed.mp3";
   static String marco = "marco${desingController.currentMarco.value}.png";
+  static List logoPosition = <String>[
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+    "x=W-w-10:y=H-h-10",
+  ];
   // static const String ASSET_5 = "sld_4.png";
   //static const String VIDEO_CREATED = "1.mp4";
   // static const String SUBTITLE_ASSET = "subtitle.srt";
@@ -124,6 +135,8 @@ class VideoUtil {
     // String pixelFormat,
     // String customOptions
   ) {
+    String logoPositionSelected =
+        logoPosition[desingController.positionLogo.value];
 /*     print(chalk.white.bold("normal1 $normal1"));
     print(chalk.white.bold("Slow motion $slowMotion"));
     print(chalk.white.bold("normal2 $normal2"));
@@ -135,7 +148,7 @@ class VideoUtil {
     print(chalk.white.bold("logoPath $logoPath"));
     print(chalk.white.bold("Music path $music1Path")); */
 
-    print(chalk.white.bold(desingController.currentMarco.value));
+    print(chalk.white.bold(desingController.positionLogo.value));
 
     return "-y -hide_banner -i $video360Path " +
         "-ss $normal1 -t $slowMotion -i $video360Path " +
@@ -161,7 +174,7 @@ class VideoUtil {
         //reversa slowmotion
         "[videocompleto4][mc5]overlay=x=W-w:y=H-h[videocompleto41];" +
         // termina de aplicar logo
-        "[videocompleto11][wm1]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=0:end=$normal1,setpts=PTS-STARTPTS,fade=t=in:st=0:d=1[part1];" +
+        "[videocompleto11][wm1]overlay=$logoPositionSelected,$pad,trim=start=0:end=$normal1,setpts=PTS-STARTPTS,fade=t=in:st=0:d=1[part1];" +
         "[videorecorte11][wm2]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS[part2];" +
         "[videocompleto21][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$nysm:end=$timeRecord,setpts=PTS-STARTPTS[part3];" +
         "[videocompleto31][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +

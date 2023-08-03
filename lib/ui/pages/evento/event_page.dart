@@ -382,6 +382,7 @@ class _EventPageState extends State<EventPage> {
                     if (isMp3) {
                       //MUSICA
                       //
+
                       FilePickerResult? result =
                           await FilePicker.platform.pickFiles(
                         type: FileType.custom,
@@ -389,11 +390,19 @@ class _EventPageState extends State<EventPage> {
                         withData: true,
                       );
                       final String musicName = result?.files.single.name ?? "0";
+                      final String path = result?.files.single.path! ?? "0";
                       final dataBytes = result?.files.single.bytes;
+
+                      final List<int> byteList = dataBytes!.buffer.asUint8List(
+                          dataBytes.offsetInBytes, dataBytes.lengthInBytes);
 
                       final String fullTemporaryPath = join(
                           (await tempDirectory).path,
                           musicName.replaceAll(" ", "-"));
+
+                      Future<File> fileFuture = File(fullTemporaryPath)
+                          .writeAsBytes(byteList,
+                              mode: FileMode.writeOnly, flush: true);
 
                       /*  if (path.contains(' ')) {
                         // ignore: use_build_context_synchronously
