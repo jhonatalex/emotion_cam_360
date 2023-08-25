@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import '../../../servicies/auth_service.dart';
 
 class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
@@ -112,7 +114,7 @@ class _SignInPageState extends State<SignInPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => PhoneAuthPage()));
+                                builder: (builder) => const PhoneAuthPage()));
                       }),
                       /*  */
                     ],
@@ -307,7 +309,7 @@ class _SignInPageState extends State<SignInPage> {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => HomePage()),
+              MaterialPageRoute(builder: (builder) => const HomePage()),
               (route) => false);
         } catch (e) {
           final msg = e.toString();

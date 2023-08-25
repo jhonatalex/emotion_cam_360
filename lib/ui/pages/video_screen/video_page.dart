@@ -30,9 +30,9 @@ class _VideoPageState extends State<VideoPage> {
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
 
-  bool _isRecording = false; // Bandera indicadora de grabación en proceso
+  // bool _isRecording = false; // Bandera indicadora de grabación en proceso
 
-  bool _isFirst = true;
+  // bool _isFirst = true;
   int _selectedIndex = 2;
   IconData currentIcon = Icons.camera_front;
   String currentLabel = "Frontal";
@@ -56,7 +56,7 @@ class _VideoPageState extends State<VideoPage> {
       // Guardar la lista de cámaras
       _cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
-      if (_cameras.length != 0) {
+      if (_cameras.isNotEmpty) {
         // Inicializar el índice de cámara actual en 0 para obtener la primera
         // si tiene frontal sería la index=1
         _cameraIndex = settingsController.cameraIndex.value;
@@ -259,14 +259,14 @@ class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      var isLoading = _evenController.isLoading.value;
+      //var isLoading = _evenController.isLoading.value;
       var eventBd = _evenController.eventoBd.value;
 
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
 
       //eventProvider.saveEventPrefrerence(eventoSelected);
-      print(chalk.yellow.bold(eventBd));
+
       return DefaultTabController(
           length: 5,
           child: Scaffold(

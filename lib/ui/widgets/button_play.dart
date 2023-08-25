@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +20,7 @@ class ButtonPlay extends StatefulWidget {
 }
 
 class _ButtonPlayState extends State<ButtonPlay> {
-  bool _isFirst = true;
+  // bool _isFirst = true;
   double _opacity = 1.0;
   double _width = 15;
   EventEntity eventoActual;
@@ -31,7 +33,7 @@ class _ButtonPlayState extends State<ButtonPlay> {
     //final cameraController = ;
     //final isSaving = cameraController.isSaving.value;
 
-    String videoPath;
+    //String videoPath;
 
     return Center(
       child: Column(

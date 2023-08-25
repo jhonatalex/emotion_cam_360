@@ -44,7 +44,7 @@ class VideoUtil {
   static const String logo = "watermark.png";
   static const String bgCreditos = "espiral.mov";
   static const String music1 = "hallman-ed.mp3";
-  static String marco = "marco${desingController.currentMarco.value}.png";
+  //static String marco = "marco${desingController.currentMarco.value}.png";
   static List logoPosition = <String>[
     "x=W-w-10:y=H-h-10",
     "x=W-w-10:y=H-h-10",
@@ -88,7 +88,7 @@ class VideoUtil {
     final String fullTemporaryPath =
         join((await tempDirectory).path, assetName);
 
-    Future<File> fileFuture = new File(fullTemporaryPath)
+    Future<File> fileFuture = File(fullTemporaryPath)
         .writeAsBytes(byteList, mode: FileMode.writeOnly, flush: true);
 /* 
     print(chalk.white
@@ -137,7 +137,7 @@ class VideoUtil {
   ) {
     String logoPositionSelected =
         logoPosition[desingController.positionLogo.value];
-/*     print(chalk.white.bold("normal1 $normal1"));
+    print(chalk.white.bold("normal1 $normal1"));
     print(chalk.white.bold("Slow motion $slowMotion"));
     print(chalk.white.bold("normal2 $normal2"));
     print(chalk.white.bold("reverse $reverse"));
@@ -146,15 +146,16 @@ class VideoUtil {
     print(chalk.white.bold("timeTotal $timeTotal"));
     print(chalk.white.bold("video360path $video360Path"));
     print(chalk.white.bold("logoPath $logoPath"));
-    print(chalk.white.bold("Music path $music1Path")); */
+    print(chalk.white.bold("Music path $music1Path"));
 
+    print(chalk.white.bold("Logo position:"));
     print(chalk.white.bold(desingController.positionLogo.value));
 
-    return "-y -hide_banner -i $video360Path " +
-        "-ss $normal1 -t $slowMotion -i $video360Path " +
-        "-i $video360Path " +
-        "-i $endingPath " +
-        "-ss 0 -t $timeTotal -i $music1Path " +
+    return "-y -hide_banner -i $video360Path "
+            "-ss $normal1 -t $slowMotion -i $video360Path "
+            "-i $video360Path "
+            "-i $endingPath "
+            "-ss 0 -t $timeTotal -i $music1Path " +
         "-i $logoPath " +
         "-i $logoPath " +
         "-i $marcoPath " + // editada

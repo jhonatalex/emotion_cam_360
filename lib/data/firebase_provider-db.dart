@@ -122,9 +122,9 @@ class FirebaseProvider {
         .get()
         .then((QuerySnapshot querySnapshot) {
       listaEventos = querySnapshot.docs;
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         //print(doc["id"]);
-      });
+      }
     });
 
     return listaEventos;

@@ -42,7 +42,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.home,
-        page: () => HomePage(),
+        page: () => const HomePage(),
         transition: Transition.cupertino,
         binding: const HomeBinding(),
       ),
@@ -66,7 +66,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.uploadVideo,
-        page: () => UploadVideoPage(),
+        page: () => const UploadVideoPage(),
         transition: Transition.fadeIn,
         binding: const UploadVideoBinding(),
       ),
@@ -100,7 +100,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.signIn,
-        page: () => SignInPage(),
+        page: () => const SignInPage(),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),
       ),
@@ -124,19 +124,19 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.videoViewerPage,
-        page: () => VideoViewerPage(),
+        page: () => const VideoViewerPage(),
         transition: Transition.fadeIn,
         binding: const VideoViewerBinding(),
       ),
       GetPage(
         name: RouteNames.subscription,
-        page: () => SubscriptionPage(),
+        page: () => const SubscriptionPage(),
         transition: Transition.fadeIn,
         binding: const SubscriptionBinding(),
       ),
       GetPage(
         name: RouteNames.politics,
-        page: () => PoliticsPage(),
+        page: () => const PoliticsPage(),
         transition: Transition.fadeIn,
         //binding: const VideoViewerBinding(),
       ),

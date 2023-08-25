@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:io';
 
 import 'package:emotion_cam_360/ui/pages/login/signUp_page.dart';

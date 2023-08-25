@@ -1,9 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 //import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 
 class CameraScreen extends StatefulWidget {
+  const CameraScreen({super.key});
+
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }
@@ -27,7 +29,7 @@ class _CameraScreenState extends State<CameraScreen> {
       // Guardar la lista de cámaras
       _cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
-      if (_cameras.length != 0) {
+      if (_cameras.isNotEmpty) {
         // Inicializar el índice de cámara actual en 0 para obtener la primera
         _cameraIndex = 0;
         // Inicializar la cámara pasando el CameraDescription de la cámara seleccionada
@@ -44,7 +46,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.medium);
     // Agregar un Listener para refrescar la pantalla en cada cambio
-    _controller!.addListener(() => this.setState(() {}));
+    _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
     _controller!.initialize();
   }
@@ -53,8 +55,9 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget _buildCamera() {
     // Si el controlador es nulo o no está inicializado aún,
     // desplegar un mensaje al usuario y evitar mostrar una cámara sin inicializar
-    if (_controller == null || !_controller!.value.isInitialized)
+    if (_controller == null || !_controller!.value.isInitialized) {
       return const Center(child: Text('Loading...'));
+    }
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
     return AspectRatio(
       // Solicitar la relación alto/ancho al controlador
@@ -106,7 +109,7 @@ class _CameraScreenState extends State<CameraScreen> {
   // Iniciar la grabación de video
   Future<void> _onRecord() async {
     // Obtener la dirección temporal
-    var directory = await getTemporaryDirectory();
+    //var directory = await getTemporaryDirectory();
     // Añadir el nombre del archivo a la dirección temporal
     //_filePath = directory.path + '/${DateTime.now()}.mp4';
     // Utilizar el controlador para iniciar la grabación
@@ -142,7 +145,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Emotion CAM 360')),
       body: Column(children: [
-        Container(height: 550, child: Center(child: _buildCamera())),
+        SizedBox(height: 550, child: Center(child: _buildCamera())),
         _buildControls(),
       ]),
     );

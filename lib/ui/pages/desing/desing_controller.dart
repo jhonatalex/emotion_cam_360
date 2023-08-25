@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 class DesingController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isWithLogo = true.obs;
-  RxBool isWithText = true.obs;
-  RxInt currentMarco = 1.obs;
+  //RxBool isWithText = true.obs;
+  RxInt currentMarco = 0.obs;
+  RxInt positionLogo = 0.obs;
   RxList marcos = <String>[
     'marco0.png',
     'marco1.png',
@@ -16,7 +17,6 @@ class DesingController extends GetxController {
     'marco5.png',
     'marco6.png',
   ].obs;
-  RxInt positionLogo = 0.obs;
 
   RxInt logoTop = 10.obs;
   RxInt logoLeft = 10.obs;

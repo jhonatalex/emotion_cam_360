@@ -13,7 +13,7 @@ import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:ffmpeg_kit_flutter_video/statistics.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+//import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/responsive.dart';
@@ -48,6 +48,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   Future<void> _init() async {
+    print(chalk.white.bold(desingController.currentMarco.value));
+    print(chalk.white.bold(desingController.positionLogo.value));
     await Future.delayed(const Duration(seconds: 3));
     encodeVideo();
   }
@@ -61,9 +63,9 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     VideoUtil.assetPath(VideoUtil.logo).then((logoPath) {
       VideoUtil.assetPath(VideoUtil.bgCreditos).then((endingPath) {
         VideoUtil.assetPath(VideoUtil.music1).then((music1Path) {
-          VideoUtil.assetPath(VideoUtil.marco).then((marcoPath) {
+          VideoUtil.assetPath("marco${desingController.currentMarco.value}.png")
+              .then((marcoPath) {
             getVideoFile().then((videoFile) {
-              print(chalk.redBright.bold(marcoPath));
               final styleVideoOne = VideoUtil.styleVideoOne(
                 eventProvider.eventPrefrerences.overlay,
                 endingPath,
@@ -168,27 +170,32 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 height: sclW(context) * 40,
                 width: sclW(context) * 40,
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 375),
-                  child: completePercentage == 100
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.check_rounded,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              'Completado',
-                              style: TextStyle(
-                                fontSize: sclW(context) * 4,
-                                color: const Color.fromARGB(255, 215, 241, 216),
+                    duration: const Duration(milliseconds: 375),
+                    child: completePercentage == 100
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.check_rounded,
                               ),
-                            ),
-                          ],
-                        )
-                      : LiquidCircularProgressIndicator(
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'Completado',
+                                style: TextStyle(
+                                  fontSize: sclW(context) * 4,
+                                  color:
+                                      const Color.fromARGB(255, 215, 241, 216),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
+                            "$completePercentage %",
+                            style: const TextStyle(fontSize: 40),
+                          )
+                    /* LiquidCircularProgressIndicator(
                           value: completePercentage.toDouble() / 100,
                           valueColor: const AlwaysStoppedAnimation(
                             AppColors.royalBlue,
@@ -202,8 +209,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                                 color: Colors.black87,
                                 fontSize: 25.0),
                           ),
-                        ),
-                ),
+                        ), */
+                    ),
               ),
 
               /*  const CircularProgressIndicator(
@@ -229,17 +236,17 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-          ),
+          ), /* 
           ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },
-              child: Text("again")),
+              child: const Text("again")),
           ElevatedButton(
               onPressed: () {
                 FFmpegKit.cancel();
               },
-              child: Text("CANCELAR TODO"))
+              child: const Text("CANCELAR TODO")) */
         ],
       );
     } else {

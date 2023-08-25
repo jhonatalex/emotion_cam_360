@@ -36,7 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage();
+        currentPage = const HomePage();
       });
     }
   }
@@ -140,7 +140,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (builder) => SignInPage()),
+                                      builder: (builder) => const SignInPage()),
                                   (route) => false);
                             },
                             child: Text(
@@ -314,7 +314,6 @@ class _SignUpPageState extends State<SignUpPage> {
             //authClass.storeTokenAndData(userCredential);
 
             //print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
-
           } catch (e) {
             final snackbar = SnackBar(content: Text(e.toString()));
             MessengerSnackBar(context, snackbar);

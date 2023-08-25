@@ -1,6 +1,5 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
-import 'package:emotion_cam_360/entities/suscripcion.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
@@ -12,6 +11,8 @@ import 'package:get/get.dart';
 final ScrollController _controller = ScrollController();
 
 class SubscriptionPage extends StatefulWidget {
+  const SubscriptionPage({super.key});
+
   @override
   State<SubscriptionPage> createState() => _SubscriptionPageState();
 }
@@ -32,7 +33,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   bool actualizado = false;
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
-    if (!emailUser!.isEmpty && actualizado == false) {
+    if (emailUser!.isNotEmpty && actualizado == false) {
       actualizado = true;
       print("Usuario: $emailUser ");
       setState(() {});
@@ -67,7 +68,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               centerTitle: true,
               actions: [
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.info_outline,
                     // color: diasRestantes() > 3 ? Colors.green : Colors.orange,
                   ),
@@ -152,7 +153,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                   ],
                 ),
-                Container(
+                SizedBox(
                   height: sclH(context) * 81,
                   width: sclW(context) * 100,
                   child: ListView.builder(
@@ -345,11 +346,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   titleStyle: const TextStyle(
                     color: AppColors.royalBlue,
                   ),
-                  middleText: 'Días Restantes: $iDiasRestantes \n\n'
-                          'Despues de realizar el pago añadiremos $ndia dias  \n\n'
-                          'Fecha de Vencimiento actual: \n $sDateSaved \n\n' +
-                      'Nueva Fecha de Vencimiento: \n $sDateLimit \n\n' +
-                      'Precio: \$ $precio',
+                  middleText: 'Días Restantes: $iDiasRestantes \n\nDespues de realizar el pago añadiremos $ndia dias  \n\nFecha de Vencimiento actual: \n $sDateSaved \n\nNueva Fecha de Vencimiento: \n $sDateLimit \n\nPrecio: \$ $precio',
                   middleTextStyle: TextStyle(fontSize: sclH(context) * 2.5),
                   textConfirm: 'Okay',
                   confirm: ElevatedButton.icon(

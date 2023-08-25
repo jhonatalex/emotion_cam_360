@@ -13,6 +13,12 @@ MessengerSnackBar(context, text) {
         Container(
           width: sclW(context) * 100,
           padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            border: Border(
+              top: BorderSide(color: AppColors.violet, width: 2),
+            ),
+            color: AppColors.vulcan,
+          ),
           // margin: EdgeInsets.only(top: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -52,12 +58,6 @@ MessengerSnackBar(context, text) {
                 ),
               ),
             ],
-          ),
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(color: AppColors.violet, width: 2),
-            ),
-            color: AppColors.vulcan,
           ),
         ),
       ],

@@ -19,9 +19,9 @@ class MyAppBar extends StatefulWidget {
 class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return AppBar(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       leading: Builder(
         builder: (context) => IconButton(
           icon: Icon(

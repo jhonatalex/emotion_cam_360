@@ -24,7 +24,7 @@ class _MyDrawerState extends State<MyDrawer> {
   late int dias;
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
-    if (!emailUser!.isEmpty && actualizado == false) {
+    if (emailUser!.isNotEmpty && actualizado == false) {
       actualizado = true;
       print("Usuario: $emailUser ");
       setState(() {});
@@ -54,17 +54,16 @@ class _MyDrawerState extends State<MyDrawer> {
                   String dias = "";*/
                   date = formatDatatime(updateDateLimit(0));
                   dias = await diasRestantes();
-                  setState(
-                    () {},
-                  );
+                  setState(() {});
                   //dialog con GetX
+
                   Get.defaultDialog(
                     backgroundColor: AppColors.vulcan,
                     radius: 10.0,
                     contentPadding: const EdgeInsets.all(20.0),
                     title: 'Información de Subscripción',
                     titleStyle: const TextStyle(color: AppColors.royalBlue),
-                    middleText: 'Fecha de Vencimiento: $date  \n' +
+                    middleText: 'Fecha de Vencimiento: $date  \n'
                         'Días Restantes: $dias',
                     middleTextStyle: TextStyle(
                       fontSize: sclH(context) * 3,
@@ -186,6 +185,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 const SizedBox(
                   height: 30,
                 ),
+                /* 
                 Text(
                   "Redes Sociales",
                   style: TextStyle(
@@ -234,7 +234,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
+                ),*/
                 const Divider(),
                 Text(
                   "Versión 1.0",

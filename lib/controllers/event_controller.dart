@@ -135,6 +135,7 @@ class EventController extends GetxController {
   }
 
   Future<void> deleteEvent(EventEntity toDelete) async {
+    // ignore: invalid_use_of_protected_member
     eventos.value.remove(toDelete);
     _eventRepository.deleteEvent(toDelete);
   }

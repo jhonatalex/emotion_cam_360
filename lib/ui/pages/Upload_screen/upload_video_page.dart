@@ -10,12 +10,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+//import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/background_gradient.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadVideoPage extends StatefulWidget {
+  const UploadVideoPage({super.key});
+
   @override
   State<UploadVideoPage> createState() => _UploadVideoPageState();
 }
@@ -23,7 +24,7 @@ class UploadVideoPage extends StatefulWidget {
 class _UploadVideoPageState extends State<UploadVideoPage> {
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
   FirebaseStorage get storage => FirebaseStorage.instance;
-  String _txt = 'Cargando Videoa la nube....';
+  // String _txt = 'Cargando Videoa la nube....';
   late var urlDownload = '';
   UploadTask? uploadTask;
   double progresController = 0.0;
@@ -69,7 +70,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     } */
 
     return Obx(() {
-      final isSaving = _evenController.isSaving.value;
+      // final isSaving = _evenController.isSaving.value;
       progresController = _evenController.progress.value;
 
       if (progresController == 100) {
@@ -86,7 +87,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
           backgroundColor: AppColors.vulcan,
           body: Stack(alignment: AlignmentDirectional.center, children: [
             AnimatedOpacity(
-                duration: Duration(seconds: 1),
+                duration: const Duration(seconds: 1),
                 opacity: progresController / 100,
                 child: BackgroundGradient(context)),
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -104,26 +105,30 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                 height: sclW(context) * 40,
                 width: sclW(context) * 40,
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 375),
-                  child: _evenController.progress.value == 100
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.check_rounded,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              'Completado',
-                              style: TextStyle(
-                                fontSize: sclW(context) * 4,
+                    duration: const Duration(milliseconds: 375),
+                    child: _evenController.progress.value == 100
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.check_rounded,
                               ),
-                            ),
-                          ],
-                        )
-                      : LiquidCircularProgressIndicator(
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'Completado',
+                                style: TextStyle(
+                                  fontSize: sclW(context) * 4,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
+                            "${_evenController.progress.value} %",
+                            style: const TextStyle(fontSize: 40),
+                          )
+                    /* LiquidCircularProgressIndicator(
                           value: _evenController.progress.value / 100,
                           valueColor: const AlwaysStoppedAnimation(
                             AppColors.royalBlue,
@@ -137,8 +142,8 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                                 color: Colors.black87,
                                 fontSize: 25.0),
                           ),
-                        ),
-                ),
+                        ), */
+                    ),
               ),
               const SizedBox(height: 30),
               Text(

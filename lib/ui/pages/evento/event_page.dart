@@ -1,7 +1,8 @@
+// ignore_for_file: unnecessary_null_comparison, unused_local_variable
+
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -43,7 +44,7 @@ class _EventPageState extends State<EventPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage();
+        currentPage = const HomePage();
       });
     }
   }
@@ -70,7 +71,7 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _musicaController = TextEditingController();
+    final TextEditingController musicaController = TextEditingController();
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
@@ -147,7 +148,7 @@ class _EventPageState extends State<EventPage> {
                   top: sclH(context) * 44,
                   left: sclW(context) * 5,
                   right: sclW(context) * 5,
-                  bottom: sclH(context) * 10,
+                  bottom: sclH(context) * 5,
                 ),
                 padding: EdgeInsets.symmetric(
                     horizontal: sclW(context) * 5, vertical: sclW(context) * 4),
@@ -298,7 +299,7 @@ class _EventPageState extends State<EventPage> {
             if (_evenController.nameController.value.text != '') {
               try {
                 _evenController.saveMyEvent();
-                setState(() {}); // no deberia ir pero no está actualizando
+                // no deberia ir pero no está actualizando
               } catch (e) {
                 final snackbar = SnackBar(content: Text(e.toString()));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -309,6 +310,7 @@ class _EventPageState extends State<EventPage> {
                   context, "Por favor, debe ingresar un nombre al evento");
               _evenController.isLoading.value = false;
             }
+            setState(() {});
           },
           child: Container(
             width: MediaQuery.of(context).size.width - 90,

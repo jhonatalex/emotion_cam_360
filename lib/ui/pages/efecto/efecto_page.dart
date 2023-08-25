@@ -61,12 +61,12 @@ class _EfectoPageState extends State<EfectoPage> {
                         fit: BoxFit.cover,
                       ),
                       Text(
-                        "Transicion A",
+                        "Fondo Espiral",
                         style: TextStyle(fontSize: sclH(context) * 2),
                       ),
                     ],
                   ),
-                ),
+                ), /* 
                 OutlinedButton(
                   style: ButtonStyle(
                     //backgroundColor: MaterialStatePropertyAll<Color>(AppColors.violet),
@@ -139,7 +139,7 @@ class _EfectoPageState extends State<EfectoPage> {
                       ),
                     ],
                   ),
-                ),
+                ), */
               ],
             ),
           ),

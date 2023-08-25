@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  flutter_launcher_icons: "^0.11.0"
+  flutter_launcher_icons: ^0.13.1
 
 
 #Firebase
@@ -24,17 +24,17 @@ dependencies:
 #UI
   page_indicator: ^0.4.1
   flutter_hooks: 
-  image_picker: ^0.8.4+2
+  image_picker: ^1.0.2
   cached_network_image: ^3.1.0
   carousel_slider: ^4.2.1
   camera: ^0.10.3
   simple_circular_progress_bar: ^1.0.2
-  flutter_svg: ^1.1.6
+  flutter_svg: ^2.0.7
   otp_text_field: ^1.1.3
   timer_button: ^2.0.0
   file_picker: ^5.2.5
-  liquid_progress_indicator: ^0.4.0
-  share_plus: ^6.3.0
+#  liquid_progress_indicator: ^0.4.0
+  share_plus: ^7.1.0
 # gmo_media_picker: ^0.0.1
 # wechat_assets_picker: ^8.3.1+1
 # gmo_media_picker: ^0.0.4
@@ -56,12 +56,12 @@ dependencies:
   path_provider: ^2.0.11
 
 #Persistencia de Datos
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^8.0.0
   sqflite: ^2.2.2
   provider: ^6.0.5
 
 #Util bd and State Managment
-  http: ^0.13.5
+  http: ^1.1.0
   get: ^4.6.5
 
 

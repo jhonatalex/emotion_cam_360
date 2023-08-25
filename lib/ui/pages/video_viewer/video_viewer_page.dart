@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewerPage extends StatefulWidget {
+  const VideoViewerPage({super.key});
+
   @override
   State<VideoViewerPage> createState() => _VideoViewerPageState();
 }

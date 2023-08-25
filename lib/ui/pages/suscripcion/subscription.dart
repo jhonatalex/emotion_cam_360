@@ -19,11 +19,11 @@ Future<MyUser?> getUserCurrent() async {
 
 Future<DateTime> getDateSaved() async {
   userCurrent = await provider.getMyUser2();
-  print(chalk.white.bold("userCurrent: ${userCurrent}"));
+  print(chalk.white.bold("userCurrent: $userCurrent"));
 // esta va a ser la fecha tomada desde firebase como string
 //se convierte en DataTime para poder hacer funciones
   _savedDate = userCurrent!.date.toDate();
-  print(chalk.white.bold("getDateSaved: ${_savedDate}"));
+  print(chalk.white.bold("getDateSaved: $_savedDate"));
 //formatear fecha
 //DateTime fecha2 = DateTime.parse('2023-07-20 00:10:00Z');
   return _savedDate;
@@ -63,9 +63,9 @@ DateTime newDateLimit(int nDias) {
 
 Future diasRestantes() async {
   await getDateSaved();
-  Duration _diastotales = _savedDate.difference(DateTime.now());
-  print(chalk.white.bold('Dias Restantes: ${_diastotales.inDays}'));
-  return _diastotales.inDays;
+  Duration diastotales = _savedDate.difference(DateTime.now());
+  print(chalk.white.bold('Dias Restantes: ${diastotales.inDays}'));
+  return diastotales.inDays;
 }
 
 //Función para formatear la fecha
@@ -75,9 +75,10 @@ formatDatatime(DateTime DateTime) {
   String mes = DateTime.month < 10 ? '0${DateTime.month}' : '${DateTime.month}';
   int ano = DateTime.year;
   String hora = DateTime.hour < 10 ? '0${DateTime.hour}' : '${DateTime.hour}';
-  String min =
-      DateTime.minute < 10 ? '0${DateTime.minute}' : '${DateTime.minute}';
-  String seg =
-      DateTime.second < 10 ? '0${DateTime.second}' : '${DateTime.second}';
+  String min = DateTime.minute < 10
+      ? '0${DateTime.minute}'
+      : '${DateTime.minute}'; /* 
+ String seg =
+      DateTime.second < 10 ? '0${DateTime.second}' : '${DateTime.second}';  */
   return "$dia/$mes/$ano - $hora:$min";
 }

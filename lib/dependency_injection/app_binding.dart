@@ -75,7 +75,7 @@ class EventoActualPreferencesProvider with ChangeNotifier {
 }
 
 class VideoPreferencesProvider with ChangeNotifier {
-  Uint8List? _video = null;
+  Uint8List? _video;
   String _path = '';
 
   get videoPreferences {
