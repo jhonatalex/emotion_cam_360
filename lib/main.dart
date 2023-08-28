@@ -47,8 +47,6 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             // Define el Brightness y Colores por defecto
             brightness: Brightness.dark,
-
-            buttonColor: Colors.red,
             colorScheme: const ColorScheme.dark(primary: AppColors.violet),
             primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
 
