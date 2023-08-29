@@ -1,6 +1,4 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +37,6 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(chalk.white.bold("info"));
     return Container(
       width: sclW(context) * 100,
       padding: EdgeInsets.symmetric(
@@ -393,15 +390,3 @@ class Settings extends StatelessWidget {
     return 'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg';
   }
 }
-
-/* conexión wifi con gopro
-GoPro 7
-
-
-idioma/lenguaje/lingua
-Licencia
-
-
-10 tramos de 10seg con velocidades
-boomeran
-*/

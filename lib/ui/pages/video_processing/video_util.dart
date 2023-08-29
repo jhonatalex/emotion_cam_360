@@ -25,20 +25,6 @@ final DesingController desingController = Get.put(DesingController());
 final EventController eventController = Get.put(EventController());
 
 class VideoUtil {
-  static int normal1 = settingsController.normal1.value.toInt();
-  static int slowMotion = settingsController.slowMotion.value;
-  static int normal2 = settingsController.normal2.value;
-  static int reverse = settingsController.reverse.value;
-  static int creditos = settingsController.creditos.value;
-  static int timeRecord = settingsController.timeRecord.value;
-  static int timeTotal = settingsController.timeTotal.value;
-  static int nysm =
-      settingsController.normal1.value + settingsController.slowMotion.value;
-  static int trmr =
-      settingsController.timeRecord.value - settingsController.reverse.value;
-  static int cm1 = settingsController.creditos.value - 1;
-  static int ttm2 = settingsController.timeTotal.value - 2;
-  static int cp30 = settingsController.creditos.value * 30;
 //final reverseMax =settingsController.reverseMax.value;
 
   static const String logo = "watermark.png";
@@ -137,6 +123,20 @@ class VideoUtil {
   ) {
     String logoPositionSelected =
         logoPosition[desingController.positionLogo.value];
+    int normal1 = settingsController.normal1.value.toInt();
+    int slowMotion = settingsController.slowMotion.value;
+    int normal2 = settingsController.normal2.value;
+    int reverse = settingsController.reverse.value;
+    int creditos = settingsController.creditos.value;
+    int timeRecord = settingsController.timeRecord.value;
+    int timeTotal = settingsController.timeTotal.value;
+    int nysm =
+        settingsController.normal1.value + settingsController.slowMotion.value;
+    int trmr =
+        settingsController.timeRecord.value - settingsController.reverse.value;
+    int cm1 = settingsController.creditos.value - 1;
+    int ttm2 = settingsController.timeTotal.value - 2;
+    int cp30 = settingsController.creditos.value * 30;
     print(chalk.white.bold("normal1 $normal1"));
     print(chalk.white.bold("Slow motion $slowMotion"));
     print(chalk.white.bold("normal2 $normal2"));
@@ -155,35 +155,35 @@ class VideoUtil {
             "-ss $normal1 -t $slowMotion -i $video360Path "
             "-i $video360Path "
             "-i $endingPath "
-            "-ss 0 -t $timeTotal -i $music1Path " +
+            "-ss 0 -t ${timeTotal} -i $music1Path " +
         "-i $logoPath " +
         "-i $logoPath " +
         "-i $marcoPath " + // editada
         "-filter_complex " +
         "\"[0:v]$resize,split=2[videocompleto1][videocompleto2];" +
         "[1:v]$resize[videorecorte1];" +
-        "[2:v]$resize,split=2[videocompleto3][videocompleto4];" +
+        "[2:v]$resize,split=1[videocompleto3];" + //split=2[videocompleto3][videocompleto4];" +
         "[3:v]$resize[creditos1];" +
         "[4:a]afade=t=in:st=0:d=2,afade=t=out:st=$ttm2:d=2 [music];" +
-        "[5:v]scale=100x100,split=5[wm1][wm2][wm3][wm4][wm5];" +
+        "[5:v]scale=100x100,split=4[wm1][wm2][wm3][wm4];" + //split=5[wm1][wm2][wm3][wm4][wm5];
         "[6:v]scale=350x350[wm6];" +
-        "[7:v]$resize,split=5[mc1][mc2][mc3][mc4][mc5];" + //editada scale=200x200
+        "[7:v]$resize,split=4[mc1][mc2][mc3][mc4];" + //[mc5]editada scale=200x200
         "[videocompleto1][mc1]overlay=x=W-w:y=H-h[videocompleto11];" +
         "[videorecorte1][mc2]overlay=x=W-w:y=H-h[videorecorte11];" +
         "[videocompleto2][mc3]overlay=x=W-w:y=H-h[videocompleto21];" +
         "[videocompleto3][mc4]overlay=x=W-w:y=H-h[videocompleto31];" +
         //reversa slowmotion
-        "[videocompleto4][mc5]overlay=x=W-w:y=H-h[videocompleto41];" +
+        //"[videocompleto4][mc5]overlay=x=W-w:y=H-h[videocompleto41];" +
         // termina de aplicar logo
         "[videocompleto11][wm1]overlay=$logoPositionSelected,$pad,trim=start=0:end=$normal1,setpts=PTS-STARTPTS,fade=t=in:st=0:d=1[part1];" +
         "[videorecorte11][wm2]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS[part2];" +
         "[videocompleto21][wm3]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$nysm:end=$timeRecord,setpts=PTS-STARTPTS[part3];" +
         "[videocompleto31][wm4]overlay=x=W-w-10:y=H-h-10,$pad,trim=start=$trmr:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part4];" +
         //reversa slowmotion
-        "[videocompleto41][wm5]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS,trim=start=8:end=$timeRecord,setpts=PTS-STARTPTS,reverse[part5];" +
+        //"[videocompleto41][wm5]overlay=x=W-w-10:y=H-h-10,$pad,setpts=2*PTS,trim=start=${trmr - .5}:end=$trmr,setpts=PTS-STARTPTS,reverse[part5];" +
         //termina de aplicar marco
         "[creditos1][wm6]overlay=185:465:enable='between(t, 0,$creditos)',fade=t=in:st=0:d=1,$pad,trim=duration=$creditos,select=lte(n\\,$cp30),fade=t=out:st=$cm1:d=1[part6];" +
-        "[part1][part2][part3][part4][part5][part6]concat=n=6:v=1:a=0,scale=w=$rW:h=$rH,format=" +
+        "[part1][part2][part3][part4][part6]concat=n=5:v=1:a=0,scale=w=$rW:h=$rH,format=" + //[part5] n=6
         "yuv420p" + //  pixelFormat + x264
         //"yuv420p10le" + //  pixelFormat + x265
         "[video]\"" +

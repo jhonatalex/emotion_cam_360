@@ -52,7 +52,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     final top3 = sclH(context) * 65; */
     return Obx(() {
       var items = _evenController.suscripciones;
-
+      emailUser = "jhonatanmejias@gmail.com";
       return Stack(children: [
         BackgroundGradient(context),
         Scaffold(
@@ -126,7 +126,12 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   children: [
                     if (emailUser != '')
                       Text(
-                        emailUser == null ? '' : '$emailUser',
+                        emailUser == null
+                            ? ''
+                            : emailUser!.length >=
+                                    18 //evitar que se desborde hacia right
+                                ? '${emailUser!.substring(0, 18)}...'
+                                : '$emailUser',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: sclH(context) * 2.5),
                       ),
@@ -346,7 +351,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   titleStyle: const TextStyle(
                     color: AppColors.royalBlue,
                   ),
-                  middleText: 'Días Restantes: $iDiasRestantes \n\nDespues de realizar el pago añadiremos $ndia dias  \n\nFecha de Vencimiento actual: \n $sDateSaved \n\nNueva Fecha de Vencimiento: \n $sDateLimit \n\nPrecio: \$ $precio',
+                  middleText:
+                      'Días Restantes: $iDiasRestantes \n\nDespues de realizar el pago añadiremos $ndia dias  \n\nFecha de Vencimiento actual: \n $sDateSaved \n\nNueva Fecha de Vencimiento: \n $sDateLimit \n\nPrecio: \$ $precio',
                   middleTextStyle: TextStyle(fontSize: sclH(context) * 2.5),
                   textConfirm: 'Okay',
                   confirm: ElevatedButton.icon(

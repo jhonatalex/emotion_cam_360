@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 //import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/background_gradient.dart';
@@ -124,10 +125,27 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                               ),
                             ],
                           )
-                        : Text(
+                        : LiquidCircularProgressIndicator(
+                            value: _evenController.progress.value /
+                                100, // Defaults to 0.5.
+                            valueColor: AlwaysStoppedAnimation(AppColors
+                                .royalBlue), // Defaults to the current Theme's accentColor.
+                            backgroundColor: Colors
+                                .white, // Defaults to the current Theme's backgroundColor.
+                            borderColor: AppColors.royalBlue,
+                            borderWidth: 1.0,
+                            direction: Axis
+                                .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+                            center: Text(
+                              "${_evenController.progress.value.toStringAsFixed(0)} %",
+                              style: const TextStyle(
+                                  fontSize: 24, color: Colors.black),
+                            ),
+                          )
+                    /* Text(
                             "${_evenController.progress.value} %",
                             style: const TextStyle(fontSize: 40),
-                          )
+                          ) */
                     /* LiquidCircularProgressIndicator(
                           value: _evenController.progress.value / 100,
                           valueColor: const AlwaysStoppedAnimation(

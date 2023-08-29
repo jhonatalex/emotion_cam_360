@@ -22,8 +22,6 @@ import '../pages/finish_qr/finish_qr_page.dart';
 import '../pages/home/home_binding.dart';
 import '../pages/home/home_page.dart';
 import '../pages/login/signUp_page.dart';
-import '../pages/splash/splash_binding.dart';
-import '../pages/splash/splash_page.dart';
 import '../pages/efecto/efecto_binding.dart';
 import '../pages/efecto/efecto_page.dart';
 import '../pages/video_recording/video_recording_binding.dart';
@@ -35,11 +33,11 @@ class RoutePages {
 
   static List<GetPage<dynamic>> get all {
     return [
-      GetPage(
+      /* GetPage(
         name: RouteNames.splash,
         page: () => const SplashPage(),
         binding: const SplashBinding(),
-      ),
+      ), */
       GetPage(
         name: RouteNames.home,
         page: () => const HomePage(),
