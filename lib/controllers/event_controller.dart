@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
@@ -170,7 +171,7 @@ class EventController extends GetxController {
         if (progress.value == 100) {
           event.ref.getDownloadURL().then((downloadUrl) {
             urlDownload.value = downloadUrl;
-
+            print(chalk.white.bold(downloadUrl));
             ref.update({
               "videos": FieldValue.arrayUnion([urlDownload.value]),
             });

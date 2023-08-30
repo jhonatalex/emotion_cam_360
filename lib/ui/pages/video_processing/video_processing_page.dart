@@ -251,7 +251,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               color: Colors.white,
             ),
           ),
-          ElevatedButton(
+          /* ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },
@@ -260,7 +260,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               onPressed: () {
                 FFmpegKit.cancel();
               },
-              child: const Text("CANCELAR TODO"))
+              child: const Text("CANCELAR TODO")) */
         ],
       );
     } else {
