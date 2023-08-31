@@ -15,6 +15,7 @@ class SettingsController extends GetxController {
   RxInt timeRecord = 10.obs;
   RxInt timeTotal = 30.obs; //29, 37
   RxInt reverseMax = 0.obs;
+  RxInt fondoVideo = 0.obs;
 
   makeDefault() {
     normal1.value = 3;

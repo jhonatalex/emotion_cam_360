@@ -274,23 +274,23 @@ class _EventPageState extends State<EventPage> {
 
   Widget colorButton(BuildContext context, String name, image,
       EventoActualPreferencesProvider eventProvider) {
-    Future.delayed(const Duration(microseconds: 500), (() {
-      if (_evenController.eventoFirebase.value != null) {
-        eventProvider
-            .saveEventPrefrerence(_evenController.eventoFirebase.value);
-
-        //eventProvider.saveMusicPrefrerence(textFileMp3);
-        //eventProvider.saveLogoPrefrerence(textFileImage);
-
-        //lIMPIAR VISTA
-        _evenController.eventoFirebase.value = null;
-        // TRAE EL ULTIMO EVENTO CREADO
-        _evenController.getEventBd();
-
-        Get.offNamed(RouteNames.videoPage);
-      }
-    }));
     return Obx(() {
+      Future.delayed(const Duration(microseconds: 500), (() {
+        if (_evenController.eventoFirebase.value != null) {
+          eventProvider
+              .saveEventPrefrerence(_evenController.eventoFirebase.value);
+
+          //eventProvider.saveMusicPrefrerence(textFileMp3);
+          //eventProvider.saveLogoPrefrerence(textFileImage);
+
+          //lIMPIAR VISTA
+          _evenController.eventoFirebase.value = null;
+          // TRAE EL ULTIMO EVENTO CREADO
+          _evenController.getEventBd();
+
+          Get.offAllNamed(RouteNames.home);
+        }
+      }));
       bool isloading = _evenController.isLoading.value;
       return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(

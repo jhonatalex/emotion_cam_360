@@ -2,6 +2,7 @@ import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_eventos.dart';
 import 'package:emotion_cam_360/ui/widgets/drawer.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/imgtextbutton.dart';
@@ -36,12 +37,16 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        CarrucelHeader(),
-        Expanded(child: Center(child: ImgTextButton())),
-        CarrucelStyles(),
-      ],
+    return SizedBox(
+      height: sclH(context) * 100,
+      width: sclW(context) * 100,
+      child: const Column(
+        children: [
+          CarrucelHeader(),
+          Expanded(child: Center(child: ImgTextButton())),
+          CarrucelStyles(),
+        ],
+      ),
     );
   }
 }

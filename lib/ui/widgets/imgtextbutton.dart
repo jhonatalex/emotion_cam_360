@@ -13,10 +13,21 @@ class ImgTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        image: const DecorationImage(
-            image: AssetImage("assets/img/background.jpg"), fit: BoxFit.fill),
-        borderRadius: BorderRadius.circular(10),
-      ),
+          borderRadius: BorderRadius.circular(30),
+          gradient: const LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            tileMode: TileMode.clamp,
+            stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
+            colors: [
+              Color(0xff31B6F2),
+              Color(0xff7B0786),
+              Color(0xffC50524),
+              Color(0xffEB0374),
+              Color(0xff520177),
+              Color(0xff7996EE),
+            ],
+          )),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.all(sclH(context) * 3),
@@ -31,7 +42,10 @@ class ImgTextButton extends StatelessWidget {
           style: TextStyle(
               fontSize: sclH(context) * 2.5,
               fontWeight: FontWeight.bold,
-              color: Colors.white),
+              color: Colors.white,
+              shadows: const [
+                Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 2)
+              ]),
         ),
       ),
     );

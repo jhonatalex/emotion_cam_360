@@ -28,7 +28,7 @@ class VideoUtil {
 //final reverseMax =settingsController.reverseMax.value;
 
   static const String logo = "watermark.png";
-  static const String bgCreditos = "espiral.mov";
+  //static const String bgCreditos = "espiral.mov";
   static const String music1 = "hallman-ed.mp3";
   //static String marco = "marco${desingController.currentMarco.value}.png";
   static List logoPosition = <String>[
@@ -42,6 +42,12 @@ class VideoUtil {
     "x=W-w-10:y=H-h-10",
     "x=W-w-10:y=H-h-10",
   ];
+  static List videoCredito = <String>[
+    "espiral.mov",
+    "letras.mp4",
+    "chispas.mp4",
+    "neon.mp4",
+  ];
   // static const String ASSET_5 = "sld_4.png";
   //static const String VIDEO_CREATED = "1.mp4";
   // static const String SUBTITLE_ASSET = "subtitle.srt";
@@ -51,8 +57,11 @@ class VideoUtil {
 
   static void prepareAssets() async {
     await assetToFile(logo);
-    await assetToFile(bgCreditos);
+    //await assetToFile(bgCreditos);
     await assetToFile(music1);
+    for (var i = 0; i < videoCredito.length; i++) {
+      await assetToFile(videoCredito[i]);
+    }
     for (var i = 0; i < desingController.marcos.length; i++) {
       await assetToFile(desingController.marcos[i]);
     }

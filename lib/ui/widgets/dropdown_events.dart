@@ -43,6 +43,11 @@ class _DropdownEventosState extends State<DropdownEventos> {
 
     if (eventBD != null) {
       listEventEntity.add(eventBD);
+
+      dropdownvalue = eventBD!;
+
+      eventProvider.saveSleccionarPrefrerence(true);
+      eventProvider.saveEventPrefrerence(eventBD);
     }
 
     //CONVERTIR RESPUESTA EN ENTITIES
@@ -83,7 +88,7 @@ class _DropdownEventosState extends State<DropdownEventos> {
           dropdownvalue = newValue!;
 
           if (newValue.name == "Crear Evento") {
-            Get.offNamed(RouteNames.eventPage);
+            Get.offAllNamed(RouteNames.eventPage);
           }
 
           if (newValue.name != "Seleccione" &&

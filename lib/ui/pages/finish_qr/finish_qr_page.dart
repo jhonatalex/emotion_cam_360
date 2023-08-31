@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'package:emotion_cam_360/ui/pages/finish_qr/finish_controller.dart';
-import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
