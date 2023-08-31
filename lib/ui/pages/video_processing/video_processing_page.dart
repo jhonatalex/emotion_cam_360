@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
@@ -14,6 +13,7 @@ import 'package:ffmpeg_kit_flutter_video/statistics.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/responsive.dart';
@@ -48,8 +48,6 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   Future<void> _init() async {
-    print(chalk.white.bold(desingController.currentMarco.value));
-    print(chalk.white.bold(desingController.positionLogo.value));
     await Future.delayed(const Duration(seconds: 3));
     encodeVideo();
   }
@@ -74,6 +72,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 videoFile.path,
                 marcoPath,
               );
+
               FFmpegKit.executeAsync(
                       styleVideoOne,
                       (session) async {
@@ -144,7 +143,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     }
 
     int timeInMilliseconds = statistics.getTime();
-    int totalVideoDuration = VideoUtil.timeTotal * 1000;
+    int totalVideoDuration = settingsController.timeTotal.value * 1000;
 
     completePercentage = (timeInMilliseconds * 100) ~/ totalVideoDuration;
     //print(chalk.red.bold(completePercentage));
@@ -191,10 +190,25 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                               ),
                             ],
                           )
-                        : Text(
+                        : LiquidCircularProgressIndicator(
+                            value: completePercentage / 100, // Defaults to 0.5.
+                            valueColor: const AlwaysStoppedAnimation(AppColors
+                                .royalBlue), // Defaults to the current Theme's accentColor.
+                            backgroundColor: Colors
+                                .white, // Defaults to the current Theme's backgroundColor.
+                            borderColor: const Color.fromARGB(255, 96, 79, 239),
+                            borderWidth: 1.0,
+                            direction: Axis
+                                .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+                            center: Text(
+                              "$completePercentage %",
+                              style: const TextStyle(
+                                  fontSize: 24, color: Colors.black),
+                            ),
+                          ) /* Text(
                             "$completePercentage %",
                             style: const TextStyle(fontSize: 40),
-                          )
+                          ) */
                     /* LiquidCircularProgressIndicator(
                           value: completePercentage.toDouble() / 100,
                           valueColor: const AlwaysStoppedAnimation(
@@ -236,8 +250,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-          ), /* 
-          ElevatedButton(
+          ),
+          /* ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },

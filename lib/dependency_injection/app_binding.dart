@@ -9,6 +9,7 @@ import 'package:emotion_cam_360/repositories/implementations/auth_repositoryImp.
 import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/video_repositoryImpl.dart';
 import 'package:emotion_cam_360/ui/pages/desing/desing_controller.dart';
+import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class AppBinding implements Bindings {
     Get.put<MyUserRepository>(MyUserRepositoryImp(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
     Get.put<DesingController>(DesingController(), permanent: true);
+    Get.put<SettingsController>(SettingsController(), permanent: true);
     //Get.put<EventController>(EventController(), permanent: true);
     // Get.put<EventController>(EventController(), permanent: true);
   }

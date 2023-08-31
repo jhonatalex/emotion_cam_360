@@ -2,14 +2,15 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/Upload_screen/upload_video_controller.dart';
-import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 //import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/background_gradient.dart';
@@ -31,10 +32,9 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
 
   final _evenController = Get.find<EventController>();
   final controller = Get.find<UploadVideoController>();
-
+  String? shortenedUrl;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _init();
 
@@ -42,7 +42,6 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
   }
 
   Future<void> _init() async {
-    await Future.delayed(const Duration(seconds: 3));
     saveVideotoFirebase();
   } /* 
 
@@ -73,13 +72,15 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
       // final isSaving = _evenController.isSaving.value;
       progresController = _evenController.progress.value;
 
+      //************llamar al acortador */
+
       if (progresController == 100) {
         Future.delayed(const Duration(seconds: 2), () {
           clearView();
           progresController = 0.0;
 
           Get.offAllNamed(RouteNames.finishQr,
-              arguments: _evenController.urlDownload.value);
+              arguments: shortenedUrl ?? _evenController.urlDownload.value);
         });
       }
 
@@ -106,28 +107,27 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                 width: sclW(context) * 40,
                 child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 375),
-                    child: _evenController.progress.value == 100
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.check_rounded,
-                              ),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Text(
-                                'Completado',
-                                style: TextStyle(
-                                  fontSize: sclW(context) * 4,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Text(
+                    child: LiquidCircularProgressIndicator(
+                      value: _evenController.progress.value /
+                          100, // Defaults to 0.5.
+                      valueColor: AlwaysStoppedAnimation(AppColors
+                          .royalBlue), // Defaults to the current Theme's accentColor.
+                      backgroundColor: Colors
+                          .white, // Defaults to the current Theme's backgroundColor.
+                      borderColor: AppColors.royalBlue,
+                      borderWidth: 1.0,
+                      direction: Axis
+                          .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+                      center: Text(
+                        "${_evenController.progress.value.toStringAsFixed(0)} %",
+                        style:
+                            const TextStyle(fontSize: 24, color: Colors.black),
+                      ),
+                    )
+                    /* Text(
                             "${_evenController.progress.value} %",
                             style: const TextStyle(fontSize: 40),
-                          )
+                          ) */
                     /* LiquidCircularProgressIndicator(
                           value: _evenController.progress.value / 100,
                           valueColor: const AlwaysStoppedAnimation(

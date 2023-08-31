@@ -239,7 +239,7 @@ class _EventPageState extends State<EventPage> {
       TextEditingController controller, bool obsecureText) {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
-      height: 55,
+      height: 55, //60
       child: TextFormField(
         controller: controller,
         obscureText: obsecureText,
@@ -359,7 +359,7 @@ class _EventPageState extends State<EventPage> {
             Container(
                 padding: const EdgeInsets.all(5.0),
                 width: sclW(context) * 50,
-                height: sclW(context) * 13,
+                height: sclW(context) * 15, //13
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
@@ -459,7 +459,7 @@ class _EventPageState extends State<EventPage> {
     });
   }
 
-  String _setTextPath(String textFileImage, String textFileMp3, isMp3) {
+  String _setTextPath(String textFileImage, String textFileMp3, bool isMp3) {
     if (isMp3) {
       textFile = textFileMp3.substring(50, textFileMp3.length);
     } else {

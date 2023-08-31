@@ -24,7 +24,7 @@ MessengerSnackBar(context, text) {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 20),
+                //margin: const EdgeInsets.only(left: 20),
                 child: Container(
                   height: sclH(context) * 4,
                   width: sclH(context) * 4,
