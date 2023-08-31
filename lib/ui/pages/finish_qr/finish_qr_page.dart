@@ -28,7 +28,9 @@ class FinishQrPage extends StatelessWidget {
             onPressed: () {
               Get.offAllNamed(RouteNames.home);
             }),
-        actions: [Sharebuttons(urlVideo, "")],
+        actions: [
+          Sharebuttons(_finishQrController.shortenedUrl.value ?? urlVideo, "")
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
