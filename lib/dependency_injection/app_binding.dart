@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
-import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
@@ -9,7 +8,7 @@ import 'package:emotion_cam_360/repositories/abstractas/video_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/auth_repositoryImp.dart';
 import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/video_repositoryImpl.dart';
-import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
+import 'package:emotion_cam_360/ui/pages/desing/desing_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -23,6 +22,7 @@ class AppBinding implements Bindings {
     Get.put<AuthRepository>(AuthRepositoryImp(), permanent: true);
     Get.put<MyUserRepository>(MyUserRepositoryImp(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
+    Get.put<DesingController>(DesingController(), permanent: true);
     //Get.put<EventController>(EventController(), permanent: true);
     // Get.put<EventController>(EventController(), permanent: true);
   }
@@ -36,20 +36,18 @@ class SesionPreferencerProvider with ChangeNotifier {
   }
 
   set user(String nombre) {
-    this._user = nombre;
+    _user = nombre;
     notifyListeners();
   }
 
   void saveUser(String? email) {
-    this._user = email!;
+    _user = email!;
     notifyListeners();
   }
 }
 
 class EventoActualPreferencesProvider with ChangeNotifier {
-  EventEntity? _eventEntity = null;
-  var _musicEntity = null;
-  var _logoEntity = null;
+  EventEntity? _eventEntity;
   bool _seleccionar = false;
 
   get eventPrefrerences {
@@ -57,12 +55,12 @@ class EventoActualPreferencesProvider with ChangeNotifier {
   }
 
   set eventPrefrerence(EventEntity entity) {
-    this._eventEntity = entity;
+    _eventEntity = entity;
     notifyListeners();
   }
 
   void saveEventPrefrerence(EventEntity? entity) {
-    this._eventEntity = entity;
+    _eventEntity = entity;
     notifyListeners();
   }
 
@@ -71,13 +69,13 @@ class EventoActualPreferencesProvider with ChangeNotifier {
   }
 
   void saveSleccionarPrefrerence(bool value) {
-    this._seleccionar = value;
+    _seleccionar = value;
     notifyListeners();
   }
 }
 
 class VideoPreferencesProvider with ChangeNotifier {
-  Uint8List? _video = null;
+  Uint8List? _video;
   String _path = '';
 
   get videoPreferences {
@@ -90,7 +88,7 @@ class VideoPreferencesProvider with ChangeNotifier {
   }
  */
   void saveVideoPrefrerence(Uint8List? video) {
-    this._video = video;
+    _video = video;
     notifyListeners();
   }
 
@@ -104,7 +102,7 @@ class VideoPreferencesProvider with ChangeNotifier {
   }
  */
   void savePathPrefrerence(String path) {
-    this._path = path;
+    _path = path;
     notifyListeners();
   }
 }

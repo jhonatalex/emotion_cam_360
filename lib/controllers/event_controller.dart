@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
-import 'package:emotion_cam_360/entities/suscripcion.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit_config.dart';
@@ -88,7 +86,6 @@ class EventController extends GetxController {
     final String today = ('$day-$month-$year');
     final uid = "${nameController.text.trim()}_fecha_$today";
     final name = nameController.text;
-    final musica = musicController.text;
 
     final newEvent = EventEntity(uid, name, pickedMp3File.value!.path,
         overlay: pickedImageLogo.value!.path);
@@ -106,10 +103,8 @@ class EventController extends GetxController {
   Future<EventEntity?> getMyEventController(String idEvent) async {
     isLoading.value = true;
     //TO REPOSITORY
-    print(chalk.brightGreen('entro eventController event ${idEvent}'));
     final newEvent = await _eventRepository.getMyEventFirebase(idEvent);
     eventoFirebase.value = newEvent;
-    print(chalk.redBright(newEvent));
     isLoading.value = false;
     return newEvent;
   }
@@ -128,7 +123,6 @@ class EventController extends GetxController {
       listEventEntity.add(eventNew);
     }
     eventos.value = listEventEntity;
-    print(chalk.green.bold(eventos.value));
   }
 
   Future<void> getEventBd() async {
@@ -137,11 +131,11 @@ class EventController extends GetxController {
     //final newEvent = await _eventRepository.getNewEvent();
     //eventos.insert(0, newEvent);
     eventoBd.value = await _eventRepository.getLastEvent();
-    print(chalk.red('EVENTO DE BASE DE DATOS ${eventoBd.value}'));
     isLoading.value = false;
   }
 
   Future<void> deleteEvent(EventEntity toDelete) async {
+    // ignore: invalid_use_of_protected_member
     eventos.value.remove(toDelete);
     _eventRepository.deleteEvent(toDelete);
   }

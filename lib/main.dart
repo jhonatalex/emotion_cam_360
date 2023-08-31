@@ -47,6 +47,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             // Define el Brightness y Colores por defecto
             brightness: Brightness.dark,
+
+            //buttonColor: Colors.red,
             colorScheme: const ColorScheme.dark(primary: AppColors.violet),
             primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
 
@@ -72,9 +74,11 @@ class MyApp extends StatelessWidget {
             // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
             // para cabeceras, títulos, cuerpos de texto, y más.
             textTheme: const TextTheme(
-              headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              subtitle1: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-              bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+              displayLarge:
+                  TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+              titleMedium:
+                  TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+              bodyLarge: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
             ),
           ),
 

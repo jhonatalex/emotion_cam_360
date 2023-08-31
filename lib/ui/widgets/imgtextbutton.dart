@@ -20,7 +20,7 @@ class ImgTextButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.all(sclH(context) * 3),
-            primary: Colors.transparent,
+            backgroundColor: Colors.transparent,
             elevation: 0),
         onPressed: () {
           Get.toNamed(RouteNames.videoPage);

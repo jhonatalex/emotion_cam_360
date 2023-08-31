@@ -14,16 +14,12 @@ class UploadVideoController extends GetxController {
   Rx<VideoEntity?> video = Rx(null);
   Rx<Responsefirebase?> urlVideoObserver = Rx(null);
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<void> saveMyVideoController(videoByte, videoPath, eventoActual) async {
     isSaving.value = true;
     loading.value = true;
 
-    print(chalk.brightGreen('ENTRO AL CONTROLLER'));
+
 
     urlVideoObserver.value = await _videoRepository.saveMyVideoRepository(
         videoByte, videoPath, eventoActual);

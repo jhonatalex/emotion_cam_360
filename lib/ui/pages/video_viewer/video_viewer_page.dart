@@ -1,4 +1,3 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -10,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewerPage extends StatefulWidget {
+  const VideoViewerPage({super.key});
+
   @override
   State<VideoViewerPage> createState() => _VideoViewerPageState();
 }
@@ -28,7 +29,6 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
   }
 
   Future _initVideoPlayer(url) async {
-    print(chalk.white.bold(url));
     /* isData
         ? _videoPlayerController = VideoPlayerController.file(url)
         : */
@@ -77,14 +77,12 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         leading: isData
             ? IconButton(
                 onPressed: () {
-                  Get.offAllNamed(RouteNames.videoPage);
+                  Get.offAllNamed(RouteNames.home);
                 },
-                icon: const Icon(Icons.video_call))
+                icon: const Icon(Icons.home))
             : IconButton(
                 onPressed: () {
                   Get.back();
-                  // Get.offAllNamed(RouteNames.home);
-                  //por ahora mientras consigo como volver jeje
                 },
                 icon: const Icon(Icons.arrow_back)),
         actions: [
@@ -126,8 +124,6 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                             return const Center(
                                 child: CircularProgressIndicator());
                           } else {
-                            print(chalk.white.bold(
-                                _videoPlayerController.value.aspectRatio));
                             return AspectRatio(
                               aspectRatio:
                                   _videoPlayerController.value.aspectRatio,

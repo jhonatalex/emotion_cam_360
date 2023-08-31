@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, must_be_immutable
 
 import 'dart:io';
 
@@ -40,7 +40,10 @@ class CarrucelStyles extends StatelessWidget {
 class PopularesSlider extends StatelessWidget {
   String imgDefault = "assets/img/logo-emotion.png";
 
-  final _eventController = Get.find<EventController>();
+  final _eventController = Get.put(EventController());
+
+  PopularesSlider({super.key});
+  //final _eventController = Get.find<EventController>();
 
   @override
   build(BuildContext context) {

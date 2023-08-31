@@ -13,7 +13,7 @@ class SettingsController extends GetxController {
   RxInt reverse = 8.obs;
   RxInt creditos = 8.obs;
   RxInt timeRecord = 10.obs;
-  RxInt timeTotal = 29.obs;
+  RxInt timeTotal = 37.obs; //29
   RxInt reverseMax = 0.obs;
 
   makeDefault() {

@@ -57,7 +57,7 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
   @override
   Widget build(BuildContext context) {
     final videoProvider = Provider.of<VideoPreferencesProvider>(context);
-    var file = Get.arguments;
+    //var file = Get.arguments;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Vista Previa'),
@@ -72,7 +72,6 @@ class _ShowVideoPageState extends State<ShowVideoPage> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              print('do something with the file');
               //Get.offNamed(RouteNames.uploadVideo);
               Get.offAllNamed(RouteNames.uploadVideo);
             },

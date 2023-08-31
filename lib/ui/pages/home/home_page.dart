@@ -7,24 +7,16 @@ import 'package:flutter/material.dart';
 import '../../widgets/imgtextbutton.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     //final userProvider = Provider.of<SesionPreferencerProvider>(context);
 
-    final content = Column(
-      children: const [
-        CarrucelHeader(),
-        Expanded(child: Center(child: ImgTextButton())),
-        CarrucelStyles(),
-      ],
-    );
-
-    return Scaffold(
+    return const Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.vulcan,
-      body: content,
+      body: Content(),
       /*Obx(() {
         //if (userController.isLoading.value) {
          // return const Center(child: CircularProgressIndicator());
@@ -33,6 +25,23 @@ class HomePage extends StatelessWidget {
       }),*/
       drawer: MyDrawer(),
       //if(emailUserToken!='') MyDrawer(emailUserToken),
+    );
+  }
+}
+
+class Content extends StatelessWidget {
+  const Content({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        CarrucelHeader(),
+        Expanded(child: Center(child: ImgTextButton())),
+        CarrucelStyles(),
+      ],
     );
   }
 }

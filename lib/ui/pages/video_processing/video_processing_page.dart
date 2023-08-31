@@ -4,7 +4,6 @@ import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/statistics.dart';
 /* 
@@ -14,7 +13,7 @@ import 'package:ffmpeg_kit_flutter_video/return_code.dart';
 import 'package:ffmpeg_kit_flutter_video/statistics.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+//import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/responsive.dart';
@@ -49,6 +48,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
   }
 
   Future<void> _init() async {
+    print(chalk.white.bold(desingController.currentMarco.value));
+    print(chalk.white.bold(desingController.positionLogo.value));
     await Future.delayed(const Duration(seconds: 3));
     encodeVideo();
   }
@@ -59,46 +60,46 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     FFmpegKit.cancel();
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
-    VideoUtil.assetPath(VideoUtil.LOGO).then((logoPath) {
-      VideoUtil.assetPath(VideoUtil.BGCREDITOS).then((endingPath) {
-        VideoUtil.assetPath(VideoUtil.MUSIC1).then((music1Path) {
-          getVideoFile().then((videoFile) {
-            final styleVideoOne = VideoUtil.styleVideoOne(
-              eventProvider.eventPrefrerences.overlay,
-              endingPath,
-              file, //videoProvider.pathPreferences,
-              eventProvider.eventPrefrerences.music,
-              videoFile.path,
-            );
-            FFmpegKit.executeAsync(
-                    styleVideoOne,
-                    (session) async {
+    VideoUtil.assetPath(VideoUtil.logo).then((logoPath) {
+      VideoUtil.assetPath(VideoUtil.bgCreditos).then((endingPath) {
+        VideoUtil.assetPath(VideoUtil.music1).then((music1Path) {
+          VideoUtil.assetPath("marco${desingController.currentMarco.value}.png")
+              .then((marcoPath) {
+            getVideoFile().then((videoFile) {
+              final styleVideoOne = VideoUtil.styleVideoOne(
+                eventProvider.eventPrefrerences.overlay,
+                endingPath,
+                file, //videoProvider.pathPreferences,
+                eventProvider.eventPrefrerences.music,
+                videoFile.path,
+                marcoPath,
+              );
+              FFmpegKit.executeAsync(
+                      styleVideoOne,
+                      (session) async {
+                        final returnCode = await session.getReturnCode();
+                        /* 
                       final state = FFmpegKitConfig.sessionStateToString(
                           await session.getState());
-                      final returnCode = await session.getReturnCode();
                       final failStackTrace = await session.getFailStackTrace();
-                      final duration = await session.getDuration();
+                      final duration = await session.getDuration(); */
 
-                      if (ReturnCode.isSuccess(returnCode)) {
-                        print(chalk.yellow.bold(
-                            "Aplicación de efectos Completa $duration milliseconds. now Show video"));
-                        setState(() {
-                          isEncoded == true;
-                        });
-                      } else {
-                        print(chalk.white.bold(
-                            "aplicación de efectos fallida. Please check log for the details."));
-                        print(chalk.white.bold(
-                            "aplicación de efectos fallida. with state $state and rc $returnCode.${notNull(failStackTrace, "\\n")}"));
-                      }
-                    },
-                    (log) {}, // (print(log.getMessage())),
-                    (statistics) {
-                      _statistics = statistics;
-                      updateProgressDialog();
-                    })
-                .then((session) => print(chalk.white.bold(
-                    "Async FFmpeg process started with sessionId ${session.getSessionId()}.")));
+                        if (ReturnCode.isSuccess(returnCode)) {
+                          setState(() {
+                            isEncoded == true;
+                          });
+                        } else {}
+                      },
+                      (log) => (print(log.getMessage())), //{}, //
+                      (statistics) {
+                        _statistics = statistics;
+                        updateProgressDialog();
+                      })
+                  /* .then((session) => print(chalk.white.bold(
+                    "Async FFmpeg process started with sessionId ${session.getSessionId()}.")))
+                    */
+                  ;
+            });
           });
         });
       });
@@ -169,27 +170,32 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                 height: sclW(context) * 40,
                 width: sclW(context) * 40,
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 375),
-                  child: completePercentage == 100
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.check_rounded,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              'Completado',
-                              style: TextStyle(
-                                fontSize: sclW(context) * 4,
-                                color: const Color.fromARGB(255, 215, 241, 216),
+                    duration: const Duration(milliseconds: 375),
+                    child: completePercentage == 100
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.check_rounded,
                               ),
-                            ),
-                          ],
-                        )
-                      : LiquidCircularProgressIndicator(
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'Completado',
+                                style: TextStyle(
+                                  fontSize: sclW(context) * 4,
+                                  color:
+                                      const Color.fromARGB(255, 215, 241, 216),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
+                            "$completePercentage %",
+                            style: const TextStyle(fontSize: 40),
+                          )
+                    /* LiquidCircularProgressIndicator(
                           value: completePercentage.toDouble() / 100,
                           valueColor: const AlwaysStoppedAnimation(
                             AppColors.royalBlue,
@@ -203,8 +209,8 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
                                 color: Colors.black87,
                                 fontSize: 25.0),
                           ),
-                        ),
-                ),
+                        ), */
+                    ),
               ),
 
               /*  const CircularProgressIndicator(
@@ -230,17 +236,17 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
-          ),
-          /* ElevatedButton(
+          ), /* 
+          ElevatedButton(
               onPressed: () {
                 encodeVideo();
               },
-              child: Text("again")),
+              child: const Text("again")),
           ElevatedButton(
               onPressed: () {
                 FFmpegKit.cancel();
               },
-              child: Text("CANCELAR TODO")) */
+              child: const Text("CANCELAR TODO")) */
         ],
       );
     } else {

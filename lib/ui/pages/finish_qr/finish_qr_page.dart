@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
@@ -52,7 +54,7 @@ class FinishQrPage extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
-                  child: QrImage(
+                  child: QrImageView(
                     data: urlVideo,
                     backgroundColor: Colors.white,
                     version: QrVersions.auto,

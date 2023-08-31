@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 class ResponseBodyOrError {
   final bool success;
   final String message;

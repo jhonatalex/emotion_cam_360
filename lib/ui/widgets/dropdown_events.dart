@@ -1,5 +1,4 @@
-import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/controllers/event_controller.dart';
+// ignore_for_file: must_be_immutable
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
@@ -31,7 +30,7 @@ class _DropdownEventosState extends State<DropdownEventos> {
   @override
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
-    final _evenController = Get.find<EventController>();
+    // final _evenController = Get.find<EventController>();
 
     var listEventEntity = [];
 
@@ -63,7 +62,6 @@ class _DropdownEventosState extends State<DropdownEventos> {
 
       // Array list of items
       items: listEventEntity.map<DropdownMenuItem<EventEntity>>((value) {
-        print(chalk.white.bold(value));
         return DropdownMenuItem<EventEntity>(
           value: value,
           child: Text(

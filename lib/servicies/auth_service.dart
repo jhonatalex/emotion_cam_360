@@ -7,7 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import '../ui/pages/home/home_page.dart';
 
 class AuthClass {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -50,7 +49,7 @@ class AuthClass {
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
       } else {
-        final snackbar = SnackBar(content: Text("Not Able to sign In "));
+        const snackbar = SnackBar(content: Text("Not Able to sign In "));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     } catch (e) {
@@ -96,10 +95,9 @@ class AuthClass {
       showSnackBar(context, "Verification Code sent on the phone number");
       setData(verificationID);
     };
-    PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationID) {
+    codeAutoRetrievalTimeout(String verificationID) {
       showSnackBar(context, "Time out");
-    };
+    }
     try {
       await auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,

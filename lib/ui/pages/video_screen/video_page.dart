@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/ui/pages/desing/desing_page.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
@@ -29,9 +30,9 @@ class _VideoPageState extends State<VideoPage> {
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
 
-  bool _isRecording = false; // Bandera indicadora de grabación en proceso
+  // bool _isRecording = false; // Bandera indicadora de grabación en proceso
 
-  bool _isFirst = true;
+  // bool _isFirst = true;
   int _selectedIndex = 2;
   IconData currentIcon = Icons.camera_front;
   String currentLabel = "Frontal";
@@ -55,7 +56,7 @@ class _VideoPageState extends State<VideoPage> {
       // Guardar la lista de cámaras
       _cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
-      if (_cameras.length != 0) {
+      if (_cameras.isNotEmpty) {
         // Inicializar el índice de cámara actual en 0 para obtener la primera
         // si tiene frontal sería la index=1
         _cameraIndex = settingsController.cameraIndex.value;
@@ -165,9 +166,13 @@ class _VideoPageState extends State<VideoPage> {
         return _buildCamera();
 
       case 1:
-        return const Text(
-          'Filtro',
-          style: TextStyle(fontSize: 50),
+        return Container(
+          width: sclW(context) * 90,
+          height: sclH(context) * 80,
+          margin: EdgeInsets.only(bottom: sclH(context) * 10),
+          child: AspectRatio(
+              aspectRatio: 9 / 16,
+              child: Stack(children: [_buildCamera(), const DesingPage()])),
         );
       case 2:
         return Stack(children: [
@@ -254,14 +259,14 @@ class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      var isLoading = _evenController.isLoading.value;
+      //var isLoading = _evenController.isLoading.value;
       var eventBd = _evenController.eventoBd.value;
 
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
 
       //eventProvider.saveEventPrefrerence(eventoSelected);
-      print(chalk.yellow.bold(eventBd));
+
       return DefaultTabController(
           length: 5,
           child: Scaffold(
@@ -305,7 +310,7 @@ class _VideoPageState extends State<VideoPage> {
                   ),
                   const BottomNavigationBarItem(
                     icon: Icon(Icons.filter_b_and_w),
-                    label: 'Filtro',
+                    label: 'Diseño',
                   ),
                   const BottomNavigationBarItem(
                     icon: Icon(

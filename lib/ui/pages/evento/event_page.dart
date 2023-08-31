@@ -1,7 +1,8 @@
+// ignore_for_file: unnecessary_null_comparison, unused_local_variable
+
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -11,7 +12,6 @@ import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
@@ -44,7 +44,7 @@ class _EventPageState extends State<EventPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage();
+        currentPage = const HomePage();
       });
     }
   }
@@ -71,13 +71,10 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _musicaController = TextEditingController();
+    final TextEditingController musicaController = TextEditingController();
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
-    print(chalk.yellow.bold(textFileImage));
-    print(chalk.yellow.bold(textFileMp3));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -104,7 +101,7 @@ class _EventPageState extends State<EventPage> {
               Center(
                 child: ListView(
                   children: [
-                    Container(
+                    SizedBox(
                       height: sclW(context) * 100,
                       child: Opacity(
                         opacity: 0.5,
@@ -130,7 +127,7 @@ class _EventPageState extends State<EventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: sclH(context) * 30,
                       child: imgSelected.contains("assets")
                           ? Image.asset(
@@ -151,7 +148,7 @@ class _EventPageState extends State<EventPage> {
                   top: sclH(context) * 44,
                   left: sclW(context) * 5,
                   right: sclW(context) * 5,
-                  bottom: sclH(context) * 10,
+                  bottom: sclH(context) * 5,
                 ),
                 padding: EdgeInsets.symmetric(
                     horizontal: sclW(context) * 5, vertical: sclW(context) * 4),
@@ -160,7 +157,7 @@ class _EventPageState extends State<EventPage> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: ListView(
-                  padding: EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 5),
                   children: [
                     textItem(context, "Introduzca Nombre del Evento",
                         _evenController.nameController, false),
@@ -201,7 +198,7 @@ class _EventPageState extends State<EventPage> {
       double size, Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
         child: Card(
@@ -277,41 +274,43 @@ class _EventPageState extends State<EventPage> {
 
   Widget colorButton(BuildContext context, String name, image,
       EventoActualPreferencesProvider eventProvider) {
+    Future.delayed(const Duration(microseconds: 500), (() {
+      if (_evenController.eventoFirebase.value != null) {
+        eventProvider
+            .saveEventPrefrerence(_evenController.eventoFirebase.value);
+
+        //eventProvider.saveMusicPrefrerence(textFileMp3);
+        //eventProvider.saveLogoPrefrerence(textFileImage);
+
+        //lIMPIAR VISTA
+        _evenController.eventoFirebase.value = null;
+        // TRAE EL ULTIMO EVENTO CREADO
+        _evenController.getEventBd();
+
+        Get.offNamed(RouteNames.videoPage);
+      }
+    }));
     return Obx(() {
-      final isSaving = _evenController.isSaving.value;
-      final isloading = _evenController.isLoading.value;
-
-      Future.delayed(const Duration(microseconds: 500), (() {
-        if (_evenController.eventoFirebase.value != null) {
-          eventProvider
-              .saveEventPrefrerence(_evenController.eventoFirebase.value);
-
-          //eventProvider.saveMusicPrefrerence(textFileMp3);
-          //eventProvider.saveLogoPrefrerence(textFileImage);
-
-          //lIMPIAR VISTA
-          _evenController.eventoFirebase.value = null;
-          // TRAE EL ULTIMO EVENTO CREADO
-          _evenController.getEventBd();
-
-          Get.offNamed(RouteNames.videoPage);
-        }
-      }));
-
+      bool isloading = _evenController.isLoading.value;
       return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(
           onTap: () {
+            //_evenController.isLoading.value = true;
             if (_evenController.nameController.value.text != '') {
               try {
                 _evenController.saveMyEvent();
+                // no deberia ir pero no está actualizando
               } catch (e) {
                 final snackbar = SnackBar(content: Text(e.toString()));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             } else {
+              //isloading = false;
               MessengerSnackBar(
                   context, "Por favor, debe ingresar un nombre al evento");
+              _evenController.isLoading.value = false;
             }
+            setState(() {});
           },
           child: Container(
             width: MediaQuery.of(context).size.width - 90,
@@ -325,10 +324,9 @@ class _EventPageState extends State<EventPage> {
               ]),
             ),
             child: Center(
-              child: /* isloading
+              child: isloading
                   ? const CircularProgressIndicator()
-                  :  */
-                  Text(name,
+                  : Text(name,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -336,7 +334,7 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ),
-        //if (isloading) const CircularProgressIndicator()
+        if (isloading) const CircularProgressIndicator()
       ]);
     });
   }
@@ -386,6 +384,7 @@ class _EventPageState extends State<EventPage> {
                     if (isMp3) {
                       //MUSICA
                       //
+
                       FilePickerResult? result =
                           await FilePicker.platform.pickFiles(
                         type: FileType.custom,
@@ -467,7 +466,6 @@ class _EventPageState extends State<EventPage> {
       nombreImg > 45 ? nombreImg = 45 : nombreImg;
       textFile = textFileImage.substring(
           textFileImage.length - nombreImg, textFileImage.length);
-      print(chalk.white.bold(textFileImage.length));
     }
 
     return textFile;

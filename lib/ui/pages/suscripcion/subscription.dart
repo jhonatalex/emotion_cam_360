@@ -4,7 +4,13 @@ import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:emotion_cam_360/utils/globals.dart' as globals;
+import 'package:mercado_pago_checkout/mercado_pago_checkout.dart';
+import 'package:mercadopago_sdk/mercadopago_sdk.dart';
+
+
 
 DateTime _savedDate = DateTime.now();
 DateTime _endDate = DateTime.now();
@@ -19,11 +25,11 @@ Future<MyUser?> getUserCurrent() async {
 
 Future<DateTime> getDateSaved() async {
   userCurrent = await provider.getMyUser2();
-  print(chalk.white.bold("userCurrent: ${userCurrent}"));
+  print(chalk.white.bold("userCurrent: $userCurrent"));
 // esta va a ser la fecha tomada desde firebase como string
 //se convierte en DataTime para poder hacer funciones
   _savedDate = userCurrent!.date.toDate();
-  print(chalk.white.bold("getDateSaved: ${_savedDate}"));
+  print(chalk.white.bold("getDateSaved: $_savedDate"));
 //formatear fecha
 //DateTime fecha2 = DateTime.parse('2023-07-20 00:10:00Z');
   return _savedDate;
@@ -50,6 +56,10 @@ DateTime updateDateLimit(int nDias) {
   _endDate = _savedDate.add(Duration(days: nDias));
   print(chalk.white.bold("Fecha Actual: ${DateTime.now()}"));
   print(chalk.white.bold("Fecha de Vencimiento actualizada: $_endDate"));
+
+
+
+
   return _endDate;
 }
 
@@ -61,11 +71,11 @@ DateTime newDateLimit(int nDias) {
   return _endDate;
 }
 
-int diasRestantes() {
-  getDateSaved();
-  Duration _diastotales = _savedDate.difference(DateTime.now());
-  print(chalk.white.bold('Dias Restantes: ${_diastotales.inDays}'));
-  return _diastotales.inDays;
+Future diasRestantes() async {
+  await getDateSaved();
+  Duration diastotales = _savedDate.difference(DateTime.now());
+  print(chalk.white.bold('Dias Restantes: ${diastotales.inDays}'));
+  return diastotales.inDays;
 }
 
 //Función para formatear la fecha
@@ -75,9 +85,19 @@ formatDatatime(DateTime DateTime) {
   String mes = DateTime.month < 10 ? '0${DateTime.month}' : '${DateTime.month}';
   int ano = DateTime.year;
   String hora = DateTime.hour < 10 ? '0${DateTime.hour}' : '${DateTime.hour}';
-  String min =
-      DateTime.minute < 10 ? '0${DateTime.minute}' : '${DateTime.minute}';
-  String seg =
-      DateTime.second < 10 ? '0${DateTime.second}' : '${DateTime.second}';
+  String min = DateTime.minute < 10
+      ? '0${DateTime.minute}'
+      : '${DateTime.minute}'; /* 
+ String seg =
+      DateTime.second < 10 ? '0${DateTime.second}' : '${DateTime.second}';  */
   return "$dia/$mes/$ano - $hora:$min";
 }
+
+
+
+
+
+
+
+
+

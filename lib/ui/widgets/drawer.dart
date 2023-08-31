@@ -21,10 +21,10 @@ class _MyDrawerState extends State<MyDrawer> {
   bool actualizado = false;
 
   late String date;
-  int dias = diasRestantes();
+  late int dias;
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
-    if (!emailUser!.isEmpty && actualizado == false) {
+    if (emailUser!.isNotEmpty && actualizado == false) {
       actualizado = true;
       print("Usuario: $emailUser ");
       setState(() {});
@@ -44,28 +44,26 @@ class _MyDrawerState extends State<MyDrawer> {
             children: [
               // const Text("información de Subscripción"),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.info_outline,
-                  color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                  //color: diasRestantes() > 3 ? Colors.green : Colors.orange,
                 ),
-                onPressed: () {
+                onPressed: () async {
                   /* 
                   String date = "";
-                  String dias = ""; */
-                  setState(
-                    () {
-                      date = formatDatatime(updateDateLimit(0));
-                      dias = diasRestantes();
-                    },
-                  );
+                  String dias = "";*/
+                  date = formatDatatime(updateDateLimit(0));
+                  dias = await diasRestantes();
+                  setState(() {});
                   //dialog con GetX
+
                   Get.defaultDialog(
                     backgroundColor: AppColors.vulcan,
                     radius: 10.0,
                     contentPadding: const EdgeInsets.all(20.0),
                     title: 'Información de Subscripción',
-                    titleStyle: TextStyle(color: AppColors.royalBlue),
-                    middleText: 'Fecha de Vencimiento: $date  \n' +
+                    titleStyle: const TextStyle(color: AppColors.royalBlue),
+                    middleText: 'Fecha de Vencimiento: $date  \n'
                         'Días Restantes: $dias',
                     middleTextStyle: TextStyle(
                       fontSize: sclH(context) * 3,
@@ -187,6 +185,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 const SizedBox(
                   height: 30,
                 ),
+                /* 
                 Text(
                   "Redes Sociales",
                   style: TextStyle(
@@ -235,7 +234,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
+                ),*/
                 const Divider(),
                 Text(
                   "Versión 1.0",
