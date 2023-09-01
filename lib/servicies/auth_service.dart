@@ -62,7 +62,7 @@ class AuthClass {
     print(chalk
         .yellowBright('LOG AQUI ${userCredential.user!.email.toString()}'));
 
-    //CUANDO ES CON USUARIO E IMEL NO TIENE TOKEN
+    //CUANDO ES CON USUARIO EIMEL NO TIENE TOKEN
     if (userCredential.credential != null) {
       await storage.write(
           key: "token", value: userCredential.credential!.token.toString());

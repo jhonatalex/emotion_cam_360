@@ -55,7 +55,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     final top3 = sclH(context) * 65; */
     return Obx(() {
       var items = _evenController.suscripciones;
-      emailUser = "jhonatanmejias@gmail.com";
+      //emailUser = "";
       return Stack(children: [
         BackgroundGradient(context),
         Scaffold(
@@ -168,8 +168,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final item = items[index];
-                        print(chalk.white.bold("items.length"));
-                        print(chalk.white.bold(items.length));
+                       //print(chalk.white.bold("items.length"));
+                        //print(chalk.white.bold(items.length));
                         return AnimatedContainer(
                           duration: const Duration(seconds: 1),
                           //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
