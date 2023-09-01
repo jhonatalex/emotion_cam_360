@@ -28,7 +28,7 @@ Future<DateTime> getDateSaved() async {
   print(chalk.white.bold("userCurrent: $userCurrent"));
 // esta va a ser la fecha tomada desde firebase como string
 //se convierte en DataTime para poder hacer funciones
-  _savedDate = userCurrent!.date.toDate();
+  _savedDate = userCurrent.date.toDate();
   print(chalk.white.bold("getDateSaved: $_savedDate"));
 //formatear fecha
 //DateTime fecha2 = DateTime.parse('2023-07-20 00:10:00Z');

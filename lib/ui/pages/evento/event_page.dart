@@ -274,23 +274,23 @@ class _EventPageState extends State<EventPage> {
 
   Widget colorButton(BuildContext context, String name, image,
       EventoActualPreferencesProvider eventProvider) {
-    Future.delayed(const Duration(microseconds: 500), (() {
-      if (_evenController.eventoFirebase.value != null) {
-        eventProvider
-            .saveEventPrefrerence(_evenController.eventoFirebase.value);
-
-        //eventProvider.saveMusicPrefrerence(textFileMp3);
-        //eventProvider.saveLogoPrefrerence(textFileImage);
-
-        //lIMPIAR VISTA
-        _evenController.eventoFirebase.value = null;
-        // TRAE EL ULTIMO EVENTO CREADO
-        _evenController.getEventBd();
-
-        Get.offNamed(RouteNames.videoPage);
-      }
-    }));
     return Obx(() {
+      Future.delayed(const Duration(microseconds: 500), (() {
+        if (_evenController.eventoFirebase.value != null) {
+          eventProvider
+              .saveEventPrefrerence(_evenController.eventoFirebase.value);
+
+          //eventProvider.saveMusicPrefrerence(textFileMp3);
+          //eventProvider.saveLogoPrefrerence(textFileImage);
+
+          //lIMPIAR VISTA
+          _evenController.eventoFirebase.value = null;
+          // TRAE EL ULTIMO EVENTO CREADO
+          _evenController.getEventBd();
+
+          Get.offAllNamed(RouteNames.home);
+        }
+      }));
       bool isloading = _evenController.isLoading.value;
       return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(
@@ -316,13 +316,21 @@ class _EventPageState extends State<EventPage> {
             width: MediaQuery.of(context).size.width - 90,
             height: 60,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: const LinearGradient(colors: [
-                AppColors.royalBlue,
-                AppColors.violet,
-                AppColors.royalBlue,
-              ]),
-            ),
+                borderRadius: BorderRadius.circular(8),
+                gradient: const LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  tileMode: TileMode.clamp,
+                  stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
+                  colors: [
+                    Color(0xff31B6F2),
+                    Color(0xff7B0786),
+                    Color(0xffC50524),
+                    Color(0xffEB0374),
+                    Color(0xff520177),
+                    Color(0xff7996EE),
+                  ],
+                )),
             child: Center(
               child: isloading
                   ? const CircularProgressIndicator()

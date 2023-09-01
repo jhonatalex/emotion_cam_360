@@ -74,7 +74,7 @@ class _CarrucelHeaderState extends State<CarrucelHeader> {
             }).toList(),
           ),
         ),
-        MyAppBar('EMOTION CAM 365'),
+        MyAppBar('EMOTION CAM 360'),
       ],
     );
   }

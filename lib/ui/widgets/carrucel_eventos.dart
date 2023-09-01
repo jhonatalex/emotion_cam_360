@@ -71,12 +71,14 @@ class PopularesSlider extends StatelessWidget {
             enlargeCenterPage: true),
         items: listEvents.map((event) {
           File imgDynamic = File(event.overlay);
+
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
                   if (event!.name != "Evento") {
-                    Get.toNamed(RouteNames.videoListPage, arguments: event);
+                    // Get.toNamed(RouteNames.videoListPage, arguments: event);
+                    print(chalk.white.bold(event!.overlay));
                   } else {
                     MessengerSnackBar(context, "No se han cargado eventos");
                   }
@@ -118,11 +120,29 @@ class PopularesSlider extends StatelessWidget {
                                   width: sclW(context) * 30,
                                   height: sclW(context) * 30,
                                 )
-                              : Image.file(
+                              : imgDynamic.existsSync()
+                                  ?
+                                  // La imagen existe en la caché
+                                  Image.file(
+                                      imgDynamic,
+                                      width: sclW(context) * 30,
+                                      height: sclW(context) * 30,
+                                    )
+                                  :
+                                  // La imagen no existe en la caché
+                                  Image.file(
+                                      File(
+                                          "/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"),
+                                      width: sclW(context) * 30,
+                                      height: sclW(context) * 30,
+                                    )
+
+                          /* Image.file(
                                   imgDynamic,
                                   width: sclW(context) * 30,
                                   height: sclW(context) * 30,
-                                ),
+                                ) */
+                          ,
                           SizedBox(
                             height: sclH(context) * 8,
                           )

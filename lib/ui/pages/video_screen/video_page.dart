@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:camera/camera.dart';
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/desing/desing_page.dart';
@@ -12,7 +10,6 @@ import 'package:emotion_cam_360/ui/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
 import '../../widgets/appcolors.dart';
 import '../../widgets/responsive.dart';
 import '../../routes/route_names.dart';
@@ -154,12 +151,11 @@ class _VideoPageState extends State<VideoPage> {
     _initCamera(_cameras[_cameraIndex]);
     _getCameraIcon(_cameras[_cameraIndex].lensDirection);
     settingsController.cameraIndex.value = _cameraIndex;
-    print(chalk.white.bold("Camera $_cameraIndex"));
   }
 
   // ignore: non_constant_identifier_names
 
-  Widget SelectActionShow(
+  Widget selectActionShow(
       int selectedIndex, EventoActualPreferencesProvider eventProvider) {
     switch (selectedIndex) {
       case 0:
@@ -213,7 +209,6 @@ class _VideoPageState extends State<VideoPage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print(eventProvider.seleccionarPrefrerences);
                         if (eventProvider.seleccionarPrefrerences) {
                           if (_opacity == 1) {
                             setState(() {
@@ -232,19 +227,46 @@ class _VideoPageState extends State<VideoPage> {
                           height: sclH(context) * _width * 2 / 3,
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
+                              borderRadius: BorderRadius.circular(30),
+                              gradient: const LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                tileMode: TileMode.mirror,
+                                stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
+                                colors: [
+                                  Color(0xff31B6F2),
+                                  Color(0xff7B0786),
+                                  Color(0xffC50524),
+                                  Color(0xffEB0374),
+                                  Color(0xff520177),
+                                  Color(0xff7996EE),
+                                ],
+                              )
+                              /* image: const DecorationImage(
                                 image: AssetImage(
                                   "assets/img/buttonplay.png",
                                 ),
-                                fit: BoxFit.cover),
-                          )),
+                                fit: BoxFit.cover), */
+                              ),
+                          child: Icon(Icons.play_arrow,
+                              size: sclW(context) * 15,
+                              shadows: const [
+                                Shadow(
+                                    color: Colors.black,
+                                    offset: Offset(1, 1),
+                                    blurRadius: 2)
+                              ])),
                     ),
                     Text(
                       "INICIAR",
                       style: TextStyle(
-                        fontSize: sclH(context) * 3,
-                      ),
+                          fontSize: sclH(context) * 3,
+                          shadows: const [
+                            Shadow(
+                                color: Colors.black,
+                                offset: Offset(1, 1),
+                                blurRadius: 2)
+                          ]),
                     ),
                   ],
                 ),
@@ -286,7 +308,7 @@ class _VideoPageState extends State<VideoPage> {
             //extendBodyBehindAppBar: true,
             extendBody: true,
             body:
-                Center(child: SelectActionShow(_selectedIndex, eventProvider)),
+                Center(child: selectActionShow(_selectedIndex, eventProvider)),
             bottomNavigationBar: Container(
               //height: 120,
               color: AppColors.vulcan,

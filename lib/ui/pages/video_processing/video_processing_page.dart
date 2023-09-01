@@ -59,7 +59,9 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
     final eventProvider =
         Provider.of<EventoActualPreferencesProvider>(context, listen: false);
     VideoUtil.assetPath(VideoUtil.logo).then((logoPath) {
-      VideoUtil.assetPath(VideoUtil.bgCreditos).then((endingPath) {
+      VideoUtil.assetPath(
+              VideoUtil.videoCredito[settingsController.fondoVideo.value])
+          .then((endingPath) {
         VideoUtil.assetPath(VideoUtil.music1).then((music1Path) {
           VideoUtil.assetPath("marco${desingController.currentMarco.value}.png")
               .then((marcoPath) {
@@ -283,7 +285,7 @@ class _VideoProcessingPageState extends State<VideoProcessingPage> {
 
           Text("Procesamiento completo...\n\nDisfruta tu experiencia.",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: sclW(context) * 3)),
+              style: TextStyle(fontSize: sclW(context) * 5)),
           const SizedBox(
             height: 20,
           ),

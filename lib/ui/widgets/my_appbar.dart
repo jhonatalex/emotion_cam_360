@@ -1,4 +1,3 @@
-import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
@@ -24,22 +23,23 @@ class _MyAppBarState extends State<MyAppBar> {
       key: scaffoldKey,
       leading: Builder(
         builder: (context) => IconButton(
-          icon: Icon(
-            Icons.menu,
-            size: sclH(context) * 3,
-          ),
+          icon: Icon(Icons.menu, size: sclH(context) * 3, shadows: const [
+            Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 2)
+          ]),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
       ),
       title: Text(
         widget.title,
-        style: TextStyle(fontSize: sclW(context) * 5),
+        style: TextStyle(fontSize: sclW(context) * 5, shadows: const [
+          Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 2)
+        ]),
       ),
       elevation: 0.0,
       toolbarHeight: sclH(context) * 7,
       centerTitle: true,
       backgroundColor: Colors.transparent,
-      actions: [
+      /* actions: [
         Padding(
           padding: const EdgeInsets.only(right: 10),
           child: CircleAvatar(
@@ -70,7 +70,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 )),
           ),
         )
-      ],
+      ], */
     );
   }
 }
