@@ -43,7 +43,11 @@ class Content extends StatelessWidget {
       child: const Column(
         children: [
           CarrucelHeader(),
-          Expanded(child: Center(child: ImgTextButton())),
+          Expanded(
+            child: Center(
+              child: ImgTextButton(),
+            ),
+          ),
           CarrucelStyles(),
         ],
       ),

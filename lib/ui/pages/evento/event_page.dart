@@ -316,13 +316,21 @@ class _EventPageState extends State<EventPage> {
             width: MediaQuery.of(context).size.width - 90,
             height: 60,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: const LinearGradient(colors: [
-                AppColors.royalBlue,
-                AppColors.violet,
-                AppColors.royalBlue,
-              ]),
-            ),
+                borderRadius: BorderRadius.circular(8),
+                gradient: const LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  tileMode: TileMode.clamp,
+                  stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
+                  colors: [
+                    Color(0xff31B6F2),
+                    Color(0xff7B0786),
+                    Color(0xffC50524),
+                    Color(0xffEB0374),
+                    Color(0xff520177),
+                    Color(0xff7996EE),
+                  ],
+                )),
             child: Center(
               child: isloading
                   ? const CircularProgressIndicator()
