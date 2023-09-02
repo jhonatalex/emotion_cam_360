@@ -264,17 +264,17 @@ class _GraciasPageState extends State<GraciasPage> {
               ElevatedButton.icon(
                 onPressed: () => Get.back(),
                 icon: CircleAvatar(
-                    radius: sclH(context) * 4,
+                    radius: sclH(context) * 2,
                     backgroundColor: Colors.white,
                     foregroundColor: AppColors.violet,
                     child: Icon(
                       Icons.home,
-                      size: sclH(context) * 5,
+                      size: sclH(context) * 3,
                     ),
                   ),
                 label: const Text(
                   "Ir Home",
-                  style: TextStyle(color: AppColors.violet),
+                  style: TextStyle(color: AppColors.white),
                 ),
               ),
 
