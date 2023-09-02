@@ -1,6 +1,8 @@
 import 'package:chalkdart/chalk.dart';
+import 'package:chalkdart/chalk_x11.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/user.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:emotion_cam_360/utils/globals.dart' as globals;
@@ -14,10 +16,14 @@ import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 class SubscriptionController extends GetxController {
  String? _platformVersion = 'Unknown';
 
-static var publicKey = globals.mpPublicKey;
+static var publicKey = globals.mpPublicKeyTEST;
 String? emailUser = '';
 final provider = FirebaseProvider();
 late var userCurrent;
+
+
+Rx<PaymentResult?> dataTransaccion = Rx(null);
+
 
   @override
   void onInit() {
@@ -55,7 +61,7 @@ var mp = MP(globals.mpClientId, globals.mpClientSecret);
                 "unit_price": 1000
             }
         ],
-        "payer":{"name":"Jhonatan", "email":"jhonatanmejias@gmail.com"}
+        "payer":{"name":"jhoana", "email":"jhoanajerez@gmail.com"}
     };
 
     var result = await mp.createPreference(preference);
@@ -68,28 +74,31 @@ var mp = MP(globals.mpClientId, globals.mpClientSecret);
 
  Future<void>  initTransaction(price) async {
 
-  print(chalk.white.bold("Entro a metodoo"));
-
   initPreferencs(price).then((response) async {
 
     if(response!=null){
 
-      print ("RESULTADO:  ${response.toString()}");
-
-
+       print(chalk.white.bold('Dias Restantes: ${response.toString()}'));
       var preferenceID = response['response']['id'];
 
 
       try{
 
         PaymentResult result = await MercadoPagoCheckout.startCheckout(publicKey,preferenceID);
-        print(result.toString());
+  
 
+          print(chalk.green.bold('Bien: ${result}'));
+
+          if(result.result!='canceled'){
+            dataTransaccion.value = result ;
+            Get.offNamed(RouteNames.graciasPaymentPage, arguments: result);
+            
+          }
 
       }
       on PlatformException catch (e){
 
-        print(e.message);
+       print(chalk.pink.bold('Exeption: ${e.toString()}'));
       }
 
 

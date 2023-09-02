@@ -57,7 +57,7 @@ class EventController extends GetxController {
     //TRER LISTA DE EVENTOS
     getEventBd();
     getAllMyEventController();
-    //getAllSuscripcionesController();
+    getAllSuscripcionesController();
     super.onInit();
 
     //prepara las assets y los pasa al cache,
@@ -171,7 +171,7 @@ class EventController extends GetxController {
         if (progress.value == 100) {
           event.ref.getDownloadURL().then((downloadUrl) {
             urlDownload.value = downloadUrl;
-            print(chalk.white.bold(downloadUrl));
+
             ref.update({
               "videos": FieldValue.arrayUnion([urlDownload.value]),
             });
@@ -205,5 +205,6 @@ class EventController extends GetxController {
         await _eventRepository.getAllSuscripcionesFirebase();
 
     suscripciones.value = listSuscripciones;
+      print(chalk.white.bold(suscripciones.value));
   }
 }

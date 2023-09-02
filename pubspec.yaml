@@ -86,6 +86,7 @@ flutter:
   assets:
     - assets/img/
     - assets/themes/
+    - assets/img/bien.png
   fonts:
     - family: Raleway
       fonts:

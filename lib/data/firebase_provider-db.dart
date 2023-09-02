@@ -149,7 +149,8 @@ class FirebaseProvider {
           doc["featureThree"],
           doc["legal"],
           doc["saving"],
-          doc["price"]);
+          doc["price"],
+          doc["dias"]);
 
       listasuscripciones.add(subsNew);
     }

@@ -321,6 +321,15 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
+              ListTile(
+                    leading: const Icon(Icons.price_change_rounded),
+                    title: Text(
+                      "\$ $precio",
+                      style: TextStyle(fontSize: sclW(context) * 4),
+                    ),
+                  ),
+
+                 
                   /* Spacer(),
                   CircleAvatar(
                     radius: sclH(context) * 4,
@@ -355,20 +364,28 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       'Días Restantes: $iDiasRestantes \n\nDespues de realizar el pago añadiremos $ndia dias  \n\nFecha de Vencimiento actual: \n $sDateSaved \n\nNueva Fecha de Vencimiento: \n $sDateLimit \n\nPrecio: \$ $precio',
                   middleTextStyle: TextStyle(fontSize: sclH(context) * 2.5),
                   textConfirm: 'Okay',
-                  confirm: ElevatedButton.icon(
-                    onPressed: () {
+                  confirm: Column(
+                    children: [
+
+
+                      ElevatedButton.icon(
+                        onPressed: () {
             
-                       _subscriptionController.initTransaction(precio);
-                     // setDate(updateDateLimit(ndia));
-                    },
-                    icon: const Icon(
-                      Icons.check,
-                      //color: AppColors.violet,
-                    ),
-                    label: const Text(
-                      'Continuar',
-                      //style: TextStyle(color: AppColors.violet),
-                    ),
+                           _subscriptionController.initTransaction(precio);
+                         // setDate(updateDateLimit(ndia));
+                        },
+                        icon: const Icon(
+                          Icons.check,
+                          //color: AppColors.violet,
+                        ),
+                        label: const Text(
+                          'Pagar',
+                          //style: TextStyle(color: AppColors.violet),
+                        ),
+                      ),
+
+                      
+                    ],
                   ),
                   cancel: ElevatedButton.icon(
                     onPressed: () => Get.back(),
@@ -384,7 +401,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 );
               },
               child: Text(
-                "\$ $precio",
+                "Pagar",
                 style: TextStyle(
                   fontSize: sclW(context) * 5,
                 ),
