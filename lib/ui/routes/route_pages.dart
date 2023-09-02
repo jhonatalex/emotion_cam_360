@@ -2,6 +2,7 @@ import 'package:emotion_cam_360/ui/pages/evento/event_binding.dart';
 import 'package:emotion_cam_360/ui/pages/evento/event_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/profile_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/gracias_page.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_list/video_list_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_list/video_list_page.dart';
@@ -137,6 +138,12 @@ class RoutePages {
         page: () => const PoliticsPage(),
         transition: Transition.fadeIn,
         //binding: const VideoViewerBinding(),
+      ),
+        GetPage(
+        name: RouteNames.graciasPaymentPage,
+        page: () => const GraciasPage(),
+        transition: Transition.fadeIn,
+        binding: const SubscriptionBinding(),
       ),
     ];
   }

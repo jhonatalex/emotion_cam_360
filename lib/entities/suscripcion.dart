@@ -12,7 +12,7 @@ class Suscripcion extends Equatable {
   final int dias;
 
   const Suscripcion(this.name, this.typeDate, this.featureOne, this.featureTwo,
-      this.featureThree, this.legal, this.saving, this.price, this.dias);
+      this.featureThree, this.legal, this.saving, this.price,this.dias);
   @override
   List<Object?> get props => [name];
 
