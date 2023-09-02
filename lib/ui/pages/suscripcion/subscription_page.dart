@@ -287,11 +287,11 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ListTile(
-                    trailing: const Icon(Icons.check_circle_outline),
                     title: Text(
                       "Subscripción $timeSubs",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: sclW(context) * 5,
+                          fontSize: sclW(context) * 4,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -323,7 +323,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
-              ListTile(
+                  ListTile(
                     leading: const Icon(Icons.price_change_rounded),
                     title: Text(
                       "\$ $precio",
@@ -331,7 +331,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                   ),
 
-                 
                   /* Spacer(),
                   CircleAvatar(
                     radius: sclH(context) * 4,
@@ -368,13 +367,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   textConfirm: 'Okay',
                   confirm: Column(
                     children: [
-
-
                       ElevatedButton.icon(
                         onPressed: () {
-            
-                           _subscriptionController.initTransaction(precio);
-                         // setDate(updateDateLimit(ndia));
+                          _subscriptionController.initTransaction(precio);
+                          // setDate(updateDateLimit(ndia));
                         },
                         icon: const Icon(
                           Icons.check,
@@ -385,8 +381,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           //style: TextStyle(color: AppColors.violet),
                         ),
                       ),
-
-                      
                     ],
                   ),
                   cancel: ElevatedButton.icon(
