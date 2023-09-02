@@ -1,4 +1,5 @@
 import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:get/get.dart';
 
@@ -20,5 +21,7 @@ class SubscriptionBinding implements Bindings {
       Get.lazyPut<SubscriptionController>(
       () => SubscriptionController(),
     );
+
+
   }
 }

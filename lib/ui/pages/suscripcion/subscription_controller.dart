@@ -1,5 +1,6 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:chalkdart/chalk_x11.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:emotion_cam_360/utils/globals.dart' as globals;
 import 'package:mercado_pago_checkout/mercado_pago_checkout.dart';
 import 'package:mercadopago_sdk/mercadopago_sdk.dart';
-
 
 
 
@@ -29,8 +29,8 @@ Rx<PaymentResult?> dataTransaccion = Rx(null);
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    getUserCurrent();
     
-
   }
 
 
@@ -39,42 +39,33 @@ Future<MyUser?> getUserCurrent() async {
 }
 
 
+setDate(DateTime newDate) async {
 
+  var userCurrent = await provider.getMyUser2();
+  userCurrent!.date = Timestamp.fromDate(newDate);
+  provider.setSubscriptionDate(userCurrent);
+  //LOGICA DESLOGUEAR
+  //await authClass.logout();
+  //Get.find<AuthController>().signOut();
+  //Get.offAllNamed(RouteNames.signIn);
+}
 
+verifyDate(){
 
-
-
-
-
-Future<Map<String, dynamic>> initPreferencs( price) async {
-
-var mp = MP(globals.mpClientId, globals.mpClientSecret);
-
-
-
-    var preference = {
-        "items": [
-            {
-                "title": "Test",
-                "quantity": 1,
-                "currency_id": "CLP",
-                "unit_price": 1000
-            }
-        ],
-        "payer":{"name":"jhoana", "email":"jhoanajerez@gmail.com"}
-    };
-
-    var result = await mp.createPreference(preference);
-
-    return result;
 }
 
 
 
+DateTime updateDateLimit(int nDias) {
 
- Future<void>  initTransaction(price) async {
 
-  initPreferencs(price).then((response) async {
+  return DateTime.now().add(Duration(days: nDias));
+}
+
+
+ Future<void>  initTransaction(price,dias,title) async {
+
+  initPreferencs(price,title).then((response) async {
 
     if(response!=null){
 
@@ -86,11 +77,15 @@ var mp = MP(globals.mpClientId, globals.mpClientSecret);
 
         PaymentResult result = await MercadoPagoCheckout.startCheckout(publicKey,preferenceID);
   
-
           print(chalk.green.bold('Bien: ${result}'));
 
           if(result.result!='canceled'){
-            dataTransaccion.value = result ;
+            dataTransaccion.value = result;
+
+            if(result.status=='approved'){
+            setDate(updateDateLimit(dias));
+            }
+
             Get.offNamed(RouteNames.graciasPaymentPage, arguments: result);
             
           }
@@ -107,6 +102,30 @@ var mp = MP(globals.mpClientId, globals.mpClientSecret);
   });
 
 }
+
+
+
+Future<Map<String, dynamic>> initPreferencs(price,title) async {
+var mp = MP(globals.mpClientId, globals.mpClientSecret);
+
+    var preference = {
+        "items": [
+            {
+                "title": title,
+                "quantity": 1,
+                "currency_id": "CLP",
+                "unit_price": int.parse(price)
+            }
+        ],
+        "payer":{"name":"jhoana", "email":"jhoanajerez@gmail.com"}
+    };
+
+    var result = await mp.createPreference(preference);
+
+    return result;
+}
+
+
 
 
 

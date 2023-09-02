@@ -172,7 +172,7 @@ class _GraciasPageState extends State<GraciasPage> {
       //width: sclW(context) * 70,
       height: sclH(context) * 64,
       margin: EdgeInsets.symmetric(
-          vertical: sclW(context) * 5, horizontal: sclW(context) * 5),
+          vertical: sclW(context) * 15, horizontal: sclW(context) * 8),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(35),
@@ -193,24 +193,33 @@ class _GraciasPageState extends State<GraciasPage> {
             height: sclH(context) * 15,
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: sclH(context) * 1.5),
-            child: Text(
-              dataPayment.status=='approved'?"Pago Exitoso":"Pago Rechazado",
-              style: TextStyle(
-                  color: AppColors.white, fontSize: sclW(context) * 6),
+            padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
+            child: Column(
+              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                          padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
+                  child: Text(
+                    dataPayment.status=='approved'?"Pago Exitoso":"Pago Rechazado",
+                    style: TextStyle(
+                        color: AppColors.white, fontSize: sclW(context) * 6),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
+                  child: Text(
+                              dataPayment.status=='approved'?"Ya puede Seguir Disfrutando":"Favor reintente su pago",
+                              style: TextStyle(
+                    color: AppColors.white, fontSize: sclW(context) * 5),
+                            ),
+                )
+              ],
             ),
           ),
-        Container(
-            padding: EdgeInsets.symmetric(vertical: sclH(context) * 1.5),
-            child: Text(
-              dataPayment.status=='approved'?"Ya puede Seguir Disfrutando":"Favor reintente su pago",
-              style: TextStyle(
-                  color: AppColors.white, fontSize: sclW(context) * 3),
-            ),
-          ),
-            Center(
+      
+          Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                    ListTile(
                     leading: const Icon(Icons.check_circle_outline),
@@ -262,7 +271,7 @@ class _GraciasPageState extends State<GraciasPage> {
                   ),
             
               ElevatedButton.icon(
-                onPressed: () => Get.back(),
+                onPressed: () =>  Get.offNamed(RouteNames.home),
                 icon: CircleAvatar(
                     radius: sclH(context) * 2,
                     backgroundColor: Colors.white,

@@ -1,5 +1,6 @@
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
+import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
@@ -30,6 +31,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
 
   final _evenController = Get.find<EventController>();
   final _subscriptionController = Get.find<SubscriptionController>();
+
 
   String? emailUser = '';
 
@@ -188,41 +190,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ],
             )
 
-            /*
-            
-            ListView(
-              scrollDirection: Axis.vertical,
-              controller: _controller,
-              children: [
-                /* 
-                Text("Fecha de Vencimiento: $date",
-                    style: TextStyle(
-                        color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
-                Text("Días Restantes: $dias",
-                    style: TextStyle(
-                        color: AppColors.royalBlue, fontSize: sclW(context) * 6)),
-                 */
-    
-                AnimatedContainer(
-                  duration: Duration(seconds: 1),
-                  transform: Matrix4.translationValues(0, 0, 0)..scale(01.0),
-                  child: SubscriptionCard(
-                      context, "Standard", "semanal", 0, "12.00", 7),
-                ),
-                AnimatedContainer(
-                  duration: Duration(seconds: 1),
-                  //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
-                  child: SubscriptionCard(
-                      context, "Basic", "mensual", 10, "35.00", 30),
-                ),
-                AnimatedContainer(
-                  duration: Duration(seconds: 1),
-                  // transform: Matrix4.translationValues(left3, top3, 0)..scale(0.5),
-                  child: SubscriptionCard(
-                      context, "Ultimate", "anual", 20, "336.00", 365),
-                ),
-              ],
-            ),*/
+  
 
             )
       ]);
@@ -276,12 +244,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ),
               color: AppColors.royalBlue,
             ),
-            /* margin: EdgeInsets.only(
-              left: sclW(context) * 3,
-            ), */
-            /* padding: EdgeInsets.all(
-              sclW(context) * 2,
-            ), */
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -324,9 +286,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.price_change_rounded),
+                    leading: const Icon(Icons.price_change_outlined),
                     title: Text(
-                      "\$ $precio",
+                      "\$ $precio CLP",
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
@@ -349,10 +311,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             margin: const EdgeInsets.all(2),
             child: ElevatedButton(
               onPressed: () async {
-                print(chalk.white.bold("añadir $ndia dias"));
                 int iDiasRestantes = await diasRestantes();
                 String sDateSaved = formatDatatime(dateSaved());
-                String sDateLimit = formatDatatime(updateDateLimit(ndia));
+                String sDateLimit = formatDatatime(dateSaved().add(Duration(days: ndia)));
                 Get.defaultDialog(
                   backgroundColor: AppColors.vulcan,
                   radius: 10.0,
@@ -369,8 +330,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     children: [
                       ElevatedButton.icon(
                         onPressed: () {
-                          _subscriptionController.initTransaction(precio);
-                          // setDate(updateDateLimit(ndia));
+                          _subscriptionController.initTransaction(precio, ndia, timeSubs );
+                           
                         },
                         icon: const Icon(
                           Icons.check,
