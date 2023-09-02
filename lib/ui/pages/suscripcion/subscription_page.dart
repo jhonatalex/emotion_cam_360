@@ -370,7 +370,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       ElevatedButton.icon(
                         onPressed: () {
                           _subscriptionController.initTransaction(precio);
-                          // setDate(updateDateLimit(ndia));
+                           setDate(updateDateLimit(ndia));
                         },
                         icon: const Icon(
                           Icons.check,
