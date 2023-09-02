@@ -45,6 +45,7 @@ class EventController extends GetxController {
   late var urlDownload = ''.obs;
   UploadTask? uploadTask;
   RxDouble progress = 0.0.obs;
+  RxDouble progressTemp = 0.0.obs;
 
   User get currentUser {
     final user = FirebaseAuth.instance.currentUser;

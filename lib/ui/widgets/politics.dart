@@ -34,7 +34,7 @@ class PoliticsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.vulcan,
         appBar: AppBar(
           title: Text(
             "TÉRMINOS Y CONDICIONES",
@@ -89,9 +89,15 @@ class PoliticsPage extends StatelessWidget {
                           ? Text(
                               politics[Index],
                               style: TextStyle(
-                                  fontSize: sclH(context) * 2.5,
+                                  fontSize: sclH(context) * 2.8,
                                   color: AppColors.violet,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                  shadows: const [
+                                    Shadow(
+                                        color: Colors.white,
+                                        offset: Offset(0.5, 0.5),
+                                        blurRadius: 1)
+                                  ]),
                             )
                           : Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -99,8 +105,9 @@ class PoliticsPage extends StatelessWidget {
                                 politics[Index],
                                 style: TextStyle(
                                     fontSize: sclH(context) * 2.0,
-                                    color: AppColors.vulcan,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.justify,
                               ),
                             );
                     }), /* ListView.builder(

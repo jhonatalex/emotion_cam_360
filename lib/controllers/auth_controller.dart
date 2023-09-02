@@ -48,7 +48,7 @@ class AuthController extends GetxController {
 
   void _authSubscriptionChanged(diasRestantes) async {
     //VERIFICA LOS DIAS RESTANTES PARA MANDARLO A LA PANTALLA CORRECTA Y SET THE STATE
-    if (diasRestantes < 0) {
+    if (diasRestantes <= 0) {
       authState.value = AuthState.signedOUT;
       Get.offAllNamed(RouteNames.subscription);
       //Get.offAllNamed(RouteNames.home);

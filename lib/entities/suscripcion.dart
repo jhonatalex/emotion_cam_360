@@ -9,9 +9,10 @@ class Suscripcion extends Equatable {
   final String legal;
   final int saving;
   final int price;
+  final int dias;
 
   const Suscripcion(this.name, this.typeDate, this.featureOne, this.featureTwo,
-      this.featureThree, this.legal, this.saving, this.price);
+      this.featureThree, this.legal, this.saving, this.price, this.dias);
   @override
   List<Object?> get props => [name];
 
@@ -25,6 +26,7 @@ class Suscripcion extends Equatable {
       'legal': legal,
       'saving': saving,
       'price': price,
+      'dias': dias,
     };
   }
 
@@ -36,5 +38,6 @@ class Suscripcion extends Equatable {
         featureThree = data['featureThree'] as String,
         legal = data['legal'] as String,
         saving = data['saving'] as int,
-        price = data['price'] as int;
+        price = data['price'] as int,
+        dias = data['dias'] as int;
 }

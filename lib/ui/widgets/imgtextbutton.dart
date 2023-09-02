@@ -13,21 +13,10 @@ class ImgTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          gradient: const LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            tileMode: TileMode.clamp,
-            stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
-            colors: [
-              Color(0xff31B6F2),
-              Color(0xff7B0786),
-              Color(0xffC50524),
-              Color(0xffEB0374),
-              Color(0xff520177),
-              Color(0xff7996EE),
-            ],
-          )),
+        image: const DecorationImage(
+            image: AssetImage("assets/img/background.jpg"), fit: BoxFit.fill),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.all(sclH(context) * 3),

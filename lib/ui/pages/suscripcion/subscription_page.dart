@@ -167,19 +167,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final item = items[index];
+                        print(chalk.white.bold(item.dias));
                         return AnimatedContainer(
                           duration: const Duration(seconds: 1),
                           //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
                           child: SubscriptionCard(
-                              context,
-                              item.name,
-                              item.typeDate,
-                              item.featureOne,
-                              item.featureTwo,
-                              item.featureThree,
-                              item.saving,
-                              item.price.toString(),
-                              30),
+                            context,
+                            item.name,
+                            item.typeDate,
+                            item.featureOne,
+                            item.featureTwo,
+                            item.featureThree,
+                            item.saving,
+                            item.price.toString(),
+                            item.dias,
+                          ),
                         );
                       }),
                 ),
@@ -289,7 +291,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     title: Text(
                       "Subscripción $timeSubs",
                       style: TextStyle(
-                          fontSize: sclW(context) * 4,
+                          fontSize: sclW(context) * 5,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -357,9 +359,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   textConfirm: 'Okay',
                   confirm: ElevatedButton.icon(
                     onPressed: () {
-            
-                       _subscriptionController.initTransaction(precio);
-                     // setDate(updateDateLimit(ndia));
+                      _subscriptionController.initTransaction(precio);
+                      // setDate(updateDateLimit(ndia));
                     },
                     icon: const Icon(
                       Icons.check,
@@ -384,7 +385,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 );
               },
               child: Text(
-                "\$ $precio",
+                "\$ $precio CLP",
                 style: TextStyle(
                   fontSize: sclW(context) * 5,
                 ),
