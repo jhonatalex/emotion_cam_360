@@ -1,3 +1,4 @@
+import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_header.dart';
 import 'package:emotion_cam_360/ui/widgets/carrucel_eventos.dart';
@@ -9,11 +10,10 @@ import '../../widgets/imgtextbutton.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
+    VideoUtil.prepareAssets();
     //final userProvider = Provider.of<SesionPreferencerProvider>(context);
-
     return const Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.vulcan,
@@ -37,20 +37,18 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: sclH(context) * 100,
-      width: sclW(context) * 100,
-      child: const Column(
-        children: [
-          CarrucelHeader(),
-          Expanded(
-            child: Center(
-              child: ImgTextButton(),
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(height: sclH(context) * 40, child: const CarrucelHeader()),
+        SizedBox(
+          height: sclH(context) * 20,
+          child: const Center(
+            child: ImgTextButton(),
           ),
-          CarrucelStyles(),
-        ],
-      ),
+        ),
+        SizedBox(height: sclH(context) * 40, child: const CarrucelStyles()),
+      ],
     );
   }
 }

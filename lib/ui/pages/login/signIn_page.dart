@@ -1,3 +1,4 @@
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
@@ -315,6 +316,7 @@ class _SignInPageState extends State<SignInPage> {
           final msg = e.toString();
           setState(() {
             circular = false;
+            print(chalk.white.bold(msg));
           });
 
           if (msg == "[firebase_auth/unknown] Given String is empty or null") {
@@ -333,6 +335,17 @@ class _SignInPageState extends State<SignInPage> {
           if (msg ==
               "[firebase_auth/invalid-email] The email address is badly formatted.") {
             MessengerSnackBar(context, "Ingrese un correo válido.");
+          }
+
+          if (msg ==
+              "[firebase_auth/channel-error] Unable to establish connection on channel.") {
+            MessengerSnackBar(
+                context, "Hubo un error de conexión o campos vacios.");
+          }
+          if (msg ==
+              "[firebase_auth/network-request-failed] A network error (such as timeout, interrupted connection or unreachable host) has occurred.") {
+            MessengerSnackBar(context,
+                "Se ha producido un error de red (como tiempo de espera, conexión interrumpida o host inalcanzable).");
           }
         }
       },

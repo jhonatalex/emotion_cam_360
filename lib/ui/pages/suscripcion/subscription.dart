@@ -10,8 +10,6 @@ import 'package:emotion_cam_360/utils/globals.dart' as globals;
 import 'package:mercado_pago_checkout/mercado_pago_checkout.dart';
 import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 
-
-
 DateTime _savedDate = DateTime.now();
 DateTime _endDate = DateTime.now();
 final provider = FirebaseProvider();
@@ -53,12 +51,10 @@ DateTime dateSaved() {
 }
 
 DateTime updateDateLimit(int nDias) {
-  _endDate = _savedDate.add(Duration(days: nDias));
+  _endDate = DateTime.now().add(Duration(days: nDias));
+  //_endDate = _savedDate.add(Duration(days: nDias));
   print(chalk.white.bold("Fecha Actual: ${DateTime.now()}"));
   print(chalk.white.bold("Fecha de Vencimiento actualizada: $_endDate"));
-
-
-
 
   return _endDate;
 }
@@ -73,7 +69,10 @@ DateTime newDateLimit(int nDias) {
 
 Future diasRestantes() async {
   await getDateSaved();
-  Duration diastotales = _savedDate.difference(DateTime.now());
+  Duration diastotales =
+      _savedDate.difference(DateTime.now()) < const Duration(days: 0)
+          ? const Duration(days: 0)
+          : _savedDate.difference(DateTime.now());
   print(chalk.white.bold('Dias Restantes: ${diastotales.inDays}'));
   return diastotales.inDays;
 }
@@ -92,12 +91,3 @@ formatDatatime(DateTime DateTime) {
       DateTime.second < 10 ? '0${DateTime.second}' : '${DateTime.second}';  */
   return "$dia/$mes/$ano - $hora:$min";
 }
-
-
-
-
-
-
-
-
-

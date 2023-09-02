@@ -71,14 +71,15 @@ class PopularesSlider extends StatelessWidget {
             enlargeCenterPage: true),
         items: listEvents.map((event) {
           File imgDynamic = File(event.overlay);
+          print(chalk.white.bold(event.overlay));
 
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
                   if (event!.name != "Evento") {
-                    // Get.toNamed(RouteNames.videoListPage, arguments: event);
-                    print(chalk.white.bold(event!.overlay));
+                    Get.toNamed(RouteNames.videoListPage, arguments: event);
+                    // print(chalk.white.bold(event!.overlay));
                   } else {
                     MessengerSnackBar(context, "No se han cargado eventos");
                   }
@@ -114,6 +115,18 @@ class PopularesSlider extends StatelessWidget {
                           SizedBox(
                             height: sclH(context) * 1,
                           ),
+                          event!.name == "Evento"?
+                            Image.asset(
+                              event!.overlay,
+                              width: sclW(context) * 30,
+                              height: sclW(context) * 30,
+                            ):
+                          Image.file(
+                            imgDynamic,
+                            width: sclW(context) * 30,
+                            height: sclW(context) * 30,
+                          )
+                          /* 
                           event!.name == "Evento"
                               ? Image.asset(
                                   event!.overlay,
@@ -130,12 +143,12 @@ class PopularesSlider extends StatelessWidget {
                                     )
                                   :
                                   // La imagen no existe en la caché
-                                  Image.file(
-                                      File(
-                                          "/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"),
+
+                                  Image.asset(
+                                      "/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png",
                                       width: sclW(context) * 30,
                                       height: sclW(context) * 30,
-                                    )
+                                    ) */
 
                           /* Image.file(
                                   imgDynamic,

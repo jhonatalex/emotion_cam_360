@@ -167,19 +167,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final item = items[index];
+                        print(chalk.white.bold(item.dias));
                         return AnimatedContainer(
                           duration: const Duration(seconds: 1),
                           //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
                           child: SubscriptionCard(
-                              context,
-                              item.name,
-                              item.typeDate,
-                              item.featureOne,
-                              item.featureTwo,
-                              item.featureThree,
-                              item.saving,
-                              item.price.toString(),
-                              30),
+                            context,
+                            item.name,
+                            item.typeDate,
+                            item.featureOne,
+                            item.featureTwo,
+                            item.featureThree,
+                            item.saving,
+                            item.price.toString(),
+                            item.dias,
+                          ),
                         );
                       }),
                 ),
@@ -285,9 +287,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ListTile(
-                    trailing: const Icon(Icons.check_circle_outline),
                     title: Text(
                       "Subscripción $timeSubs",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: sclW(context) * 4,
                           fontWeight: FontWeight.bold),
@@ -321,7 +323,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                       style: TextStyle(fontSize: sclW(context) * 4),
                     ),
                   ),
-              ListTile(
+                  ListTile(
                     leading: const Icon(Icons.price_change_rounded),
                     title: Text(
                       "\$ $precio",
@@ -329,7 +331,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                   ),
 
-                 
                   /* Spacer(),
                   CircleAvatar(
                     radius: sclH(context) * 4,
@@ -366,13 +367,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   textConfirm: 'Okay',
                   confirm: Column(
                     children: [
-
-
                       ElevatedButton.icon(
                         onPressed: () {
-            
-                           _subscriptionController.initTransaction(precio);
-                         // setDate(updateDateLimit(ndia));
+                          _subscriptionController.initTransaction(precio);
+                          // setDate(updateDateLimit(ndia));
                         },
                         icon: const Icon(
                           Icons.check,
@@ -383,8 +381,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                           //style: TextStyle(color: AppColors.violet),
                         ),
                       ),
-
-                      
                     ],
                   ),
                   cancel: ElevatedButton.icon(
