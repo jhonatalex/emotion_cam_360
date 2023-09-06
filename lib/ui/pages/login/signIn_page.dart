@@ -107,6 +107,7 @@ class _SignInPageState extends State<SignInPage> {
                           //await authClass.googleSignIn(context);
                         },
                       ),
+                      /*
                       SizedBox(
                         height: sclH(context) * 2,
                       ),
@@ -116,15 +117,15 @@ class _SignInPageState extends State<SignInPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (builder) => const PhoneAuthPage()));
-                      }),
-                      /*  */
+                      }),*/
+                   
                     ],
                   ),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: sclH(context) * 53,
+                  top: sclH(context) * 43,
                   left: sclW(context) * 5,
                   right: sclW(context) * 5,
                   bottom: sclH(context) * 3,

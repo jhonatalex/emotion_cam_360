@@ -1,6 +1,7 @@
 
 import 'dart:core';
 
+import 'package:chalkdart/chalk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
@@ -64,13 +65,19 @@ class AuthRepositoryImp implements AuthRepository {
     await authClass.storeTokenAndData(userCredential);
 
     //GUARDAR EL USUARIO PERSONALIZADO
-    final uid = Get.find<AuthController>().authUser.value!.uid;
+    final uid = Get.find<AuthController>().authUser.value?.uid;
+
+
+
+    print(chalk.greenBright.bold(Get.find<AuthController>()));
+
+    
     final email = username;
     //const statusInitial = true;
     DateTime dateInitial2 = newDateLimit(15);
     Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
-    final newUser = MyUser(uid, email, date: dateInitial);
+    final newUser = MyUser(uid!, email, date: dateInitial);
 
     await _userRepository.saveMyUser(newUser);
 
