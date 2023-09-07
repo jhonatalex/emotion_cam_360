@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:camera/camera.dart';
+import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/desing/desing_page.dart';
@@ -94,7 +95,7 @@ class _VideoPageState extends State<VideoPage> {
     }
 
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.medium);
+    _controller = CameraController(camera, ResolutionPreset.veryHigh);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
@@ -124,12 +125,7 @@ class _VideoPageState extends State<VideoPage> {
       return const Center(child: Text('Loading...'));
     }
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
-    return Center(
-      child: AspectRatio(
-        aspectRatio: 9 / 16, // 16 / 22,
-        child: CameraPreview(_controller!),
-      ),
-    );
+    return CameraPreview(_controller!);
   }
 
   // Retornar el ícono de la cámara
@@ -163,15 +159,18 @@ class _VideoPageState extends State<VideoPage> {
 
       case 1:
         return Container(
-          width: sclW(context) * 90,
           height: sclH(context) * 80,
-          margin: EdgeInsets.only(bottom: sclH(context) * 10),
-          child: AspectRatio(
-              aspectRatio: 9 / 16,
-              child: Stack(children: [_buildCamera(), const DesingPage()])),
+          width: sclH(context) * 100,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              _buildCamera(),
+              const DesingPage(),
+            ],
+          ),
         );
       case 2:
-        return Stack(children: [
+        return Stack(alignment: AlignmentDirectional.center, children: [
           _buildCamera(),
           _butomPlayBuilding(eventProvider),
         ]);
@@ -282,12 +281,13 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Obx(() {
       //var isLoading = _evenController.isLoading.value;
+
       var eventBd = _evenController.eventoBd.value;
 
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
-
       //eventProvider.saveEventPrefrerence(eventoSelected);
+      print(chalk.yellow.bold(eventBd));
 
       return DefaultTabController(
           length: 5,
@@ -307,8 +307,7 @@ class _VideoPageState extends State<VideoPage> {
             backgroundColor: AppColors.vulcan,
             //extendBodyBehindAppBar: true,
             extendBody: true,
-            body:
-                Center(child: selectActionShow(_selectedIndex, eventProvider)),
+            body: selectActionShow(_selectedIndex, eventProvider),
             bottomNavigationBar: Container(
               //height: 120,
               color: AppColors.vulcan,

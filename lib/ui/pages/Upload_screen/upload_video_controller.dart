@@ -1,4 +1,3 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/entities/responseFirebase.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:get/get.dart';

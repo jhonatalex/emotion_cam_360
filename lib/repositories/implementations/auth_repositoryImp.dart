@@ -1,4 +1,3 @@
-
 import 'dart:core';
 
 import 'package:chalkdart/chalk.dart';
@@ -67,11 +66,8 @@ class AuthRepositoryImp implements AuthRepository {
     //GUARDAR EL USUARIO PERSONALIZADO
     final uid = Get.find<AuthController>().authUser.value?.uid;
 
-
-
     print(chalk.greenBright.bold(Get.find<AuthController>()));
 
-    
     final email = username;
     //const statusInitial = true;
     DateTime dateInitial2 = newDateLimit(15);
@@ -98,36 +94,40 @@ class AuthRepositoryImp implements AuthRepository {
     // final googleAuth = await googleUser?.authentication;
 
     //final googleSignInAccount = await GoogleSignIn().signIn();
+    try {
+      final googleSignInAccount = await _googleSignIn.signIn();
+      print(chalk.white.bold(googleSignInAccount));
+      final googleSignInAuthentication =
+          await googleSignInAccount?.authentication;
+      print(chalk.white.bold(googleSignInAuthentication));
+      AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication?.idToken,
+        accessToken: googleSignInAuthentication?.accessToken,
+      );
 
-    final googleSignInAccount = await _googleSignIn.signIn();
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
 
-    final googleSignInAuthentication =
-        await googleSignInAccount?.authentication;
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        //GUARDAR EL USUARIO PERSONALIZADO
+        final uid = userCredential.user?.email;
+        final email = userCredential.user?.email;
+        //const statusInitial = true;
+        DateTime dateInitial2 = newDateLimit(15);
+        Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
-    AuthCredential credential = GoogleAuthProvider.credential(
-      idToken: googleSignInAuthentication?.idToken,
-      accessToken: googleSignInAuthentication?.accessToken,
-    );
+        final newUser = MyUser(uid!, email!, date: dateInitial);
 
-    UserCredential userCredential = await auth.signInWithCredential(credential);
+        await _userRepository.saveMyUser(newUser);
+      }
 
-    if (userCredential.additionalUserInfo!.isNewUser) {
-      //GUARDAR EL USUARIO PERSONALIZADO
-      final uid = userCredential.user?.email;
-      final email = userCredential.user?.email;
-      //const statusInitial = true;
-      DateTime dateInitial2 = newDateLimit(15);
-      Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
+      //PERSITENCIA DATA
+      await authClass.storeTokenAndData(userCredential);
 
-      final newUser = MyUser(uid!, email!, date: dateInitial);
-
-      await _userRepository.saveMyUser(newUser);
+      return _userFirebaseConvertToModel(userCredential.user);
+    } catch (e) {
+      print(chalk.white.bold(e.toString()));
     }
-
-    //PERSITENCIA DATA
-    await authClass.storeTokenAndData(userCredential);
-
-    return _userFirebaseConvertToModel(userCredential.user);
   }
 
   @override

@@ -4,11 +4,7 @@ import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:emotion_cam_360/utils/globals.dart' as globals;
-import 'package:mercado_pago_checkout/mercado_pago_checkout.dart';
-import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 
 DateTime _savedDate = DateTime.now();
 DateTime _endDate = DateTime.now();

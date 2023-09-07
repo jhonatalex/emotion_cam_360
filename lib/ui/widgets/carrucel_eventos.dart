@@ -71,7 +71,6 @@ class PopularesSlider extends StatelessWidget {
             enlargeCenterPage: true),
         items: listEvents.map((event) {
           File imgDynamic = File(event.overlay);
-          print(chalk.white.bold(event.overlay));
 
           return Builder(
             builder: (BuildContext context) {
