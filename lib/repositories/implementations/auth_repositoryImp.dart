@@ -45,8 +45,7 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<AuthUser?> signInWithEmailAndPassword(
       String username, String password) async {
-    final authResult = await _firebaseAuthUniqueInstance
-        .signInWithEmailAndPassword(email: username, password: password);
+    final authResult = await _firebaseAuthUniqueInstance.signInWithEmailAndPassword(email: username, password: password);
 
     return _userFirebaseConvertToModel(authResult.user);
   }
@@ -66,11 +65,6 @@ class AuthRepositoryImp implements AuthRepository {
 
     //GUARDAR EL USUARIO PERSONALIZADO
     final uid = Get.find<AuthController>().authUser.value?.uid;
-
-
-
-    print(chalk.greenBright.bold(Get.find<AuthController>()));
-
     
     final email = username;
     //const statusInitial = true;
