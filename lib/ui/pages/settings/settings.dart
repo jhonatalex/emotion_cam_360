@@ -19,7 +19,7 @@ class SettingsVideo extends StatelessWidget {
 
 class Settings extends StatelessWidget {
   final SettingsController settingsController = Get.put(SettingsController());
-  String configvalue = 'Predeterminado';
+  /*  String configvalue = 'Predeterminado';
   List<String> configitems = [
     "Predeterminado",
     "Alegría ritmica",
@@ -31,7 +31,7 @@ class Settings extends StatelessWidget {
     "Explosión", //Titulo Abreviación. Autor.
     "Titulo2 A.A.", //Titulo Abreviación. Autor.
     "Titulo3 A.A.", //Titulo Abreviación. Autor.
-  ];
+  ]; */
 
   Settings({super.key});
 
@@ -299,7 +299,7 @@ class Settings extends StatelessWidget {
                         child: Slider(
                           value: settingsController.reverse.value.toDouble(),
                           min: 1.0,
-                          max: reverseMax(),
+                          max: reverseMax() - 1,
                           divisions: settingsController.reverseMax.value,
                           label: '${settingsController.reverse.value} seg',
                           onChanged: (double newValue) {

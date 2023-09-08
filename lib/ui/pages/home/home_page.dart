@@ -37,18 +37,20 @@ class Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(height: sclH(context) * 40, child: const CarrucelHeader()),
-        SizedBox(
-          height: sclH(context) * 20,
-          child: const Center(
-            child: ImgTextButton(),
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(height: sclH(context) * 40, child: const CarrucelHeader()),
+          SizedBox(
+            height: sclH(context) * 20,
+            child: const Center(
+              child: ImgTextButton(),
+            ),
           ),
-        ),
-        SizedBox(height: sclH(context) * 40, child: const CarrucelStyles()),
-      ],
+          SizedBox(height: sclH(context) * 40, child: const CarrucelStyles()),
+        ],
+      ),
     );
   }
 }

@@ -201,7 +201,7 @@ class _SignInPageState extends State<SignInPage> {
                         backgroundColor: AppColors.royalBlue,
                       )
                     : Text(
-                        "O Ingresa tus datos aquí.",
+                        "Ingresa tus datos aquí.",
                         style: TextStyle(
                             color: Colors.white, fontSize: sclH(context) * 3),
                       ),

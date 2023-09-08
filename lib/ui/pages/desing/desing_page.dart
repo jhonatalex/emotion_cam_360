@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/pages/desing/desing_controller.dart';
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,12 +68,13 @@ class _DesingPageState extends State<DesingPage> {
                   }
                 },
                 icon: const Icon(
-                  Icons.change_circle,
-                  color: Colors.white,
+                  Icons.change_circle_outlined,
+                  color: AppColors.violet,
+                  size: 22,
                 ),
                 label: const Text(
                   "Marco",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColors.violet, fontSize: 22),
                 ),
               ),
             ],

@@ -155,20 +155,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Lo hacemos facíl para ti.\n Solo rellena el siguiente formulario.",
+                      "Solo rellena el siguiente formulario.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 22,
                       ),
                     ),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    "Así de fácil.",
-                    style: TextStyle(
-                        color: Colors.white, fontSize: sclH(context) * 3),
                   ),
                 ),
               ]))),
