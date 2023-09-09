@@ -39,38 +39,7 @@ class _MyAppBarState extends State<MyAppBar> {
       toolbarHeight: sclH(context) * 7,
       centerTitle: true,
       backgroundColor: Colors.transparent,
-      /* actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: CircleAvatar(
-            radius: sclH(context) * 2.5,
-            backgroundColor: AppColors.vulcan,
-            /* backgroundImage: AssetImage(
-              "assets/img/background.png",
-              
-            ), */
-            child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    if (isConected) {
-                      icon = Icons.bluetooth_connected;
-                      isConected = false;
-                      icolor = Colors.blue;
-                    } else {
-                      icon = Icons.bluetooth_disabled;
-                      isConected = true;
-                      icolor = Colors.red;
-                    }
-                  });
-                },
-                icon: Icon(
-                  icon,
-                  size: sclH(context) * 2.5,
-                  color: icolor,
-                )),
-          ),
-        )
-      ], */
+    
     );
   }
 }
