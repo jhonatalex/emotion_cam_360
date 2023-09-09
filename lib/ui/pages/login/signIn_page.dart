@@ -5,7 +5,6 @@ import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/home/home_page.dart';
-import 'package:emotion_cam_360/ui/pages/login/phone_auth_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signUp_page.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -118,7 +117,6 @@ class _SignInPageState extends State<SignInPage> {
                             MaterialPageRoute(
                                 builder: (builder) => const PhoneAuthPage()));
                       }),*/
-                   
                     ],
                   ),
                 ),
@@ -139,6 +137,9 @@ class _SignInPageState extends State<SignInPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: sclH(context) * 2,
+                    ),
                     textItem("Email", _emailController, false),
                     SizedBox(
                       height: sclH(context) * 2,
@@ -200,7 +201,7 @@ class _SignInPageState extends State<SignInPage> {
                         backgroundColor: AppColors.royalBlue,
                       )
                     : Text(
-                        "O",
+                        "Ingresa tus datos aquí.",
                         style: TextStyle(
                             color: Colors.white, fontSize: sclH(context) * 3),
                       ),

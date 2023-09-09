@@ -45,7 +45,6 @@ class EventController extends GetxController {
   late var urlDownload = ''.obs;
   UploadTask? uploadTask;
   RxDouble progress = 0.0.obs;
-  RxDouble progressTemp = 0.0.obs;
 
   User get currentUser {
     final user = FirebaseAuth.instance.currentUser;
@@ -130,9 +129,11 @@ class EventController extends GetxController {
   Future<void> getEventBd() async {
     if (isLoading.isTrue) return;
     isLoading.value = true;
+    print(chalk.red.bold("getEventBd"));
     //final newEvent = await _eventRepository.getNewEvent();
     //eventos.insert(0, newEvent);
     eventoBd.value = await _eventRepository.getLastEvent();
+
     isLoading.value = false;
   }
 
@@ -206,6 +207,5 @@ class EventController extends GetxController {
         await _eventRepository.getAllSuscripcionesFirebase();
 
     suscripciones.value = listSuscripciones;
-      print(chalk.white.bold(suscripciones.value));
   }
 }

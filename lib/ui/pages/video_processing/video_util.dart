@@ -43,7 +43,7 @@ class VideoUtil {
     "x=W-w-10:y=H-h-10",
   ];
   static List videoCredito = <String>[
-    "espiral.mov",
+    "espiral.mp4", //"espiral.mov",
     "letras.mp4",
     "chispas.mp4",
     "neon.mp4",

@@ -19,7 +19,7 @@ class SettingsVideo extends StatelessWidget {
 
 class Settings extends StatelessWidget {
   final SettingsController settingsController = Get.put(SettingsController());
-  String configvalue = 'Predeterminado';
+  /*  String configvalue = 'Predeterminado';
   List<String> configitems = [
     "Predeterminado",
     "Alegría ritmica",
@@ -31,7 +31,7 @@ class Settings extends StatelessWidget {
     "Explosión", //Titulo Abreviación. Autor.
     "Titulo2 A.A.", //Titulo Abreviación. Autor.
     "Titulo3 A.A.", //Titulo Abreviación. Autor.
-  ];
+  ]; */
 
   Settings({super.key});
 
@@ -361,7 +361,7 @@ class Settings extends StatelessWidget {
   }
 
   reverseMax() {
-    if (settingsController.reverse.value >=
+    if (settingsController.reverse.value >
         settingsController.timeRecord.value) {
       settingsController.reverse.value = 1;
     }
@@ -373,7 +373,10 @@ class Settings extends StatelessWidget {
     settingsController.timeRecord.value = settingsController.normal1.value +
         settingsController.slowMotion.value +
         settingsController.normal2.value;
-
+    if (settingsController.reverse.value >
+        settingsController.timeRecord.value) {
+      settingsController.reverse.value = 1;
+    }
     settingsController.timeTotal.value = settingsController.normal1.value +
         settingsController.slowMotion.value * 2 +
         settingsController.normal2.value +

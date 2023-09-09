@@ -86,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    top: sclH(context) * 30,
+                    top: sclH(context) * 43,
                     left: sclW(context) * 5,
                     right: sclW(context) * 5,
                     bottom: sclH(context) * 3,
@@ -102,16 +102,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     //mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Lo hacemos facíl para ti, solo rellena el siguiente formulario.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
                       SizedBox(
-                        height: sclH(context) * 4,
+                        height: sclH(context) * 7.5,
                       ),
                       textItem("Email", _emailController, false),
                       SizedBox(
@@ -155,6 +147,21 @@ class _SignUpPageState extends State<SignUpPage> {
                         ],
                       ),
                     ],
+                  ),
+                ),
+                Positioned(
+                  top: sclH(context) * 30,
+                  width: sclW(context) * 100,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Solo rellena el siguiente formulario.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                      ),
+                    ),
                   ),
                 ),
               ]))),
