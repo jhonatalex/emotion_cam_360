@@ -299,7 +299,7 @@ class Settings extends StatelessWidget {
                         child: Slider(
                           value: settingsController.reverse.value.toDouble(),
                           min: 1.0,
-                          max: reverseMax() - 1,
+                          max: reverseMax(),
                           divisions: settingsController.reverseMax.value,
                           label: '${settingsController.reverse.value} seg',
                           onChanged: (double newValue) {
@@ -361,7 +361,7 @@ class Settings extends StatelessWidget {
   }
 
   reverseMax() {
-    if (settingsController.reverse.value >=
+    if (settingsController.reverse.value >
         settingsController.timeRecord.value) {
       settingsController.reverse.value = 1;
     }
@@ -373,7 +373,10 @@ class Settings extends StatelessWidget {
     settingsController.timeRecord.value = settingsController.normal1.value +
         settingsController.slowMotion.value +
         settingsController.normal2.value;
-
+    if (settingsController.reverse.value >
+        settingsController.timeRecord.value) {
+      settingsController.reverse.value = 1;
+    }
     settingsController.timeTotal.value = settingsController.normal1.value +
         settingsController.slowMotion.value * 2 +
         settingsController.normal2.value +

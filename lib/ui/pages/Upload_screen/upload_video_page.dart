@@ -60,18 +60,6 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
         videoProvider.pathPreferences, eventProvider.eventPrefrerences);
   }
 
-  //Finjir subida de porcentaje hacelo más fluido
-  porcentUp() {
-    if (_evenController.progressTemp.value < _evenController.progress.value) {
-      Future.delayed(
-          const Duration(
-            milliseconds: 100,
-          ), () {
-        _evenController.progressTemp.value++;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     /*  Future<void> saveVideo(Uint8List? videoByte, String videoPath,
@@ -83,8 +71,10 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
     return Obx(() {
       // final isSaving = _evenController.isSaving.value;
 
-      progresController = _evenController.progressTemp.value;
-      porcentUp();
+      progresController = _evenController.progress.value > 100
+          ? 100
+          : _evenController.progress.value;
+
       //************llamar al acortador */
 
       if (progresController == 100) {
@@ -121,7 +111,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
                 child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 375),
                     child: LiquidCircularProgressIndicator(
-                      value: _evenController.progressTemp.value /
+                      value: _evenController.progress.value /
                           100, // Defaults to 0.5.
                       valueColor: AlwaysStoppedAnimation(AppColors
                           .royalBlue), // Defaults to the current Theme's accentColor.

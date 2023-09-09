@@ -73,7 +73,7 @@ class _DesingPageState extends State<DesingPage> {
                   size: 22,
                 ),
                 label: const Text(
-                  "Marco",
+                  "Cambiar marco",
                   style: TextStyle(color: AppColors.violet, fontSize: 22),
                 ),
               ),
