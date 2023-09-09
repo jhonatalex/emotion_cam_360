@@ -8,6 +8,7 @@ import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 final ScrollController _controller = ScrollController();
 
@@ -54,149 +55,155 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     final top2 = sclH(context) * 65;
     final left3 = sclW(context) * 55;
     final top3 = sclH(context) * 65; */
-    return Obx(() {
-      var items = _evenController.suscripciones;
-      return Stack(children: [
-        BackgroundGradient(context),
-        Scaffold(
-            //extendBodyBehindAppBar: true,
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
+    return ModalProgressHUD(
+      inAsyncCall: _subscriptionController.isLoading.value,
+       child: Obx(() {
+        var items = _evenController.suscripciones;
+        var isloading = _subscriptionController.isLoading.value;
+
+        return Stack(children: [
+          BackgroundGradient(context),
+          Scaffold(
+              //extendBodyBehindAppBar: true,
               backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Text(
-                "SUBSCRIPCIONES",
-                style: TextStyle(fontSize: sclW(context) * 5),
-              ),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.info_outline,
-                    // color: diasRestantes() > 3 ? Colors.green : Colors.orange,
-                  ),
-                  onPressed: () async {
-                    String date = "";
-                    int dias = 0;
-                    date = formatDatatime(updateDateLimit(0));
-                    dias = await diasRestantes();
-                    setState(
-                      () {},
-                    );
-                    //dialog con GetX
-                    Get.defaultDialog(
-                      backgroundColor: AppColors.vulcan,
-                      radius: 10.0,
-                      contentPadding: const EdgeInsets.all(20.0),
-                      title: 'Información de Subscripción',
-                      titleStyle: const TextStyle(color: AppColors.royalBlue),
-                      middleText: 'Fecha de Vencimiento: $date  \n'
-                          'Días Restantes: $dias',
-                      middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
-                      textConfirm: 'Okay',
-                      confirm: ElevatedButton(
-                        onPressed: () => Get.back(),
-                        child: const Text(
-                          'Aceptar',
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: Text(
+                  "SUBSCRIPCIONES",
+                  style: TextStyle(fontSize: sclW(context) * 5),
+                ),
+                centerTitle: true,
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.info_outline,
+                      // color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                    ),
+                    onPressed: () async {
+                      String date = "";
+                      int dias = 0;
+                      date = formatDatatime(dateSaved());
+                      dias = await diasRestantes();
+                      setState(
+                        () {},
+                      );
+                      //dialog con GetX
+                      Get.defaultDialog(
+                        backgroundColor: AppColors.vulcan,
+                        radius: 10.0,
+                        contentPadding: const EdgeInsets.all(20.0),
+                        title: 'Información de Subscripción',
+                        titleStyle: const TextStyle(color: AppColors.royalBlue),
+                        middleText: 'Fecha de Vencimiento: $date  \n'
+                            'Días Restantes: $dias',
+                        middleTextStyle: TextStyle(fontSize: sclH(context) * 3),
+                        textConfirm: 'Okay',
+                        confirm: ElevatedButton(
+                          onPressed: () => Get.back(),
+                          child: const Text(
+                            'Aceptar',
+                          ),
                         ),
-                      ),
-                      /* cancel: OutlinedButton.icon(
-                            onPressed: () {},
-                            icon: Icon(Icons.cancel),
-                            label: Text("cancelar"),
-                          ), */
-                    );
-                  },
-                ),
-              ],
-            ),
-            body: Column(
-              children: [
-                /* Image.asset(
-                  "assets/img/logo-emotion.png",
-                  height: sclH(context) * 15,
-                ),
-                if (emailUser != '')
-                      Text(
-                        emailUser == null ? 'EMOTION \n CAM 360' : 'Usuario: ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: sclH(context) * 1.5),
-                      ),
-                
-*/
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    if (emailUser != '')
-                      Text(
-                        emailUser! /* == null
-                            ? ''
-                            : emailUser!.length >=
-                                    18 //evitar que se desborde hacia right
-                                ? '${emailUser!.substring(0, 18)}...'
-                                : '$emailUser' */
-                        ,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: sclH(context) * 2.5),
-                      ),
-                    TextButton.icon(
-                      icon: Icon(
-                        emailUser == null
-                            ? Icons.login_outlined
-                            : Icons.logout_outlined,
-                        size: sclH(context) * 2.5,
-                        color: Colors.white,
-                      ),
-                      label: Text(
-                        emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
-                        style: TextStyle(
-                          fontSize: sclH(context) * 2,
+                        /* cancel: OutlinedButton.icon(
+                              onPressed: () {},
+                              icon: Icon(Icons.cancel),
+                              label: Text("cancelar"),
+                            ), */
+                      );
+                    },
+                  ),
+                ],
+              ),
+              body: Column(
+                children: [
+                  /* Image.asset(
+                    "assets/img/logo-emotion.png",
+                    height: sclH(context) * 15,
+                  ),
+                  if (emailUser != '')
+                        Text(
+                          emailUser == null ? 'EMOTION \n CAM 360' : 'Usuario: ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: sclH(context) * 1.5),
+                        ),
+                  
+     */
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      if (emailUser != '')
+                        Text(
+                          emailUser! /* == null
+                              ? ''
+                              : emailUser!.length >=
+                                      18 //evitar que se desborde hacia right
+                                  ? '${emailUser!.substring(0, 18)}...'
+                                  : '$emailUser' */
+                          ,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: sclH(context) * 2.5),
+                        ),
+                      TextButton.icon(
+                        icon: Icon(
+                          emailUser == null
+                              ? Icons.login_outlined
+                              : Icons.logout_outlined,
+                          size: sclH(context) * 2.5,
                           color: Colors.white,
                         ),
-                      ),
-                      onPressed: () async {
-                        await authClass.logout();
-                        //Get.find<AuthController>().signOut();
-                        Get.offAllNamed(RouteNames.signIn);
-                      },
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final item = items[index];
-                        print(chalk.white.bold(item.dias));
-                        return AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
-                          child: SubscriptionCard(
-                            context,
-                            item.name,
-                            item.typeDate,
-                            item.featureOne,
-                            item.featureTwo,
-                            item.featureThree,
-                            item.saving,
-                            item.price.toString(),
-                            item.dias,
+                        label: Text(
+                          emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
+                          style: TextStyle(
+                            fontSize: sclH(context) * 2,
+                            color: Colors.white,
                           ),
-                        );
-                      }),
-                ),
-              ],
-            )
-
-  
-
-            )
-      ]);
-    });
+                        ),
+                        onPressed: () async {
+                          await authClass.logout();
+                          //Get.find<AuthController>().signOut();
+                          Get.offAllNamed(RouteNames.signIn);
+                        },
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          final item = items[index];
+                          print(chalk.white.bold(item.dias));
+                          return AnimatedContainer(
+                            duration: const Duration(seconds: 1),
+                            //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
+                            child: subscriptionCard(
+                              context,
+                              item.name,
+                              item.typeDate,
+                              item.featureOne,
+                              item.featureTwo,
+                              item.featureThree,
+                              item.saving,
+                              item.price.toString(),
+                              item.dias,
+                              isloading,
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              )
+     
+       
+     
+              )
+        ]);
+         }),
+     );
   }
 
-  Widget SubscriptionCard(
+  Widget subscriptionCard(
       context,
       String title,
       String timeSubs,
@@ -205,7 +212,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       String feature3,
       int desc,
       String precio,
-      int ndia) {
+      int ndia,
+      bool isloading) {
     return Container(
       //width: sclW(context) * 70,
       height: sclH(context) * 64,
@@ -312,7 +320,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               onPressed: () async {
                 int iDiasRestantes = await diasRestantes();
                 String sDateSaved = formatDatatime(dateSaved());
-                String sDateLimit = formatDatatime(dateSaved().add(Duration(days: ndia)));
+                String sDateLimit = formatDatatime(_subscriptionController.updateDateLimit(ndia));
                 Get.defaultDialog(
                   backgroundColor: AppColors.vulcan,
                   radius: 10.0,
@@ -327,20 +335,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   textConfirm: 'Okay',
                   confirm: Column(
                     children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          _subscriptionController.initTransaction(precio, ndia, timeSubs );
-                           
-                        },
-                        icon: const Icon(
-                          Icons.check,
-                          //color: AppColors.violet,
-                        ),
-                        label: const Text(
-                          'Pagar',
-                          //style: TextStyle(color: AppColors.violet),
-                        ),
-                      ),
+                    
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              isloading=true;
+                              _subscriptionController.initTransaction(precio, ndia, timeSubs );
+                            },
+                            icon: const Icon(
+                              Icons.check,
+                              //color: AppColors.violet,
+                            ),
+                            label:  const Text(
+                              'Pagar',
+                              //style: TextStyle(color: AppColors.violet),
+                            ),
+                          ),
                     ],
                   ),
                   cancel: ElevatedButton.icon(

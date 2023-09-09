@@ -84,7 +84,7 @@ class AuthRepositoryImp implements AuthRepository {
     ],
   );
 
-  //GOOGLE
+  //-----------------------------GOOGLE----------------------------------------------------------------------------
   @override
   Future<AuthUser?> signInGoogle() async {
     //   final googleUser = await GoogleSignIn().signIn();
@@ -93,17 +93,22 @@ class AuthRepositoryImp implements AuthRepository {
     //final googleSignInAccount = await GoogleSignIn().signIn();
     try {
       final googleSignInAccount = await _googleSignIn.signIn();
-      print(chalk.white.bold(googleSignInAccount));
-      final googleSignInAuthentication =
-          await googleSignInAccount?.authentication;
-      print(chalk.white.bold(googleSignInAuthentication));
+      
+      
+      print(chalk.green.bold(googleSignInAccount));
+
+      final googleSignInAuthentication =await googleSignInAccount?.authentication;
+
+
+      print(chalk.yellow.bold(googleSignInAuthentication));
+
+
       AuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleSignInAuthentication?.idToken,
         accessToken: googleSignInAuthentication?.accessToken,
       );
 
-      UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+      UserCredential userCredential = await auth.signInWithCredential(credential);
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         //GUARDAR EL USUARIO PERSONALIZADO
@@ -123,7 +128,7 @@ class AuthRepositoryImp implements AuthRepository {
 
       return _userFirebaseConvertToModel(userCredential.user);
     } catch (e) {
-      print(chalk.white.bold(e.toString()));
+      print(chalk.red.bold(e.toString()));
     }
   }
 
