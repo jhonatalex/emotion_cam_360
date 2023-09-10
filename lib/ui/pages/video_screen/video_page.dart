@@ -338,7 +338,7 @@ class _VideoPageState extends State<VideoPage> {
                       Icons.camera,
                       // _getCameraIcon(_cameras[_cameraIndex].lensDirection),
                     ),
-                    label: 'Camara',
+                    label: 'Iniciar',
                   ),
                   const BottomNavigationBarItem(
                     icon: Icon(Icons.camera_enhance_sharp),

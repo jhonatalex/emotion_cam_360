@@ -1,4 +1,5 @@
 import 'package:emotion_cam_360/servicies/auth_service.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class _MyDrawerState extends State<MyDrawer> {
 
   late String date;
   late int dias;
+  
+ final _subscriptionController = Get.find<SubscriptionController>();
+
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
     if (emailUser!.isNotEmpty && actualizado == false) {
@@ -52,7 +56,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   /* 
                   String date = "";
                   String dias = "";*/
-                  date = formatDatatime(updateDateLimit(0));
+                  date = formatDatatime(dateSaved());
                   dias = await diasRestantes();
                   setState(() {});
                   //dialog con GetX

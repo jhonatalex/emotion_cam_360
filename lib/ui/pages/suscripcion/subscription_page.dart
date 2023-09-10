@@ -56,6 +56,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     final top3 = sclH(context) * 65; */
     return Obx(() {
       var items = _evenController.suscripciones;
+      var isloading = _subscriptionController.isLoading.value;
+
       return Stack(children: [
         BackgroundGradient(context),
         Scaffold(
@@ -78,7 +80,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   onPressed: () async {
                     String date = "";
                     int dias = 0;
-                    date = formatDatatime(updateDateLimit(0));
+                    date = formatDatatime(dateSaved());
                     dias = await diasRestantes();
                     setState(
                       () {},
@@ -112,30 +114,13 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             ),
             body: Column(
               children: [
-                /* Image.asset(
-                  "assets/img/logo-emotion.png",
-                  height: sclH(context) * 15,
-                ),
-                if (emailUser != '')
-                      Text(
-                        emailUser == null ? 'EMOTION \n CAM 360' : 'Usuario: ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: sclH(context) * 1.5),
-                      ),
-                
-*/
                 Wrap(
                   alignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     if (emailUser != '')
                       Text(
-                        emailUser! /* == null
-                            ? ''
-                            : emailUser!.length >=
-                                    18 //evitar que se desborde hacia right
-                                ? '${emailUser!.substring(0, 18)}...'
-                                : '$emailUser' */
+                        emailUser!
                         ,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: sclH(context) * 2.5),
@@ -172,7 +157,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         return AnimatedContainer(
                           duration: const Duration(seconds: 1),
                           //transform: Matrix4.translationValues(left2, top2, 0)..scale(0.5),
-                          child: SubscriptionCard(
+                          child: subscriptionCard(
                             context,
                             item.name,
                             item.typeDate,
@@ -182,6 +167,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                             item.saving,
                             item.price.toString(),
                             item.dias,
+                            isloading,
                           ),
                         );
                       }),
@@ -196,7 +182,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     });
   }
 
-  Widget SubscriptionCard(
+  Widget subscriptionCard(
       context,
       String title,
       String timeSubs,
@@ -205,7 +191,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       String feature3,
       int desc,
       String precio,
-      int ndia) {
+      int ndia,
+      bool isloading) {
     return Container(
       //width: sclW(context) * 70,
       height: sclH(context) * 64,
@@ -310,9 +297,12 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
             margin: const EdgeInsets.all(2),
             child: ElevatedButton(
               onPressed: () async {
+
                 int iDiasRestantes = await diasRestantes();
                 String sDateSaved = formatDatatime(dateSaved());
-                String sDateLimit = formatDatatime(dateSaved().add(Duration(days: ndia)));
+                String sDateLimit = formatDatatime(_subscriptionController.updateDateLimit(ndia));
+
+                
                 Get.defaultDialog(
                   backgroundColor: AppColors.vulcan,
                   radius: 10.0,
@@ -327,20 +317,23 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                   textConfirm: 'Okay',
                   confirm: Column(
                     children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          _subscriptionController.initTransaction(precio, ndia, timeSubs );
-                           
-                        },
-                        icon: const Icon(
-                          Icons.check,
-                          //color: AppColors.violet,
-                        ),
-                        label: const Text(
-                          'Pagar',
-                          //style: TextStyle(color: AppColors.violet),
-                        ),
-                      ),
+                    
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              isloading=true;
+                              _subscriptionController.initTransaction(precio, ndia, timeSubs );
+                            },
+                            icon: const Icon(
+                              Icons.check,
+                              //color: AppColors.violet,
+                            ),
+                            label:  isloading
+                                ? const CircularProgressIndicator()
+                                :  const Text(
+                              'Pagar',
+                              //style: TextStyle(color: AppColors.violet),
+                            ),
+                          ),
                     ],
                   ),
                   cancel: ElevatedButton.icon(

@@ -19,23 +19,18 @@ Future<MyUser?> getUserCurrent() async {
 
 Future<DateTime> getDateSaved() async {
   userCurrent = await provider.getMyUser2();
-  print(chalk.white.bold("userCurrent: $userCurrent"));
 // esta va a ser la fecha tomada desde firebase como string
 //se convierte en DataTime para poder hacer funciones
   _savedDate = userCurrent.date.toDate();
-  print(chalk.white.bold("getDateSaved: $_savedDate"));
 //formatear fecha
 //DateTime fecha2 = DateTime.parse('2023-07-20 00:10:00Z');
   return _savedDate;
 }
 
 setDate(DateTime newDate) async {
-  print(chalk.white.bold("guardando... $newDate"));
   var userCurrent = await provider.getMyUser2();
   userCurrent!.date = Timestamp.fromDate(newDate);
   provider.setSubscriptionDate(userCurrent);
-  print(chalk.white.bold("mandando a login... $newDate"));
-
   //LOGICA DESLOGUEAR
   await authClass.logout();
   //Get.find<AuthController>().signOut();

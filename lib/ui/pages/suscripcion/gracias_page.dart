@@ -80,7 +80,7 @@ class _GraciasPageState extends State<GraciasPage> {
                   onPressed: () async {
                     String date = "";
                     int dias = 0;
-                    date = formatDatatime(updateDateLimit(0));
+                    date = formatDatatime(dateSaved());
                     dias = await diasRestantes();
                     setState(
                       () {},
