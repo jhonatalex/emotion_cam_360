@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     VideoUtil.prepareAssets();
     //final userProvider = Provider.of<SesionPreferencerProvider>(context);
+
     return const Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.vulcan,

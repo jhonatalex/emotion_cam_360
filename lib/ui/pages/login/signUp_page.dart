@@ -132,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (builder) => const SignInPage()),
+                                      builder: (builder) => SignInPage(false)),
                                   (route) => false);
                             },
                             child: Text(

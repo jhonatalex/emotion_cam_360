@@ -99,7 +99,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.signIn,
-        page: () => const SignInPage(),
+        page: () => SignInPage(true),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),
       ),
@@ -139,7 +139,7 @@ class RoutePages {
         transition: Transition.fadeIn,
         //binding: const VideoViewerBinding(),
       ),
-        GetPage(
+      GetPage(
         name: RouteNames.graciasPaymentPage,
         page: () => const GraciasPage(),
         transition: Transition.fadeIn,
