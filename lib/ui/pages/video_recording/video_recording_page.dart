@@ -153,7 +153,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       (Timer timer) {
         if (startTime == 2) {
           vRCtrl.opacityText.value = 0;
-          print(chalk.yellow.bold("la camara usada es $_cameraIndex"));
         }
         if (startTime == 0) {
           timer.cancel();

@@ -37,16 +37,17 @@ class _SplashViewState extends State<SplashView> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+              padding: EdgeInsets.only(top: 8.0, bottom: 20.0),
               child: Text(
-                "Dsfruta la experiencia.",
+                "Bienvenidos",
                 style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
               ),
             ),
+          
             Padding(
-              padding: EdgeInsets.only(left: 64, right: 64),
+              padding: EdgeInsets.only(left: 40, right: 40),
               child: Text(
-                "Graba momentos importantes para ti y compartelo con amigos y seres queridos.",
+                "Tu Solución para Videos en 360°. Crea eventos, personaliza tus grabaciones y comparte momentos inolvidables.",
                 textAlign: TextAlign.center,
               ),
             ),

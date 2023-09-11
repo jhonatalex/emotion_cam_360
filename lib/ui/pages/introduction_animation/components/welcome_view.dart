@@ -74,15 +74,15 @@ class WelcomeView extends StatelessWidget {
               SlideTransition(
                 position: _welcomeFirstHalfAnimation,
                 child: Text(
-                  "Bienvenidos",
+                  "EMOTION CAM 360",
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
+                    EdgeInsets.only(left: 40, right: 40, top: 16, bottom: 16),
                 child: Text(
-                  "La aventura 360° apenas comienza, disfruta de nuestra experiencia.",
+                  "Prepárate para capturar momentos únicos en 360 grados! Comienza la aventura y crea recuerdos extraordinarios. ",
                   textAlign: TextAlign.center,
                 ),
               ),

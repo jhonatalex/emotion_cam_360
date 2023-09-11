@@ -79,19 +79,19 @@ class MoodDiaryVew extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Linea de tiempo",
+              const Text(
+                "Graba y Comparte",
                 style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
               ),
               SlideTransition(
                 position: _moodFirstHalfAnimation,
                 child: SlideTransition(
                   position: _moodSecondHalfAnimation,
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(
-                        left: 64, right: 64, top: 16, bottom: 16),
+                        left: 40, right: 40, top: 16, bottom: 16),
                     child: Text(
-                      "Personaliza la duración de los efectos o usa los ajustes preestablecidos q .",
+                      "Inicia la grabación y la app procesará automáticamente tu video, Una vez que la grabación esté lista. se generará un QR que podrás compartir.",
                       textAlign: TextAlign.center,
                     ),
                   ),

@@ -104,7 +104,7 @@ class CenterNextButton extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Comencemos',
+                                    'Comenzar',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,

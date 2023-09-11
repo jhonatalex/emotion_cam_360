@@ -84,9 +84,9 @@ class RelaxView extends StatelessWidget {
                 position: _textAnimation,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
+                      EdgeInsets.only(left: 40, right: 40, top: 16, bottom: 16),
                   child: Text(
-                    "Regístralos con un logo y una música para aplicarle a cada video.", //; Si quieres puedes personalizarloss con imágnes y descripciones",
+                    "Crea un nuevo evento. para agrupar tus videos, personaliza los detalles como la música y el logo de marca de agua", //; Si quieres puedes personalizarloss con imágnes y descripciones",
                     textAlign: TextAlign.center,
                   ),
                 ),
