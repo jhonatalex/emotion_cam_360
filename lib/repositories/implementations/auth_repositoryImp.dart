@@ -95,12 +95,12 @@ class AuthRepositoryImp implements AuthRepository {
       final googleSignInAccount = await _googleSignIn.signIn();
       
       
-      print(chalk.green.bold(googleSignInAccount));
+      //print(chalk.green.bold(googleSignInAccount));
 
       final googleSignInAuthentication =await googleSignInAccount?.authentication;
 
 
-      print(chalk.yellow.bold(googleSignInAuthentication));
+      //print(chalk.yellow.bold(googleSignInAuthentication));
 
 
       AuthCredential credential = GoogleAuthProvider.credential(

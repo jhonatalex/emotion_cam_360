@@ -5,8 +5,12 @@ import 'package:emotion_cam_360/ui/pages/introduction_animation/components/relax
 import 'package:emotion_cam_360/ui/pages/introduction_animation/components/splash_view.dart';
 import 'package:emotion_cam_360/ui/pages/introduction_animation/components/top_back_skip_view.dart';
 import 'package:emotion_cam_360/ui/pages/introduction_animation/components/welcome_view.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroductionAnimationScreen extends StatefulWidget {
   const IntroductionAnimationScreen({Key? key, required this.isLoginFunction})
@@ -18,22 +22,45 @@ class IntroductionAnimationScreen extends StatefulWidget {
       _IntroductionAnimationScreenState();
 }
 
-class _IntroductionAnimationScreenState
-    extends State<IntroductionAnimationScreen> with TickerProviderStateMixin {
+class _IntroductionAnimationScreenState extends State<IntroductionAnimationScreen> with TickerProviderStateMixin {
   AnimationController? _animationController;
+
+  bool showWelcome = true; // Valor predeterminado para mostrar la pantalla de bienvenida
+
+
 
   @override
   void initState() {
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 8));
     _animationController?.animateTo(0.0);
+
+
     super.initState();
   }
 
   @override
   void dispose() {
     _animationController?.dispose();
+     checkShowWelcomeScreen();
     super.dispose();
+  }
+
+
+ Future<void> checkShowWelcomeScreen() async {
+    final prefs = await SharedPreferences.getInstance();
+    final showWelcomePref = prefs.getBool('showWelcomeScreen');
+
+    if (showWelcomePref != null && !showWelcomePref) {
+
+      Get.offAllNamed(RouteNames.signIn);
+     
+    } else {
+   
+      setState(() {
+        showWelcome = true;
+      });
+    }
   }
 
   @override
@@ -118,6 +145,16 @@ class _IntroductionAnimationScreenState
     //Navigator.pop(context);
     setState(() {
       widget.isLoginFunction();
+      
+      markWelcomeScreenAsSeen();
+
     });
   }
+
+  Future<void> markWelcomeScreenAsSeen() async {
+    //final prefs = await SharedPreferences.getInstance();
+    //await prefs.setBool('showWelcomeScreen', false);
+  }
+
+
 }

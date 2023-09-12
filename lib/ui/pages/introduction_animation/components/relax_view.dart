@@ -75,14 +75,14 @@ class RelaxView extends StatelessWidget {
             children: [
               SlideTransition(
                 position: _relaxAnimation,
-                child: Text(
+                child: const Text(
                   "Crea eventos",
                   style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
                 ),
               ),
               SlideTransition(
                 position: _textAnimation,
-                child: Padding(
+                child: const Padding(
                   padding:
                       EdgeInsets.only(left: 40, right: 40, top: 16, bottom: 16),
                   child: Text(

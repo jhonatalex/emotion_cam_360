@@ -11,7 +11,7 @@ class WelcomeView extends StatelessWidget {
         Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0)).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.6,
           0.8,
           curve: Curves.fastOutSlowIn,
@@ -22,7 +22,7 @@ class WelcomeView extends StatelessWidget {
         Tween<Offset>(begin: Offset(0, 0), end: Offset(-1, 0)).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.8,
           1.0,
           curve: Curves.fastOutSlowIn,
@@ -34,7 +34,7 @@ class WelcomeView extends StatelessWidget {
         Tween<Offset>(begin: Offset(2, 0), end: Offset(0, 0))
             .animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.6,
         0.8,
         curve: Curves.fastOutSlowIn,
@@ -45,7 +45,7 @@ class WelcomeView extends StatelessWidget {
         Tween<Offset>(begin: Offset(4, 0), end: Offset(0, 0))
             .animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.6,
         0.8,
         curve: Curves.fastOutSlowIn,
@@ -73,12 +73,12 @@ class WelcomeView extends StatelessWidget {
               ),
               SlideTransition(
                 position: _welcomeFirstHalfAnimation,
-                child: Text(
+                child: const Text(
                   "EMOTION CAM 360",
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding:
                     EdgeInsets.only(left: 40, right: 40, top: 16, bottom: 16),
                 child: Text(

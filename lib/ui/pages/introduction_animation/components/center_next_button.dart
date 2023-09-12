@@ -97,7 +97,7 @@ class CenterNextButton extends StatelessWidget {
                         ? InkWell(
                             key: ValueKey('Registrate gratis'),
                             onTap: onNextClick,
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.only(left: 16.0, right: 16.0),
                               child: Row(
                                 mainAxisAlignment:
@@ -120,7 +120,7 @@ class CenterNextButton extends StatelessWidget {
                         : InkWell(
                             key: ValueKey('next button'),
                             onTap: onNextClick,
-                            child: Padding(
+                            child: const Padding(
                               padding: EdgeInsets.all(16.0),
                               child: Icon(Icons.arrow_forward_ios_rounded,
                                   color: Colors.white),
