@@ -1,4 +1,6 @@
 
+// ignore_for_file: unused_local_variable
+
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';

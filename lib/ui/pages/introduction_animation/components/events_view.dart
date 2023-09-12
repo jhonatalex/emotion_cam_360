@@ -8,44 +8,48 @@ class RelaxView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _firstHalfAnimation =
-        Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
+    final firstHalfAnimation =
+        Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0))
+            .animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.0,
           0.2,
           curve: Curves.fastOutSlowIn,
         ),
       ),
     );
-    final _secondHalfAnimation =
-        Tween<Offset>(begin: Offset(0, 0), end: Offset(-1, 0)).animate(
+    final secondHalfAnimation =
+        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(-1, 0))
+            .animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.2,
           0.4,
           curve: Curves.fastOutSlowIn,
         ),
       ),
     );
-    final _textAnimation =
-        Tween<Offset>(begin: Offset(0, 0), end: Offset(-2, 0)).animate(
+    final textAnimation =
+        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(-2, 0))
+            .animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.2,
           0.4,
           curve: Curves.fastOutSlowIn,
         ),
       ),
     );
-    final _imageAnimation =
-        Tween<Offset>(begin: Offset(0, 0), end: Offset(-4, 0)).animate(
+    final imageAnimation =
+        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(-4, 0))
+            .animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.2,
           0.4,
           curve: Curves.fastOutSlowIn,
@@ -53,11 +57,12 @@ class RelaxView extends StatelessWidget {
       ),
     );
 
-    final _relaxAnimation =
-        Tween<Offset>(begin: Offset(0, -2), end: Offset(0, 0)).animate(
+    final relaxAnimation =
+        Tween<Offset>(begin: const Offset(0, -2), end: const Offset(0, 0))
+            .animate(
       CurvedAnimation(
         parent: animationController,
-        curve: Interval(
+        curve: const Interval(
           0.0,
           0.2,
           curve: Curves.fastOutSlowIn,
@@ -65,24 +70,24 @@ class RelaxView extends StatelessWidget {
       ),
     );
     return SlideTransition(
-      position: _firstHalfAnimation,
+      position: firstHalfAnimation,
       child: SlideTransition(
-        position: _secondHalfAnimation,
+        position: secondHalfAnimation,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SlideTransition(
-                position: _relaxAnimation,
-                child: Text(
+                position: relaxAnimation,
+                child: const Text(
                   "Crea eventos",
                   style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
                 ),
               ),
               SlideTransition(
-                position: _textAnimation,
-                child: Padding(
+                position: textAnimation,
+                child: const Padding(
                   padding:
                       EdgeInsets.only(left: 40, right: 40, top: 16, bottom: 16),
                   child: Text(
@@ -92,9 +97,10 @@ class RelaxView extends StatelessWidget {
                 ),
               ),
               SlideTransition(
-                position: _imageAnimation,
+                position: imageAnimation,
                 child: Container(
-                  constraints: BoxConstraints(maxWidth: 350, maxHeight: 250),
+                  constraints:
+                      const BoxConstraints(maxWidth: 350, maxHeight: 250),
                   child: Image.asset(
                     'assets/introduction_animation/relax_image.png',
                     fit: BoxFit.contain,

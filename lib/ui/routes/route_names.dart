@@ -21,4 +21,5 @@ class RouteNames {
   static const String videoListPage = '/video-list';
   static const String videoViewerPage = '/video-viewer';
   static const String graciasPaymentPage = '/gracias';
+  static const String introductionPage = '/introduction';
 }

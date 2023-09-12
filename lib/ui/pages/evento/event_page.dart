@@ -292,6 +292,8 @@ class _EventPageState extends State<EventPage> {
         }
       }));
       bool isloading = _evenController.isLoading.value;
+
+      _evenController.isLoading.value = false;
       return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(
           onTap: () {
@@ -342,7 +344,7 @@ class _EventPageState extends State<EventPage> {
             ),
           ),
         ),
-        if (isloading) const CircularProgressIndicator()
+        //if (isloading) const CircularProgressIndicator()
       ]);
     });
   }

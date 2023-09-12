@@ -1,93 +1,88 @@
+import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:flutter/material.dart';
 
-class WelcomeView extends StatelessWidget {
+class SplashView extends StatefulWidget {
   final AnimationController animationController;
-  const WelcomeView({Key? key, required this.animationController})
+
+  const SplashView({Key? key, required this.animationController})
       : super(key: key);
 
   @override
+  _SplashViewState createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  @override
   Widget build(BuildContext context) {
-    final _firstHalfAnimation =
-        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0)).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Interval(
-          0.6,
-          0.8,
-          curve: Curves.fastOutSlowIn,
-        ),
-      ),
-    );
-    final _secondHalfAnimation =
-        Tween<Offset>(begin: Offset(0, 0), end: Offset(-1, 0)).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Interval(
-          0.8,
-          1.0,
-          curve: Curves.fastOutSlowIn,
-        ),
-      ),
-    );
-
-    final _welcomeFirstHalfAnimation =
-        Tween<Offset>(begin: Offset(2, 0), end: Offset(0, 0))
+    final introductionanimation =
+        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0.0, -1.0))
             .animate(CurvedAnimation(
-      parent: animationController,
-      curve: Interval(
-        0.6,
-        0.8,
-        curve: Curves.fastOutSlowIn,
-      ),
-    ));
-
-    final _welcomeImageAnimation =
-        Tween<Offset>(begin: Offset(4, 0), end: Offset(0, 0))
-            .animate(CurvedAnimation(
-      parent: animationController,
-      curve: Interval(
-        0.6,
-        0.8,
+      parent: widget.animationController,
+      curve: const Interval(
+        0.0,
+        0.2,
         curve: Curves.fastOutSlowIn,
       ),
     ));
     return SlideTransition(
-      position: _firstHalfAnimation,
-      child: SlideTransition(
-        position: _secondHalfAnimation,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 100),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SlideTransition(
-                position: _welcomeImageAnimation,
+      position: introductionanimation,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                'assets/introduction_animation/introduction_image.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 8.0, bottom: 20.0),
+              child: Text(
+                "Bienvenidos",
+                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 40, right: 40),
+              child: Text(
+                "Tu Solución para Videos en 360°. Crea eventos, personaliza tus grabaciones y comparte momentos inolvidables.",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 48,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom + 16),
+              child: InkWell(
+                onTap: () {
+                  widget.animationController.animateTo(0.2);
+                },
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  //constraints: BoxConstraints(maxWidth: 350, maxHeight: 350),
-                  child: Image.asset(
-                    'assets/introduction_animation/welcome.png',
-                    fit: BoxFit.contain,
+                  height: 58,
+                  padding: const EdgeInsets.only(
+                    left: 56.0,
+                    right: 56.0,
+                    top: 16,
+                    bottom: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(38.0),
+                    color: AppColors.violet,
+                  ),
+                  child: const Text(
+                    'Adelante',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-              SlideTransition(
-                position: _welcomeFirstHalfAnimation,
-                child: Text(
-                  "EMOTION CAM 360",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 40, right: 40, top: 16, bottom: 16),
-                child: Text(
-                  "Prepárate para capturar momentos únicos en 360 grados! Comienza la aventura y crea recuerdos extraordinarios. ",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -10,148 +10,100 @@ import 'package:emotion_cam_360/utils/globals.dart' as globals;
 import 'package:mercado_pago_checkout/mercado_pago_checkout.dart';
 import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 
-
-
-
 class SubscriptionController extends GetxController {
- String? _platformVersion = 'Unknown';
+  static var publicKey = globals.mpPublicKeyTEST;
+  String? emailUser = '';
+  final provider = FirebaseProvider();
+  late var userCurrent;
+  Rx<bool> isLoading = Rx(false);
 
-static var publicKey = globals.mpPublicKeyTEST;
-String? emailUser = '';
-final provider = FirebaseProvider();
-late var userCurrent;
-Rx<bool> isLoading = Rx(false);
-
-
-Rx<PaymentResult?> dataTransaccion = Rx(null);
-
+  Rx<PaymentResult?> dataTransaccion = Rx(null);
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getUserCurrent();
-    
   }
 
-
-Future<MyUser?> getUserCurrent() async {
- userCurrent = await provider.getMyUser2();
-  return userCurrent;
-}
-
-
-
-setDate(DateTime newDate) async {
-  var userCurrent = await provider.getMyUser2();
-  userCurrent!.date = Timestamp.fromDate(newDate);
-  provider.setSubscriptionDate(userCurrent);
-}
-
-
-DateTime updateDateLimit(int nDias)  {
-
-  Timestamp dateExpirationCurrent = userCurrent!.date;
-  var dateCurrentToday = DateTime.now();
-
-  // Convierte Timestamp a DateTime
-  DateTime dateExpirationDateTime = dateExpirationCurrent.toDate();
-
-  // Compara las fechas
-  if (dateExpirationDateTime.isAfter(dateCurrentToday)) {
-    dateExpirationDateTime = dateExpirationDateTime.add(Duration(days: nDias));
-  } else {
-    dateExpirationDateTime = dateCurrentToday.add(Duration(days: nDias));
+  Future<MyUser?> getUserCurrent() async {
+    userCurrent = await provider.getMyUser2();
+    return userCurrent;
   }
 
-  return dateExpirationDateTime;
-}
+  setDate(DateTime newDate) async {
+    var userCurrent = await provider.getMyUser2();
+    userCurrent!.date = Timestamp.fromDate(newDate);
+    provider.setSubscriptionDate(userCurrent);
+  }
 
+  DateTime updateDateLimit(int nDias) {
+    Timestamp dateExpirationCurrent = userCurrent!.date;
+    var dateCurrentToday = DateTime.now();
 
+    // Convierte Timestamp a DateTime
+    DateTime dateExpirationDateTime = dateExpirationCurrent.toDate();
 
+    // Compara las fechas
+    if (dateExpirationDateTime.isAfter(dateCurrentToday)) {
+      dateExpirationDateTime =
+          dateExpirationDateTime.add(Duration(days: nDias));
+    } else {
+      dateExpirationDateTime = dateCurrentToday.add(Duration(days: nDias));
+    }
 
- Future<void>  initTransaction(price,dias,title) async {
+    return dateExpirationDateTime;
+  }
 
-  isLoading.value = true;
+  Future<void> initTransaction(price, dias, title) async {
+    isLoading.value = true;
 
 //MERCADO PAGO INIT
-  initPreferencs(price,title).then((response) async {
-
+    initPreferencs(price, title).then((response) async {
       var preferenceID = response['response']['id'];
 
-    try{
-
-      //MERCADO PAGO CHECKOUT
-      PaymentResult result = await MercadoPagoCheckout.startCheckout(publicKey,preferenceID);
+      try {
+        //MERCADO PAGO CHECKOUT
+        PaymentResult result =
+            await MercadoPagoCheckout.startCheckout(publicKey, preferenceID);
 
         print(chalk.green.bold('Bien: ${result}'));
         isLoading.value = false;
 
-
-        if(result.result!='canceled'){
+        if (result.result != 'canceled') {
           dataTransaccion.value = result;
 
-          if(result.status=='approved'){
-           setDate(updateDateLimit(dias));
+          if (result.status == 'approved') {
+            setDate(updateDateLimit(dias));
           }
 
           //NAVEGAR PAGINA GRACIAS
           Get.offNamed(RouteNames.graciasPaymentPage, arguments: result);
-          
         }
-
-    }
-    on PlatformException catch (e){
-     print(chalk.pink.bold('Exeption: ${e.toString()}'));
-    }
-
-
+      } on PlatformException catch (e) {
+        print(chalk.pink.bold('Exeption: ${e.toString()}'));
+      }
     });
-
-}
-
+  }
 
 //MERCADO PAGO PREFERENCES
-Future<Map<String, dynamic>> initPreferencs(price,title) async {
-var mp = MP(globals.mpClientId, globals.mpClientSecret);
+  Future<Map<String, dynamic>> initPreferencs(price, title) async {
+    var mp = MP(globals.mpClientId, globals.mpClientSecret);
 
     var preference = {
-        "items": [
-            {
-                "title": title,
-                "quantity": 1,
-                "currency_id": "CLP",
-                "unit_price": int.parse(price)
-            }
-        ],
-        "payer":{ "email":"${userCurrent!.email}"}
+      "items": [
+        {
+          "title": title,
+          "quantity": 1,
+          "currency_id": "CLP",
+          "unit_price": int.parse(price)
+        }
+      ],
+      "payer": {"email": "${userCurrent!.email}"}
     };
 
     var result = await mp.createPreference(preference);
 
     return result;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
 }

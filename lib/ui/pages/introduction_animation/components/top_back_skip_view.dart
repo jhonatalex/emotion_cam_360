@@ -14,11 +14,11 @@ class TopBackSkipView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _animation =
-        Tween<Offset>(begin: Offset(0, -1), end: Offset(0.0, 0.0))
+    final animation =
+        Tween<Offset>(begin: const Offset(0, -1), end: const Offset(0.0, 0.0))
             .animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.0,
         0.2,
         curve: Curves.fastOutSlowIn,
@@ -35,10 +35,11 @@ class TopBackSkipView extends StatelessWidget {
     //     curve: Curves.fastOutSlowIn,
     //   ),
     // ));
-    final _skipAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(2, 0))
-        .animate(CurvedAnimation(
+    final skipAnimation =
+        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(2, 0))
+            .animate(CurvedAnimation(
       parent: animationController,
-      curve: Interval(
+      curve: const Interval(
         0.6,
         0.8,
         curve: Curves.fastOutSlowIn,
@@ -46,10 +47,10 @@ class TopBackSkipView extends StatelessWidget {
     ));
 
     return SlideTransition(
-      position: _animation,
+      position: animation,
       child: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-        child: Container(
+        child: SizedBox(
           height: 58,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,16 +60,16 @@ class TopBackSkipView extends StatelessWidget {
               //   child:
               IconButton(
                 onPressed: onBackClick,
-                icon: Icon(Icons.arrow_back_ios_new_rounded),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
                 //   ),
               ),
               Container(
                 margin: const EdgeInsets.only(right: 10.0),
                 child: SlideTransition(
-                  position: _skipAnimation,
+                  position: skipAnimation,
                   child: IconButton(
                     onPressed: onSkipClick,
-                    icon: Text('Salir'),
+                    icon: const Text('Salir'),
                   ),
                 ),
               ),
