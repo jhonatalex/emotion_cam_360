@@ -36,22 +36,21 @@ class _SplashViewState extends State<SplashView> {
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 8.0, bottom: 20.0),
               child: Text(
                 "Bienvenidos",
                 style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
               ),
             ),
-          
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 40, right: 40),
               child: Text(
                 "Tu Solución para Videos en 360°. Crea eventos, personaliza tus grabaciones y comparte momentos inolvidables.",
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 48,
             ),
             Padding(
@@ -63,7 +62,7 @@ class _SplashViewState extends State<SplashView> {
                 },
                 child: Container(
                   height: 58,
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 56.0,
                     right: 56.0,
                     top: 16,
@@ -73,7 +72,7 @@ class _SplashViewState extends State<SplashView> {
                     borderRadius: BorderRadius.circular(38.0),
                     color: AppColors.violet,
                   ),
-                  child: Text(
+                  child: const Text(
                     'Adelante',
                     style: TextStyle(
                       fontSize: 18,
