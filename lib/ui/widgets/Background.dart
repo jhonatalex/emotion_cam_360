@@ -19,7 +19,8 @@ class BackgroundBlur extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
+        Container(
+          padding: const EdgeInsets.only(bottom: 5),
           width: double.infinity,
           height: bgHeight,
           child: ClipRRect(

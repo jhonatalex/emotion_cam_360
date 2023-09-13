@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +23,8 @@ class AuthController extends GetxController {
   void onInit() async {
     // Just for testing. Allows the splash screen to be shown a few seconds
     //await Future.delayed(const Duration(seconds: 3));
-    _authSubscription =_authRepository.onAuthStateChanged.listen(_authStateChanged);
+    _authSubscription =
+        _authRepository.onAuthStateChanged.listen(_authStateChanged);
     // await getDateSaved;
 
     super.onInit();
@@ -39,9 +38,13 @@ class AuthController extends GetxController {
     authUser.value = user;
     //print(chalk.redBright.bold('entro al Controller Auth', authUser));
 
+    /*ACTUALIZAR ESTA VARIABLE*/
+    bool isFirst = true;
     if (user == null) {
       authState.value = AuthState.signedOUT;
-      Get.offAllNamed(RouteNames.signIn);
+      isFirst
+          ? Get.offAllNamed(RouteNames.introductionPage)
+          : Get.offAllNamed(RouteNames.signIn);
       //Get.offAllNamed(RouteNames.home);
     } else {
       //authState.value = AuthState.signedIN;
@@ -49,9 +52,7 @@ class AuthController extends GetxController {
       //Get.offAllNamed(RouteNames.home);
       int nDiasRestantes = await diasRestantes();
       _authSubscriptionChanged(nDiasRestantes);
-     
     }
-   
   }
 
   void _authSubscriptionChanged(diasRestantes) async {

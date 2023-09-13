@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(

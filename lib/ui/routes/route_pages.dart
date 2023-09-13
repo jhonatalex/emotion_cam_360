@@ -1,5 +1,6 @@
 import 'package:emotion_cam_360/ui/pages/evento/event_binding.dart';
 import 'package:emotion_cam_360/ui/pages/evento/event_page.dart';
+import 'package:emotion_cam_360/ui/pages/introduction_animation/introduction_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/profile_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/gracias_page.dart';
@@ -99,7 +100,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.signIn,
-        page: () => SignInPage(true),
+        page: () => SignInPage(),
         transition: Transition.fadeIn,
         //binding: const FinishBinding(),
       ),
@@ -144,6 +145,14 @@ class RoutePages {
         page: () => const GraciasPage(),
         transition: Transition.fadeIn,
         binding: const SubscriptionBinding(),
+      ),
+      GetPage(
+        name: RouteNames.introductionPage,
+        page: () => IntroductionPage(
+          isLoginFunction: () {},
+        ),
+        transition: Transition.fadeIn,
+        //binding: const SubscriptionBinding(),
       ),
     ];
   }
