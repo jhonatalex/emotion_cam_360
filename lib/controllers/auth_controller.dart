@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repositories/abstractas/auth_repositoryAbst.dart';
 import '../ui/routes/route_names.dart';
@@ -11,7 +12,6 @@ enum AuthState {
 }
 
 class AuthController extends GetxController {
-  //final Rx<AuthUser?> authUser = Rx(null);
 
   final _authRepository = Get.find<AuthRepository>();
   late StreamSubscription _authSubscription;
@@ -19,12 +19,12 @@ class AuthController extends GetxController {
   final Rx<AuthState> authState = Rx(AuthState.signedOUT);
   Rx<AuthUser?> authUser = Rx(null);
 
+
+  bool showWelcome = true; 
+
   @override
   void onInit() async {
-    // Just for testing. Allows the splash screen to be shown a few seconds
-    //await Future.delayed(const Duration(seconds: 3));
-    _authSubscription =
-        _authRepository.onAuthStateChanged.listen(_authStateChanged);
+    _authSubscription =_authRepository.onAuthStateChanged.listen(_authStateChanged);
     // await getDateSaved;
 
     super.onInit();
@@ -32,27 +32,26 @@ class AuthController extends GetxController {
 
   void _authStateChanged(AuthUser? user) async {
     //VERIFICA EL USUARIO NO EXISTE PARA MANDARLO A LOGUEARSE Y SET THE STATE
-
-    //print(chalk.bgRed.bold('entro al Controller Auth', user));
-    // CAMBIE DE PSOSICION ESTBA AL FINAL
     authUser.value = user;
-    //print(chalk.redBright.bold('entro al Controller Auth', authUser));
+   
+    final prefs = await SharedPreferences.getInstance();
+    final showWelcomePref = prefs.getBool('showWelcomeScreen');
 
-    /*ACTUALIZAR ESTA VARIABLE*/
-    bool isFirst = true;
     if (user == null) {
       authState.value = AuthState.signedOUT;
-      isFirst
-          ? Get.offAllNamed(RouteNames.introductionPage)
-          : Get.offAllNamed(RouteNames.signIn);
-      //Get.offAllNamed(RouteNames.home);
+    
+        if (showWelcomePref != null && !showWelcomePref) {
+              Get.offAllNamed(RouteNames.signIn);
+        } else {
+              Get.offAllNamed(RouteNames.introductionPage);
+        }
+
     } else {
-      //authState.value = AuthState.signedIN;
-      //Get.offAllNamed(RouteNames.signIn);
-      //Get.offAllNamed(RouteNames.home);
       int nDiasRestantes = await diasRestantes();
       _authSubscriptionChanged(nDiasRestantes);
     }
+
+
   }
 
   void _authSubscriptionChanged(diasRestantes) async {
@@ -60,10 +59,8 @@ class AuthController extends GetxController {
     if (diasRestantes <= 0) {
       authState.value = AuthState.signedOUT;
       Get.offAllNamed(RouteNames.subscription);
-      //Get.offAllNamed(RouteNames.home);
     } else {
       authState.value = AuthState.signedIN;
-      //Get.offAllNamed(RouteNames.signIn);
       Get.offAllNamed(RouteNames.home);
     }
   }

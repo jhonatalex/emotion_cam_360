@@ -141,10 +141,12 @@ class _IntroductionPageState extends State<IntroductionPage>
     }
   }
 
-  void _startClick() {
+  void _startClick() async {
     //Navigator.pop(context);
     /* ACTUALIZAR LA VARIABLE AQUÍ */
-    Get.offNamed(RouteNames.home);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('showWelcomeScreen', false);
+    Get.offNamed(RouteNames.signIn);
   }
 
   Future<void> markWelcomeScreenAsSeen() async {
