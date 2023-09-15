@@ -14,7 +14,7 @@ class SubscriptionController extends GetxController {
   static var publicKey = globals.mpPublicKeyTEST;
   String? emailUser = '';
   final provider = FirebaseProvider();
-  late var userCurrent;
+  var userCurrent;
   Rx<bool> isLoading = Rx(false);
 
   Rx<PaymentResult?> dataTransaccion = Rx(null);
@@ -48,7 +48,9 @@ class SubscriptionController extends GetxController {
     if (dateExpirationDateTime.isAfter(dateCurrentToday)) {
       dateExpirationDateTime =
           dateExpirationDateTime.add(Duration(days: nDias));
+      print(chalk.white.bold("si es"));
     } else {
+      print(chalk.white.bold("no es"));
       dateExpirationDateTime = dateCurrentToday.add(Duration(days: nDias));
     }
 

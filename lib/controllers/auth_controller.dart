@@ -12,19 +12,18 @@ enum AuthState {
 }
 
 class AuthController extends GetxController {
-
   final _authRepository = Get.find<AuthRepository>();
   late StreamSubscription _authSubscription;
 
   final Rx<AuthState> authState = Rx(AuthState.signedOUT);
   Rx<AuthUser?> authUser = Rx(null);
 
-
-  bool showWelcome = true; 
+  bool showWelcome = true;
 
   @override
   void onInit() async {
-    _authSubscription =_authRepository.onAuthStateChanged.listen(_authStateChanged);
+    _authSubscription =
+        _authRepository.onAuthStateChanged.listen(_authStateChanged);
     // await getDateSaved;
 
     super.onInit();
@@ -33,25 +32,22 @@ class AuthController extends GetxController {
   void _authStateChanged(AuthUser? user) async {
     //VERIFICA EL USUARIO NO EXISTE PARA MANDARLO A LOGUEARSE Y SET THE STATE
     authUser.value = user;
-   
+
     final prefs = await SharedPreferences.getInstance();
     final showWelcomePref = prefs.getBool('showWelcomeScreen');
 
     if (user == null) {
       authState.value = AuthState.signedOUT;
-    
-        if (showWelcomePref != null && !showWelcomePref) {
-              Get.offAllNamed(RouteNames.signIn);
-        } else {
-              Get.offAllNamed(RouteNames.introductionPage);
-        }
 
+      if (showWelcomePref != null && !showWelcomePref) {
+        Get.offAllNamed(RouteNames.signIn);
+      } else {
+        Get.offAllNamed(RouteNames.introductionPage);
+      }
     } else {
       int nDiasRestantes = await diasRestantes();
       _authSubscriptionChanged(nDiasRestantes);
     }
-
-
   }
 
   void _authSubscriptionChanged(diasRestantes) async {

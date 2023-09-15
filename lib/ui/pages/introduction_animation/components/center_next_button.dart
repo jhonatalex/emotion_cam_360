@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:flutter/material.dart';
 
-class CenterNextButton extends StatelessWidget {
+class CenterNextButton extends StatefulWidget {
   final AnimationController animationController;
   final VoidCallback onNextClick;
   const CenterNextButton(
@@ -10,11 +10,17 @@ class CenterNextButton extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CenterNextButton> createState() => _CenterNextButtonState();
+}
+
+class _CenterNextButtonState extends State<CenterNextButton> {
+  bool isPressed = false;
+  @override
   Widget build(BuildContext context) {
     final topMoveAnimation =
         Tween<Offset>(begin: const Offset(0, 5), end: const Offset(0, 0))
             .animate(CurvedAnimation(
-      parent: animationController,
+      parent: widget.animationController,
       curve: const Interval(
         0.0,
         0.2,
@@ -23,7 +29,7 @@ class CenterNextButton extends StatelessWidget {
     ));
     final signUpMoveAnimation =
         Tween<double>(begin: 0, end: 1.0).animate(CurvedAnimation(
-      parent: animationController,
+      parent: widget.animationController,
       curve: const Interval(
         0.6,
         0.8,
@@ -33,7 +39,7 @@ class CenterNextButton extends StatelessWidget {
     final loginTextMoveAnimation =
         Tween<Offset>(begin: const Offset(0, 5), end: const Offset(0, 0))
             .animate(CurvedAnimation(
-      parent: animationController,
+      parent: widget.animationController,
       curve: const Interval(
         0.6,
         0.8,
@@ -51,10 +57,10 @@ class CenterNextButton extends StatelessWidget {
           SlideTransition(
             position: topMoveAnimation,
             child: AnimatedBuilder(
-              animation: animationController,
+              animation: widget.animationController,
               builder: (context, child) => AnimatedOpacity(
-                opacity: animationController.value >= 0.2 &&
-                        animationController.value <= 0.6
+                opacity: widget.animationController.value >= 0.2 &&
+                        widget.animationController.value <= 0.6
                     ? 1
                     : 0,
                 duration: const Duration(milliseconds: 480),
@@ -65,7 +71,7 @@ class CenterNextButton extends StatelessWidget {
           SlideTransition(
             position: topMoveAnimation,
             child: AnimatedBuilder(
-              animation: animationController,
+              animation: widget.animationController,
               builder: (context, child) => Padding(
                 padding: EdgeInsets.only(
                     bottom: 38 - (38 * signUpMoveAnimation.value)),
@@ -96,14 +102,18 @@ class CenterNextButton extends StatelessWidget {
                     child: signUpMoveAnimation.value > 0.7
                         ? InkWell(
                             key: const ValueKey('Registrate gratis'),
-                            onTap: onNextClick,
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                            onTap: widget.onNextClick,
+                            onTapDown: (TapDownDetails) => setState(() {
+                              isPressed = true;
+                            }),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16.0, right: 16.0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Comenzar',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -111,15 +121,19 @@ class CenterNextButton extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  Icon(Icons.arrow_forward_rounded,
-                                      color: Colors.white),
+                                  isPressed
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(Icons.arrow_forward_rounded,
+                                          color: Colors.white),
                                 ],
                               ),
                             ),
                           )
                         : InkWell(
                             key: const ValueKey('next button'),
-                            onTap: onNextClick,
+                            onTap: widget.onNextClick,
                             child: const Padding(
                               padding: EdgeInsets.all(16.0),
                               child: Icon(Icons.arrow_forward_ios_rounded,
@@ -169,13 +183,13 @@ class CenterNextButton extends StatelessWidget {
   Widget _pageView() {
     int selectedIndex = 0;
 
-    if (animationController.value >= 0.7) {
+    if (widget.animationController.value >= 0.7) {
       selectedIndex = 3;
-    } else if (animationController.value >= 0.5) {
+    } else if (widget.animationController.value >= 0.5) {
       selectedIndex = 2;
-    } else if (animationController.value >= 0.3) {
+    } else if (widget.animationController.value >= 0.3) {
       selectedIndex = 1;
-    } else if (animationController.value >= 0.1) {
+    } else if (widget.animationController.value >= 0.1) {
       selectedIndex = 0;
     }
 
