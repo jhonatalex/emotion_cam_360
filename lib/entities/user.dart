@@ -5,9 +5,11 @@ import 'package:equatable/equatable.dart';
 class MyUser extends Equatable {
   final String id;
   final String email;
+  bool verified; 
   Timestamp date;
-//Timestamp.now()
-  MyUser(this.id, this.email, {required this.date});
+
+
+  MyUser(this.id, this.email, this.verified, {required this.date});
   @override
   List<Object?> get props => [id];
 
@@ -15,6 +17,7 @@ class MyUser extends Equatable {
     return <String, Object?>{
       'id': id,
       'email': email,
+      'verified':verified,
       'date': date,
     };
   }
@@ -22,5 +25,6 @@ class MyUser extends Equatable {
   MyUser.fromFirebaseMap(Map<String, Object?> data)
       : id = data['id'] as String,
         email = data['email'] as String,
+        verified = data['verified'] as bool,
         date = data['date'] as Timestamp;
 }

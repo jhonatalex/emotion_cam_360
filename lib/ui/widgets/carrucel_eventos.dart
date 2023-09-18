@@ -14,11 +14,15 @@ import 'package:get/get.dart';
 
 import 'responsive.dart';
 
-class CarrucelStyles extends StatelessWidget {
+class CarrucelStyles extends StatefulWidget {
   const CarrucelStyles({super.key});
 
-  // final CarouselController _carouselController = CarouselController();
+  @override
+  State<CarrucelStyles> createState() => _CarrucelStylesState();
+}
 
+class _CarrucelStylesState extends State<CarrucelStyles> {
+  // final CarouselController _carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +33,7 @@ class CarrucelStyles extends StatelessWidget {
         ),
         SizedBox(
           width: double.infinity,
-          height: sclH(context) * 35,
+          height: sclH(context) * 32,
           child: PopularesSlider(),
         ),
       ],
@@ -40,16 +44,16 @@ class CarrucelStyles extends StatelessWidget {
 class PopularesSlider extends StatelessWidget {
   String imgDefault = "assets/img/logo-emotion.png";
 
-  final _eventController = Get.put(EventController());
+  //final _eventController = Get.put(EventController());
 
   PopularesSlider({super.key});
-  //final _eventController = Get.find<EventController>();
+  final _eventController = Get.find<EventController>();
+
 
   @override
   build(BuildContext context) {
-    _eventController.getAllMyEventController();
-    var listEvents = _eventController.eventos;
     return Obx(() {
+      var listEvents = _eventController.eventos;
       if (listEvents.isEmpty) {
         for (var i = 0; i < 3; i++) {
           listEvents.add(
@@ -60,9 +64,9 @@ class PopularesSlider extends StatelessWidget {
       }
       return CarouselSlider(
         options: CarouselOptions(
-            height: sclH(context) * 32,
+            height: sclH(context) * 28,
             //aspectRatio: 15 / 9,
-            viewportFraction: 0.4,
+            viewportFraction: 0.35,
             enlargeFactor: 0.3,
             initialPage: 0,
             enableInfiniteScroll: true,
@@ -131,36 +135,6 @@ class PopularesSlider extends StatelessWidget {
                                       width: sclW(context) * 30,
                                       height: sclW(context) * 30,
                                     )
-
-                          /* 
-                          event!.name == "Evento"
-                              ? Image.asset(
-                                  event!.overlay,
-                                  width: sclW(context) * 30,
-                                  height: sclW(context) * 30,
-                                )
-                              : imgDynamic.existsSync()
-                                  ?
-                                  // La imagen existe en la caché
-                                  Image.file(
-                                      imgDynamic,
-                                      width: sclW(context) * 30,
-                                      height: sclW(context) * 30,
-                                    )
-                                  :
-                                  // La imagen no existe en la caché
-
-                                  Image.asset(
-                                      "/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png",
-                                      width: sclW(context) * 30,
-                                      height: sclW(context) * 30,
-                                    ) */
-
-                          /* Image.file(
-                                  imgDynamic,
-                                  width: sclW(context) * 30,
-                                  height: sclW(context) * 30,
-                                ) */
                           ,
                           SizedBox(
                             height: sclH(context) * 8,

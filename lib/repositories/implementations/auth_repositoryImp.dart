@@ -63,6 +63,9 @@ class AuthRepositoryImp implements AuthRepository {
     //PERSITENCIA DATA
     await authClass.storeTokenAndData(userCredential);
 
+    print(chalk.green.bold(userCredential));
+
+
     //GUARDAR EL USUARIO PERSONALIZADO
     final uid = Get.find<AuthController>().authUser.value?.uid;
 
@@ -71,12 +74,18 @@ class AuthRepositoryImp implements AuthRepository {
     DateTime dateInitial2 = newDateLimit(15);
     Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
-    final newUser = MyUser(uid!, email, date: dateInitial);
+    final newUser = MyUser(uid!, email, userCredential.user!.emailVerified, date: dateInitial);
 
     await _userRepository.saveMyUser(newUser);
+    
+    //ENVIA EL EMAIL PARA VERIFICARLO
+    //await FirebaseAuth.instance.setLanguageCode("es");
+    await userCredential.user?.sendEmailVerification();
 
     return _userFirebaseConvertToModel(userCredential.user);
   }
+
+  
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -95,10 +104,9 @@ class AuthRepositoryImp implements AuthRepository {
     try {
       final googleSignInAccount = await _googleSignIn.signIn();
 
-      print(chalk.green.bold(googleSignInAccount));
+      //print(chalk.green.bold(googleSignInAccount));
 
-      final googleSignInAuthentication =
-          await googleSignInAccount?.authentication;
+      final googleSignInAuthentication = await googleSignInAccount?.authentication;
 
       //print(chalk.yellow.bold(googleSignInAuthentication));
 
@@ -110,6 +118,8 @@ class AuthRepositoryImp implements AuthRepository {
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
 
+        print(chalk.green.bold(userCredential));
+
       if (userCredential.additionalUserInfo!.isNewUser) {
         //GUARDAR EL USUARIO PERSONALIZADO
         final uid = userCredential.user?.email;
@@ -118,7 +128,7 @@ class AuthRepositoryImp implements AuthRepository {
         DateTime dateInitial2 = newDateLimit(15);
         Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
-        final newUser = MyUser(uid!, email!, date: dateInitial);
+        final newUser = MyUser(uid!, email!,userCredential.user!.emailVerified, date: dateInitial);
 
         await _userRepository.saveMyUser(newUser);
       }

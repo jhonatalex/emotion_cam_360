@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -28,6 +31,8 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool circular = false;
   bool isLogging = false;
+
+  final provider = FirebaseProvider();
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   AuthClass authClass = AuthClass();
@@ -303,22 +308,41 @@ class _SignInPageState extends State<SignInPage> {
                   email: _emailController.text,
                   password: _passwordController.text);
 
-          //VOLATIL DATA
-          userSession.saveUser(userCredential.user!.email);
 
-          //PERSITENCIA DATA
-          authClass.storeTokenAndData(userCredential);
+          if(userCredential.user!.emailVerified){
 
-          // ignore: use_build_context_synchronously
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (builder) => const HomePage()),
-              (route) => false);
+              //VERIFICADO
+              MyUser? userModel = await getUserCurrent();
+              userModel?.verified =userCredential.user!.emailVerified;
+              provider.setVerifyUser(userModel!);
+
+
+              //PERSITENCIA DATA
+              userSession.saveUser(userCredential.user!.email);
+              authClass.storeTokenAndData(userCredential);
+
+      
+
+              // ignore: use_build_context_synchronously
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (builder) => const HomePage()),
+                  (route) => false);
+
+          }else{
+            setState(() {
+                    circular = false;
+              });
+            MessengerSnackBar(context, "Se le ha enviado un Email de verificacion... Favor Verificar Email ");
+          
+          }
+
+         
+        
         } catch (e) {
           final msg = e.toString();
           setState(() {
             circular = false;
-            print(chalk.white.bold(msg));
           });
 
           if (msg == "[firebase_auth/unknown] Given String is empty or null") {

@@ -38,7 +38,8 @@ class SubscriptionController extends GetxController {
   }
 
   DateTime updateDateLimit(int nDias) {
-    Timestamp dateExpirationCurrent = userCurrent!.date;
+    
+    Timestamp dateExpirationCurrent = userCurrent?.date;
     var dateCurrentToday = DateTime.now();
 
     // Convierte Timestamp a DateTime

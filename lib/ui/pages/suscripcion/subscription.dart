@@ -14,7 +14,7 @@ late var userCurrent;
 AuthClass authClass = AuthClass();
 
 Future<MyUser?> getUserCurrent() async {
-  return userCurrent;
+  return await provider.getMyUser2();
 }
 
 Future<DateTime> getDateSaved() async {
@@ -44,17 +44,16 @@ DateTime dateSaved() {
 DateTime updateDateLimit(int nDias) {
   _endDate = DateTime.now().add(Duration(days: nDias));
   //_endDate = _savedDate.add(Duration(days: nDias));
-  print(chalk.white.bold("Fecha Actual: ${DateTime.now()}"));
-  print(chalk.white.bold("Fecha de Vencimiento actualizada: $_endDate"));
+  //print(chalk.white.bold("Fecha Actual: ${DateTime.now()}"));
+  //print(chalk.white.bold("Fecha de Vencimiento actualizada: $_endDate"));
 
   return _endDate;
 }
 
 DateTime newDateLimit(int nDias) {
   _endDate = DateTime.now().add(Duration(days: nDias));
-  print(
-      chalk.white.bold("Fecha Actual creacion de usuario: ${DateTime.now()}"));
-  print(chalk.white.bold("Nueva Fecha de Vencimiento: $_endDate"));
+  //print(chalk.white.bold("Fecha Actual creacion de usuario: ${DateTime.now()}"));
+  //print(chalk.white.bold("Nueva Fecha de Vencimiento: $_endDate"));
   return _endDate;
 }
 

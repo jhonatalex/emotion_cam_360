@@ -75,7 +75,7 @@ class _UploadVideoPageState extends State<UploadVideoPage> {
           ? 100
           : _evenController.progress.value;
 
-      //************llamar al acortador */
+      //------llamar al acortador-------------*/
 
       if (progresController == 100) {
         Future.delayed(const Duration(seconds: 2), () {

@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
+import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,8 +48,22 @@ class AuthController extends GetxController {
         Get.offAllNamed(RouteNames.introductionPage);
       }
     } else {
-      int nDiasRestantes = await diasRestantes();
-      _authSubscriptionChanged(nDiasRestantes);
+
+        MyUser? user = await getUserCurrent();
+        //VALIDAD SI ESTA VERIFCADO
+        if(user!.verified){
+
+            int nDiasRestantes = await diasRestantes();
+            _authSubscriptionChanged(nDiasRestantes);
+
+        }else{
+
+            authState.value = AuthState.signedOUT;
+            Get.offAllNamed(RouteNames.signIn);
+
+        }
+
+
     }
   }
 

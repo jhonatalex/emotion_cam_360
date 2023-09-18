@@ -140,7 +140,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    emailUser == null ? 'Subscribirse' : 'Usuario Subscrito',
+                    emailUser == null ? 'Subscribirse' : 'Suscripción',
                     style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
 
