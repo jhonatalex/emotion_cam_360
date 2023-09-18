@@ -14,7 +14,7 @@ class SubscriptionController extends GetxController {
   static var publicKey = globals.mpPublicKey;
   String? emailUser = '';
   final provider = FirebaseProvider();
-  late var userCurrent;
+  var userCurrent;
   Rx<bool> isLoading = Rx(false);
 
   Rx<PaymentResult?> dataTransaccion = Rx(null);
@@ -38,7 +38,8 @@ class SubscriptionController extends GetxController {
   }
 
   DateTime updateDateLimit(int nDias) {
-    Timestamp dateExpirationCurrent = userCurrent!.date;
+    
+    Timestamp dateExpirationCurrent = userCurrent?.date;
     var dateCurrentToday = DateTime.now();
 
     // Convierte Timestamp a DateTime

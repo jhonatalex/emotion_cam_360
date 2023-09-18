@@ -106,8 +106,7 @@ class AuthRepositoryImp implements AuthRepository {
 
       //print(chalk.green.bold(googleSignInAccount));
 
-      final googleSignInAuthentication =
-          await googleSignInAccount?.authentication;
+      final googleSignInAuthentication = await googleSignInAccount?.authentication;
 
       //print(chalk.yellow.bold(googleSignInAuthentication));
 
@@ -118,6 +117,8 @@ class AuthRepositoryImp implements AuthRepository {
 
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
+
+        print(chalk.green.bold(userCredential));
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         //GUARDAR EL USUARIO PERSONALIZADO
