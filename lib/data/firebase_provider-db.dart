@@ -48,6 +48,11 @@ class FirebaseProvider {
     await ref.set(user.toFirebaseMap(), SetOptions(merge: true));
   }
 
+   Future<void> setVerifyUser(MyUser user) async {
+    final ref = firestore.doc('user/${user.email}');
+    await ref.set(user.toFirebaseMap(), SetOptions(merge: true));
+  }
+
 //____________VIDEOS______________________________________________________//
   //GUARDAR EN BD DE FIRESTORE
   Future<Responsefirebase> saveMyVideoProvider(

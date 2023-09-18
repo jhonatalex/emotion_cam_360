@@ -14,7 +14,7 @@ late var userCurrent;
 AuthClass authClass = AuthClass();
 
 Future<MyUser?> getUserCurrent() async {
-  return userCurrent;
+  return await provider.getMyUser2();
 }
 
 Future<DateTime> getDateSaved() async {
