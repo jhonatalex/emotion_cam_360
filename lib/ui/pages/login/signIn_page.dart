@@ -1,6 +1,3 @@
-// ignore_for_file: must_be_immutable
-
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/user.dart';
@@ -38,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
   AuthClass authClass = AuthClass();
 
   final _authRepository = Get.find<AuthRepository>();
-
+  bool isVisible = false;
   @override
   Widget build(BuildContext context) {
     final userSession = Provider.of<SesionPreferencerProvider>(context);
@@ -264,34 +261,54 @@ class _SignInPageState extends State<SignInPage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
       height: 55,
-      child: TextFormField(
-        controller: controller,
-        obscureText: obsecureText,
-        style: const TextStyle(
-          fontSize: 17,
-          color: Colors.white,
-        ),
-        decoration: InputDecoration(
-          labelText: name,
-          labelStyle: const TextStyle(
-            fontSize: 17,
-            color: Colors.white,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 1.5,
-              color: Color.fromARGB(255, 90, 0, 194),
+      child: Stack(
+        children: [
+          TextFormField(
+            controller: controller,
+            obscureText: obsecureText ? isVisible : false,
+            style: const TextStyle(
+              fontSize: 17,
+              color: Colors.white,
+            ),
+            decoration: InputDecoration(
+              labelText: name,
+              labelStyle: const TextStyle(
+                fontSize: 17,
+                color: Colors.white,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  width: 1.5,
+                  color: Color.fromARGB(255, 90, 0, 194),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: Colors.grey,
+                ),
+              ),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 1,
-              color: Colors.grey,
-            ),
+          Positioned(
+            height: 55,
+            right: 0,
+            child: obsecureText
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isVisible = !isVisible;
+                        print("Funcionando");
+                      });
+                    },
+                    icon: Icon(
+                      isVisible ? Icons.visibility_off : Icons.visibility,
+                    ))
+                : const SizedBox(),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -308,37 +325,28 @@ class _SignInPageState extends State<SignInPage> {
                   email: _emailController.text,
                   password: _passwordController.text);
 
+          if (userCredential.user!.emailVerified) {
+            //VERIFICADO
+            MyUser? userModel = await getUserCurrent();
+            userModel?.verified = userCredential.user!.emailVerified;
+            provider.setVerifyUser(userModel!);
 
-          if(userCredential.user!.emailVerified){
+            //PERSITENCIA DATA
+            userSession.saveUser(userCredential.user!.email);
+            authClass.storeTokenAndData(userCredential);
 
-              //VERIFICADO
-              MyUser? userModel = await getUserCurrent();
-              userModel?.verified =userCredential.user!.emailVerified;
-              provider.setVerifyUser(userModel!);
-
-
-              //PERSITENCIA DATA
-              userSession.saveUser(userCredential.user!.email);
-              authClass.storeTokenAndData(userCredential);
-
-      
-
-              // ignore: use_build_context_synchronously
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (builder) => const HomePage()),
-                  (route) => false);
-
-          }else{
+            // ignore: use_build_context_synchronously
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (builder) => const HomePage()),
+                (route) => false);
+          } else {
             setState(() {
-                    circular = false;
-              });
-            MessengerSnackBar(context, "Se le ha enviado un Email de verificacion... Favor Verificar Email ");
-          
+              circular = false;
+            });
+            MessengerSnackBar(context,
+                "Se le ha enviado un Email de verificacion... Favor Verificar Email ");
           }
-
-         
-        
         } catch (e) {
           final msg = e.toString();
           setState(() {
