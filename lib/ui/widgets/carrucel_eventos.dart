@@ -14,6 +14,8 @@ import 'package:get/get.dart';
 
 import 'responsive.dart';
 
+final _eventController = Get.find<EventController>();
+
 class CarrucelStyles extends StatefulWidget {
   const CarrucelStyles({super.key});
 
@@ -25,18 +27,20 @@ class _CarrucelStylesState extends State<CarrucelStyles> {
   // final CarouselController _carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "EVENTOS",
-          style: TextStyle(fontSize: sclW(context) * 5),
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: sclH(context) * 32,
-          child: PopularesSlider(),
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            style: TextStyle(fontSize: sclW(context) * 5),
+            "EVENTOS",
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: sclH(context) * 32,
+            child: PopularesSlider(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -47,8 +51,6 @@ class PopularesSlider extends StatelessWidget {
   //final _eventController = Get.put(EventController());
 
   PopularesSlider({super.key});
-  final _eventController = Get.find<EventController>();
-
 
   @override
   build(BuildContext context) {
@@ -134,8 +136,7 @@ class PopularesSlider extends StatelessWidget {
                                       "assets/img/logo-emotion.png",
                                       width: sclW(context) * 30,
                                       height: sclW(context) * 30,
-                                    )
-                          ,
+                                    ),
                           SizedBox(
                             height: sclH(context) * 8,
                           )
