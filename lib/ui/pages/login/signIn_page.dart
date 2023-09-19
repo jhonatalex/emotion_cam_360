@@ -35,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
   AuthClass authClass = AuthClass();
 
   final _authRepository = Get.find<AuthRepository>();
-  bool isVisible = false;
+  bool isVisible = true;
   @override
   Widget build(BuildContext context) {
     final userSession = Provider.of<SesionPreferencerProvider>(context);
