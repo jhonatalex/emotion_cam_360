@@ -1,6 +1,8 @@
 
 // ignore_for_file: unused_local_variable
 
+import 'dart:ffi';
+
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -169,6 +171,32 @@ class _GraciasPageState extends State<GraciasPage> {
     });
   }
 
+  getTextStatus(dataPayment){
+
+    List<String> text =[];
+    switch (dataPayment.status) {
+      case 'approved':
+        text.add('Pago Exitoso');
+        text.add('Ya puede Seguir Disfrutando');
+       text.add('assets/img/bien.png');
+        break;
+
+      case 'in_process':
+        text.add('Pago en Proceso');
+        text.add('Se esta verificando su pago');
+        text.add('assets/img/intermedio.png');
+        break;
+
+      default:
+        text.add('Pago Rechazado');
+        text.add('Favor reintente su pago');
+        text.add('assets/img/mal.png');
+    }
+    return  text;
+  }
+
+
+
   Widget SubscriptionCard(dataPayment, context) {
     return Container(
       //width: sclW(context) * 70,
@@ -190,8 +218,7 @@ class _GraciasPageState extends State<GraciasPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-           Image.asset(dataPayment.status=='approved'?
-            "assets/img/bien.png":"assets/img/mal.png",
+           Image.asset(getTextStatus(dataPayment)[2],
             height: sclH(context) * 15,
           ),
           Container(
@@ -202,7 +229,7 @@ class _GraciasPageState extends State<GraciasPage> {
                 Container(
                           padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
                   child: Text(
-                    dataPayment.status=='approved'?"Pago Exitoso":"Pago Rechazado",
+                    getTextStatus(dataPayment)[0],
                     style: TextStyle(
                         color: AppColors.white, fontSize: sclW(context) * 6),
                   ),
@@ -210,7 +237,7 @@ class _GraciasPageState extends State<GraciasPage> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
                   child: Text(
-                              dataPayment.status=='approved'?"Ya puede Seguir Disfrutando":"Favor reintente su pago",
+                              getTextStatus(dataPayment)[1],
                               style: TextStyle(
                     color: AppColors.white, fontSize: sclW(context) * 5),
                             ),
@@ -232,7 +259,7 @@ class _GraciasPageState extends State<GraciasPage> {
                           style: TextStyle(fontSize: sclW(context) * 4),
                         ),
                          Text(
-                          dataPayment.status=='approved'? "Aprobado":"Rechazado",
+                          dataPayment.statusDetail,
                           style: TextStyle(fontSize: sclW(context) * 4),
                         )
                      
@@ -298,3 +325,5 @@ class _GraciasPageState extends State<GraciasPage> {
     );
   }
 }
+
+

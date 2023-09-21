@@ -57,24 +57,28 @@ class _DesingPageState extends State<DesingPage> {
             ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+     
             children: [
-              TextButton.icon(
-                onPressed: () {
-                  if (desingController.currentMarco.value <
-                      desingController.marcos.length - 1) {
-                    desingController.currentMarco.value++;
-                  } else {
-                    desingController.currentMarco.value = 0;
-                  }
-                },
-                icon: const Icon(
-                  Icons.change_circle_outlined,
-                  color: AppColors.violet,
-                  size: 22,
-                ),
-                label: const Text(
-                  "Cambiar marco",
-                  style: TextStyle(color: AppColors.violet, fontSize: 22),
+  
+              Padding(
+                padding: const EdgeInsets.only(left:70.0,top: 50.0),
+                child: TextButton.icon(
+                  onPressed: () {
+                    if (desingController.currentMarco.value <
+                        desingController.marcos.length - 1) {
+                      desingController.currentMarco.value++;
+                    } else {
+                      desingController.currentMarco.value = 0;
+                    }
+                  },
+                  icon:  const Icon(  
+                        Icons. add_circle_outline_rounded,
+                        size: 40,
+                  ),
+                  label: const Text(
+                    "Cambiar marco",
+                    style: TextStyle(color: AppColors.violet, fontSize: 22),
+                  ),
                 ),
               ),
             ],
