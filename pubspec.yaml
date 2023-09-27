@@ -89,6 +89,7 @@ flutter:
     - assets/introduction_animation/
     - assets/themes/
     - assets/img/bien.png
+    - assets/img/logo-emotion.png
   fonts:
     - family: Raleway
       fonts:

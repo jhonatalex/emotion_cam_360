@@ -320,7 +320,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     
                           ElevatedButton.icon(
                             onPressed: () {
-                              isloading=true;
                               _subscriptionController.initTransaction(precio, ndia, timeSubs );
                             },
                             icon: const Icon(

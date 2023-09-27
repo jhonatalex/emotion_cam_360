@@ -48,9 +48,8 @@ class SubscriptionController extends GetxController {
     if (dateExpirationDateTime.isAfter(dateCurrentToday)) {
       dateExpirationDateTime =
           dateExpirationDateTime.add(Duration(days: nDias));
-      print(chalk.white.bold("si es"));
     } else {
-      print(chalk.white.bold("no es"));
+   
       dateExpirationDateTime = dateCurrentToday.add(Duration(days: nDias));
     }
 
@@ -70,6 +69,7 @@ class SubscriptionController extends GetxController {
             await MercadoPagoCheckout.startCheckout(publicKey, preferenceID);
 
         print(chalk.green.bold('Bien: ${result}'));
+
         isLoading.value = false;
 
         if (result.result != 'canceled') {
@@ -95,7 +95,7 @@ class SubscriptionController extends GetxController {
     var preference = {
       "items": [
         {
-          "title": title,
+          "title": "Suscripcion $title",
           "quantity": 1,
           "currency_id": "CLP",
           "unit_price": int.parse(price)
