@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
+import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
@@ -27,7 +28,7 @@ class AppBinding implements Bindings {
     Get.put<DesingController>(DesingController(), permanent: true);
     Get.put<SettingsController>(SettingsController(), permanent: true);
     Get.put<SubscriptionController>(SubscriptionController(), permanent: true);
-    // Get.put<EventController>(EventController(), permanent: true);
+    Get.put<EventController>(EventController(), permanent: true);
   }
 }
 
