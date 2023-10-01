@@ -154,13 +154,25 @@ class _SignUpPageState extends State<SignUpPage> {
                   width: sclW(context) * 100,
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "Solo rellena el siguiente formulario.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Completa el siguiente",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                          Text(
+                          "Formulario: ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

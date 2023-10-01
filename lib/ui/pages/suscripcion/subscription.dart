@@ -21,6 +21,9 @@ Future<DateTime> getDateSaved() async {
   userCurrent = await provider.getMyUser2();
 // esta va a ser la fecha tomada desde firebase como string
 //se convierte en DataTime para poder hacer funciones
+
+
+  ///DATE NULLA Y NO MUESTRA
   _savedDate = userCurrent.date.toDate();
 //formatear fecha
 //DateTime fecha2 = DateTime.parse('2023-07-20 00:10:00Z');

@@ -85,12 +85,10 @@ class AuthRepositoryImp implements AuthRepository {
     return _userFirebaseConvertToModel(userCredential.user);
   }
 
-  
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
+      'email'
     ],
   );
 
@@ -115,8 +113,7 @@ class AuthRepositoryImp implements AuthRepository {
         accessToken: googleSignInAuthentication?.accessToken,
       );
 
-      UserCredential userCredential =
-          await auth.signInWithCredential(credential);
+      UserCredential userCredential = await auth.signInWithCredential(credential);
 
         print(chalk.green.bold(userCredential));
 
@@ -129,14 +126,18 @@ class AuthRepositoryImp implements AuthRepository {
         Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
         final newUser = MyUser(uid!, email!,userCredential.user!.emailVerified, date: dateInitial);
-
         await _userRepository.saveMyUser(newUser);
+
       }
 
       //PERSITENCIA DATA
       await authClass.storeTokenAndData(userCredential);
 
+
       return _userFirebaseConvertToModel(userCredential.user);
+      
+
+
     } catch (e) {
       print(chalk.red.bold(e.toString()));
     }
