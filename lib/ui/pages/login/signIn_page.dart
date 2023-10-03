@@ -105,6 +105,9 @@ class _SignInPageState extends State<SignInPage> {
                             MessengerSnackBar(context, e.toString());
                           }
 
+                          setState(() {
+                            isLogging = false;
+                          });
                           //await authClass.googleSignIn(context);
                         },
                       ),
@@ -304,7 +307,7 @@ class _SignInPageState extends State<SignInPage> {
                       });
                     },
                     icon: Icon(
-                      isVisible ?   Icons.visibility_off: Icons.visibility ,
+                      isVisible ? Icons.visibility_off : Icons.visibility,
                     ))
                 : const SizedBox(),
           ),
