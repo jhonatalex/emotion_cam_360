@@ -51,17 +51,24 @@ class AuthController extends GetxController {
 
         MyUser? user = await getUserCurrent();
         //VALIDAD SI ESTA VERIFCADO
-        if(user!.verified){
+        if(user!=null){
 
-            int nDiasRestantes = await diasRestantes();
-            _authSubscriptionChanged(nDiasRestantes);
+            if(user.verified){
 
-        }else{
+                int nDiasRestantes = await diasRestantes();
+                _authSubscriptionChanged(nDiasRestantes);
 
-            authState.value = AuthState.signedOUT;
-            Get.offAllNamed(RouteNames.signIn);
+            }else{
+
+                authState.value = AuthState.signedOUT;
+                Get.offAllNamed(RouteNames.signIn);
+
+            }
+
 
         }
+
+      
 
 
     }

@@ -86,10 +86,7 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
+    scopes: ['email'],
   );
 
   //-----------------------------GOOGLE----------------------------------------------------------------------------
@@ -131,7 +128,6 @@ class AuthRepositoryImp implements AuthRepository {
 
         final newUser = MyUser(uid!, email!, userCredential.user!.emailVerified,
             date: dateInitial);
-
         await _userRepository.saveMyUser(newUser);
       }
 

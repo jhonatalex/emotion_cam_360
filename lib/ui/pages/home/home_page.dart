@@ -41,18 +41,20 @@ class Content extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          child: SizedBox(height: sclH(context) * 40, child: const CarrucelHeader()),
-        ),
+        const CarrucelHeader(),
+      //  Expanded(
+      //    child: SizedBox(height: sclH(context) * 40, child: const CarrucelHeader()),
+       // ),
         SizedBox(
           height: sclH(context) * 20,
           child: const Center(
             child: ImgTextButton(),
           ),
         ),
-        Expanded(
-          child: SizedBox(height: sclH(context) * 40, child: const CarrucelStyles()),
-        ),
+        const CarrucelStyles()
+        //Expanded(
+        //  child: SizedBox(height: sclH(context) * 40, child: const CarrucelStyles()),
+       // ),
       ],
     );
   }

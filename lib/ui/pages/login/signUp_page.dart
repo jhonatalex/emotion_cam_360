@@ -26,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget currentPage = const SignUpPage(
     key: null,
   );
+  bool isVisible = true;
   @override
   void initState() {
     super.initState();
@@ -101,6 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     //mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
+
                     children: [
                       SizedBox(
                         height: sclH(context) * 7.5,
@@ -154,13 +156,25 @@ class _SignUpPageState extends State<SignUpPage> {
                   width: sclW(context) * 100,
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "Solo rellena el siguiente formulario.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Completa el siguiente",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                        Text(
+                          "Formulario: ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -214,34 +228,54 @@ class _SignUpPageState extends State<SignUpPage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
       height: 55,
-      child: TextFormField(
-        controller: controller,
-        obscureText: obsecureText,
-        style: const TextStyle(
-          fontSize: 17,
-          color: Colors.white,
-        ),
-        decoration: InputDecoration(
-          labelText: name,
-          labelStyle: const TextStyle(
-            fontSize: 17,
-            color: Colors.white,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 1.5,
-              color: Color.fromARGB(255, 90, 0, 194),
+      child: Stack(
+        children: [
+          TextFormField(
+            controller: controller,
+            obscureText: obsecureText ? isVisible : false,
+            style: const TextStyle(
+              fontSize: 17,
+              color: Colors.white,
+            ),
+            decoration: InputDecoration(
+              labelText: name,
+              labelStyle: const TextStyle(
+                fontSize: 17,
+                color: Colors.white,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  width: 1.5,
+                  color: Color.fromARGB(255, 90, 0, 194),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: Colors.grey,
+                ),
+              ),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 1,
-              color: Colors.grey,
-            ),
+          Positioned(
+            height: 55,
+            right: 0,
+            child: obsecureText
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isVisible = !isVisible;
+                        print("Funcionando");
+                      });
+                    },
+                    icon: Icon(
+                      isVisible ? Icons.visibility_off : Icons.visibility,
+                    ))
+                : const SizedBox(),
           ),
-        ),
+        ],
       ),
     );
   }

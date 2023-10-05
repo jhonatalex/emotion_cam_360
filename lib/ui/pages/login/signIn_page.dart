@@ -3,6 +3,7 @@ import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/entities/user.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
+import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -82,15 +83,12 @@ class _SignInPageState extends State<SignInPage> {
                             isLogging = true;
                           });
                           try {
-                            await _authRepository.signInGoogle();
+                            if(await _authRepository.signInGoogle()!=null){
+                                Get.offNamed(RouteNames.home);
+                            }
 
-                            /* GoogleSignIn _googleSignIn = GoogleSignIn(
-                              scopes: [
-                                'email',
-                                'https://www.googleapis.com/auth/contacts.readonly',
-                              ],
-                            );
-
+                        
+                            /*
                             Future<void> _handleSignIn() async {
                               try {
                                 await _googleSignIn.signIn();
@@ -98,6 +96,9 @@ class _SignInPageState extends State<SignInPage> {
                                 print(error);
                               }
                             } */
+                            setState(() {
+                            isLogging = false;
+                            });
                           } on FirebaseAuthException catch (e) {
                             /* 
                           final snackbar = SnackBar(content: Text(e.toString()));
