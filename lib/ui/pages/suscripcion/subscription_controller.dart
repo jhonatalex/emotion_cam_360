@@ -11,7 +11,7 @@ import 'package:mercado_pago_checkout/mercado_pago_checkout.dart';
 import 'package:mercadopago_sdk/mercadopago_sdk.dart';
 
 class SubscriptionController extends GetxController {
-  static var publicKey = globals.mpPublicKey;
+  static var publicKey = globals.mpPublicKeyTEST;
   String? emailUser = '';
   final provider = FirebaseProvider();
   var userCurrent;
@@ -38,7 +38,6 @@ class SubscriptionController extends GetxController {
   }
 
   DateTime updateDateLimit(int nDias) {
-    
     Timestamp dateExpirationCurrent = userCurrent?.date;
     var dateCurrentToday = DateTime.now();
 

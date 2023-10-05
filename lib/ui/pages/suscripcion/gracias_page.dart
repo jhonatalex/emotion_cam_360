@@ -1,8 +1,4 @@
-
 // ignore_for_file: unused_local_variable
-
-import 'dart:ffi';
-
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -60,7 +56,6 @@ class _GraciasPageState extends State<GraciasPage> {
     return Obx(() {
       var items = _evenController.suscripciones;
       var dataPayment = _subscriptionController.dataTransaccion.value;
-
 
       return Stack(children: [
         BackgroundGradient(context),
@@ -158,27 +153,23 @@ class _GraciasPageState extends State<GraciasPage> {
                   ],
                 ),
                 Expanded(
-                  child: AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          child: SubscriptionCard(dataPayment,context),
-                        )
-                      
-                ),
+                    child: AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  child: SubscriptionCard(dataPayment, context),
+                )),
               ],
-            )
-          )
+            ))
       ]);
     });
   }
 
-  getTextStatus(dataPayment){
-
-    List<String> text =[];
+  getTextStatus(dataPayment) {
+    List<String> text = [];
     switch (dataPayment.status) {
       case 'approved':
         text.add('Pago Exitoso');
         text.add('Ya puede Seguir Disfrutando');
-       text.add('assets/img/bien.png');
+        text.add('assets/img/bien.png');
         break;
 
       case 'in_process':
@@ -192,10 +183,8 @@ class _GraciasPageState extends State<GraciasPage> {
         text.add('Favor reintente su pago');
         text.add('assets/img/mal.png');
     }
-    return  text;
+    return text;
   }
-
-
 
   Widget SubscriptionCard(dataPayment, context) {
     return Container(
@@ -218,16 +207,17 @@ class _GraciasPageState extends State<GraciasPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-           Image.asset(getTextStatus(dataPayment)[2],
+          Image.asset(
+            getTextStatus(dataPayment)[2],
             height: sclH(context) * 15,
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
             child: Column(
-              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                          padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
+                  padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
                   child: Text(
                     getTextStatus(dataPayment)[0],
                     style: TextStyle(
@@ -237,71 +227,66 @@ class _GraciasPageState extends State<GraciasPage> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: sclH(context) * 0.5),
                   child: Text(
-                              getTextStatus(dataPayment)[1],
-                              style: TextStyle(
-                    color: AppColors.white, fontSize: sclW(context) * 5),
-                            ),
+                    getTextStatus(dataPayment)[1],
+                    style: TextStyle(
+                        color: AppColors.white, fontSize: sclW(context) * 5),
+                  ),
                 )
               ],
             ),
           ),
-      
           Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                   ListTile(
-                    leading: const Icon(Icons.check_circle_outline),
-                    title: Row(
-                      children: [
-                        Text(
-                          "ESTADO:  ",
-                          style: TextStyle(fontSize: sclW(context) * 4),
-                        ),
-                         Text(
-                          dataPayment.statusDetail,
-                          style: TextStyle(fontSize: sclW(context) * 4),
-                        )
-                     
-                      ],
-                    ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.check_circle_outline),
+                  title: Row(
+                    children: [
+                      Text(
+                        "ESTADO:  ",
+                        style: TextStyle(fontSize: sclW(context) * 4),
+                      ),
+                      Text(
+                        dataPayment.statusDetail,
+                        style: TextStyle(fontSize: sclW(context) * 4),
+                      )
+                    ],
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.check_circle_outline),
-                    title: Row(
-                      children: [
-                        Text(
-                          "METODO DE PAGO:  ",
-                          style: TextStyle(fontSize: sclW(context) * 4),
-                        ),
-                         Text(
-                          dataPayment.paymentMethodId,
-                          style: TextStyle(fontSize: sclW(context) * 4),
-                        )
-                     
-                      ],
-                    ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.check_circle_outline),
+                  title: Row(
+                    children: [
+                      Text(
+                        "METODO DE PAGO:  ",
+                        style: TextStyle(fontSize: sclW(context) * 4),
+                      ),
+                      Text(
+                        dataPayment.paymentMethodId,
+                        style: TextStyle(fontSize: sclW(context) * 4),
+                      )
+                    ],
                   ),
-                    ListTile(
-                    leading: const Icon(Icons.check_circle_outline),
-                    title: Row(
-                      children: [
-                        Text(
-                          "TIPO DE PAGO:  ",
-                          style: TextStyle(fontSize: sclW(context) * 4),
-                        ),
-                         Text(
-                          dataPayment.paymentTypeId,
-                          style: TextStyle(fontSize: sclW(context) * 4),
-                        )
-                     
-                      ],
-                    ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.check_circle_outline),
+                  title: Row(
+                    children: [
+                      Text(
+                        "TIPO DE PAGO:  ",
+                        style: TextStyle(fontSize: sclW(context) * 4),
+                      ),
+                      Text(
+                        dataPayment.paymentTypeId,
+                        style: TextStyle(fontSize: sclW(context) * 4),
+                      )
+                    ],
                   ),
-            
-              ElevatedButton.icon(
-                onPressed: () =>  Get.offNamed(RouteNames.home),
-                icon: CircleAvatar(
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => Get.offNamed(RouteNames.home),
+                  icon: CircleAvatar(
                     radius: sclH(context) * 2,
                     backgroundColor: Colors.white,
                     foregroundColor: AppColors.violet,
@@ -310,20 +295,16 @@ class _GraciasPageState extends State<GraciasPage> {
                       size: sclH(context) * 3,
                     ),
                   ),
-                label: const Text(
-                  "Ir Home",
-                  style: TextStyle(color: AppColors.white),
+                  label: const Text(
+                    "Ir Home",
+                    style: TextStyle(color: AppColors.white),
+                  ),
                 ),
-              ),
-
-          
-                ],
-              ),
-            )
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 }
-
-

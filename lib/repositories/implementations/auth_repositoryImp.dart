@@ -65,7 +65,6 @@ class AuthRepositoryImp implements AuthRepository {
 
     print(chalk.green.bold(userCredential));
 
-
     //GUARDAR EL USUARIO PERSONALIZADO
     final uid = Get.find<AuthController>().authUser.value?.uid;
 
@@ -74,10 +73,11 @@ class AuthRepositoryImp implements AuthRepository {
     DateTime dateInitial2 = newDateLimit(15);
     Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
-    final newUser = MyUser(uid!, email, userCredential.user!.emailVerified, date: dateInitial);
+    final newUser = MyUser(uid!, email, userCredential.user!.emailVerified,
+        date: dateInitial);
 
     await _userRepository.saveMyUser(newUser);
-    
+
     //ENVIA EL EMAIL PARA VERIFICARLO
     //await FirebaseAuth.instance.setLanguageCode("es");
     await userCredential.user?.sendEmailVerification();
@@ -85,11 +85,8 @@ class AuthRepositoryImp implements AuthRepository {
     return _userFirebaseConvertToModel(userCredential.user);
   }
 
-
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email'
-    ],
+    scopes: ['email'],
   );
 
   //-----------------------------GOOGLE----------------------------------------------------------------------------
@@ -99,12 +96,15 @@ class AuthRepositoryImp implements AuthRepository {
     // final googleAuth = await googleUser?.authentication;
 
     //final googleSignInAccount = await GoogleSignIn().signIn();
+
+    print(chalk.white.bold("Entra en login"));
     try {
       final googleSignInAccount = await _googleSignIn.signIn();
 
       //print(chalk.green.bold(googleSignInAccount));
 
-      final googleSignInAuthentication = await googleSignInAccount?.authentication;
+      final googleSignInAuthentication =
+          await googleSignInAccount?.authentication;
 
       //print(chalk.yellow.bold(googleSignInAuthentication));
 
@@ -113,9 +113,10 @@ class AuthRepositoryImp implements AuthRepository {
         accessToken: googleSignInAuthentication?.accessToken,
       );
 
-      UserCredential userCredential = await auth.signInWithCredential(credential);
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
 
-        print(chalk.green.bold(userCredential));
+      print(chalk.green.bold(userCredential));
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         //GUARDAR EL USUARIO PERSONALIZADO
@@ -125,21 +126,17 @@ class AuthRepositoryImp implements AuthRepository {
         DateTime dateInitial2 = newDateLimit(15);
         Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
 
-        final newUser = MyUser(uid!, email!,userCredential.user!.emailVerified, date: dateInitial);
+        final newUser = MyUser(uid!, email!, userCredential.user!.emailVerified,
+            date: dateInitial);
         await _userRepository.saveMyUser(newUser);
-
       }
 
       //PERSITENCIA DATA
       await authClass.storeTokenAndData(userCredential);
 
-
       return _userFirebaseConvertToModel(userCredential.user);
-      
-
-
     } catch (e) {
-      print(chalk.red.bold(e.toString()));
+      print(chalk.yellow.bold(e.toString()));
     }
     return null;
   }
