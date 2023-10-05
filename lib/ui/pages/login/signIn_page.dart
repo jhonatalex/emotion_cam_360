@@ -31,6 +31,7 @@ class _SignInPageState extends State<SignInPage> {
   bool isLogging = false;
 
   final provider = FirebaseProvider();
+  final 
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   AuthClass authClass = AuthClass();
@@ -83,19 +84,15 @@ class _SignInPageState extends State<SignInPage> {
                             isLogging = true;
                           });
                           try {
+
+                            /*
                             if(await _authRepository.signInGoogle()!=null){
                                 Get.offNamed(RouteNames.home);
                             }
+                            */
+                               
+                            await authClass.googleSignIn(context);
 
-                        
-                            /*
-                            Future<void> _handleSignIn() async {
-                              try {
-                                await _googleSignIn.signIn();
-                              } catch (error) {
-                                print(error);
-                              }
-                            } */
                             setState(() {
                             isLogging = false;
                             });
@@ -103,10 +100,10 @@ class _SignInPageState extends State<SignInPage> {
                             /* 
                           final snackbar = SnackBar(content: Text(e.toString()));
                           ScaffoldMessenger.of(context).showSnackBar(snackbar); */
+                            // ignore: use_build_context_synchronously
                             MessengerSnackBar(context, e.toString());
                           }
 
-                          //await authClass.googleSignIn(context);
                         },
                       ),
                       /*

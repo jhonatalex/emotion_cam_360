@@ -95,7 +95,7 @@ class _VideoPageState extends State<VideoPage> {
     }
 
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.veryHigh);
+    _controller = CameraController(camera, ResolutionPreset.high);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
