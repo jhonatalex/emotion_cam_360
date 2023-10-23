@@ -1,5 +1,10 @@
 import 'package:chalkdart/chalk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/entities/user.dart';
+import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
+import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +12,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import '../ui/pages/home/home_page.dart';
 
 class AuthClass {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -18,6 +22,10 @@ class AuthClass {
   );
   FirebaseAuth auth = FirebaseAuth.instance;
   final storage = const FlutterSecureStorage();
+
+  final _userRepository = Get.put<MyUserRepository>(MyUserRepositoryImp());
+
+  
 
   Future<void> googleSignIn(BuildContext context) async {
     try {
@@ -40,17 +48,39 @@ class AuthClass {
           UserCredential userCredential =
               await auth.signInWithCredential(credential);
 
-          storeTokenAndData(userCredential);
-
+          //storeTokenAndData(userCredential);
           //final userSession = Provider.of<SesionPreferencerProvider>(context);
           //userSession.saveUser(userCredential.user!.email);
-          Get.offNamed(RouteNames.home);
+
+            print(chalk.green.bgWhite(userCredential));
+
+
+            if (userCredential.additionalUserInfo!.isNewUser) {
+              //GUARDAR EL USUARIO PERSONALIZADO
+              final uid = userCredential.user?.email;
+              final email = userCredential.user?.email;
+              //const statusInitial = true;
+              DateTime dateInitial2 = newDateLimit(15);
+              Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
+
+              final newUser = MyUser(uid!, email!,userCredential.user!.emailVerified, date: dateInitial);
+              await _userRepository.saveMyUser(newUser);
+
+            }
+
+            //PERSITENCIA DATA
+            await storeTokenAndData(userCredential);
+            Get.offNamed(RouteNames.home);
+
+
+
+
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
       } else {
-        final snackbar = SnackBar(content: Text("Not Able to sign In "));
+        const snackbar = SnackBar(content: Text("Not Able to sign In "));
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     } catch (e) {
@@ -63,7 +93,7 @@ class AuthClass {
     print(chalk
         .yellowBright('LOG AQUI ${userCredential.user!.email.toString()}'));
 
-    //CUANDO ES CON USUARIO E IMEL NO TIENE TOKEN
+    //CUANDO ES CON USUARIO EIMEL NO TIENE TOKEN
     if (userCredential.credential != null) {
       await storage.write(
           key: "token", value: userCredential.credential!.token.toString());
@@ -96,10 +126,9 @@ class AuthClass {
       showSnackBar(context, "Verification Code sent on the phone number");
       setData(verificationID);
     };
-    PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationID) {
+    codeAutoRetrievalTimeout(String verificationID) {
       showSnackBar(context, "Time out");
-    };
+    }
     try {
       await auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,

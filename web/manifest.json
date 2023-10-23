@@ -3,7 +3,7 @@
     "short_name": "emotion_cam_360",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#ffff",
     "theme_color": "#0175C2",
     "description": "Show cam 360",
     "orientation": "portrait-primary",

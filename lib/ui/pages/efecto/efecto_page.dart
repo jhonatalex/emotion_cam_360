@@ -1,11 +1,11 @@
+import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:emotion_cam_360/ui/widgets/Background.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../widgets/appcolors.dart';
 import '../../widgets/responsive.dart';
 import '../../widgets/drawer.dart';
-
-int current = 0;
 
 class EfectoPage extends StatefulWidget {
   const EfectoPage({super.key});
@@ -17,6 +17,8 @@ class EfectoPage extends StatefulWidget {
 var bgColorActive =
     MaterialStateProperty.all(AppColors.royalBlue.withOpacity(0.5));
 
+final SettingsController settingsController = Get.put(SettingsController());
+
 class _EfectoPageState extends State<EfectoPage> {
   @override
   Widget build(BuildContext context) {
@@ -26,19 +28,19 @@ class _EfectoPageState extends State<EfectoPage> {
       "assets/img/stylo3.jpg",
       "assets/img/stylo4.jpg",
     ];
-
     return Scaffold(
       backgroundColor: AppColors.vulcan,
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          BackgroundBlur(
-            imgList: imgList,
-            current: current,
-            bgHeight: sclH(context) * 90,
-          ),
-          Center(
-            child: Wrap(
+      body: Obx(() {
+        return Stack(
+          children: [
+            BackgroundBlur(
+              imgList: imgList,
+              current: settingsController.fondoVideo.value,
+              bgHeight: sclH(context) * 90,
+            ),
+            Center(
+                child: Wrap(
               spacing: 20,
               runSpacing: 20,
               runAlignment: WrapAlignment.spaceAround,
@@ -49,8 +51,7 @@ class _EfectoPageState extends State<EfectoPage> {
                     backgroundColor: bgColor1(),
                   ),
                   onPressed: () {
-                    current = 0;
-                    setState(() {});
+                    settingsController.fondoVideo.value = 0;
                   },
                   child: Column(
                     children: [
@@ -61,7 +62,7 @@ class _EfectoPageState extends State<EfectoPage> {
                         fit: BoxFit.cover,
                       ),
                       Text(
-                        "Transicion A",
+                        "Espiral",
                         style: TextStyle(fontSize: sclH(context) * 2),
                       ),
                     ],
@@ -73,8 +74,7 @@ class _EfectoPageState extends State<EfectoPage> {
                     backgroundColor: bgColor2(),
                   ),
                   onPressed: () {
-                    current = 1;
-                    setState(() {});
+                    settingsController.fondoVideo.value = 1;
                   },
                   child: Column(
                     children: [
@@ -85,7 +85,7 @@ class _EfectoPageState extends State<EfectoPage> {
                         fit: BoxFit.cover,
                       ),
                       Text(
-                        "Transicion B",
+                        "Letras",
                         style: TextStyle(
                             color: Colors.white, fontSize: sclH(context) * 2),
                       ),
@@ -97,8 +97,7 @@ class _EfectoPageState extends State<EfectoPage> {
                     backgroundColor: bgColor3(),
                   ),
                   onPressed: () {
-                    current = 2;
-                    setState(() {});
+                    settingsController.fondoVideo.value = 2;
                   },
                   child: Column(
                     children: [
@@ -109,7 +108,7 @@ class _EfectoPageState extends State<EfectoPage> {
                         fit: BoxFit.cover,
                       ),
                       Text(
-                        "Transicion C",
+                        "Chispas",
                         style: TextStyle(fontSize: sclH(context) * 2),
                       ),
                     ],
@@ -121,8 +120,7 @@ class _EfectoPageState extends State<EfectoPage> {
                     backgroundColor: bgColor4(),
                   ),
                   onPressed: () {
-                    current = 3;
-                    setState(() {});
+                    settingsController.fondoVideo.value = 3;
                   },
                   child: Column(
                     children: [
@@ -133,7 +131,7 @@ class _EfectoPageState extends State<EfectoPage> {
                         fit: BoxFit.cover,
                       ),
                       Text(
-                        "Transicion D",
+                        "Neon",
                         style: TextStyle(
                             color: Colors.white, fontSize: sclH(context) * 2),
                       ),
@@ -141,35 +139,35 @@ class _EfectoPageState extends State<EfectoPage> {
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-      drawer: MyDrawer(),
+            )),
+          ],
+        );
+      }),
+      drawer: const MyDrawer(),
     );
   }
-}
 
-bgColor1() {
-  if (current == 0) {
-    return bgColorActive;
-  } else {}
-}
+  bgColor1() {
+    if (settingsController.fondoVideo.value == 0) {
+      return bgColorActive;
+    } else {}
+  }
 
-bgColor2() {
-  if (current == 1) {
-    return bgColorActive;
-  } else {}
-}
+  bgColor2() {
+    if (settingsController.fondoVideo.value == 1) {
+      return bgColorActive;
+    } else {}
+  }
 
-bgColor3() {
-  if (current == 2) {
-    return bgColorActive;
-  } else {}
-}
+  bgColor3() {
+    if (settingsController.fondoVideo.value == 2) {
+      return bgColorActive;
+    } else {}
+  }
 
-bgColor4() {
-  if (current == 3) {
-    return bgColorActive;
-  } else {}
+  bgColor4() {
+    if (settingsController.fondoVideo.value == 3) {
+      return bgColorActive;
+    } else {}
+  }
 }

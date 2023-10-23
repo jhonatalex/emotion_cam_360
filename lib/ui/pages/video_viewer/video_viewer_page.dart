@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewerPage extends StatefulWidget {
+  const VideoViewerPage({super.key});
+
   @override
   State<VideoViewerPage> createState() => _VideoViewerPageState();
 }
@@ -27,6 +29,9 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
   }
 
   Future _initVideoPlayer(url) async {
+    /* isData
+        ? _videoPlayerController = VideoPlayerController.file(url)
+        : */
     _videoPlayerController = VideoPlayerController.network(url);
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(false);
@@ -72,14 +77,12 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
         leading: isData
             ? IconButton(
                 onPressed: () {
-                  Get.offAllNamed(RouteNames.videoPage);
+                  Get.offAllNamed(RouteNames.home);
                 },
-                icon: const Icon(Icons.video_call))
+                icon: const Icon(Icons.home))
             : IconButton(
                 onPressed: () {
                   Get.back();
-                  // Get.offAllNamed(RouteNames.home);
-                  //por ahora mientras consigo como volver jeje
                 },
                 icon: const Icon(Icons.arrow_back)),
         actions: [
@@ -102,11 +105,12 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
           BackgroundGradient(context),
           Column(
             children: [
-              const SizedBox(
-                height: 80,
+              SizedBox(
+                height: sclH(context) * 10,
               ),
               Expanded(
                 child: Container(
+                  //margin: EdgeInsets.only(bottom: 500),
                   color: Colors.black,
                   child: Stack(
                     alignment: AlignmentDirectional.center,

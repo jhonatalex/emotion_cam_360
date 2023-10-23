@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 //USUARIO DE FIREBASE DONDE VAMOS A RECOGER SOLO EL ID
 class AuthUser extends Equatable {

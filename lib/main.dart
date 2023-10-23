@@ -7,8 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 
 import 'dependency_injection/app_binding.dart';
@@ -35,7 +33,6 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
@@ -50,7 +47,7 @@ class MyApp extends StatelessWidget {
             // Define el Brightness y Colores por defecto
             brightness: Brightness.dark,
 
-            buttonColor: Colors.red,
+            //buttonColor: Colors.red,
             colorScheme: const ColorScheme.dark(primary: AppColors.violet),
             primaryColor: AppColors.violet, primaryColorDark: AppColors.violet,
 
@@ -76,9 +73,11 @@ class MyApp extends StatelessWidget {
             // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
             // para cabeceras, títulos, cuerpos de texto, y más.
             textTheme: const TextTheme(
-              headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              subtitle1: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-              bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+              displayLarge:
+                  TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+              titleMedium:
+                  TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+              bodyLarge: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
             ),
           ),
 

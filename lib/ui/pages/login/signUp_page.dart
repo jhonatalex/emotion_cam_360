@@ -1,15 +1,15 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/repositories/abstractas/auth_repositoryAbst.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 
 import '../../../servicies/auth_service.dart';
@@ -26,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget currentPage = const SignUpPage(
     key: null,
   );
+  bool isVisible = true;
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage();
+        currentPage = const HomePage();
       });
     }
   }
@@ -54,87 +55,130 @@ class _SignUpPageState extends State<SignUpPage> {
     final userSession = Provider.of<SesionPreferencerProvider>(context);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Container(
+      body: SingleChildScrollView(
+          child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               color: const Color(0xff141221),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Registro",
-                    style: TextStyle(
-                      fontSize: 35,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  textItem("Email", _emailController, false),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  textItem("Password", _passwordController, true),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  colorButton("Registrarme", userSession),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "Tienes una cuenta?",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
+              child: Stack(children: [
+                BackgroundGradient(context),
+                Center(
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: sclH(context) * 5,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => SignInPage()),
-                              (route) => false);
-                        },
-                        child: const Text(
-                          "   Ingresa aqui",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 123, 54, 214),
-                            fontSize: 18,
-                          ),
+                      SizedBox(
+                          height: sclH(context) * 15,
+                          child: Image.asset(
+                            "assets/img/logo-emotion.png",
+                          )),
+                      Text(
+                        "Registro",
+                        style: TextStyle(
+                          fontSize: sclH(context) * 5,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ),
-          /* circular == true
-              ? Container(
-                  color: const Color(0xff141221).withOpacity(.5),
-                  child: const Center(
-                    child: SizedBox(
-                      child: CircularProgressIndicator(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: sclH(context) * 43,
+                    left: sclW(context) * 5,
+                    right: sclW(context) * 5,
+                    bottom: sclH(context) * 3,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: sclW(context) * 5,
+                      vertical: sclW(context) * 5),
+                  decoration: BoxDecoration(
+                    color: AppColors.vulcan,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+
+                    children: [
+                      SizedBox(
+                        height: sclH(context) * 7.5,
+                      ),
+                      textItem("Email", _emailController, false),
+                      SizedBox(
+                        height: sclH(context) * 2,
+                      ),
+                      textItem("Password", _passwordController, true),
+                      SizedBox(
+                        height: sclH(context) * 2,
+                      ),
+                      colorButton("Registrarme", userSession),
+                      SizedBox(
+                        height: sclH(context) * 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "¿Ya tienes una cuenta?",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: sclH(context) * 2,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => SignInPage()),
+                                  (route) => false);
+                            },
+                            child: Text(
+                              "   Ingresa aqui",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 123, 54, 214),
+                                fontSize: sclH(context) * 2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: sclH(context) * 30,
+                  width: sclW(context) * 100,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Completa el siguiente",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                        Text(
+                          "Formulario: ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                )
-              : Container(), */
-        ],
-      ),
+                ),
+              ]))),
     );
   }
 
@@ -184,34 +228,54 @@ class _SignUpPageState extends State<SignUpPage> {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
       height: 55,
-      child: TextFormField(
-        controller: controller,
-        obscureText: obsecureText,
-        style: const TextStyle(
-          fontSize: 17,
-          color: Colors.white,
-        ),
-        decoration: InputDecoration(
-          labelText: name,
-          labelStyle: const TextStyle(
-            fontSize: 17,
-            color: Colors.white,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 1.5,
-              color: Color.fromARGB(255, 90, 0, 194),
+      child: Stack(
+        children: [
+          TextFormField(
+            controller: controller,
+            obscureText: obsecureText ? isVisible : false,
+            style: const TextStyle(
+              fontSize: 17,
+              color: Colors.white,
+            ),
+            decoration: InputDecoration(
+              labelText: name,
+              labelStyle: const TextStyle(
+                fontSize: 17,
+                color: Colors.white,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  width: 1.5,
+                  color: Color.fromARGB(255, 90, 0, 194),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: const BorderSide(
+                  width: 1,
+                  color: Colors.grey,
+                ),
+              ),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              width: 1,
-              color: Colors.grey,
-            ),
+          Positioned(
+            height: 55,
+            right: 0,
+            child: obsecureText
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isVisible = !isVisible;
+                        print("Funcionando");
+                      });
+                    },
+                    icon: Icon(
+                      isVisible ? Icons.visibility_off : Icons.visibility,
+                    ))
+                : const SizedBox(),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -249,8 +313,6 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       MessengerSnackBar(context, snackbar);
-      print(chalk.white.bold(e.code));
-      print(chalk.white.bold(e.toString()));
       setState(() {
         circular = false;
       });
@@ -293,7 +355,6 @@ class _SignUpPageState extends State<SignUpPage> {
             //authClass.storeTokenAndData(userCredential);
 
             //print(chalk.brightGreen('LOG AQUI ${userCredential.user!.email}'));
-
           } catch (e) {
             final snackbar = SnackBar(content: Text(e.toString()));
             MessengerSnackBar(context, snackbar);

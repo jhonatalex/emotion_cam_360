@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, must_be_immutable
 
 import 'dart:io';
 
@@ -14,25 +14,33 @@ import 'package:get/get.dart';
 
 import 'responsive.dart';
 
-class CarrucelStyles extends StatelessWidget {
+final _eventController = Get.find<EventController>();
+
+class CarrucelStyles extends StatefulWidget {
   const CarrucelStyles({super.key});
 
-  // final CarouselController _carouselController = CarouselController();
+  @override
+  State<CarrucelStyles> createState() => _CarrucelStylesState();
+}
 
+class _CarrucelStylesState extends State<CarrucelStyles> {
+  // final CarouselController _carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "EVENTOS",
-          style: TextStyle(fontSize: sclW(context) * 5),
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: sclH(context) * 35,
-          child: PopularesSlider(),
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            style: TextStyle(fontSize: sclW(context) * 5),
+            "EVENTOS",
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: sclH(context) * 32,
+            child: PopularesSlider(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -40,11 +48,12 @@ class CarrucelStyles extends StatelessWidget {
 class PopularesSlider extends StatelessWidget {
   String imgDefault = "assets/img/logo-emotion.png";
 
-  final _eventController = Get.find<EventController>();
+  //final _eventController = Get.put(EventController());
+
+  PopularesSlider({super.key});
 
   @override
   build(BuildContext context) {
-    _eventController.getAllMyEventController();
     return Obx(() {
       var listEvents = _eventController.eventos;
       if (listEvents.isEmpty) {
@@ -57,9 +66,9 @@ class PopularesSlider extends StatelessWidget {
       }
       return CarouselSlider(
         options: CarouselOptions(
-            height: sclH(context) * 32,
+            height: sclH(context) * 28,
             //aspectRatio: 15 / 9,
-            viewportFraction: 0.4,
+            viewportFraction: 0.35,
             enlargeFactor: 0.3,
             initialPage: 0,
             enableInfiniteScroll: true,
@@ -67,12 +76,15 @@ class PopularesSlider extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             enlargeCenterPage: true),
         items: listEvents.map((event) {
+          File imgDynamic = File(event.overlay);
+
           return Builder(
             builder: (BuildContext context) {
               return GestureDetector(
                 onTap: () {
                   if (event!.name != "Evento") {
                     Get.toNamed(RouteNames.videoListPage, arguments: event);
+                    // print(chalk.white.bold(event!.overlay));
                   } else {
                     MessengerSnackBar(context, "No se han cargado eventos");
                   }
@@ -108,20 +120,23 @@ class PopularesSlider extends StatelessWidget {
                           SizedBox(
                             height: sclH(context) * 1,
                           ),
-                          Hero(
-                            tag: event!.overlay,
-                            child: event!.name != "Evento"
-                                ? Image.file(
-                                    File(event!.overlay),
-                                    width: sclW(context) * 30,
-                                    height: sclW(context) * 30,
-                                  )
-                                : Image.asset(
-                                    event!.overlay,
-                                    width: sclW(context) * 30,
-                                    height: sclW(context) * 30,
-                                  ),
-                          ),
+                          event!.name == "Evento"
+                              ? Image.asset(
+                                  event!.overlay,
+                                  width: sclW(context) * 30,
+                                  height: sclW(context) * 30,
+                                )
+                              : imgDynamic.existsSync()
+                                  ? Image.file(
+                                      imgDynamic,
+                                      width: sclW(context) * 30,
+                                      height: sclW(context) * 30,
+                                    )
+                                  : Image.asset(
+                                      "assets/img/logo-emotion.png",
+                                      width: sclW(context) * 30,
+                                      height: sclW(context) * 30,
+                                    ),
                           SizedBox(
                             height: sclH(context) * 8,
                           )

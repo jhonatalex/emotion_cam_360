@@ -1,10 +1,14 @@
-import 'dart:io';
+// ignore_for_file: unnecessary_null_comparison, unused_local_variable
 
-import 'package:chalkdart/chalk.dart';
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:emotion_cam_360/ui/widgets/background_gradient.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
+import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +16,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/event_controller.dart';
@@ -38,12 +44,14 @@ class _EventPageState extends State<EventPage> {
     String? token = await authClass.getToken();
     if (token != null) {
       setState(() {
-        currentPage = HomePage();
+        currentPage = const HomePage();
       });
     }
   }
 
   final picker = ImagePicker();
+  int nombreImg = 13;
+  String imgSelected = "assets/img/logo-emotion.png";
 
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
@@ -57,53 +65,127 @@ class _EventPageState extends State<EventPage> {
   var textFileImage = "";
   var textFileMp3 = "";
 
+  static Future<Directory> get tempDirectory async {
+    return await getTemporaryDirectory();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _musicaController = TextEditingController();
+    final TextEditingController musicaController = TextEditingController();
 
     final eventProvider = Provider.of<EventoActualPreferencesProvider>(context);
 
-    print(chalk.yellow.bold(textFileImage));
-    print(chalk.yellow.bold(textFileMp3));
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          "Crear Evento",
+          style: TextStyle(
+            fontSize: sclH(context) * 3,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: sclW(context) * 100,
+          height: sclH(context) * 100,
           color: const Color(0xff141221),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              const Text(
-                "Crear Evento",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+              BackgroundGradient(context),
+              Center(
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: sclW(context) * 100,
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: ImageFiltered(
+                            imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                            child: imgSelected.contains("assets")
+                                ? Image.asset(
+                                    imgSelected,
+                                  )
+                                : Image.file(
+                                    File(imgSelected),
+                                  )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: sclH(context) * 45,
+                    )
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 20,
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: sclH(context) * 30,
+                      child: imgSelected.contains("assets")
+                          ? Image.asset(
+                              imgSelected,
+                            )
+                          : Image.file(
+                              File(imgSelected),
+                            ),
+                    ),
+                    SizedBox(
+                      height: sclH(context) * 45,
+                    )
+                  ],
+                ),
               ),
-              textItem("Introduzca Nombre del Evento",
-                  _evenController.nameController, false),
-              const SizedBox(
-                height: 15,
-              ),
-              filePikerCustom("Musica", 185, true),
-              /* textItem("Seleccione Musica del Evento",
-                  _evenController.musicController, false), */
-              const SizedBox(
-                height: 30,
-              ),
-              filePikerCustom("Logo", 170, false),
-              const SizedBox(
-                height: 25,
-              ),
-              colorButton("Crear Evento", true, eventProvider),
-              const SizedBox(
-                height: 15,
+              Container(
+                margin: EdgeInsets.only(
+                  top: sclH(context) * 44,
+                  left: sclW(context) * 5,
+                  right: sclW(context) * 5,
+                  bottom: sclH(context) * 5,
+                ),
+                padding: EdgeInsets.symmetric(
+                    horizontal: sclW(context) * 5, vertical: sclW(context) * 4),
+                decoration: BoxDecoration(
+                  color: AppColors.vulcan,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: ListView(
+                  padding: const EdgeInsets.only(top: 5),
+                  children: [
+                    textItem(context, "Introduzca Nombre del Evento",
+                        _evenController.nameController, false),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    filePikerCustom(context, "Musica", 185, true),
+                    /* textItem("Seleccione Musica del Evento",
+                        _evenController.musicController, false), */
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    filePikerCustom(context, "Logo", 170, false),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    colorButton(context, "Crear Evento", true, eventProvider),
+
+                    /*   ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FilePickerDemo()));
+                        },
+                        child: Text("Ejemplo")) */
+                  ],
+                ),
               ),
             ],
           ),
@@ -112,11 +194,11 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
-  Widget buttonItem(
-      String imagePath, String buttonName, double size, Function() onTap) {
+  Widget buttonItem(BuildContext context, String imagePath, String buttonName,
+      double size, Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
         child: Card(
@@ -153,16 +235,16 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
-  Widget textItem(
-      String name, TextEditingController controller, bool obsecureText) {
+  Widget textItem(BuildContext context, String name,
+      TextEditingController controller, bool obsecureText) {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 70,
-      height: 55,
+      height: 55, //60
       child: TextFormField(
         controller: controller,
         obscureText: obsecureText,
-        style: const TextStyle(
-          fontSize: 17,
+        style: TextStyle(
+          fontSize: sclH(context) * 2.5,
           color: Colors.white,
         ),
         decoration: InputDecoration(
@@ -190,12 +272,9 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
-  Widget colorButton(
-      String name, image, EventoActualPreferencesProvider eventProvider) {
+  Widget colorButton(BuildContext context, String name, image,
+      EventoActualPreferencesProvider eventProvider) {
     return Obx(() {
-      final isSaving = _evenController.isSaving.value;
-      final isloading = _evenController.isLoading.value;
-
       Future.delayed(const Duration(microseconds: 500), (() {
         if (_evenController.eventoFirebase.value != null) {
           eventProvider
@@ -209,41 +288,55 @@ class _EventPageState extends State<EventPage> {
           // TRAE EL ULTIMO EVENTO CREADO
           _evenController.getEventBd();
 
-          Get.offNamed(RouteNames.videoPage);
+          Get.offAllNamed(RouteNames.home);
         }
       }));
+      bool isloading = _evenController.isLoading.value;
 
+      _evenController.isLoading.value = false;
       return Stack(alignment: AlignmentDirectional.center, children: [
         InkWell(
           onTap: () {
+            //_evenController.isLoading.value = true;
             if (_evenController.nameController.value.text != '') {
               try {
                 _evenController.saveMyEvent();
+                // no deberia ir pero no está actualizando
               } catch (e) {
                 final snackbar = SnackBar(content: Text(e.toString()));
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             } else {
+              //isloading = false;
               MessengerSnackBar(
                   context, "Por favor, debe ingresar un nombre al evento");
+              _evenController.isLoading.value = false;
             }
+            setState(() {});
           },
           child: Container(
             width: MediaQuery.of(context).size.width - 90,
             height: 60,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: const LinearGradient(colors: [
-                AppColors.royalBlue,
-                AppColors.violet,
-                AppColors.royalBlue,
-              ]),
-            ),
+                borderRadius: BorderRadius.circular(8),
+                gradient: const LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  tileMode: TileMode.clamp,
+                  stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
+                  colors: [
+                    Color(0xff31B6F2),
+                    Color(0xff7B0786),
+                    Color(0xffC50524),
+                    Color(0xffEB0374),
+                    Color(0xff520177),
+                    Color(0xff7996EE),
+                  ],
+                )),
             child: Center(
-              child: /* isloading
+              child: isloading
                   ? const CircularProgressIndicator()
-                  :  */
-                  Text(name,
+                  : Text(name,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -256,7 +349,7 @@ class _EventPageState extends State<EventPage> {
     });
   }
 
-  filePikerCustom(String texto, ancho, isMp3) {
+  filePikerCustom(BuildContext context, String texto, ancho, isMp3) {
     return Obx(() {
       if (_evenController.pickedImageLogo.value != null) {
         textFileImage = _evenController.pickedImageLogo.value!.path;
@@ -267,60 +360,107 @@ class _EventPageState extends State<EventPage> {
       }
 
       return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const SizedBox(
-            width: 40,
-          ),
           Text(texto,
-              style: const TextStyle(fontSize: 17, color: Colors.white)),
-          const SizedBox(
-            width: 20,
-          ),
+              style:
+                  TextStyle(fontSize: sclH(context) * 2, color: Colors.white)),
           Row(children: [
             Container(
-                padding: const EdgeInsets.all(10.0),
-                width: MediaQuery.of(context).size.width - ancho,
-                height: 55,
+                padding: const EdgeInsets.all(5.0),
+                width: sclW(context) * 50,
+                height: sclW(context) * 15, //13
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
                       color: const Color.fromARGB(255, 175, 180, 184),
                       width: 1),
                 ),
-                child: Center(
-                  child: Text(_setTextPath(textFileImage, textFileMp3, isMp3),
-                      maxLines: 2, style: const TextStyle(fontSize: 12)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_setTextPath(textFileImage, textFileMp3, isMp3),
+                        maxLines: 2,
+                        style: TextStyle(fontSize: sclH(context) * 2)),
+                  ],
                 )),
-            IconButton(
-              icon: const Icon(Icons.note_add_outlined),
-              onPressed: () async {
-                if (isMp3) {
-                  //MUSICA
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    type: FileType.custom,
-                    allowedExtensions: ["mp3"],
-                  );
-                  if (result != null) {
-                    Get.find<EventController>()
-                        .setMp3(File(result.files.single.path!));
-                  } else {
-                    // User canceled the picker
-                  }
-                } else {
-                  //IMAGEN
-                  final pickedImage =
-                      await picker.pickImage(source: ImageSource.gallery);
-                  if (pickedImage != null) {
-                    Get.find<EventController>()
-                        .setImage(File(pickedImage.path));
-                  }
-                }
-              },
-              style: IconButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 153, 120, 230),
-                backgroundColor: const Color(0xff604fef),
-                hoverColor: const Color(0xff604fef),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: CircleAvatar(
+                child: IconButton(
+                  icon: const Icon(Icons.note_add_outlined),
+                  onPressed: () async {
+                    if (isMp3) {
+                      //MUSICA
+                      //
+
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['mp3'],
+                        withData: true,
+                      );
+                      final String musicName = result?.files.single.name ?? "0";
+                      final String path = result?.files.single.path! ?? "0";
+                      final dataBytes = result?.files.single.bytes;
+
+                      final List<int> byteList = dataBytes!.buffer.asUint8List(
+                          dataBytes.offsetInBytes, dataBytes.lengthInBytes);
+
+                      final String fullTemporaryPath = join(
+                          (await tempDirectory).path,
+                          musicName.replaceAll(" ", "-"));
+
+                      Future<File> fileFuture = File(fullTemporaryPath)
+                          .writeAsBytes(byteList,
+                              mode: FileMode.writeOnly, flush: true);
+
+                      /*  if (path.contains(' ')) {
+                        // ignore: use_build_context_synchronously
+                        MessengerSnackBar(context,
+                            "El nombre del audio no debe contener espacios, por favor corrígelo e intenta de nuevo");
+                      } else */
+                      if (result != null) {
+                        Get.find<EventController>()
+                            .setMp3(File(fullTemporaryPath));
+                      } else {
+                        // User canceled the picker
+                      }
+
+                      /*    MediaPicker.picker(
+                        context,
+                        type: RequestType.audio,
+                        //isReview: isReview,
+                        singleCallback: (AssetEntity asset) {
+                          print(chalk
+                              .brightGreen('PATHC AUDIO ${asset.relativePath!}'));
+              
+                          Get.find<EventController>()
+                              .setMp3(File(asset.relativePath!));
+                          //return single item if  isMulti false
+                        },
+                      ); */
+                    } else {
+                      //IMAGEN
+                      final pickedImage =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      nombreImg = pickedImage!.name.length;
+                      if (pickedImage != null) {
+                        Get.find<EventController>()
+                            .setImage(File(pickedImage.path));
+                        setState(() {
+                          imgSelected = pickedImage.path;
+                        });
+                      }
+                    }
+                  },
+                  style: IconButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 153, 120, 230),
+                    backgroundColor: const Color(0xff604fef),
+                    hoverColor: const Color(0xff604fef),
+                  ),
+                ),
               ),
             ),
           ]),
@@ -329,15 +469,15 @@ class _EventPageState extends State<EventPage> {
     });
   }
 
-  String _setTextPath(String textFileImage, String textFileMp3, isMp3) {
+  String _setTextPath(String textFileImage, String textFileMp3, bool isMp3) {
     if (isMp3) {
-      textFile = textFileMp3;
+      textFile = textFileMp3.substring(50, textFileMp3.length);
     } else {
-      textFile = textFileImage;
+      nombreImg > 45 ? nombreImg = 45 : nombreImg;
+      textFile = textFileImage.substring(
+          textFileImage.length - nombreImg, textFileImage.length);
     }
 
-    return textFile.isEmpty
-        ? textFile
-        : textFile.substring(textFile.length - 45, textFile.length);
+    return textFile;
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/dependency_injection/app_binding.dart';
+import 'package:emotion_cam_360/ui/pages/desing/desing_page.dart';
 import 'package:emotion_cam_360/ui/pages/efecto/efecto_page.dart';
 import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:emotion_cam_360/ui/widgets/messenger_snackbar.dart';
@@ -11,7 +11,6 @@ import 'package:emotion_cam_360/ui/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
 import '../../widgets/appcolors.dart';
 import '../../widgets/responsive.dart';
 import '../../routes/route_names.dart';
@@ -29,9 +28,9 @@ class _VideoPageState extends State<VideoPage> {
   late List<CameraDescription> _cameras; // Lista de cámaras disponibles
   CameraController? _controller; // Controlador de la cámara
 
-  bool _isRecording = false; // Bandera indicadora de grabación en proceso
+  // bool _isRecording = false; // Bandera indicadora de grabación en proceso
 
-  bool _isFirst = true;
+  // bool _isFirst = true;
   int _selectedIndex = 2;
   IconData currentIcon = Icons.camera_front;
   String currentLabel = "Frontal";
@@ -55,7 +54,7 @@ class _VideoPageState extends State<VideoPage> {
       // Guardar la lista de cámaras
       _cameras = cameras;
       // Inicializar la cámara solo si la lista de cámaras tiene cámaras disponibles
-      if (_cameras.length != 0) {
+      if (_cameras.isNotEmpty) {
         // Inicializar el índice de cámara actual en 0 para obtener la primera
         // si tiene frontal sería la index=1
         _cameraIndex = settingsController.cameraIndex.value;
@@ -96,7 +95,7 @@ class _VideoPageState extends State<VideoPage> {
     }
 
     // Indicar al controlador la nueva cámara a utilizar
-    _controller = CameraController(camera, ResolutionPreset.medium);
+    _controller = CameraController(camera, ResolutionPreset.high);
     // Agregar un Listener para refrescar la pantalla en cada cambio
     _controller!.addListener(() => setState(() {}));
     // Inicializar el controlador
@@ -126,12 +125,7 @@ class _VideoPageState extends State<VideoPage> {
       return const Center(child: Text('Loading...'));
     }
     // Utilizar un Widget de tipo AspectRatio para desplegar el alto y ancho correcto
-    return Center(
-      child: AspectRatio(
-        aspectRatio: 9 / 16, // 16 / 22,
-        child: CameraPreview(_controller!),
-      ),
-    );
+    return CameraPreview(_controller!);
   }
 
   // Retornar el ícono de la cámara
@@ -153,24 +147,30 @@ class _VideoPageState extends State<VideoPage> {
     _initCamera(_cameras[_cameraIndex]);
     _getCameraIcon(_cameras[_cameraIndex].lensDirection);
     settingsController.cameraIndex.value = _cameraIndex;
-    print(chalk.white.bold("Camera $_cameraIndex"));
   }
 
   // ignore: non_constant_identifier_names
 
-  Widget SelectActionShow(
+  Widget selectActionShow(
       int selectedIndex, EventoActualPreferencesProvider eventProvider) {
     switch (selectedIndex) {
       case 0:
         return _buildCamera();
 
       case 1:
-        return const Text(
-          'Filtro',
-          style: TextStyle(fontSize: 50),
+        return Container(
+          height: sclH(context) * 80,
+          width: sclH(context) * 100,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              _buildCamera(),
+              const DesingPage(),
+            ],
+          ),
         );
       case 2:
-        return Stack(children: [
+        return Stack(alignment: AlignmentDirectional.center, children: [
           _buildCamera(),
           _butomPlayBuilding(eventProvider),
         ]);
@@ -208,7 +208,6 @@ class _VideoPageState extends State<VideoPage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print(eventProvider.seleccionarPrefrerences);
                         if (eventProvider.seleccionarPrefrerences) {
                           if (_opacity == 1) {
                             setState(() {
@@ -227,19 +226,46 @@ class _VideoPageState extends State<VideoPage> {
                           height: sclH(context) * _width * 2 / 3,
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
+                              borderRadius: BorderRadius.circular(30),
+                              gradient: const LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                tileMode: TileMode.mirror,
+                                stops: [0.0, 0.2, 0.4, 0.6, 0.8, 1],
+                                colors: [
+                                  Color(0xff31B6F2),
+                                  Color(0xff7B0786),
+                                  Color(0xffC50524),
+                                  Color(0xffEB0374),
+                                  Color(0xff520177),
+                                  Color(0xff7996EE),
+                                ],
+                              )
+                              /* image: const DecorationImage(
                                 image: AssetImage(
                                   "assets/img/buttonplay.png",
                                 ),
-                                fit: BoxFit.cover),
-                          )),
+                                fit: BoxFit.cover), */
+                              ),
+                          child: Icon(Icons.play_arrow,
+                              size: sclW(context) * 15,
+                              shadows: const [
+                                Shadow(
+                                    color: Colors.black,
+                                    offset: Offset(1, 1),
+                                    blurRadius: 2)
+                              ])),
                     ),
                     Text(
                       "INICIAR",
                       style: TextStyle(
-                        fontSize: sclH(context) * 3,
-                      ),
+                          fontSize: sclH(context) * 3,
+                          shadows: const [
+                            Shadow(
+                                color: Colors.black,
+                                offset: Offset(1, 1),
+                                blurRadius: 2)
+                          ]),
                     ),
                   ],
                 ),
@@ -254,14 +280,15 @@ class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      var isLoading = _evenController.isLoading.value;
+      //var isLoading = _evenController.isLoading.value;
+
       var eventBd = _evenController.eventoBd.value;
 
       final eventProvider =
           Provider.of<EventoActualPreferencesProvider>(context);
-
       //eventProvider.saveEventPrefrerence(eventoSelected);
       print(chalk.yellow.bold(eventBd));
+
       return DefaultTabController(
           length: 5,
           child: Scaffold(
@@ -280,8 +307,7 @@ class _VideoPageState extends State<VideoPage> {
             backgroundColor: AppColors.vulcan,
             //extendBodyBehindAppBar: true,
             extendBody: true,
-            body:
-                Center(child: SelectActionShow(_selectedIndex, eventProvider)),
+            body: selectActionShow(_selectedIndex, eventProvider),
             bottomNavigationBar: Container(
               //height: 120,
               color: AppColors.vulcan,
@@ -305,14 +331,14 @@ class _VideoPageState extends State<VideoPage> {
                   ),
                   const BottomNavigationBarItem(
                     icon: Icon(Icons.filter_b_and_w),
-                    label: 'Filtro',
+                    label: 'Diseño',
                   ),
                   const BottomNavigationBarItem(
                     icon: Icon(
                       Icons.camera,
                       // _getCameraIcon(_cameras[_cameraIndex].lensDirection),
                     ),
-                    label: 'Camara',
+                    label: 'Iniciar',
                   ),
                   const BottomNavigationBarItem(
                     icon: Icon(Icons.camera_enhance_sharp),

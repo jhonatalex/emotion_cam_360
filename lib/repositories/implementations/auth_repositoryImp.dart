@@ -1,8 +1,12 @@
+import 'dart:core';
+
 import 'package:chalkdart/chalk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emotion_cam_360/controllers/auth_controller.dart';
 import 'package:emotion_cam_360/repositories/abstractas/my_user_repository.dart';
 import 'package:emotion_cam_360/repositories/implementations/my_user_repository.dart';
 import 'package:emotion_cam_360/servicies/auth_service.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -59,61 +63,88 @@ class AuthRepositoryImp implements AuthRepository {
     //PERSITENCIA DATA
     await authClass.storeTokenAndData(userCredential);
 
+    print(chalk.green.bold(userCredential));
+
     //GUARDAR EL USUARIO PERSONALIZADO
-    final uid = Get.find<AuthController>().authUser.value!.uid;
+    final uid = Get.find<AuthController>().authUser.value?.uid;
+
     final email = username;
-    const statusInitial = true;
-    final newUser = MyUser(uid, email, status: statusInitial);
+    //const statusInitial = true;
+    DateTime dateInitial2 = newDateLimit(15);
+    Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
+
+    final newUser = MyUser(uid!, email, userCredential.user!.emailVerified,
+        date: dateInitial);
 
     await _userRepository.saveMyUser(newUser);
+
+    //ENVIA EL EMAIL PARA VERIFICARLO
+    //await FirebaseAuth.instance.setLanguageCode("es");
+    await userCredential.user?.sendEmailVerification();
 
     return _userFirebaseConvertToModel(userCredential.user);
   }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
+    scopes: ['email'],
   );
 
-  //GOOGLE
+  //-----------------------------GOOGLE----------------------------------------------------------------------------
   @override
   Future<AuthUser?> signInGoogle() async {
-    final googleUser = await GoogleSignIn().signIn();
-    final googleAuth = await googleUser?.authentication;
+    //   final googleUser = await GoogleSignIn().signIn();
+    // final googleAuth = await googleUser?.authentication;
 
-    final googleSignInAccount = await GoogleSignIn().signIn();
-    final googleSignInAuthentication =
-        await googleSignInAccount?.authentication;
+    //final googleSignInAccount = await GoogleSignIn().signIn();
 
-    AuthCredential credential = GoogleAuthProvider.credential(
-      idToken: googleSignInAuthentication?.idToken,
-      accessToken: googleSignInAuthentication?.accessToken,
-    );
+    print(chalk.white.bold("Entra en login"));
+    try {
+      final googleSignInAccount = await _googleSignIn.signIn();
 
-    UserCredential userCredential = await auth.signInWithCredential(credential);
+      //print(chalk.green.bold(googleSignInAccount));
 
-    if (userCredential.additionalUserInfo!.isNewUser) {
-      //GUARDAR EL USUARIO PERSONALIZADO
-      final uid = userCredential.user?.email;
-      final email = userCredential.user?.email;
-      const statusInitial = true;
-      final newUser = MyUser(uid!, email!, status: statusInitial);
+      final googleSignInAuthentication =
+          await googleSignInAccount?.authentication;
 
-      await _userRepository.saveMyUser(newUser);
+      //print(chalk.yellow.bold(googleSignInAuthentication));
+
+      AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication?.idToken,
+        accessToken: googleSignInAuthentication?.accessToken,
+      );
+
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      print(chalk.green.bold(userCredential));
+
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        //GUARDAR EL USUARIO PERSONALIZADO
+        final uid = userCredential.user?.email;
+        final email = userCredential.user?.email;
+        //const statusInitial = true;
+        DateTime dateInitial2 = newDateLimit(15);
+        Timestamp dateInitial = Timestamp.fromDate(dateInitial2);
+
+        final newUser = MyUser(uid!, email!, userCredential.user!.emailVerified,
+            date: dateInitial);
+        await _userRepository.saveMyUser(newUser);
+      }
+
+      //PERSITENCIA DATA
+      await authClass.storeTokenAndData(userCredential);
+
+      return _userFirebaseConvertToModel(userCredential.user);
+    } catch (e) {
+      print(chalk.yellow.bold(e.toString()));
     }
-
-    //PERSITENCIA DATA
-    await authClass.storeTokenAndData(userCredential);
-
-    return _userFirebaseConvertToModel(userCredential.user);
+    return null;
   }
 
   @override
   Future<void> signOut() async {
     //final googleSignIn = GoogleSignIn();
-    //await googleSignIn.signOut();
+    await _googleSignIn.signOut();
     await _firebaseAuthUniqueInstance.signOut();
   }
 

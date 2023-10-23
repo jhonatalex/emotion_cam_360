@@ -7,7 +7,7 @@ import 'package:emotion_cam_360/data/firebase_provider-db.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
-import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +24,10 @@ class EventController extends GetxController {
   final musicController = TextEditingController();
   final logoController = TextEditingController().obs;
 
-  Rx<File?> pickedImageLogo =
-      Rx(File("/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"));
-  Rx<File?> pickedMp3File =
-      Rx(File("/data/user/0/com.marketglobal.emotionCam360/cache/hallman-ed.mp3"));
+  Rx<File?> pickedImageLogo = Rx(
+      File("/data/user/0/com.marketglobal.emotionCam360/cache/watermark.png"));
+  Rx<File?> pickedMp3File = Rx(
+      File("/data/user/0/com.marketglobal.emotionCam360/cache/hallman-ed.mp3"));
 
   Rx<bool> isLoading = Rx(false);
   Rx<bool> isSaving = Rx(false);
@@ -36,6 +36,7 @@ class EventController extends GetxController {
   Rx<MyUser?> user = Rx(null);
 
   var eventos = [].obs;
+  var suscripciones = [].obs;
 
   Rx<EventEntity?> eventoSelected = Rx(null);
 
@@ -56,6 +57,7 @@ class EventController extends GetxController {
     //TRER LISTA DE EVENTOS
     getEventBd();
     getAllMyEventController();
+    getAllSuscripcionesController();
     super.onInit();
 
     //prepara las assets y los pasa al cache,
@@ -85,7 +87,6 @@ class EventController extends GetxController {
     final String today = ('$day-$month-$year');
     final uid = "${nameController.text.trim()}_fecha_$today";
     final name = nameController.text;
-    final musica = musicController.text;
 
     final newEvent = EventEntity(uid, name, pickedMp3File.value!.path,
         overlay: pickedImageLogo.value!.path);
@@ -103,10 +104,8 @@ class EventController extends GetxController {
   Future<EventEntity?> getMyEventController(String idEvent) async {
     isLoading.value = true;
     //TO REPOSITORY
-    print(chalk.brightGreen('entro eventController event ${idEvent}'));
     final newEvent = await _eventRepository.getMyEventFirebase(idEvent);
     eventoFirebase.value = newEvent;
-    print(chalk.redBright(newEvent));
     isLoading.value = false;
     return newEvent;
   }
@@ -125,20 +124,21 @@ class EventController extends GetxController {
       listEventEntity.add(eventNew);
     }
     eventos.value = listEventEntity;
-    print(chalk.green.bold(eventos.value));
   }
 
   Future<void> getEventBd() async {
     if (isLoading.isTrue) return;
     isLoading.value = true;
+    print(chalk.red.bold("getEventBd"));
     //final newEvent = await _eventRepository.getNewEvent();
     //eventos.insert(0, newEvent);
     eventoBd.value = await _eventRepository.getLastEvent();
-    print(chalk.red('EVENTO DE BASE DE DATOS ${eventoBd.value}'));
+
     isLoading.value = false;
   }
 
   Future<void> deleteEvent(EventEntity toDelete) async {
+    // ignore: invalid_use_of_protected_member
     eventos.value.remove(toDelete);
     _eventRepository.deleteEvent(toDelete);
   }
@@ -198,5 +198,14 @@ class EventController extends GetxController {
       ref.set(currentEvent.toFirebaseMap(), SetOptions(merge: true));
     }
     //}
+  }
+
+  // OBTENER TIPOS DE SUSCRIPCIONES//
+  Future<void> getAllSuscripcionesController() async {
+    //TO REPOSITORY
+    final listSuscripciones =
+        await _eventRepository.getAllSuscripcionesFirebase();
+
+    suscripciones.value = listSuscripciones;
   }
 }

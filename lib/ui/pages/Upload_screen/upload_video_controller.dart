@@ -1,4 +1,3 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:emotion_cam_360/entities/responseFirebase.dart';
 import 'package:emotion_cam_360/entities/video.dart';
 import 'package:get/get.dart';
@@ -14,16 +13,12 @@ class UploadVideoController extends GetxController {
   Rx<VideoEntity?> video = Rx(null);
   Rx<Responsefirebase?> urlVideoObserver = Rx(null);
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<void> saveMyVideoController(videoByte, videoPath, eventoActual) async {
     isSaving.value = true;
     loading.value = true;
 
-    print(chalk.brightGreen('ENTRO AL CONTROLLER'));
+
 
     urlVideoObserver.value = await _videoRepository.saveMyVideoRepository(
         videoByte, videoPath, eventoActual);

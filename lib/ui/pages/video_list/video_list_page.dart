@@ -1,7 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/controllers/event_controller.dart';
 import 'package:emotion_cam_360/entities/event.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 class VideoListPage extends StatelessWidget {
   VideoListPage({super.key});
 
-  final _evenController = Get.find<EventController>();
+  // final _evenController = Get.find<EventController>();
 
   EventEntity eventSelected = Get.arguments;
   @override
@@ -44,13 +45,10 @@ class VideoListPage extends StatelessWidget {
           body: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              Hero(
-                tag: imageEvent,
-                child: Opacity(
-                  opacity: 0.25,
-                  child: Image.file(
-                    File(imageEvent),
-                  ),
+              Opacity(
+                opacity: 0.25,
+                child: Image.file(
+                  File(imageEvent),
                 ),
               ),
               videosEvent?.length == null

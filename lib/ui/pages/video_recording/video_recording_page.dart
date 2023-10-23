@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:chalkdart/chalk.dart';
+import 'package:emotion_cam_360/ui/pages/video_processing/video_util.dart';
 import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,12 +55,14 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     });
     //iniciar temporizador
     startTimer();
+
+    print(chalk.white.bold(desingController.currentMarco.value));
   }
 
   _initCamera(CameraDescription camera) async {
     // Si el controlador está en uso,
     // realizar un dispose para detenerlo antes de continuar
-    Future<void> _disposeCameraController() async {
+    /* Future<void> _disposeCameraController() async {
       if (_controller == null) {
         return Future.value();
       }
@@ -79,7 +82,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       }
 
       return cameraController!.dispose();
-    }
+    } */
 
     // Indicar al controlador la nueva cámara a utilizar
     _controller = CameraController(camera, ResolutionPreset.high);
@@ -106,7 +109,10 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   // Detener la grabación de video
   Future<void> _onStop() async {
     final file = await _controller?.stopVideoRecording();
-    print(chalk.white.bold("Pasar de pantalla"));
+    /* print(chalk.white.bold(file!.mimeType));
+    print(chalk.white.bold(file.name));
+    print(chalk.white.bold(file.path));
+    print(chalk.white.bold("Pasar de pantalla")); */
     //READ BYTES AND SEND DATA WITH GETX
 
     file!.readAsBytes().then((valueBytes) =>
@@ -114,6 +120,19 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     //videoProvider.savePathPrefrerence(videoController.videoPath.value);
 
     // Get.offNamed(RouteNames.showVideo, arguments: file.path));
+
+    //subir video de una vez para compararlos***
+    //**********************************
+/* 
+    final _evenController = Get.find<EventController>();
+
+    final videoProvider =
+        Provider.of<VideoPreferencesProvider>(context, listen: false);
+    final eventProvider =
+        Provider.of<EventoActualPreferencesProvider>(context, listen: false);
+
+    _evenController.uploadVideoToFirebase(videoProvider.videoPreferences,
+        file.path, eventProvider.eventPrefrerences); */
   }
 
   _recordVideo() async {
@@ -134,7 +153,6 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       (Timer timer) {
         if (startTime == 2) {
           vRCtrl.opacityText.value = 0;
-          print(chalk.yellow.bold("la camara usada es $_cameraIndex"));
         }
         if (startTime == 0) {
           timer.cancel();
@@ -154,7 +172,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   void dispose() {
     super.dispose();
     vRCtrl.dispose();
-    //_controller!.dispose();
+    _controller!.dispose();
   }
 
   @override

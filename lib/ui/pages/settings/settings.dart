@@ -1,10 +1,7 @@
-import 'package:chalkdart/chalk.dart';
-import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
+// ignore_for_file: must_be_immutable
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
-import 'package:emotion_cam_360/ui/widgets/dropdowncustom.dart';
 import 'package:emotion_cam_360/ui/pages/settings/settings-controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 bool _throwShotAway = true;
@@ -22,7 +19,7 @@ class SettingsVideo extends StatelessWidget {
 
 class Settings extends StatelessWidget {
   final SettingsController settingsController = Get.put(SettingsController());
-  String configvalue = 'Predeterminado';
+  /*  String configvalue = 'Predeterminado';
   List<String> configitems = [
     "Predeterminado",
     "Alegría ritmica",
@@ -34,11 +31,12 @@ class Settings extends StatelessWidget {
     "Explosión", //Titulo Abreviación. Autor.
     "Titulo2 A.A.", //Titulo Abreviación. Autor.
     "Titulo3 A.A.", //Titulo Abreviación. Autor.
-  ];
+  ]; */
+
+  Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print(chalk.white.bold("info"));
     return Container(
       width: sclW(context) * 100,
       padding: EdgeInsets.symmetric(
@@ -56,7 +54,7 @@ class Settings extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          Container(
+          /* SizedBox(
             width: sclW(context) * 90,
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
@@ -198,7 +196,7 @@ class Settings extends StatelessWidget {
             indent: 20,
             endIndent: 20,
             thickness: 2,
-          ),
+          ), */
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -221,7 +219,7 @@ class Settings extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Container(
+          SizedBox(
             width: sclW(context) * 100,
             height: 215,
             child: ListView(
@@ -342,8 +340,8 @@ class Settings extends StatelessWidget {
           ),
           Obx(() {
             return Text(
-              'Tiempo de grabación: ${settingsController.timeRecord.value.toString()} seg\n' +
-                  'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg',
+              'Tiempo de grabación: ${settingsController.timeRecord.value.toString()} seg\n'
+              'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg',
               style: TextStyle(fontSize: sclH(context) * 2.5),
             );
           }),
@@ -363,7 +361,7 @@ class Settings extends StatelessWidget {
   }
 
   reverseMax() {
-    if (settingsController.reverse.value >=
+    if (settingsController.reverse.value >
         settingsController.timeRecord.value) {
       settingsController.reverse.value = 1;
     }
@@ -375,7 +373,10 @@ class Settings extends StatelessWidget {
     settingsController.timeRecord.value = settingsController.normal1.value +
         settingsController.slowMotion.value +
         settingsController.normal2.value;
-
+    if (settingsController.reverse.value >
+        settingsController.timeRecord.value) {
+      settingsController.reverse.value = 1;
+    }
     settingsController.timeTotal.value = settingsController.normal1.value +
         settingsController.slowMotion.value * 2 +
         settingsController.normal2.value +
@@ -392,15 +393,3 @@ class Settings extends StatelessWidget {
     return 'Duración del video generado: ${settingsController.timeTotal.value.toString()} seg';
   }
 }
-
-/* conexión wifi con gopro
-GoPro 7
-
-
-idioma/lenguaje/lingua
-Licencia
-
-
-10 tramos de 10seg con velocidades
-boomeran
-*/

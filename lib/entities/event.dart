@@ -14,7 +14,7 @@ class EventEntity extends Equatable {
   List<Object?> get props => [id];
 
   List? get Urlvideos {
-    return this.videos;
+    return videos;
   }
 
   Map<String, Object?> toFirebaseMap({List? videos}) {

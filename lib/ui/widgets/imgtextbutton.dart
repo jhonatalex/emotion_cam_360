@@ -20,7 +20,7 @@ class ImgTextButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.all(sclH(context) * 3),
-            primary: Colors.transparent,
+            backgroundColor: Colors.transparent,
             elevation: 0),
         onPressed: () {
           Get.toNamed(RouteNames.videoPage);
@@ -31,7 +31,10 @@ class ImgTextButton extends StatelessWidget {
           style: TextStyle(
               fontSize: sclH(context) * 2.5,
               fontWeight: FontWeight.bold,
-              color: Colors.white),
+              color: Colors.white,
+              shadows: const [
+                Shadow(color: Colors.black, offset: Offset(1, 1), blurRadius: 2)
+              ]),
         ),
       ),
     );

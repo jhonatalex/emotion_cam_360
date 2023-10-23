@@ -1,7 +1,10 @@
 import 'package:emotion_cam_360/ui/pages/evento/event_binding.dart';
 import 'package:emotion_cam_360/ui/pages/evento/event_page.dart';
+import 'package:emotion_cam_360/ui/pages/introduction_animation/introduction_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/profile_page.dart';
 import 'package:emotion_cam_360/ui/pages/login/signIn_page.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/gracias_page.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_list/video_list_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_list/video_list_page.dart';
 import 'package:emotion_cam_360/ui/pages/video_processing/video_processing_page.dart';
@@ -9,7 +12,7 @@ import 'package:emotion_cam_360/ui/pages/video_recording/video_recording_page.da
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_binding.dart';
 import 'package:emotion_cam_360/ui/pages/video_viewer/video_viewer_page.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
-import 'package:emotion_cam_360/ui/widgets/Subscription_page.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_page.dart';
 import 'package:emotion_cam_360/ui/widgets/politics.dart';
 import 'package:get/get.dart';
 
@@ -21,8 +24,6 @@ import '../pages/finish_qr/finish_qr_page.dart';
 import '../pages/home/home_binding.dart';
 import '../pages/home/home_page.dart';
 import '../pages/login/signUp_page.dart';
-import '../pages/splash/splash_binding.dart';
-import '../pages/splash/splash_page.dart';
 import '../pages/efecto/efecto_binding.dart';
 import '../pages/efecto/efecto_page.dart';
 import '../pages/video_recording/video_recording_binding.dart';
@@ -34,14 +35,14 @@ class RoutePages {
 
   static List<GetPage<dynamic>> get all {
     return [
-      GetPage(
+      /* GetPage(
         name: RouteNames.splash,
         page: () => const SplashPage(),
         binding: const SplashBinding(),
-      ),
+      ), */
       GetPage(
         name: RouteNames.home,
-        page: () => HomePage(),
+        page: () => const HomePage(),
         transition: Transition.cupertino,
         binding: const HomeBinding(),
       ),
@@ -65,7 +66,7 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.uploadVideo,
-        page: () => UploadVideoPage(),
+        page: () => const UploadVideoPage(),
         transition: Transition.fadeIn,
         binding: const UploadVideoBinding(),
       ),
@@ -123,21 +124,35 @@ class RoutePages {
       ),
       GetPage(
         name: RouteNames.videoViewerPage,
-        page: () => VideoViewerPage(),
+        page: () => const VideoViewerPage(),
         transition: Transition.fadeIn,
         binding: const VideoViewerBinding(),
       ),
       GetPage(
         name: RouteNames.subscription,
-        page: () => SubscriptionPage(),
+        page: () => const SubscriptionPage(),
+        transition: Transition.fadeIn,
+        binding: const SubscriptionBinding(),
+      ),
+      GetPage(
+        name: RouteNames.politics,
+        page: () => const PoliticsPage(),
         transition: Transition.fadeIn,
         //binding: const VideoViewerBinding(),
       ),
       GetPage(
-        name: RouteNames.politics,
-        page: () => PoliticsPage(),
+        name: RouteNames.graciasPaymentPage,
+        page: () => const GraciasPage(),
         transition: Transition.fadeIn,
-        //binding: const VideoViewerBinding(),
+        binding: const SubscriptionBinding(),
+      ),
+      GetPage(
+        name: RouteNames.introductionPage,
+        page: () => IntroductionPage(
+          isLoginFunction: () {},
+        ),
+        transition: Transition.fadeIn,
+        //binding: const SubscriptionBinding(),
       ),
     ];
   }

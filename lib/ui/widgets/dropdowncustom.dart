@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/ui/widgets/responsive.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ class DropdownCustom extends StatefulWidget {
 
   // List of items in our dropdown menu
   List<String> items;
-  DropdownCustom(this.dropdownvalue, this.items);
+  DropdownCustom(this.dropdownvalue, this.items, {super.key});
 
   @override
   State<DropdownCustom> createState() =>

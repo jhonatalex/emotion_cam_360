@@ -4,38 +4,50 @@ publish_to: 'none'
 version: 1.0.0+1
 environment:
   sdk: ">=2.17.5 <3.0.0"
-dependency_overrides:
-  ffi: ^2.0.1
+#dependency_overrides:
+#  ffi: ^2.0.1
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  flutter_launcher_icons: ^0.13.1
+
 
 #Firebase
-  firebase_core: ^2.1.1
+  firebase_core: ^2.11.0
   cloud_firestore:
   firebase_auth:
-  google_sign_in: ^5.3.0
+  google_sign_in: ^6.0.2
   firebase_storage: ^11.0.6
 
 
 #UI
   page_indicator: ^0.4.1
   flutter_hooks: 
-  image_picker: ^0.8.4+2
+  image_picker: ^1.0.2
   cached_network_image: ^3.1.0
   carousel_slider: ^4.2.1
-  camera: ^0.10.0+5
+  camera: ^0.10.3
   simple_circular_progress_bar: ^1.0.2
-  flutter_svg: ^0.22.0
+  flutter_svg: ^2.0.7
   otp_text_field: ^1.1.3
   timer_button: ^2.0.0
-  file_picker: ^4.0.0
-  liquid_progress_indicator: ^0.4.0
-  share_plus: ^6.3.0
+  file_picker: ^5.2.5
+  liquid_progress_indicator_v2: ^0.5.0
+  flutter_native_splash: ^2.3.2
+  share_plus: ^7.1.0
+  animations: ^2.0.3
+  shared_preferences: ^2.2.1
+# gmo_media_picker: ^0.0.1
+# wechat_assets_picker: ^8.3.1+1
+# gmo_media_picker: ^0.0.4
+# modal_progress_hud_nsn: ^0.4.0
 
 #Video
-  ffmpeg_kit_flutter_video: 5.1.0-LTS
+#  ffmpeg_kit_flutter: 5.1.0 --enable-gpl
+#  ffmpeg_kit_flutter_video: ^5.1.0
+#  ffmpeg_kit_flutter_https-gpl: ^5.1.0
+  ffmpeg_kit_flutter_min_gpl: ^5.1.0
   path: ^1.8.1
   fluttertoast: ^8.0.9
   video_player: ^2.2.6 #^2.4.7
@@ -47,19 +59,20 @@ dependencies:
   path_provider: ^2.0.11
 
 #Persistencia de Datos
-  flutter_secure_storage: ^4.0.2
+  flutter_secure_storage: ^8.0.0
   sqflite: ^2.2.2
   provider: ^6.0.5
 
 #Util bd and State Managment
-  http: ^0.13.5
+  http: ^0.13.1
   get: ^4.6.5
 
 
 #Debug
   chalkdart: ^2.0.8
+  mercadopago_sdk: ^1.3.0
+  mercado_pago_checkout: ^0.0.5
   #change_app_package_name: ^0.1.2
-
 
 
 
@@ -73,7 +86,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/img/
+    - assets/introduction_animation/
     - assets/themes/
+    - assets/img/bien.png
+    - assets/img/logo-emotion.png
   fonts:
     - family: Raleway
       fonts:
@@ -81,3 +97,21 @@ flutter:
     - family: Lato
       fonts:
         - asset: assets/fonts/Lato-Regular.ttf
+
+#ICONOS DE LA APP
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/logo-emotion.png"
+  web:
+    generate: true
+    image_path: "assets/icon/logo-emotion.png"
+    background_color: "#ffff"
+
+  #windows:
+  #  generate: true
+  #  image_path: "assets/icon/logo-emotion.png"
+  #  icon_size: 48 # min:48, max:256, default: 48
+  #macos:
+  #  generate: true
+  #  image_path: "assets/icon/logo-emotion.png"       

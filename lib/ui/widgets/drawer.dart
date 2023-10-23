@@ -1,5 +1,7 @@
 import 'package:emotion_cam_360/servicies/auth_service.dart';
+//import 'package:emotion_cam_360/ui/pages/suscripcion/subscription_controller.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
+import 'package:emotion_cam_360/ui/pages/suscripcion/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,23 +19,77 @@ class _MyDrawerState extends State<MyDrawer> {
   AuthClass authClass = AuthClass();
 
   String? emailUser = '';
+  bool actualizado = false;
+
+  late String date;
+  late int dias;
+
+  //final _subscriptionController = Get.find<SubscriptionController>();
 
   void getEmailCurrentUser() async {
     emailUser = await authClass.getEmailToken();
-    setState(() {});
+    if (emailUser!.isNotEmpty && actualizado == false) {
+      actualizado = true;
+      print("Usuario: $emailUser ");
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     getEmailCurrentUser();
-
     return Drawer(
       width: sclW(context) * 80,
       backgroundColor: AppColors.vulcan.withOpacity(0.7),
-      child: Column(
+      child: ListView(
         children: [
-          SizedBox(
-            height: sclH(context) * 10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // const Text("información de Subscripción"),
+              IconButton(
+                icon: const Icon(
+                  Icons.info_outline,
+                  //color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                ),
+                onPressed: () async {
+                  /* 
+                  String date = "";
+                  String dias = "";*/
+                  date = formatDatatime(dateSaved());
+                  dias = await diasRestantes();
+                  setState(() {});
+                  //dialog con GetX
+
+                  Get.defaultDialog(
+                    backgroundColor: AppColors.vulcan,
+                    radius: 10.0,
+                    contentPadding: const EdgeInsets.all(20.0),
+                    title: 'Información de Subscripción',
+                    titleStyle: const TextStyle(color: AppColors.royalBlue),
+                    middleText: 'Fecha de Vencimiento: $date  \n'
+                        'Días Restantes: $dias',
+                    middleTextStyle: TextStyle(
+                      fontSize: sclH(context) * 3,
+                      //color: diasRestantes() > 3 ? Colors.green : Colors.orange,
+                    ),
+                    textConfirm: 'Okay',
+                    confirm: ElevatedButton(
+                      onPressed: () => Get.back(),
+                      child: const Text(
+                        'Aceptar',
+                        //style: TextStyle(color: AppColors.violet),
+                      ),
+                    ),
+                    /* cancel: OutlinedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.cancel),
+                          label: Text("cancelar"),
+                        ), */
+                  );
+                },
+              ),
+            ],
           ),
           Image.asset(
             "assets/img/logo-emotion.png",
@@ -67,31 +123,10 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     'Crear Evento',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   onTap: () {
-                    Get.offNamed(RouteNames.eventPage);
-                  },
-                ),
-                ListTile(
-                  iconColor: Colors.white,
-                  textColor: Colors.white,
-                  //  tileColor: Colors.black38,
-                  leading: Icon(
-                    emailUser == null
-                        ? Icons.login_outlined
-                        : Icons.logout_outlined,
-                    size: sclH(context) * 3,
-                  ),
-                  title: Text(
-                    emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
-                    style: TextStyle(fontSize: sclH(context) * 3),
-                  ),
-
-                  onTap: () async {
-                    await authClass.logout();
-                    //Get.find<AuthController>().signOut();
-                    Get.offNamed(RouteNames.signIn);
+                    Get.toNamed(RouteNames.eventPage);
                   },
                 ),
                 ListTile(
@@ -105,8 +140,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    emailUser == null ? 'Subscribirse' : 'Usuario Subscrito',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    emailUser == null ? 'Subscribirse' : 'Suscripción',
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
 
                   onTap: () {
@@ -122,17 +157,39 @@ class _MyDrawerState extends State<MyDrawer> {
                     size: sclH(context) * 3,
                   ),
                   title: Text(
-                    'Terminos y Condiciones',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    'Terminos y Cond.',
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
 
                   onTap: () {
                     Get.toNamed(RouteNames.politics);
                   },
                 ),
+                ListTile(
+                  iconColor: Colors.white,
+                  textColor: Colors.white,
+                  //  tileColor: Colors.black38,
+                  leading: Icon(
+                    emailUser == null
+                        ? Icons.login_outlined
+                        : Icons.logout_outlined,
+                    size: sclH(context) * 3,
+                  ),
+                  title: Text(
+                    emailUser == null ? 'Iniciar sesión' : 'Cerrar Sesión',
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
+                  ),
+
+                  onTap: () async {
+                    await authClass.logout();
+                    //Get.find<AuthController>().signOut();
+                    Get.offAllNamed(RouteNames.signIn);
+                  },
+                ),
                 const SizedBox(
                   height: 30,
                 ),
+                /* 
                 Text(
                   "Redes Sociales",
                   style: TextStyle(
@@ -149,7 +206,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     'Facebook',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   // onTap: () {},
                 ),
@@ -162,7 +219,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                   title: Text(
                     'Instagram',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   // onTap: () {},
                 ),
@@ -171,17 +228,17 @@ class _MyDrawerState extends State<MyDrawer> {
                   textColor: Colors.white,
                   leading: Icon(
                     Icons.play_arrow_rounded,
-                    size: sclH(context) * 3,
+                    size: sclH(context) * 4,
                   ),
                   title: Text(
                     'Youtube',
-                    style: TextStyle(fontSize: sclH(context) * 3),
+                    style: TextStyle(fontSize: sclH(context) * 2.5),
                   ),
                   // onTap: () {},
                 ),
                 const SizedBox(
                   height: 10,
-                ),
+                ),*/
                 const Divider(),
                 Text(
                   "Versión 1.0",
