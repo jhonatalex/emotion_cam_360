@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "869955665095-cfo89a2bnuiqkngf4910o6hiq1sletab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.marketglobal.emotionCam360",
+            "certificate_hash": "94aea911db8ee67b46d6716d4a44df8fbf7c7dea"
+          }
+        },
+        {
           "client_id": "869955665095-q2fdtu77pknsl86h9scjh7vfn4s1s65h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

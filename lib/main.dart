@@ -1,4 +1,5 @@
 import 'package:emotion_cam_360/data/db_data_source.dart';
+import 'package:emotion_cam_360/firebase_options.dart';
 import 'package:emotion_cam_360/ui/widgets/appcolors.dart';
 import 'package:emotion_cam_360/repositories/implementations/event_repositoryImple.dart';
 import 'package:emotion_cam_360/ui/routes/route_names.dart';
@@ -18,6 +19,10 @@ Future<void> main() async {
   final dbDataSource = await DbDataSource.init();
   final eventRepository = EventRepositoryImple(dbDataSource);
   Get.put(eventRepository);
+
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await Firebase.initializeApp();
   runApp(const MyApp());
