@@ -20,6 +20,8 @@ Future<void> main() async {
   final eventRepository = EventRepositoryImple(dbDataSource);
   Get.put(eventRepository);
 
+
+
   await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
   );
