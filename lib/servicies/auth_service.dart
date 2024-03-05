@@ -39,7 +39,7 @@ class AuthClass {
         // GoogleSignInAuthentication googleSignInAuthentication =
         //  await googleSignInAccount.authentication;
 
-        AuthCredential credential = GoogleAuthProvider.credential(
+        final credential = GoogleAuthProvider.credential(
           idToken: googleSignInAuthentication?.idToken,
           accessToken: googleSignInAuthentication?.accessToken,
         );
@@ -77,14 +77,17 @@ class AuthClass {
 
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
+          print(e.toString());
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
       } else {
         const snackbar = SnackBar(content: Text("Not Able to sign In "));
+          print('segundo');
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     } catch (e) {
       final snackbar = SnackBar(content: Text(e.toString()));
+        print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
@@ -143,7 +146,7 @@ class AuthClass {
 
   Future<void> logout() async {
     try {
-      await _googleSignIn.signOut();
+      await GoogleSignIn().signOut();
       await auth.signOut();
     } catch (e) {
       await storage.delete(key: "token");
